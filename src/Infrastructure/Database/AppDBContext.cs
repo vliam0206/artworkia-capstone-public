@@ -26,6 +26,13 @@ public class AppDBContext : DbContext
     public DbSet<WalletHistory> WalletHistories { get; set; }
     public DbSet<CategoryServiceDetail> CategoryServiceDetails { get; set; }
     public DbSet<UserToken> UserTokens { get; set; }
+    public DbSet<Artwork> Artworks { get; set; }
+    public DbSet<CategoryArtworkDetail> CategoryArtworkDetails { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
+    public DbSet<Asset> Assets { get; set; }
+    public DbSet<TransactionHistory> TransactionHistories { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<TagDetail> TagDetails { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
