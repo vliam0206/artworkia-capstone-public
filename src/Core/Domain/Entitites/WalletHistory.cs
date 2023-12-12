@@ -10,7 +10,7 @@ public class WalletHistory : BaseEntity, ICreation
     public PaymentMethodEnum PaymentMethod { get; set; }
     public TransactionStatusEnum TransactionStatus { get; set; }
     public Guid? CreatedBy {get; set;}
-    public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedOn { get; set; } = DateTime.UtcNow.ToLocalTime();
     public Guid WalletId { get; set; }
 
     public virtual Wallet Wallet { get; set; } = default!;

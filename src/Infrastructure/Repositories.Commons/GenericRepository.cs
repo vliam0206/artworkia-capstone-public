@@ -3,6 +3,7 @@ using Domain.Entities.Commons;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories.Commons;
 
@@ -41,4 +42,9 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public virtual void UpdateRange(List<TEntity> entities)
         => _dbSet.UpdateRange(entities);
+
+    public async Task<TEntity?> GetSingleByConditionAsync(Expression<Func<TEntity, bool>> query)
+    {
+        return await _dbSet.SingleOrDefaultAsync(query);
+    }
 }

@@ -17,7 +17,7 @@ public class Proposal : BaseEntity, ICreation
     public double Total { get; set; }
     public StateEnums ProposalStatus { get; set; }
     public Guid? CreatedBy { get; set; }
-    public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedOn { get; set; } = DateTime.UtcNow.ToLocalTime();
     public Guid ChatBoxId { get; set; }
     public Guid ServiceId { get; set; }
 

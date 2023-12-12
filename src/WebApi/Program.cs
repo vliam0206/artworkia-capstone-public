@@ -2,6 +2,7 @@ using Application;
 using Application.Commons;
 using Infrastructure;
 using Infrastructure.Database;
+using WebApi;
 using WebApi.Extensions;
 using WebApi.Services;
 
@@ -19,6 +20,9 @@ builder.Services.AddSingleton(config!);
 
 builder.Services.AddDbContext<AppDBContext>();
 
+// Add jwt configuration
+builder.Services.AddJwtConfiguration(config!);
+
 // Add extensions
 builder.Services.AddRepositories();
 builder.Services.AddServices();
@@ -27,14 +31,17 @@ builder.Services.AddServiceDIs();
 // Add DI for IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();
 
+// Add auto mapper
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 // Add Cors
 builder.Services.AddCorsPolicy();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.UseSwagger();
-app.UseSwaggerUI();
+
+app.UseOpenApi(); // use swagger
 
 app.UseHttpsRedirection();
 

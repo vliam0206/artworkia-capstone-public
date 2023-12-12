@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Commons;
+using System.Linq.Expressions;
 
 namespace Domain.Repositories.Abstractions;
 
@@ -12,4 +13,5 @@ public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     void UpdateRange(List<TEntity> entities);
     void Delete(TEntity entity);
     void SoftDelete(TEntity entity);
+    Task<TEntity?> GetSingleByConditionAsync(Expression<Func<TEntity, bool>> query);
 }

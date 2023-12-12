@@ -9,7 +9,7 @@ public class Review : BaseEntity, ICreation
     [MaxLength(255)]
     public string Detail { get; set; } = string.Empty;
     public Guid? CreatedBy { get; set; }
-    public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedOn { get; set; } = DateTime.UtcNow.ToLocalTime();
     public Guid ProposalId { get; set; }
 
     public virtual Account Account { get; set; } = default!;

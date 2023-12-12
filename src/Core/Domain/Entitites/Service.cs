@@ -17,9 +17,9 @@ public class Service : BaseEntity, ICreation, IModification, ISoftDelete
     public string NumberOfRevision { get; set; } = default!;
     public double StartingPrice { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
-    public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedOn { get; set; } = DateTime.UtcNow.ToLocalTime();
     public Guid? LastModificatedBy { get; set; }
-    public DateTime? LastModificatedOn { get; set; } = DateTime.UtcNow;
+    public DateTime? LastModificatedOn { get; set; } = DateTime.UtcNow.ToLocalTime();
     public Guid? DeletedBy { get; set; }
     public DateTime? DeletedOn { get; set; }
 

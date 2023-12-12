@@ -38,4 +38,11 @@ internal static class OpenApiDocumentation
 
         return services;
     }
+
+    internal static IApplicationBuilder UseOpenApi(this IApplicationBuilder app)
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        return app;
+    }
 }
