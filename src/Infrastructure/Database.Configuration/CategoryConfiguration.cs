@@ -15,5 +15,6 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         // relationship
         builder.HasOne(x => x.Parent).WithMany(p => p.Children).HasForeignKey(x => x.ParentCategory);
         builder.HasMany(x => x.CategoryServiceDetails).WithOne(d => d.Category).HasForeignKey(d => d.CategoryId);
+        builder.HasMany(x => x.CategoryArtworkDetails).WithOne(d => d.Category).HasForeignKey(d => d.CategoryId);
     }
 }
