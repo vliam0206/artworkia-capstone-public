@@ -22,4 +22,7 @@ public class Artwork : BaseEntity, ICreation, IModification, ISoftDelete
     public virtual ICollection<CategoryArtworkDetail> CategoryArtworkDetails { get; set; } = new List<CategoryArtworkDetail>();
     public virtual ICollection<Asset> Assets { get; set; } = new List<Asset>();
     public virtual ICollection<TagDetail> TagDetails { get; set; } = new List<TagDetail>();
+    public virtual ICollection<Like> Likes { get; set; } = new List<Like>();
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    public virtual ICollection<Bookmark> Bookmarks { get; set; } = new List<Bookmark>();
 }

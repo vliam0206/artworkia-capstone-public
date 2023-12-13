@@ -37,4 +37,9 @@ public class Account : BaseEntity, ICreation, IModification, ISoftDelete
     public virtual ICollection<Artwork> Artworks { get; set; } = new List<Artwork>();
     public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
     public virtual ICollection<TransactionHistory> TransactionHistories { get; set; } = new List<TransactionHistory>();
+    public virtual ICollection<Like> Likes { get; set; } = new List<Like>();
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    public virtual ICollection<Collection> Collections { get; set; } = new List<Collection>();
+    public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
+    public virtual ICollection<Report> Reporteds { get; set; } = new List<Report>();
 }

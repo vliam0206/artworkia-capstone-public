@@ -31,7 +31,7 @@ internal static class JwtConfiguration
                         {
                             var tokenHandler = context.HttpContext.RequestServices
                                                 .GetRequiredService<ITokenHandler>();
-                            return tokenHandler.ValidateToken(context);
+                            return tokenHandler.ValidateAccessTokenAsync(context);
                         },
                         OnAuthenticationFailed = context =>
                         {

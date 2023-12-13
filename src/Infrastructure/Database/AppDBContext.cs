@@ -14,25 +14,30 @@ public class AppDBContext : DbContext
         => _config = config;
 
     public DbSet<Account> Accounts { get; set; }
+    public DbSet<Artwork> Artworks { get; set; }
+    public DbSet<Asset> Assets { get; set; }
+    public DbSet<Bookmark> Bookmarks { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<CategoryArtworkDetail> CategoryArtworkDetails { get; set; }
+    public DbSet<CategoryServiceDetail> CategoryServiceDetails { get; set; }
     public DbSet<ChatBox> ChatBoxes { get; set; }
+    public DbSet<Collection> Collections { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+    public DbSet<Like> Likes { get; set; }
     public DbSet<Message> Messages { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
     public DbSet<Proposal> Proposals { get; set; }
     public DbSet<ProposalAsset> ProposalAssets { get; set; }
+    public DbSet<Report> Reports { get; set; }
     public DbSet<Request> Requests { get; set; }
     public DbSet<Review> Reviews { get; set; }
     public DbSet<Service> Services { get; set; }
-    public DbSet<Wallet> Wallets { get; set; }
-    public DbSet<WalletHistory> WalletHistories { get; set; }
-    public DbSet<CategoryServiceDetail> CategoryServiceDetails { get; set; }
-    public DbSet<UserToken> UserTokens { get; set; }
-    public DbSet<Artwork> Artworks { get; set; }
-    public DbSet<CategoryArtworkDetail> CategoryArtworkDetails { get; set; }
-    public DbSet<Notification> Notifications { get; set; }
-    public DbSet<Asset> Assets { get; set; }
-    public DbSet<TransactionHistory> TransactionHistories { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<TagDetail> TagDetails { get; set; }
+    public DbSet<TransactionHistory> TransactionHistories { get; set; }
+    public DbSet<UserToken> UserTokens { get; set; }
+    public DbSet<Wallet> Wallets { get; set; }
+    public DbSet<WalletHistory> WalletHistories { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

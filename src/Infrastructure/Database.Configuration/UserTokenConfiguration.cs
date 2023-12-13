@@ -9,8 +9,8 @@ public class UserTokenConfiguration : IEntityTypeConfiguration<UserToken>
     public void Configure(EntityTypeBuilder<UserToken> builder)
     {
         builder.ToTable(nameof(UserToken));
-        builder.HasIndex(x => x.JwtId).IsUnique();
-        builder.HasIndex(x => x.RefreshToken).IsUnique();
+        builder.HasIndex(x => x.ATid).IsUnique();
+        builder.HasIndex(x => x.RTid).IsUnique();
 
         builder.Property(x => x.IssuedDate).HasDefaultValueSql("getutcdate()");
 

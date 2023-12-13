@@ -4,6 +4,8 @@ namespace Application.Services.Abstractions;
 
 public interface IUserTokenService
 {
-    Task SaveToken(UserToken userToken);
-    Task<UserToken?> GetToken(Guid tokenId);
+    Task SaveTokenAsync(UserToken userToken);
+    Task<UserToken?> GetTokenByATidAsync(Guid ATid);
+    Task<UserToken?> GetTokenByRTidAsync(Guid RTid);
+    Task UpdateTokenAsync(UserToken userToken);
 }

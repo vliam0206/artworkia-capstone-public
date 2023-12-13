@@ -1,6 +1,7 @@
 ﻿using Application.Commons;
 using Application.Services.Abstractions;
 using Domain.Entitites;
+using Domain.Models;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -14,81 +15,149 @@ public class TokenHandler : ITokenHandler
 {
     private readonly AppConfiguration _appConfig;
     private readonly IAccountService _accountService;
+    private readonly IUserTokenService _userTokenService;
 
     public TokenHandler(AppConfiguration appConfig,
-        IAccountService accountService)
+        IAccountService accountService,
+        IUserTokenService userTokenService)
     {
         _appConfig = appConfig;
         _accountService = accountService;
+        _userTokenService = userTokenService;
     }
 
-    public string CreateToken(Guid jti, Account user, string secretKey, DateTime issueTime, int expiredHours)
+    public (string, Guid) CreateAccessToken(Account user, DateTime issueTime, int expiredHours)
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+        var jwtConfig = _appConfig.JwtConfiguration;
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SecretKey));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        var jti = NewId.Next().ToGuid();
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Jti, jti.ToString()),
-            new Claim(JwtRegisteredClaimNames.Iss, _appConfig.JwtConfiguration.Issuer),            
-            new Claim(JwtRegisteredClaimNames.Aud, _appConfig.JwtConfiguration.Audience),
+            new Claim(JwtRegisteredClaimNames.Iss, jwtConfig.Issuer),
+            new Claim(JwtRegisteredClaimNames.Aud, jwtConfig.Audience),
             new Claim(JwtRegisteredClaimNames.Iat,issueTime.ToString("G")),
-            new Claim(JwtRegisteredClaimNames.Exp,issueTime.AddHours(expiredHours).ToString("G")),           
+            new Claim(JwtRegisteredClaimNames.Exp,issueTime.AddHours(expiredHours).ToString("G")),
             new Claim(ClaimTypes.NameIdentifier, user.Username),
             new Claim(ClaimTypes.Name, user.Fullname),
-            new Claim(ClaimTypes.Email, user.Email),   
-            new Claim(ClaimTypes.Role, user.Role.ToString())            
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, user.Role.ToString())
         };
         var token = new JwtSecurityToken(
                 claims: claims,
                 notBefore: issueTime,
-                expires: issueTime.AddHours(expiredHours),                
+                expires: issueTime.AddHours(expiredHours),
                 signingCredentials: credentials);
+        var tokenStr = new JwtSecurityTokenHandler().WriteToken(token);
 
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        return (tokenStr, jti);
     }
 
-    public async Task ValidateToken(TokenValidatedContext context)
+    public (string, Guid) CreateRefreshToken(Account user, DateTime issueTime, int expiredHours)
     {
-        var claims = context.Principal?.Claims.ToList();
+        var jwtConfig = _appConfig.JwtConfiguration;
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SecretKey));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        var jti = NewId.Next().ToGuid();
+        var claims = new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Jti, jti.ToString()),
+            new Claim(JwtRegisteredClaimNames.Iss, jwtConfig.Issuer),
+            new Claim(JwtRegisteredClaimNames.Aud, jwtConfig.Audience),
+            new Claim(JwtRegisteredClaimNames.Iat,issueTime.ToString("G")),
+            new Claim(JwtRegisteredClaimNames.Exp,issueTime.AddHours(expiredHours).ToString("G")),
+            new Claim(ClaimTypes.NameIdentifier, user.Username),
+            new Claim(ClaimTypes.Name, user.Fullname),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, user.Role.ToString())
+        };
+        var token = new JwtSecurityToken(
+                claims: claims,
+                notBefore: issueTime,
+                expires: issueTime.AddHours(expiredHours),
+                signingCredentials: credentials);
+        var tokenStr = new JwtSecurityTokenHandler().WriteToken(token);
+
+        return (tokenStr, jti);
+    }
+
+    public async Task ValidateAccessTokenAsync(TokenValidatedContext context)
+    {
         var identity = context.Principal?.Identity as ClaimsIdentity;
-        // check if token empty
-        if (claims == null || claims.Count == 0 || identity == null)
+        var jtiClaim = identity?.FindFirst(JwtRegisteredClaimNames.Jti);
+        
+        // check if token existed in db
+        Guid jti;
+        if (!Guid.TryParse(jtiClaim!.Value, out jti))
         {
-            context.Fail("Invalid token! This token contains no required information.");
+            context.Fail("Invalid token id!");
             return;
         }
-        // check if token has valid issue
-        var issuer = identity.FindFirst(JwtRegisteredClaimNames.Iss);
-        if (issuer == null || !issuer.ToString().Equals(_appConfig.JwtConfiguration.Issuer))
+        var userToken = await _userTokenService.GetTokenByATidAsync(jti);
+
+        if (userToken == null)
         {
-            context.Fail("Invalid token! This token is not issued by point entry.");
+            context.Fail("Invalid token! Token id does not exist.");
             return;
         }
-        // check if token has valid user identity
-        var username = identity.FindFirst(ClaimTypes.NameIdentifier)?.ToString();
-        Account? user = null;
-        if (username != null)
+
+        if (userToken.IsRevoked)
         {
-            user = await _accountService.GetAccountByUsernamesync(username);          
-        }
-        var fullname = identity.FindFirst(ClaimTypes.Name)?.ToString();
-        var email = identity.FindFirst(ClaimTypes.Email)?.ToString();
-        if (username == null || user == null || 
-            !user.Fullname.Equals(fullname) || !user.Email.Equals(email))
-        {
-            context.Fail("This token has invalid user indentity.");
+            context.Fail("Invalid token! This token has been revoked.");
             return;
         }
     }
 
-    public Task<UserToken> CreateRefreshToken(Guid accountId, string JwtId, string RTSecretKey)
+    public async Task<TokenVM?> ValidateRefreshTokenAsync(string refreshToken)
     {
-        throw new NotImplementedException();
-    }
+        var tokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidIssuer = _appConfig.JwtConfiguration.Issuer,
+            ValidAudience = _appConfig.JwtConfiguration.Audience,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_appConfig.JwtConfiguration.SecretKey))
+        };
+        var claimPrinciple = new JwtSecurityTokenHandler()
+                .ValidateToken(refreshToken, tokenValidationParameters, out _);
 
-    public Task ValidateRefreshToken(string RefreshToken)
-    {
-        throw new NotImplementedException();
-    }    
+        if (claimPrinciple == null) return null;
+
+        var jti = claimPrinciple.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti)?.Value;
+
+        if (string.IsNullOrEmpty(jti)) return null;
+
+        var userToken = await _userTokenService.GetTokenByRTidAsync(Guid.Parse(jti));        
+        if (userToken != null && !userToken.IsUsed && !userToken.IsRevoked)
+        {
+            // todo check in usual isUsed refresh token been used
+
+            var account = await _accountService.GetAccountByIdAsync(userToken.UserId);
+            if (account == null) return null;
+            // validate success, issue new (accessToken, refreshToken)
+            userToken.IsUsed = true;
+            await _userTokenService.UpdateTokenAsync(userToken);
+
+            var issuedDate = DateTime.UtcNow.ToLocalTime();
+            (var accessToken, var ATid) = this.CreateAccessToken(account, issuedDate, 3);
+            (var newRefreshToken, var RTid) = this.CreateRefreshToken(account, issuedDate, 24 * 7);
+
+            return new TokenVM
+            {
+                AccessToken = accessToken,
+                RefreshToken = newRefreshToken,
+                UserId = account.Id,
+                Username = account.Username,
+                Email = account.Email,
+                Fullname = account.Fullname
+            };
+        } else
+        {
+            return null;
+        }
+    }
 }

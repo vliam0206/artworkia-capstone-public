@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enums;
 
-public enum StateEnums
+public enum StateEnum
 {
     Waiting,
     Accepted,

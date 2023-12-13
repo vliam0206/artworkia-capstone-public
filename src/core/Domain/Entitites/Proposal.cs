@@ -17,7 +17,7 @@ public class Proposal : BaseEntity, ICreation
     public DateTime Deadline { get; set; }
     public double InitialPrice { get; set; }
     public double Total { get; set; }
-    public StateEnums ProposalStatus { get; set; }
+    public StateEnum ProposalStatus { get; set; }
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow.ToLocalTime();    
 
