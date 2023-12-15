@@ -1,5 +1,7 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Commons;
+using Application.Services.Abstractions;
 using Application.Services.Authentication;
+using AutoMapper;
 using Domain.Entitites;
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -13,18 +15,24 @@ namespace WebApi.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class AuthController : ControllerBase
-{    
+{
     private readonly IAccountService _accountService;
     private readonly IUserTokenService _userTokenService;
     private readonly ITokenHandler _tokenHandler;
+    private readonly AppConfiguration _appConfiguration;
+    private readonly IMapper _mapper;
 
-    public AuthController(IAccountService accountService, 
+    public AuthController(IAccountService accountService,
         IUserTokenService userTokenService,
-        ITokenHandler tokenHandler)
+        ITokenHandler tokenHandler,
+        AppConfiguration appConfiguration,
+        IMapper mapper)
     {
         _accountService = accountService;
         _userTokenService = userTokenService;
         _tokenHandler = tokenHandler;
+        _appConfiguration = appConfiguration;
+        _mapper = mapper;
     }
 
     [HttpPost("login")]
@@ -40,7 +48,7 @@ public class AuthController : ControllerBase
             });
         }
         // check whether account exist in db
-        var account = await _accountService.CheckLoginAsync(loginModel.Username, loginModel.Password);        
+        var account = await _accountService.CheckLoginAsync(loginModel.Username, loginModel.Password);
         if (account == null)
         {
             return Unauthorized(new ApiResponse
@@ -59,8 +67,8 @@ public class AuthController : ControllerBase
         }
         // login success - issue (access token, refresh token) pair
         var issuedDate = DateTime.UtcNow.ToLocalTime();
-        (var accessToken, var ATid) = _tokenHandler.CreateAccessToken(account, issuedDate, 3);
-        (var refreshToken, var RTid) = _tokenHandler.CreateRefreshToken(account, issuedDate, 24 * 7);
+        (var accessToken, var ATid) = _tokenHandler.CreateAccessToken(account, issuedDate);
+        (var refreshToken, var RTid) = _tokenHandler.CreateRefreshToken(account, issuedDate);
         var token = new UserToken
         {
             UserId = account.Id,
@@ -69,7 +77,7 @@ public class AuthController : ControllerBase
             RTid = RTid,
             RefreshToken = refreshToken,
             IssuedDate = issuedDate,
-            ExpiredDate = issuedDate.AddHours(24 * 7),
+            ExpiredDate = issuedDate.AddHours(_appConfiguration.JwtConfiguration.RTExpHours),
         };
         await _userTokenService.SaveTokenAsync(token);
 
@@ -92,20 +100,31 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenModel model)
     {
-        var tokenModel = await _tokenHandler.ValidateRefreshTokenAsync(model.RefreshToken);
-        if (tokenModel == null)
+        try
         {
-            return BadRequest(new ApiResponse 
-            { 
-                IsSuccess = false, 
-                ErrorMessage = "Invalid refresh token."
+            var tokenModel = await _tokenHandler.ValidateRefreshTokenAsync(model.RefreshToken);
+            if (tokenModel == null)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Invalid refresh token."
+                });
+            }
+            return Ok(new ApiResponse
+            {
+                IsSuccess = true,
+                Result = tokenModel
             });
         }
-        return Ok(new ApiResponse
+        catch (Exception ex)
         {
-            IsSuccess = true,
-            Result = tokenModel
-        });
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
     }
 
     [HttpPost("logout")]
@@ -122,7 +141,7 @@ public class AuthController : ControllerBase
             });
         }
         var userToken = await _userTokenService.GetTokenByATidAsync(Guid.Parse(ATid.Value));
-        if (userToken  == null)
+        if (userToken == null)
         {
             return BadRequest(new ApiResponse
             {
@@ -137,4 +156,30 @@ public class AuthController : ControllerBase
         return Ok(new ApiResponse { IsSuccess = true });
     }
 
+    [HttpPost("register")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Register(RegisterModel model)
+    {
+        if (model == null)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = "Invalid input."
+            });
+        }
+        try
+        {
+             await _accountService.CreateAccountAsync(_mapper.Map<Account>(model));
+            return Ok(new ApiResponse { IsSuccess = true });
+        } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        
+    }
 }
