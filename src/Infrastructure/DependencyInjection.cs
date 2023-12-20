@@ -14,6 +14,7 @@ public static class DependencyInjection
         services.AddScoped<IArtworkRepository, ArtworkRepository>();
         services.AddScoped<IAssetRepository, AssetRepository>();
         services.AddScoped<IBookmarkRepository, BookmarkRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICategoryArtworkDetailRepository, CategoryArtworkDetailRepository>();
         services.AddScoped<ICategoryServiceDetailRepository, CategoryServiceDetailRepository>();
         services.AddScoped<IChatBoxRepository, ChatBoxRepository>();

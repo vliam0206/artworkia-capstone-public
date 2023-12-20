@@ -6,6 +6,7 @@ public interface IUnitOfWork
     public IArtworkRepository ArtworkRepository { get; }
     public IAssetRepository AssetRepository { get; }
     public IBookmarkRepository BookmarkRepository { get; }
+    public ICategoryRepository CategoryRepository { get; }
     public ICategoryArtworkDetailRepository CategoryArtworkDetailRepository { get; }
     public ICategoryServiceDetailRepository CategoryServiceDetailRepository { get; }
     public IChatBoxRepository ChatBoxRepository { get; }

@@ -11,6 +11,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly IArtworkRepository _artworkRepository;
     private readonly IAssetRepository _assetRepository;
     private readonly IBookmarkRepository _bookmarkRepository;
+    private readonly ICategoryRepository _categoryRepository;
     private readonly ICategoryArtworkDetailRepository _categoryArtworkDetailRepository;
     private readonly ICategoryServiceDetailRepository _categoryServiceDetailRepository;
     private readonly IChatBoxRepository _chatBoxRepository;
@@ -37,6 +38,7 @@ public class UnitOfWork : IUnitOfWork
                       IArtworkRepository artworkRepository,
                       IAssetRepository assetRepository,
                       IBookmarkRepository bookmarkRepository,
+                      ICategoryRepository categoryRepository,
                       ICategoryArtworkDetailRepository categoryArtworkDetailRepository,
                       ICategoryServiceDetailRepository categoryServiceDetailRepository,
                       IChatBoxRepository chatBoxRepository,
@@ -63,6 +65,7 @@ public class UnitOfWork : IUnitOfWork
         _artworkRepository = artworkRepository;
         _assetRepository = assetRepository;
         _bookmarkRepository = bookmarkRepository;
+        _categoryRepository = categoryRepository;
         _categoryArtworkDetailRepository = categoryArtworkDetailRepository;
         _categoryServiceDetailRepository = categoryServiceDetailRepository;
         _chatBoxRepository = chatBoxRepository;
@@ -92,6 +95,7 @@ public class UnitOfWork : IUnitOfWork
     public IAssetRepository AssetRepository => _assetRepository;
 
     public IBookmarkRepository BookmarkRepository => _bookmarkRepository;
+    public ICategoryRepository CategoryRepository => _categoryRepository;
 
     public ICategoryArtworkDetailRepository CategoryArtworkDetailRepository => _categoryArtworkDetailRepository;
 

@@ -22,11 +22,11 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     public virtual async Task AddRangeAsync(List<TEntity> entities)
         => await _dbSet.AddRangeAsync(entities);
 
-    public virtual void Delete(TEntity entity)
+    public virtual async void Delete(TEntity entity)
     {
-        throw new NotImplementedException();
+        _dbSet.Remove(entity);
+        await _dbContext.SaveChangesAsync();
     }
-
     public async Task<List<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
 
     public async Task<TEntity?> GetByIdAsync(Guid id)

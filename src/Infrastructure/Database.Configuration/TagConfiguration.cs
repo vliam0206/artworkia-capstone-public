@@ -12,6 +12,8 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
 
         builder.Property(x => x.Id).HasDefaultValueSql("newid()");
 
+        builder.HasIndex(x => x.TagName).IsUnique();
+
         // relationship
         builder.HasMany(x => x.TagDetails).WithOne(d => d.Tag).HasForeignKey(d => d.TagId);
     }
