@@ -33,7 +33,7 @@ public class AppDBContext : DbContext
         {
             Console.WriteLine(ex.Message);
         }
-    }
+    }    
 
     public DbSet<Account> Accounts { get; set; }
     public DbSet<Artwork> Artworks { get; set; }

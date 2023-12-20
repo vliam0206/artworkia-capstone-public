@@ -11,20 +11,18 @@ public class ClaimService : IClaimService
     {
         _httpContextAccessor = httpContextAccessor;
     }
-
     public Guid? GetCurrentUserId
-    {       
+    {
         get
         {
             var userIdClaim = _httpContextAccessor
-                                .HttpContext?
-                                .User?
-                                .FindFirstValue(ClaimTypes.SerialNumber);
-
-            return string.IsNullOrEmpty(userIdClaim) ? null : Guid.Parse(userIdClaim);
+                                    .HttpContext?
+                                    .User?
+                                    .FindFirstValue(ClaimTypes.SerialNumber);
+            return string.IsNullOrEmpty(userIdClaim) ?
+                            null : Guid.Parse(userIdClaim);
         }
     }
-
     public string GetCurrentUserName
     {
         get
@@ -38,8 +36,6 @@ public class ClaimService : IClaimService
         }
     }
 
-    public DateTime? GetCurrentTime => DateTime.Now;
-
     public string GetCurrentRole
     {
         get
@@ -51,5 +47,5 @@ public class ClaimService : IClaimService
             return string.IsNullOrEmpty(userRoleClaim) ?
                             string.Empty : userRoleClaim;
         }
-    }
+    }    
 }

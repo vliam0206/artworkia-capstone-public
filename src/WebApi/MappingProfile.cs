@@ -9,6 +9,7 @@ public class MappingProfile : Profile
     {
         CreateMap<Account, AccountVM>().ReverseMap();
         CreateMap<Account, RegisterModel>().ReverseMap();
+        CreateMap<Account, AccountModel>().ReverseMap();
         CreateMap<Tag, TagModel>().ReverseMap();
         CreateMap<Tag, TagVM>().ReverseMap();
         CreateMap<Asset, AssetModel>().ReverseMap();
