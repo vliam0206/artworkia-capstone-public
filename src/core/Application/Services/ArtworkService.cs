@@ -31,7 +31,7 @@ public class ArtworkService : IArtworkService
        var result = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
         if (result == null)
             throw new Exception("Cannot found artwork!");
-        _unitOfWork.ArtworkRepository.Delete(result);
+        _unitOfWork.ArtworkRepository.SoftDelete(result);
     }
 
     public async Task UpdateArtworkAsync(Artwork artwork)

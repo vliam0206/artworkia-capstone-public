@@ -22,7 +22,7 @@ public class AssetService : IAssetService
         return await _unitOfWork.AssetRepository.GetByIdAsync(assetId);
     }
 
-    public async Task AddAssetAsync(Asset asset)
+    public Task AddAssetAsync(Asset asset)
     {
         throw new NotImplementedException();
     }

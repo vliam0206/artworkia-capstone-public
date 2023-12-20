@@ -37,6 +37,7 @@ public class TagService : ITagService
         if (result == null)
             throw new Exception("Cannot found tag!");
         _unitOfWork.TagRepository.Delete(result);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task AddTagRangeAsync(List<Tag> tag)

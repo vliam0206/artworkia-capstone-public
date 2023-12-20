@@ -22,11 +22,8 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     public virtual async Task AddRangeAsync(List<TEntity> entities)
         => await _dbSet.AddRangeAsync(entities);
 
-    public virtual async void Delete(TEntity entity)
-    {
-        _dbSet.Remove(entity);
-        await _dbContext.SaveChangesAsync();
-    }
+    public virtual void Delete(TEntity entity)
+        => _dbSet.Remove(entity);
     public async Task<List<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
 
     public async Task<TEntity?> GetByIdAsync(Guid id)

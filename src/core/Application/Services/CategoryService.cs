@@ -32,6 +32,7 @@ public class CategoryService : ICategoryService
         if (result == null)
             throw new Exception("Cannot found category!");
         _unitOfWork.CategoryRepository.Delete(result);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task UpdateCategoryAsync(Category category)
