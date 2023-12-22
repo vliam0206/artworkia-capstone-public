@@ -58,11 +58,7 @@ public class AccountsController : ControllerBase
         // check authorize
         if (!CheckAuthorize(id))
         {
-            return Forbid((new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = "Permision denied! Only moderator, admin or specific user can view their own account."
-            }).ToString()!);
+            return Forbid();
         }
         // get account
         var account = await _accountService.GetAccountByIdAsync(id);
@@ -81,11 +77,7 @@ public class AccountsController : ControllerBase
         // check authorize
         if (!CheckAuthorize(id))
         {
-            return Forbid((new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = "Permision denied! Only moderator, admin or specific user can view their own account."
-            }).ToString()!);
+            return Forbid();
         }                
         try
         {

@@ -42,4 +42,6 @@ public class Account : BaseEntity, ICreation, IModification, ISoftDelete
     public virtual ICollection<Collection> Collections { get; set; } = new List<Collection>();
     public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
     public virtual ICollection<Report> Reporteds { get; set; } = new List<Report>();
+    public virtual ICollection<Follow> Followings { get; set; } = new List<Follow>(); // nguoi dc theo doi
+    public virtual ICollection<Follow> Followers { get; set; } = new List<Follow>(); // nguoi dc theo doi
 }

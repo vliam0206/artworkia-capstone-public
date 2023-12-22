@@ -27,6 +27,7 @@ public interface IUnitOfWork
     public IWalletHistoryRepository WalletHistoryRepository { get; }
     public IWalletRepository WalletRepository { get; }
     public IUserTokenRepository UserTokenRepository { get; }
+    public IFollowRepository FollowRepository { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

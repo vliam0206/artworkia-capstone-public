@@ -32,5 +32,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.HasMany(x => x.TransactionHistories).WithOne(t => t.Account).HasForeignKey(t => t.AccountId);
         builder.HasMany(x => x.Likes).WithOne(l => l.Account).HasForeignKey(l => l.AccountId);
         builder.HasMany(x => x.Comments).WithOne(c => c.Account).HasForeignKey(c => c.CreatedBy);
+        builder.HasMany(x => x.Followings).WithOne(f => f.Account).HasForeignKey(f => f.AccountId);
+        builder.HasMany(x => x.Followers).WithOne(f => f.Follower).HasForeignKey(f => f.FollowerId);
     }
 }

@@ -2,13 +2,15 @@ using Application;
 using Application.Commons;
 using Infrastructure;
 using Infrastructure.Database;
+using System.Text.Json.Serialization;
 using WebApi;
 using WebApi.Extensions;
 using WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(opt 
+    => opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddOpenApiDocumentation(); // Add Swagger config

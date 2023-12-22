@@ -9,13 +9,10 @@ namespace Application.Services;
 public class AccountService : IAccountService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
 
-    public AccountService(IUnitOfWork unitOfWork,
-        IMapper mapper)
+    public AccountService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
     }    
 
     public async Task<Account?> CheckLoginAsync(string username, string password)

@@ -60,10 +60,11 @@ public class AppDBContext : DbContext
     public DbSet<UserToken> UserTokens { get; set; }
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<WalletHistory> WalletHistories { get; set; }
+    public DbSet<Follow> Follows { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // Use local sqlserver
+        // Use sqlserver
         optionsBuilder.UseSqlServer(_config.ConnectionStrings.MSSQLServerDB,
                         x => x.MigrationsAssembly("Migrators.MSSQL"));
     }

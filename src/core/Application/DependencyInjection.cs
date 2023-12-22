@@ -15,6 +15,7 @@ public static class DependencyInjection
         services.AddScoped<IAssetService, AssetService>();        
         services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<ITokenHandler, TokenHandler>();
+        services.AddScoped<IFollowService, FollowService>();
 
         return services;
     }
