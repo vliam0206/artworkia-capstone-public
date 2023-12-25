@@ -51,6 +51,23 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [HttpPut("{assetId}")]
+        public async Task<IActionResult> UpdateAsset(Guid assetId, [FromBody] AssetModel assetModel)
+        {
+            Asset asset;
+            if (assetModel == null)
+                return BadRequest();
+            try
+            {
+                asset = _mapper.Map<Asset>(assetModel);
+                await _assetService.UpdateAssetAsync(asset);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok();
+        }
+
         [HttpDelete("{assetId}")]
         public async Task<IActionResult> DeleteAsset(Guid assetId)
         {

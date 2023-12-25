@@ -1,4 +1,5 @@
 ﻿using Application.Services.Abstractions;
+using Domain.Entitites;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,12 +31,12 @@ public class CategoriesController : ControllerBase
         return Ok(result);
     }
 
-    //[HttpPost]
-    //public async Task<IActionResult> AddCategory(Category category)
-    //{
-    //    await _categoryService.AddCategoryAsync(category);
-    //    return Ok();
-    //}
+    [HttpPost]
+    public async Task<IActionResult> AddCategory(Category category)
+    {
+        await _categoryService.AddCategoryAsync(category);
+        return Ok();
+    }
 
     [HttpDelete("{categoryId}")]
     public async Task<IActionResult> DeleteCategory(Guid categoryId)

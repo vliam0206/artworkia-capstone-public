@@ -20,6 +20,7 @@ public static class DependencyInjection
         services.AddScoped<IChatBoxRepository, ChatBoxRepository>();
         services.AddScoped<ICollectionRepository, CollectionRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
+        services.AddScoped<IImageRepository, ImageRepository>();
         services.AddScoped<ILikeRepository, LikeRepository>();
         services.AddScoped<IMessageRepository, MessageRepository>();
         services.AddScoped<INotificationRepository, NotificationRepository>();
@@ -29,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<IRequestRepository, RequestRepository>();
         services.AddScoped<IReviewRepository, ReviewRepository>();
         services.AddScoped<IServiceRepository, ServiceRepository>();
+        services.AddScoped<IServiceDetailRepository, ServiceDetailRepository>();
         services.AddScoped<ITagDetailRepository, TagDetailRepository>();
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<ITransactionHistoryRepository, TransactionHistoryRepository>();

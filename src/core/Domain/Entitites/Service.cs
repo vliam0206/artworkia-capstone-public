@@ -16,6 +16,7 @@ public class Service : BaseEntity, ICreation, IModification, ISoftDelete
     [MaxLength(150)]
     public string NumberOfRevision { get; set; } = default!;
     public double StartingPrice { get; set; } = default!;
+    public string CoverLocation { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow.ToLocalTime();
     public Guid? LastModificatedBy { get; set; }
@@ -26,5 +27,6 @@ public class Service : BaseEntity, ICreation, IModification, ISoftDelete
     public virtual Account Account { get; set; } = default!;
     public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
     public virtual ICollection<Proposal> Proposals { get; set; } = new List<Proposal>();
+    public virtual ICollection<ServiceDetail> ServiceDetails { get; set; } = new List<ServiceDetail>();
     public virtual ICollection<CategoryServiceDetail> CategoryServiceDetails { get; set; } = new List<CategoryServiceDetail>();
 }

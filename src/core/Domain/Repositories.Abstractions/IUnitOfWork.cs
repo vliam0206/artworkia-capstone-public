@@ -14,6 +14,7 @@ public interface IUnitOfWork
     public ICommentRepository CommentRepository { get; }
     public ILikeRepository LikeRepository { get; }  
     public IMessageRepository MessageRepository { get; }
+    public IFollowRepository FollowRepository { get; }
     public INotificationRepository NotificationRepository { get; }
     public IProposalAssetRepository ProposalAssetRepository { get; }
     public IProposalRepository ProposalRepository { get; }
@@ -21,13 +22,14 @@ public interface IUnitOfWork
     public IRequestRepository RequestRepository { get; }
     public IReviewRepository ReviewRepository { get; }
     public IServiceRepository ServiceRepository { get; }
+    public IServiceDetailRepository ServiceDetailRepository { get; }
     public ITagDetailRepository TagDetailRepository { get; }
     public ITagRepository TagRepository { get; }
     public ITransactionHistoryRepository TransactionHistoryRepository { get; }
     public IWalletHistoryRepository WalletHistoryRepository { get; }
     public IWalletRepository WalletRepository { get; }
     public IUserTokenRepository UserTokenRepository { get; }
-    public IFollowRepository FollowRepository { get; }
+    public IImageRepository ImageRepository { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

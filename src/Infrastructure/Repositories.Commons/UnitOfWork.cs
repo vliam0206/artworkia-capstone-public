@@ -12,6 +12,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly IAssetRepository _assetRepository;
     private readonly IBookmarkRepository _bookmarkRepository;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IImageRepository _imageRepository;
     private readonly ICategoryArtworkDetailRepository _categoryArtworkDetailRepository;
     private readonly ICategoryServiceDetailRepository _categoryServiceDetailRepository;
     private readonly IChatBoxRepository _chatBoxRepository;
@@ -26,6 +27,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly IRequestRepository _requestRepository;
     private readonly IReviewRepository _reviewRepository;
     private readonly IServiceRepository _serviceRepository;
+    private readonly IServiceDetailRepository _serviceDetailRepository;
     private readonly ITagDetailRepository _tagDetailRepository;
     private readonly ITagRepository _tagRepository;
     private readonly ITransactionHistoryRepository _transactionHistoryRepository;
@@ -40,6 +42,7 @@ public class UnitOfWork : IUnitOfWork
                       IAssetRepository assetRepository,
                       IBookmarkRepository bookmarkRepository,
                       ICategoryRepository categoryRepository,
+                      IImageRepository imageRepository,
                       ICategoryArtworkDetailRepository categoryArtworkDetailRepository,
                       ICategoryServiceDetailRepository categoryServiceDetailRepository,
                       IChatBoxRepository chatBoxRepository,
@@ -54,6 +57,7 @@ public class UnitOfWork : IUnitOfWork
                       IRequestRepository requestRepository,
                       IReviewRepository reviewRepository,
                       IServiceRepository serviceRepository,
+                      IServiceDetailRepository serviceDetailRepository,
                       ITagDetailRepository tagDetailRepository,
                       ITagRepository tagRepository,
                       ITransactionHistoryRepository transactionHistoryRepository,
@@ -68,6 +72,7 @@ public class UnitOfWork : IUnitOfWork
         _assetRepository = assetRepository;
         _bookmarkRepository = bookmarkRepository;
         _categoryRepository = categoryRepository;
+        _imageRepository = imageRepository;
         _categoryArtworkDetailRepository = categoryArtworkDetailRepository;
         _categoryServiceDetailRepository = categoryServiceDetailRepository;
         _chatBoxRepository = chatBoxRepository;
@@ -82,6 +87,7 @@ public class UnitOfWork : IUnitOfWork
         _requestRepository = requestRepository;
         _reviewRepository = reviewRepository;
         _serviceRepository = serviceRepository;
+        _serviceDetailRepository = serviceDetailRepository;
         _tagDetailRepository = tagDetailRepository;
         _tagRepository = tagRepository;
         _transactionHistoryRepository = transactionHistoryRepository;
@@ -109,6 +115,7 @@ public class UnitOfWork : IUnitOfWork
     public ICollectionRepository CollectionRepository => _collectionRepository;
 
     public ICommentRepository CommentRepository => _commentRepository;
+    public IImageRepository ImageRepository => _imageRepository;
 
     public ILikeRepository LikeRepository => _likeRepository;
 
@@ -138,6 +145,8 @@ public class UnitOfWork : IUnitOfWork
 
     public IWalletRepository WalletRepository => _walletRepository;
     public IFollowRepository FollowRepository => _followRepository;
+
+    public IServiceDetailRepository ServiceDetailRepository => _serviceDetailRepository;
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         => await _dbContext.SaveChangesAsync(cancellationToken);

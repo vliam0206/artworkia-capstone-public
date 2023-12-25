@@ -19,5 +19,6 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
         builder.HasMany(x => x.Requests).WithOne(r => r.Service).HasForeignKey(r => r.ServiceId);
         builder.HasMany(x => x.Proposals).WithOne(p => p.Service).HasForeignKey(p => p.ServiceId);
         builder.HasMany(x => x.CategoryServiceDetails).WithOne(d => d.Service).HasForeignKey(d => d.CategoryId);
+        builder.HasMany(x => x.ServiceDetails).WithOne(d => d.Service).HasForeignKey(d => d.ServiceId);
     }
 }
