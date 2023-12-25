@@ -16,5 +16,7 @@ public class MappingProfile : Profile
         CreateMap<Artwork, ArtworkVM>().ReverseMap();
         CreateMap<Follow, FollowModel>().ReverseMap();
         CreateMap<Follow, FollowVM>().ReverseMap();
+        CreateMap<Like, LikeModel>().ReverseMap();
+        CreateMap<Like, LikeVM>().ReverseMap();
     }
 }

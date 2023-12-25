@@ -17,6 +17,7 @@ public static class DependencyInjection
         services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<ITokenHandler, TokenHandler>();
         services.AddScoped<IFollowService, FollowService>();
+        services.AddScoped<ILikeService, LikeService>();
 
         return services;
     }
