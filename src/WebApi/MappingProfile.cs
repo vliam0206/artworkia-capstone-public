@@ -18,5 +18,6 @@ public class MappingProfile : Profile
         CreateMap<Follow, FollowVM>().ReverseMap();
         CreateMap<Like, LikeModel>().ReverseMap();
         CreateMap<Like, LikeVM>().ReverseMap();
+        CreateMap<Comment, CommentVM>().ReverseMap();
     }
 }

@@ -18,6 +18,7 @@ public static class DependencyInjection
         services.AddScoped<ITokenHandler, TokenHandler>();
         services.AddScoped<IFollowService, FollowService>();
         services.AddScoped<ILikeService, LikeService>();
+        services.AddScoped<ICommentService, CommentService>();
 
         return services;
     }

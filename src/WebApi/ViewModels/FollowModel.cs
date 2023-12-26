@@ -10,3 +10,9 @@ public class FollowModel
     [Required]
     public Guid FollowerId { get; set; }
 }
+
+public class FollowVM
+{
+    public AccountVM Account { get; set; } = default!;
+    public AccountVM Follower { get; set; } = default!;
+}

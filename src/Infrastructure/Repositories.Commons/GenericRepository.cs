@@ -44,4 +44,8 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         return await _dbSet.SingleOrDefaultAsync(query);
     }
+    public async Task<List<TEntity>> GetListByConditionAsync(Expression<Func<TEntity, bool>> query)
+    {
+        return await _dbSet.Where(query).ToListAsync();
+    }
 }
