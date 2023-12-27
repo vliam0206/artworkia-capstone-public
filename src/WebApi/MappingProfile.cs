@@ -13,7 +13,9 @@ public class MappingProfile : Profile
         CreateMap<Tag, TagModel>().ReverseMap();
         CreateMap<Tag, TagVM>().ReverseMap();
         CreateMap<Asset, AssetModel>().ReverseMap();
+        CreateMap<Image, ImageModel>().ReverseMap();
         CreateMap<Artwork, ArtworkVM>().ReverseMap();
+        CreateMap<Artwork, ArtworkModel>().ReverseMap();
         CreateMap<Follow, FollowModel>().ReverseMap();
         CreateMap<Follow, FollowVM>().ReverseMap();
         CreateMap<Like, LikeModel>().ReverseMap();

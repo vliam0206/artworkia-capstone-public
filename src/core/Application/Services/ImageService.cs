@@ -38,7 +38,8 @@ public class ImageService : IImageService
         var result = await _unitOfWork.ImageRepository.GetByIdAsync(imageId);
         if (result == null)
             throw new Exception("Cannot found image!");
-        _unitOfWork.ImageRepository.SoftDelete(result);
+        _unitOfWork.ImageRepository.Delete(result);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task UpdateImageAsync(Image image)

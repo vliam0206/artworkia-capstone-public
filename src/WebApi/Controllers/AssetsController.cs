@@ -1,6 +1,8 @@
 ﻿using Application.Services.Abstractions;
+using Application.Services.Firebase;
 using AutoMapper;
 using Domain.Entitites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.ViewModels;
@@ -12,9 +14,12 @@ namespace WebApi.Controllers
     public class AssetsController : ControllerBase
     {
         private readonly IAssetService _assetService;
+        private readonly IFirebaseService _firebaseService;
         private readonly IMapper _mapper;
-        public AssetsController(IAssetService assetService, IMapper mapper)
+
+        public AssetsController(IFirebaseService firebaseService, IAssetService assetService, IMapper mapper)
         {
+            _firebaseService = firebaseService;
             _assetService = assetService;
             _mapper = mapper;
         }
@@ -34,14 +39,21 @@ namespace WebApi.Controllers
             return Ok(result);
         }
         [HttpPost]
-        public async Task<IActionResult> AddAsset([FromBody] AssetModel assetModel)
+        [Authorize]
+        public async Task<IActionResult> AddAsset([FromForm] AssetModel assetModel)
         {
             Asset asset;
             if (assetModel == null)
                 return BadRequest();
             try
             {
+                string assetName = Guid.NewGuid().ToString();   
+                var url = await _firebaseService.UploadFileToFirebaseStorage(assetModel.File, assetName, "Asset");
+                if (url == null)
+                    return BadRequest("Cannot upload asset");
                 asset = _mapper.Map<Asset>(assetModel);
+                asset.Location = url;
+                //asset.AssetName = assetName;
                 await _assetService.AddAssetAsync(asset);
 
             } catch (Exception ex)
@@ -52,7 +64,8 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{assetId}")]
-        public async Task<IActionResult> UpdateAsset(Guid assetId, [FromBody] AssetModel assetModel)
+        [Authorize]
+        public async Task<IActionResult> UpdateAsset(Guid assetId, [FromForm] AssetModel assetModel)
         {
             Asset asset;
             if (assetModel == null)
@@ -69,6 +82,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{assetId}")]
+        [Authorize]
         public async Task<IActionResult> DeleteAsset(Guid assetId)
         {
             await _assetService.DeleteAssetAsync(assetId);

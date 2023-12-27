@@ -24,7 +24,8 @@ public class ArtworksController : ControllerBase
     public async Task<IActionResult> GetAllArtworks()
     {
         var result = await _artworkService.GetAllArtworksAsync();
-        return Ok(result);
+        var resultModel = _mapper.Map<List<ArtworkVM>>(result);
+        return Ok(resultModel);
     }   
 
     [HttpGet("{artworkId}")]
@@ -33,7 +34,8 @@ public class ArtworksController : ControllerBase
         var result = await _artworkService.GetArtworkByIdAsync(artworkId);
         if (result == null)
             return NotFound();
-        return Ok(result);
+        var resultModel = _mapper.Map<ArtworkVM>(result);   
+        return Ok(resultModel);
     }
 
     [HttpPost]

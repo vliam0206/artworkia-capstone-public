@@ -22,9 +22,10 @@ public class AssetService : IAssetService
         return await _unitOfWork.AssetRepository.GetByIdAsync(assetId);
     }
 
-    public Task AddAssetAsync(Asset asset)
+    public async Task AddAssetAsync(Asset asset)
     {
-        throw new NotImplementedException();
+        await _unitOfWork.AssetRepository.AddAsync(asset);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public Task AddRangeAssetAsync(Asset asset)
@@ -37,11 +38,13 @@ public class AssetService : IAssetService
         var result = await _unitOfWork.AssetRepository.GetByIdAsync(assetId);
         if (result == null)
             throw new Exception("Cannot found asset!");
-        _unitOfWork.AssetRepository.SoftDelete(result);
+        _unitOfWork.AssetRepository.Delete(result);
+        await _unitOfWork.SaveChangesAsync();
     }
 
-    public Task UpdateAssetAsync(Asset asset)
+    public async Task UpdateAssetAsync(Asset asset)
     {
-        throw new NotImplementedException();
+        _unitOfWork.AssetRepository.Update(asset);
+        await _unitOfWork.SaveChangesAsync();
     }
 }

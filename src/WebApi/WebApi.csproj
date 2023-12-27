@@ -34,4 +34,9 @@
     <ProjectReference Include="..\Migrators.MSSQL\Migrators.MSSQL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Image\" />
+    <Folder Include="wwwroot\Asset\" />
+  </ItemGroup>
+
 </Project>

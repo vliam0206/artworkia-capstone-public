@@ -6,4 +6,5 @@ public class AppConfiguration
 {
     public ConnectionStrings ConnectionStrings { get; set; } = default!;
     public JwtConfiguration JwtConfiguration { get; set; } = default!;
+    public FirebaseConfiguration FirebaseConfiguration { get; set; } = default!;
 }

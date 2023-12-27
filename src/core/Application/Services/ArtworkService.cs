@@ -32,6 +32,7 @@ public class ArtworkService : IArtworkService
         if (result == null)
             throw new Exception("Cannot found artwork!");
         _unitOfWork.ArtworkRepository.SoftDelete(result);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task UpdateArtworkAsync(Artwork artwork)
@@ -41,5 +42,6 @@ public class ArtworkService : IArtworkService
             throw new Exception("Cannot found artwork!");
         artwork.CreatedOn = result.CreatedOn;
         _unitOfWork.ArtworkRepository.Update(artwork);
+        await _unitOfWork.SaveChangesAsync();
     }
 }
