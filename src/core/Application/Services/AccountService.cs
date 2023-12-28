@@ -29,7 +29,7 @@ public class AccountService : IAccountService
     public async Task<Account?> GetAccountByIdAsync(Guid accountId)
         => await _unitOfWork.AccountRepository.GetByIdAsync(accountId);
 
-    public async Task<Account?> GetAccountByUsernamesync(string username)
+    public async Task<Account?> GetAccountByUsernameAsync(string username)
         => await _unitOfWork.AccountRepository
                 .GetSingleByConditionAsync(x => x.Username.Equals(username));
 

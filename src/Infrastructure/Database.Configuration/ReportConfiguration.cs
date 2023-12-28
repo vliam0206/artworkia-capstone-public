@@ -18,7 +18,6 @@ namespace Infrastructure.Database.Configuration
             builder.Property(x => x.Id).HasDefaultValueSql("newid()");
 
             // relationship
-            builder.HasOne(x => x.AccountReported).WithMany(p => p.Reporteds).HasForeignKey(x => x.AccountReportedId);
             builder.HasOne(x => x.AccountReport).WithMany(p => p.Reports).HasForeignKey(x => x.CreatedBy);
         }
     }

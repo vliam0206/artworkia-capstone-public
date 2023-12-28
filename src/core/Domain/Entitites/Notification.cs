@@ -12,6 +12,6 @@ public class Notification : BaseEntity
     public NotifyTypeEnum NotifyType { get; set; }
     public bool IsSeen { get; set; } = false;
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow.ToLocalTime();
-
+    public Guid NotificatedId { get; set; }
     public virtual Account Account { get; set; } = default!;
 }

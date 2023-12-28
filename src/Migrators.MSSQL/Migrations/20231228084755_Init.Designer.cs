@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Migrations
+namespace Migrators.MSSQL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20231213064311_EditUserTokenSchema")]
-    partial class EditUserTokenSchema
+    [Migration("20231228084755_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -156,9 +156,6 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("AssetType")
-                        .HasColumnType("int");
-
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -185,6 +182,21 @@ namespace Infrastructure.Migrations
                     b.HasIndex("ArtworkId");
 
                     b.ToTable("Asset", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entitites.Block", b =>
+                {
+                    b.Property<Guid>("BlockingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BlockedId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BlockingId", "BlockedId");
+
+                    b.HasIndex("BlockedId");
+
+                    b.ToTable("Block", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entitites.Bookmark", b =>
@@ -351,6 +363,62 @@ namespace Infrastructure.Migrations
                     b.ToTable("Comment", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entitites.Follow", b =>
+                {
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FollowerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AccountId", "FollowerId");
+
+                    b.HasIndex("FollowerId");
+
+                    b.ToTable("Follow", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entitites.Image", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<Guid>("ArtworkId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<bool>("IsCover")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("LastModificatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModificatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArtworkId");
+
+                    b.ToTable("Image", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entitites.Like", b =>
                 {
                     b.Property<Guid>("AccountId")
@@ -419,6 +487,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<bool>("IsSeen")
                         .HasColumnType("bit");
+
+                    b.Property<Guid>("NotificatedId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("NotifyType")
                         .HasColumnType("int");
@@ -536,10 +607,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newid()");
 
-                    b.Property<Guid?>("AccountReportedId")
-                        .IsRequired()
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -553,12 +620,13 @@ namespace Infrastructure.Migrations
                     b.Property<int>("ReportType")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("ReportedId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("State")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountReportedId");
 
                     b.HasIndex("CreatedBy");
 
@@ -653,6 +721,10 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newid()");
 
+                    b.Property<string>("CoverLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -710,6 +782,21 @@ namespace Infrastructure.Migrations
                     b.ToTable("Service", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entitites.ServiceDetail", b =>
+                {
+                    b.Property<Guid>("ServiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ArtworkId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ServiceId", "ArtworkId");
+
+                    b.HasIndex("ArtworkId");
+
+                    b.ToTable("ServiceDetail", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entitites.Tag", b =>
                 {
                     b.Property<Guid>("Id")
@@ -723,6 +810,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TagName")
+                        .IsUnique();
 
                     b.ToTable("Tag", (string)null);
                 });
@@ -921,6 +1011,25 @@ namespace Infrastructure.Migrations
                     b.Navigation("Artwork");
                 });
 
+            modelBuilder.Entity("Domain.Entitites.Block", b =>
+                {
+                    b.HasOne("Domain.Entitites.Account", "Blocked")
+                        .WithMany("Blocked")
+                        .HasForeignKey("BlockedId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entitites.Account", "Blocking")
+                        .WithMany("Blocking")
+                        .HasForeignKey("BlockingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blocked");
+
+                    b.Navigation("Blocking");
+                });
+
             modelBuilder.Entity("Domain.Entitites.Bookmark", b =>
                 {
                     b.HasOne("Domain.Entitites.Artwork", "Artwork")
@@ -1038,6 +1147,36 @@ namespace Infrastructure.Migrations
                     b.Navigation("Reply");
                 });
 
+            modelBuilder.Entity("Domain.Entitites.Follow", b =>
+                {
+                    b.HasOne("Domain.Entitites.Account", "Account")
+                        .WithMany("Followings")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entitites.Account", "Follower")
+                        .WithMany("Followers")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Follower");
+                });
+
+            modelBuilder.Entity("Domain.Entitites.Image", b =>
+                {
+                    b.HasOne("Domain.Entitites.Artwork", "Artwork")
+                        .WithMany("Images")
+                        .HasForeignKey("ArtworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Artwork");
+                });
+
             modelBuilder.Entity("Domain.Entitites.Like", b =>
                 {
                     b.HasOne("Domain.Entitites.Account", "Account")
@@ -1123,19 +1262,11 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entitites.Report", b =>
                 {
-                    b.HasOne("Domain.Entitites.Account", "AccountReported")
-                        .WithMany("Reporteds")
-                        .HasForeignKey("AccountReportedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entitites.Account", "AccountReport")
                         .WithMany("Reports")
                         .HasForeignKey("CreatedBy");
 
                     b.Navigation("AccountReport");
-
-                    b.Navigation("AccountReported");
                 });
 
             modelBuilder.Entity("Domain.Entitites.Request", b =>
@@ -1187,6 +1318,25 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("CreatedBy");
 
                     b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("Domain.Entitites.ServiceDetail", b =>
+                {
+                    b.HasOne("Domain.Entitites.Artwork", "Artwork")
+                        .WithMany("ServiceDetails")
+                        .HasForeignKey("ArtworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entitites.Service", "Service")
+                        .WithMany("ServiceDetails")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Artwork");
+
+                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("Domain.Entitites.TagDetail", b =>
@@ -1268,6 +1418,10 @@ namespace Infrastructure.Migrations
                 {
                     b.Navigation("Artworks");
 
+                    b.Navigation("Blocked");
+
+                    b.Navigation("Blocking");
+
                     b.Navigation("ChatBoxes_1");
 
                     b.Navigation("ChatBoxes_2");
@@ -1276,6 +1430,10 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("Comments");
 
+                    b.Navigation("Followers");
+
+                    b.Navigation("Followings");
+
                     b.Navigation("Likes");
 
                     b.Navigation("Messages");
@@ -1283,8 +1441,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Notifications");
 
                     b.Navigation("Proposals");
-
-                    b.Navigation("Reporteds");
 
                     b.Navigation("Reports");
 
@@ -1312,7 +1468,11 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("Comments");
 
+                    b.Navigation("Images");
+
                     b.Navigation("Likes");
+
+                    b.Navigation("ServiceDetails");
 
                     b.Navigation("TagDetails");
                 });
@@ -1366,6 +1526,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("Proposals");
 
                     b.Navigation("Requests");
+
+                    b.Navigation("ServiceDetails");
                 });
 
             modelBuilder.Entity("Domain.Entitites.Tag", b =>

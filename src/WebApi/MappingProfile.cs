@@ -21,5 +21,7 @@ public class MappingProfile : Profile
         CreateMap<Like, LikeModel>().ReverseMap();
         CreateMap<Like, LikeVM>().ReverseMap();
         CreateMap<Comment, CommentVM>().ReverseMap();
+        CreateMap<Block, BlockModel>().ReverseMap();
+        CreateMap<Block, BlockVM>().ReverseMap();
     }
 }

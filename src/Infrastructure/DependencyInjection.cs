@@ -37,6 +37,7 @@ public static class DependencyInjection
         services.AddScoped<IWalletHistoryRepository, WalletHistoryRepository>();
         services.AddScoped<IWalletRepository, WalletRepository>();
         services.AddScoped<IFollowRepository, FollowRepository>();
+        services.AddScoped<IBlockRepository, BlockRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;

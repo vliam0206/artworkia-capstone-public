@@ -165,6 +165,7 @@ public class AccountsController : ControllerBase
         }
     }
 
+    
     private bool CheckAuthorize(Guid accountId)
     {
         // check authorize

@@ -61,6 +61,7 @@ public class AppDBContext : DbContext
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<WalletHistory> WalletHistories { get; set; }
     public DbSet<Follow> Follows { get; set; }
+    public DbSet<Block> Blocks { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

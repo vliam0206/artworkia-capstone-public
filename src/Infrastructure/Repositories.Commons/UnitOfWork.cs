@@ -34,6 +34,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly IWalletHistoryRepository _walletHistoryRepository;
     private readonly IWalletRepository _walletRepository;
     private readonly IFollowRepository _followRepository;
+    private readonly IBlockRepository _blockRepository;
 
     public UnitOfWork(AppDBContext dbContext,
                       IAccountRepository accountRepository,
@@ -63,7 +64,8 @@ public class UnitOfWork : IUnitOfWork
                       ITransactionHistoryRepository transactionHistoryRepository,
                       IWalletHistoryRepository walletHistoryRepository,
                       IWalletRepository walletRepository,
-                      IFollowRepository followRepository)
+                      IFollowRepository followRepository,
+                      IBlockRepository blockRepository)
     {
         _dbContext = dbContext;
         _accountRepository = accountRepository;
@@ -94,6 +96,7 @@ public class UnitOfWork : IUnitOfWork
         _walletHistoryRepository = walletHistoryRepository;
         _walletRepository = walletRepository;
         _followRepository = followRepository;
+        _blockRepository = blockRepository;
     }
 
     public IAccountRepository AccountRepository => _accountRepository;
@@ -147,6 +150,8 @@ public class UnitOfWork : IUnitOfWork
     public IFollowRepository FollowRepository => _followRepository;
 
     public IServiceDetailRepository ServiceDetailRepository => _serviceDetailRepository;
+
+    public IBlockRepository BlockRepository => _blockRepository;
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         => await _dbContext.SaveChangesAsync(cancellationToken);
