@@ -63,12 +63,12 @@ public class AppDBContext : DbContext
     public DbSet<Follow> Follows { get; set; }
     public DbSet<Block> Blocks { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        // Use sqlserver
-        optionsBuilder.UseSqlServer(_config.ConnectionStrings.MSSQLServerDB,
-                        x => x.MigrationsAssembly("Migrators.MSSQL"));
-    }
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //    // Use sqlserver
+    //    optionsBuilder.UseSqlServer(_config.ConnectionStrings.MSSQLServerDB,
+    //                    x => x.MigrationsAssembly("Migrators.MSSQL"));
+    //}
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 }

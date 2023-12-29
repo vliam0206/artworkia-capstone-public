@@ -2,6 +2,8 @@ using Application;
 using Application.Commons;
 using Infrastructure;
 using Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Text.Json.Serialization;
 using WebApi;
 using WebApi.Extensions;
@@ -20,7 +22,8 @@ var config = builder.Configuration.Get<AppConfiguration>();
 builder.Configuration.Bind(config);
 builder.Services.AddSingleton(config!);
 
-builder.Services.AddDbContext<AppDBContext>();
+// Add dbcontext middlerware
+builder.Services.AddDbContextConfiguration(config!.ConnectionStrings.MSSQLServerDB);
 
 // Add jwt configuration
 builder.Services.AddJwtConfiguration(config!);

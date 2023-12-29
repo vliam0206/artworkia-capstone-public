@@ -77,7 +77,7 @@ public class AuthController : ControllerBase
             RTid = RTid,
             RefreshToken = refreshToken,
             IssuedDate = issuedDate,
-            ExpiredDate = issuedDate.AddHours(_appConfiguration.JwtConfiguration.RTExpHours),
+            ExpiredDate = issuedDate.AddHours(24*7),
         };
         await _userTokenService.SaveTokenAsync(token);
 
