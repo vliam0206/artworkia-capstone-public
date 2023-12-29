@@ -85,8 +85,8 @@ public class LikesController : ControllerBase
         catch (Exception ex)
         {
             return BadRequest(new { ErrorMessage = ex.Message });
-        }   
-        return NoContent();
+        }
+        return Ok(new { IsSuccess = true });
     }
 
     private bool CheckAuthorize(Guid accountId)

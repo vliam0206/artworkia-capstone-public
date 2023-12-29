@@ -24,6 +24,7 @@ public class ArtworkService : IArtworkService
     public async Task AddArtworkAsync(Artwork artwork)
     {
         await _unitOfWork.ArtworkRepository.AddAsync(artwork);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task DeleteArtworkAsync(Guid artworkId)

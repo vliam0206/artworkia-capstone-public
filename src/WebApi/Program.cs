@@ -58,6 +58,9 @@ app.UseAuthentication(); // Use Authentication
 
 app.UseAuthorization();
 
+
 app.MapControllers();
+
+app.UseApplyMigrations(); // Apply latest migrations, especially when running in Docker
 
 app.Run();

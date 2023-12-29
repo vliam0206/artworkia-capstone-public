@@ -49,10 +49,12 @@ namespace WebApi.Controllers
                 return BadRequest();
             try
             {
-                string imageName = Guid.NewGuid().ToString();   
-                var url = await _firebaseService.UploadFileToFirebaseStorage(imageModel.Image, imageName, "Image");
+                string imageName = imageModel.Image.FileName;
+                string imageNameWithoutExtension = Path.GetFileNameWithoutExtension(imageName);
+                string imageExtension = Path.GetExtension(imageName);
+                var url = await _firebaseService.UploadFileToFirebaseStorage(imageModel.Image, imageNameWithoutExtension, "Image");
                 if (url == null)
-                    return BadRequest("Cannot upload image");
+                    return BadRequest("Cannot upload image to firebase");
                 image = _mapper.Map<Image>(imageModel);
                 image.Location = url;
                 image.ImageName = imageName;
@@ -71,6 +73,10 @@ namespace WebApi.Controllers
         {
             try
             {
+                var image = await _imageService.GetImageByIdAsync(imageId);
+                if (image == null)
+                    return NotFound();
+                await _firebaseService.DeleteFileInFirebaseStorage(image.ImageName, "Image");
                 await _imageService.DeleteImageAsync(imageId);
             } catch (Exception ex)
             {

@@ -14,11 +14,4 @@ public class ImageRepository : GenericRepository<Image>, IImageRepository
     {
         _claimService = claimService;
     }
-
-    public override void SoftDelete(Image image)
-    {
-        image.DeletedOn = DateTime.UtcNow.ToLocalTime();
-        image.DeletedBy = _claimService.GetCurrentUserId;
-        //_dbContext.Entry(entity).State = EntityState.Modified;
-    }
 }

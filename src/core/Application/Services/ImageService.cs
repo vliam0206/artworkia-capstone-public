@@ -24,6 +24,9 @@ public class ImageService : IImageService
 
     public async Task AddImageAsync(Image image)
     {
+        bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExisted(image.ArtworkId);
+        if (!IsArtworkExisted)
+            throw new Exception("Artwork that contains this image does not exist!");
         await _unitOfWork.ImageRepository.AddAsync(image);
         await _unitOfWork.SaveChangesAsync();
     }

@@ -29,6 +29,9 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     public async Task<TEntity?> GetByIdAsync(Guid id)
         => await _dbSet.FindAsync(id);
 
+    public async Task<bool> IsExisted(Guid id)
+        => await _dbSet.AnyAsync(x => x.Id == id);
+
     public virtual void SoftDelete(TEntity entity)
     {
         throw new NotImplementedException();

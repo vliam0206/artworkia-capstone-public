@@ -7,3 +7,9 @@ public class TagModel
     [Required]
     public string TagName { get; set; } = default!;
 }
+public class TagVM
+{
+    public Guid Id { get; set; }
+    [MaxLength(150)]
+    public string TagName { get; set; } = default!;
+}

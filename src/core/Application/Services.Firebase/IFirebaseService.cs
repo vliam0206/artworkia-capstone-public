@@ -4,4 +4,5 @@ namespace Application.Services.Firebase;
 public interface IFirebaseService
 {
     Task<string?> UploadFileToFirebaseStorage(IFormFile files, string fileName, string folderName);
+    Task DeleteFileInFirebaseStorage(string fileName, string folderName);
 }

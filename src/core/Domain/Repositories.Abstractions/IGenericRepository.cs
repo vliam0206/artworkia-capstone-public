@@ -7,6 +7,7 @@ public interface IGenericRepository<TEntity> where TEntity : BaseEntity
 {
     Task<List<TEntity>> GetAllAsync();
     Task<TEntity?> GetByIdAsync(Guid id);
+    Task<bool> IsExisted(Guid id);
     Task AddAsync(TEntity entity);
     Task AddRangeAsync(List<TEntity> entities);
     void Update(TEntity entity);

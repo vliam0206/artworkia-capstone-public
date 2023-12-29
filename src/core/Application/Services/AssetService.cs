@@ -1,6 +1,7 @@
 ﻿using Application.Services.Abstractions;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Application.Services;
 public class AssetService : IAssetService
@@ -24,6 +25,9 @@ public class AssetService : IAssetService
 
     public async Task AddAssetAsync(Asset asset)
     {
+        bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExisted(asset.ArtworkId);
+        if (!IsArtworkExisted)
+            throw new Exception("Artwork that contains this image does not exist!");
         await _unitOfWork.AssetRepository.AddAsync(asset);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -38,7 +42,7 @@ public class AssetService : IAssetService
         var result = await _unitOfWork.AssetRepository.GetByIdAsync(assetId);
         if (result == null)
             throw new Exception("Cannot found asset!");
-        _unitOfWork.AssetRepository.Delete(result);
+        _unitOfWork.AssetRepository.SoftDelete(result);
         await _unitOfWork.SaveChangesAsync();
     }
 
