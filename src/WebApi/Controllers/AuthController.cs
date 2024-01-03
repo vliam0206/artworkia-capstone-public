@@ -1,5 +1,4 @@
-﻿using Application.Commons;
-using Application.Services.Abstractions;
+﻿using Application.Services.Abstractions;
 using Application.Services.Authentication;
 using AutoMapper;
 using Domain.Entitites;
@@ -19,19 +18,16 @@ public class AuthController : ControllerBase
     private readonly IAccountService _accountService;
     private readonly IUserTokenService _userTokenService;
     private readonly ITokenHandler _tokenHandler;
-    private readonly AppConfiguration _appConfiguration;
     private readonly IMapper _mapper;
 
     public AuthController(IAccountService accountService,
         IUserTokenService userTokenService,
         ITokenHandler tokenHandler,
-        AppConfiguration appConfiguration,
         IMapper mapper)
     {
         _accountService = accountService;
         _userTokenService = userTokenService;
         _tokenHandler = tokenHandler;
-        _appConfiguration = appConfiguration;
         _mapper = mapper;
     }
 
@@ -67,32 +63,28 @@ public class AuthController : ControllerBase
         }
         // login success - issue (access token, refresh token) pair
         var issuedDate = DateTime.UtcNow.ToLocalTime();
-        (var accessToken, var ATid) = _tokenHandler.CreateAccessToken(account, issuedDate);
-        (var refreshToken, var RTid) = _tokenHandler.CreateRefreshToken(account, issuedDate);
+        var accessToken = _tokenHandler.CreateAccessToken(account, issuedDate);
+        var refreshToken = _tokenHandler.CreateRefreshToken(account, issuedDate);
         var token = new UserToken
         {
             UserId = account.Id,
-            ATid = ATid,
-            AccessToken = accessToken,
-            RTid = RTid,
-            RefreshToken = refreshToken,
+            ATid = accessToken.TokenId,
+            AccessToken = accessToken.Token,
+            RTid = refreshToken.TokenId,
+            RefreshToken = refreshToken.Token,
             IssuedDate = issuedDate,
             ExpiredDate = issuedDate.AddHours(24*7),
         };
         await _userTokenService.SaveTokenAsync(token);
 
-        return Ok(new ApiResponse
+        return Ok(new TokenVM
         {
-            IsSuccess = true,
-            Result = new TokenVM
-            {
-                AccessToken = token.AccessToken,
-                RefreshToken = token.RefreshToken,
-                UserId = account.Id,
-                Username = account.Username,
-                Email = account.Email,
-                Fullname = account.Fullname
-            }
+            AccessToken = token.AccessToken,
+            RefreshToken = token.RefreshToken,
+            UserId = account.Id,
+            Username = account.Username,
+            Email = account.Email,
+            Fullname = account.Fullname
         });
     }
 
@@ -105,25 +97,13 @@ public class AuthController : ControllerBase
             var tokenModel = await _tokenHandler.ValidateRefreshTokenAsync(model.RefreshToken);
             if (tokenModel == null)
             {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = "Invalid refresh token."
-                });
+                return BadRequest(new ApiResponse { ErrorMessage = "Invalid refresh token." });
             }
-            return Ok(new ApiResponse
-            {
-                IsSuccess = true,
-                Result = tokenModel
-            });
+            return Ok(tokenModel);
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -134,20 +114,12 @@ public class AuthController : ControllerBase
         var ATid = User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti);
         if (ATid == null)
         {
-            return Unauthorized(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = "Invalid token."
-            });
+            return Unauthorized(new ApiResponse { ErrorMessage = "Invalid token." });
         }
         var userToken = await _userTokenService.GetTokenByATidAsync(Guid.Parse(ATid.Value));
         if (userToken == null)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = "Access token Id not found!"
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = "Access token Id not found!" });
         }
         // token valid -> update in db
         userToken.IsRevoked = true;
@@ -162,23 +134,15 @@ public class AuthController : ControllerBase
     {
         if (model == null)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = "Invalid input."
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = "Invalid input." });
         }
         try
         {
-             await _accountService.CreateAccountAsync(_mapper.Map<Account>(model));
+            await _accountService.CreateAccountAsync(_mapper.Map<Account>(model));
             return Ok(new ApiResponse { IsSuccess = true });
         } catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
         
     }

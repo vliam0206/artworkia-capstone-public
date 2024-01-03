@@ -9,10 +9,12 @@ namespace Application.Services;
 public class AccountService : IAccountService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IClaimService _claimService;
 
-    public AccountService(IUnitOfWork unitOfWork)
+    public AccountService(IUnitOfWork unitOfWork, IClaimService claimService)
     {
         _unitOfWork = unitOfWork;
+        _claimService = claimService;
     }    
 
     public async Task<Account?> CheckLoginAsync(string username, string password)
@@ -83,6 +85,31 @@ public class AccountService : IAccountService
         // soft delete account in db
         _unitOfWork.AccountRepository.SoftDelete(account);
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task EditPasswordAsync(Guid accountId , string oldPassword, string newPassword)
+    {        
+        var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId);
+        if (account == null)
+        {
+            throw new ArgumentException("Account id not found.");
+        }
+        // check authorized
+        if (account.Id != _claimService.GetCurrentUserId)
+        {
+            throw new UnauthorizedAccessException("You are not allow to access this function.");
+        }
+        // check old password
+        if (oldPassword.Verify(account.Password))
+        {
+            // change password
+            account.Password = newPassword.Hash();
+            _unitOfWork.AccountRepository.Update(account);
+            await _unitOfWork.SaveChangesAsync();
+        } else
+        {
+            throw new Exception("Old password is not correct.");
+        }
     }
 
     private async Task<string> ValidateAccountAsync(Account account)

@@ -41,3 +41,13 @@ public class AccountVM
     public Guid? DeletedBy { get; set; }
     public DateTime? DeletedOn { get; set; }
 }
+
+public class AccountChangePasswordModel
+{
+    [Required]
+    [MaxLength(255)]
+    public string OldPassword { get; set;} =default!;
+    [Required]
+    [MaxLength(255)]
+    public string NewPassword { get; set; } = default!;
+}

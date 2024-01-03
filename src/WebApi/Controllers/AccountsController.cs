@@ -34,19 +34,11 @@ public class AccountsController : ControllerBase
         {
             var accounts = await _accountService.GetAccountsAsync();
 
-            return Ok(new ApiResponse
-            {
-                IsSuccess = true,
-                Result = _mapper.Map<List<AccountVM>>(accounts)
-            });
+            return Ok(_mapper.Map<List<AccountVM>>(accounts));
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -64,9 +56,9 @@ public class AccountsController : ControllerBase
         var account = await _accountService.GetAccountByIdAsync(id);
         if (account == null || account.DeletedOn != null)
         {
-            return NotFound(new ApiResponse { IsSuccess = false, ErrorMessage = "Account id not found!" });
+            return NotFound(new ApiResponse { ErrorMessage = "Account id not found!" });
         }
-        return Ok(new ApiResponse { IsSuccess = true, Result = _mapper.Map<AccountVM>(account) });
+        return Ok(_mapper.Map<AccountVM>(account));
     }
 
     // PUT: api/accounts/5    
@@ -78,24 +70,24 @@ public class AccountsController : ControllerBase
         if (!CheckAuthorize(id))
         {
             return Forbid();
-        }                
+        }
         try
         {
             var oldAcc = await _accountService.GetAccountByIdAsync(id);
             if (oldAcc == null || oldAcc.DeletedOn != null)
             {
-                return NotFound(new ApiResponse { IsSuccess = false, ErrorMessage = "Account id not found." });
+                return NotFound(new ApiResponse { ErrorMessage = "Account id not found." });
             }
             var account = _mapper.Map<AccountModel, Account>(model, oldAcc);
             await _accountService.UpdateAccountAsync(account);
         }
         catch (ArgumentException ex)
         {
-            return NotFound(new ApiResponse { IsSuccess = false, ErrorMessage = ex.Message });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { IsSuccess = false, ErrorMessage = ex.Message });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
 
         return NoContent();
@@ -113,7 +105,7 @@ public class AccountsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new { ErrorMessage = ex.Message });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
 
         return CreatedAtAction("GetAccount", new { id = account.Id }, _mapper.Map<AccountVM>(account));
@@ -130,11 +122,11 @@ public class AccountsController : ControllerBase
         }
         catch (ArgumentException ex)
         {
-            return NotFound(new { ErrorMessage = ex.Message });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new { ErrorMessage = ex.Message });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
 
         return NoContent();
@@ -149,35 +141,45 @@ public class AccountsController : ControllerBase
         {
             var accounts = await _accountService.GetDeletedAccountsAsync();
 
-            return Ok(new ApiResponse
-            {
-                IsSuccess = true,
-                Result = _mapper.Map<List<AccountVM>>(accounts)
-            });
+            return Ok(_mapper.Map<List<AccountVM>>(accounts));
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
+    // PUT: api/accounts/{id}/password
+    [HttpPut("{id}/password")]
+    [Authorize]
+    public async Task<IActionResult> ChangePassword(Guid id, [FromBody] AccountChangePasswordModel model)
+    {
+        try
+        {
+            await _accountService.EditPasswordAsync(id, model.OldPassword, model.NewPassword);
+            return NoContent();
+        }
+        catch (ArgumentException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
     
     private bool CheckAuthorize(Guid accountId)
+{
+    // check authorize
+    var currentRole = _claimService.GetCurrentRole;
+    if (!currentRole.Equals(RoleEnum.Moderator.ToString())
+        && !currentRole.Equals(RoleEnum.Admin.ToString()))
     {
-        // check authorize
-        var currentRole = _claimService.GetCurrentRole;
-        if (!currentRole.Equals(RoleEnum.Moderator.ToString())
-            && !currentRole.Equals(RoleEnum.Admin.ToString()))
-        {            
-            if (_claimService.GetCurrentUserId != accountId)
-            {
-                return false;
-            }
+        if (_claimService.GetCurrentUserId != accountId)
+        {
+            return false;
         }
-        return true;
     }
+    return true;
+}
 }

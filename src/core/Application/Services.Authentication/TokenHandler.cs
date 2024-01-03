@@ -5,6 +5,7 @@ using Domain.Models;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -26,7 +27,7 @@ public class TokenHandler : ITokenHandler
         _userTokenService = userTokenService;
     }
 
-    public (string, Guid) CreateAccessToken(Account user, DateTime issueTime)
+    public TokenModel CreateAccessToken(Account user, DateTime issueTime)
     {
         var jwtConfig = _appConfig.JwtConfiguration;
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SecretKey));
@@ -52,10 +53,10 @@ public class TokenHandler : ITokenHandler
                 signingCredentials: credentials);
         var tokenStr = new JwtSecurityTokenHandler().WriteToken(token);
 
-        return (tokenStr, jti);
+        return new TokenModel { Token = tokenStr, TokenId = jti };
     }
 
-    public (string, Guid) CreateRefreshToken(Account user, DateTime issueTime)
+    public TokenModel CreateRefreshToken(Account user, DateTime issueTime)
     {
         var jwtConfig = _appConfig.JwtConfiguration;
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SecretKey));
@@ -81,7 +82,7 @@ public class TokenHandler : ITokenHandler
                 signingCredentials: credentials);
         var tokenStr = new JwtSecurityTokenHandler().WriteToken(token);
 
-        return (tokenStr, jti);
+        return new TokenModel { Token = tokenStr, TokenId = jti };
     }
 
     public async Task ValidateAccessTokenAsync(TokenValidatedContext context)
@@ -147,24 +148,24 @@ public class TokenHandler : ITokenHandler
                 await _userTokenService.UpdateTokenAsync(userToken);
 
                 var issuedDate = DateTime.UtcNow.ToLocalTime();
-                (var accessToken, var ATid) = this.CreateAccessToken(account, issuedDate);
-                (var newRefreshToken, var RTid) = this.CreateRefreshToken(account, issuedDate);
+                var accessToken= this.CreateAccessToken(account, issuedDate);
+                var newRefreshToken = this.CreateRefreshToken(account, issuedDate);
                 
                 await _userTokenService.SaveTokenAsync(new UserToken
                 {
                     UserId = account.Id,
-                    ATid = ATid,
-                    AccessToken = accessToken,
-                    RTid = RTid,
-                    RefreshToken = newRefreshToken,
+                    ATid = accessToken.TokenId,
+                    AccessToken = accessToken.Token,
+                    RTid = newRefreshToken.TokenId,
+                    RefreshToken = newRefreshToken.Token,
                     IssuedDate = issuedDate,
                     ExpiredDate = issuedDate.AddHours(24 * 7),
                 });
 
                 return new TokenVM
                 {
-                    AccessToken = accessToken,
-                    RefreshToken = newRefreshToken,
+                    AccessToken = accessToken.Token,
+                    RefreshToken = newRefreshToken.Token,
                     UserId = account.Id,
                     Username = account.Username,
                     Email = account.Email,
