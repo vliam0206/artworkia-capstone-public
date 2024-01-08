@@ -131,4 +131,8 @@ public class AccountService : IAccountService
         }
         return errMsg;
     }
+
+    public async Task<Account?> GetAccountByEmailAsync(string email)
+        => await _unitOfWork.AccountRepository
+                .GetSingleByConditionAsync(x => x.Email.Equals(email));
 }

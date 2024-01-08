@@ -3,6 +3,7 @@ using Application.Services.Authentication;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Models;
+using Firebase.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
@@ -19,16 +20,19 @@ public class AuthController : ControllerBase
     private readonly IUserTokenService _userTokenService;
     private readonly ITokenHandler _tokenHandler;
     private readonly IMapper _mapper;
+    private readonly IThirdAuthenticationService _thirdAuthenticationService;
 
     public AuthController(IAccountService accountService,
         IUserTokenService userTokenService,
         ITokenHandler tokenHandler,
-        IMapper mapper)
+        IMapper mapper,
+        IThirdAuthenticationService thirdAuthenticationService)
     {
         _accountService = accountService;
         _userTokenService = userTokenService;
         _tokenHandler = tokenHandler;
         _mapper = mapper;
+        _thirdAuthenticationService = thirdAuthenticationService;
     }
 
     [HttpPost("login")]
@@ -145,5 +149,53 @@ public class AuthController : ControllerBase
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
         
+    }
+
+    [HttpPost("login-google")]
+    public async Task<IActionResult> LoginWithGoogle([FromBody] ThirdAuthenticationModel externalAuthDto)
+    {
+        var payload = await _thirdAuthenticationService.VerifyGoogleToken(externalAuthDto);
+        if (payload == null)
+        {
+            return BadRequest("Invalid external authentication!");
+        }
+        var newAccount = new Account
+        {
+            Email = payload.Email,
+            Fullname = payload.Name,
+            Username = payload.Email
+        };
+        var account = await _accountService.GetAccountByEmailAsync(newAccount.Email);
+        if (account == null)
+        {
+            account = newAccount;
+            await _accountService.CreateAccountAsync(account);
+        }
+
+        // login success - issue (access token, refresh token) pair
+        var issuedDate = DateTime.UtcNow.ToLocalTime();
+        var accessToken = _tokenHandler.CreateAccessToken(account, issuedDate);
+        var refreshToken = _tokenHandler.CreateRefreshToken(account, issuedDate);
+        var token = new UserToken
+        {
+            UserId = account.Id,
+            ATid = accessToken.TokenId,
+            AccessToken = accessToken.Token,
+            RTid = refreshToken.TokenId,
+            RefreshToken = refreshToken.Token,
+            IssuedDate = issuedDate,
+            ExpiredDate = issuedDate.AddHours(24 * 7),
+        };
+        await _userTokenService.SaveTokenAsync(token);
+
+        return Ok(new TokenVM
+        {
+            AccessToken = token.AccessToken,
+            RefreshToken = token.RefreshToken,
+            UserId = account.Id,
+            Username = account.Username,
+            Email = account.Email,
+            Fullname = account.Fullname
+        });
     }
 }

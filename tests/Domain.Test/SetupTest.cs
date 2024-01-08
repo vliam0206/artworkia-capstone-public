@@ -57,6 +57,7 @@ public class SetupTest : IDisposable
     protected readonly Mock<IFollowService> _followServiceMock;
     protected readonly Mock<IUserTokenService> _userTokenServiceMock;
     protected readonly Mock<ITokenHandler> _tokenHandlerMock;
+    protected readonly Mock<IThirdAuthenticationService> _thirdAuthenticationServiceMock;
     #endregion
 
     public SetupTest()
@@ -123,6 +124,7 @@ public class SetupTest : IDisposable
         _followServiceMock = new Mock<IFollowService>();
         _userTokenServiceMock = new Mock<IUserTokenService>();
         _tokenHandlerMock = new Mock<ITokenHandler>();
+        _thirdAuthenticationServiceMock = new Mock<IThirdAuthenticationService>();
 
         #endregion
     }

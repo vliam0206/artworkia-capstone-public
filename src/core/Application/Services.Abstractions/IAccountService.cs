@@ -8,6 +8,7 @@ public interface IAccountService
     Task CreateAccountAsync(Account account);
     Task DeleteAccountAsync(Guid id);
     Task EditPasswordAsync(Guid accountId, string oldPassword, string newPassword);
+    Task<Account?> GetAccountByEmailAsync(string email);
     Task<Account?> GetAccountByIdAsync(Guid accountId);
     Task<Account?> GetAccountByUsernameAsync(string username);
     Task<List<Account>> GetAccountsAsync();

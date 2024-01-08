@@ -25,6 +25,7 @@ public static class DependencyInjection
 
         services.AddScoped<ITokenHandler, TokenHandler>();
         services.AddScoped<IFirebaseService, FirebaseService>();
+        services.AddScoped<IThirdAuthenticationService, ThirdAuthenticationService>();
         return services;
     }
 }
