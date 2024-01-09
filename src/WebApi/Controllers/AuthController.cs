@@ -159,16 +159,16 @@ public class AuthController : ControllerBase
         {
             return BadRequest("Invalid external authentication!");
         }
-        var newAccount = new Account
-        {
-            Email = payload.Email,
-            Fullname = payload.Name,
-            Username = payload.Email
-        };
-        var account = await _accountService.GetAccountByEmailAsync(newAccount.Email);
+        var account = await _accountService.GetAccountByEmailAsync(payload.Email);
         if (account == null)
         {
-            account = newAccount;
+            account = new Account
+            {
+                Email = payload.Email,
+                Fullname = payload.Name,
+                Username = payload.Email,
+                Avatar = payload.Picture
+            };
             await _accountService.CreateAccountAsync(account);
         }
 

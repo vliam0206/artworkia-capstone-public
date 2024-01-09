@@ -21,7 +21,7 @@ public class AccountService : IAccountService
     {        
         var account =  await _unitOfWork.AccountRepository
             .GetSingleByConditionAsync(x => x.Username.Equals(username));
-        if (account != null && password.Verify(account.Password))
+        if (account != null && password.Verify(account.Password!))
         {
             return account;
         }
@@ -58,7 +58,10 @@ public class AccountService : IAccountService
             throw new Exception(errMsg);
         }
         // account valid -> add new account in db
-        account.Password = account.Password.Hash(); // hash the password
+        if (account.Password != null)
+        {
+            account.Password = account.Password.Hash(); // hash the password
+        }
         await _unitOfWork.AccountRepository.AddAsync(account);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -100,7 +103,7 @@ public class AccountService : IAccountService
             throw new UnauthorizedAccessException("You are not allow to access this function.");
         }
         // check old password
-        if (oldPassword.Verify(account.Password))
+        if (oldPassword.Verify(account.Password!))
         {
             // change password
             account.Password = newPassword.Hash();
