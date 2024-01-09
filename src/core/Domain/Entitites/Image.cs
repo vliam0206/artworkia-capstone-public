@@ -9,7 +9,6 @@ public class Image : BaseEntity, IModification
     public string ImageName { get; set; } = default!;
     public string Location { get; set; } = default!; // url address
     public int Order { get; set; }
-    public bool IsCover { get; set; }
     public Guid? LastModificatedBy { get; set; }
     public DateTime? LastModificatedOn { get; set; }
 

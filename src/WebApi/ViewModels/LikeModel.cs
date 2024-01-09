@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Application.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.ViewModels;
 public class LikeModel

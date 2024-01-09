@@ -1,4 +1,5 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Models;
+using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
 using Domain.Entitites;
@@ -54,7 +55,7 @@ namespace WebApi.Controllers
                 asset = _mapper.Map<Asset>(assetModel);
                 asset.Location = url;
                 //asset.AssetName = assetName;
-                await _assetService.AddAssetAsync(asset);
+                //await _assetService.AddAssetAsync(asset);
 
             } catch (Exception ex)
             {

@@ -8,9 +8,11 @@ public class Artwork : BaseEntity, ICreation, IModification, ISoftDelete
 {
     [MaxLength(150)]
     public string Title { get; set; } = default!;
-    [MaxLength(255)]
-    public string Description { get; set; } = default!;
-    public PrivacyEnum Privacy { get; set; }
+    [MaxLength(500)]
+    public string? Description { get; set; }
+    public string Thumbnail { get; set; } = default!; // url address
+    public string ThumbnailName { get; set; } = default!; // can ten thumbnail de xoa anh tren firebase
+    public PrivacyEnum Privacy { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }

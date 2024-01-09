@@ -1,6 +1,7 @@
 ﻿using Application.Services.Abstractions;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
+using System.Text.RegularExpressions;
 
 namespace Application.Services;
 public class TagService : ITagService
@@ -24,9 +25,9 @@ public class TagService : ITagService
 
     public async Task AddTagAsync(Tag tag)
     {
-        tag.TagName = tag.TagName.ToLower(); //ten tag phai viet thuong
-
-        //neu tag da ton tai thi method duoi se nem exception
+        var tagExist = await _unitOfWork.TagRepository.GetSingleByConditionAsync(x => x.TagName == tag.TagName);
+        if (tagExist != null)
+            throw new Exception($"Tag name '{tag.TagName}' is existed!");
         await _unitOfWork.TagRepository.AddAsync(tag);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -37,17 +38,6 @@ public class TagService : ITagService
         if (result == null)
             throw new Exception("Cannot found tag!");
         _unitOfWork.TagRepository.Delete(result);
-        await _unitOfWork.SaveChangesAsync();
-    }
-
-    public async Task AddTagRangeAsync(List<Tag> tag)
-    {
-        foreach (var item in tag)
-        {
-            item.TagName = item.TagName.ToLower();
-        }
-
-        await _unitOfWork.TagRepository.AddRangeAsync(tag);
         await _unitOfWork.SaveChangesAsync();
     }
 }

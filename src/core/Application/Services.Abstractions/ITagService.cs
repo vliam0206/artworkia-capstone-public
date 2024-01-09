@@ -7,5 +7,4 @@ public interface ITagService
     Task<List<Tag>> GetAllTagsAsync();
     Task DeleteTagAsync(Guid tagId);
     Task AddTagAsync(Tag tag);
-    Task AddTagRangeAsync(List<Tag> tag);
 }

@@ -1,10 +1,13 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Models;
+using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Text.RegularExpressions;
 using WebApi.ViewModels;
+using WebApi.ViewModels.Commons;
 
 namespace WebApi.Controllers;
 [Route("api/[controller]")]
@@ -41,27 +44,59 @@ public class TagsController : ControllerBase
     [HttpDelete("{tagId}")]
     public async Task<IActionResult> DeleteTag(Guid tagId)
     {
-        await _tagService.DeleteTagAsync(tagId);
-        return Ok();
+        try
+        {
+            await _tagService.DeleteTagAsync(tagId);
+        } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        return Ok(new ApiResponse
+        {
+            IsSuccess = true
+        });
     }
 
     [HttpPost]
     public async Task<IActionResult> AddTag([FromBody] TagModel tagModel)
     {
-        Tag tag;
-        if (tagModel == null)
-            return BadRequest();
-        if (tagModel.TagName.IsNullOrEmpty())
-            return BadRequest("Tag name must not be empty");
-
+        tagModel.TagName = tagModel.TagName.Trim();
+        if (!IsTagValid(tagModel.TagName))
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = $"Tag name '{tagModel.TagName}' is invalid (only contains uppercase, lowercase, digits, underscrore, 1-30 characters)"
+            });
         try
         {
-            tag = _mapper.Map<Tag>(tagModel);
+            Tag tag = _mapper.Map<Tag>(tagModel);
             await _tagService.AddTagAsync(tag);
-        } catch (Exception e)
+        } catch (Exception ex)
         {
-            return BadRequest(e.Message);
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            }); ;
         }
-        return Ok();
+        return Ok(new ApiResponse
+        {
+            IsSuccess = true,
+            Result = tagModel
+        });
+    }
+
+    private bool IsTagValid(string tagName)
+    {
+        // Kiểm tra xem tag có chứa chữ cái, số, và dấu gạch dưới không
+        if (!Regex.IsMatch(tagName, "^[a-zA-Z0-9_]+$"))
+        {
+            return false;
+        }
+        return true;
     }
 }

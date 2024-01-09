@@ -1,7 +1,9 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Models;
+using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
 using Domain.Entitites;
+using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -40,25 +42,34 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
+        //API upload only 1 image
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> AddImage([FromForm] ImageModel imageModel)
         {
-            Image image;
             if (imageModel == null)
                 return BadRequest();
             try
             {
-                string imageName = imageModel.Image.FileName;
-                string imageNameWithoutExtension = Path.GetFileNameWithoutExtension(imageName);
-                string imageExtension = Path.GetExtension(imageName);
-                var url = await _firebaseService.UploadFileToFirebaseStorage(imageModel.Image, imageNameWithoutExtension, "Image");
-                if (url == null)
-                    return BadRequest("Cannot upload image to firebase");
-                image = _mapper.Map<Image>(imageModel);
-                image.Location = url;
-                image.ImageName = imageName;
-                await _imageService.AddImageAsync(image);
+                await _imageService.AddImageAsync(imageModel);
+
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok();
+        }
+
+        //API upload only 1 image
+        [HttpPost("multi")]
+        [Authorize]
+        public async Task<IActionResult> AddRangeImage([FromForm] MultiImageModel multiImageModel)
+        {
+            if (multiImageModel == null)
+                return BadRequest();
+            try
+            {
+                await _imageService.AddRangeImageAsync(multiImageModel);
 
             } catch (Exception ex)
             {
@@ -73,12 +84,12 @@ namespace WebApi.Controllers
         {
             try
             {
-                var image = await _imageService.GetImageByIdAsync(imageId);
-                if (image == null)
-                    return NotFound();
-                await _firebaseService.DeleteFileInFirebaseStorage(image.ImageName, "Image");
                 await _imageService.DeleteImageAsync(imageId);
-            } catch (Exception ex)
+            } catch (NullReferenceException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
