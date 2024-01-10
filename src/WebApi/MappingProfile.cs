@@ -61,9 +61,16 @@ public class MappingProfile : Profile
         CreateMap<Report, ReportVM>().ReverseMap();
 
         CreateMap<Bookmark, BookmarkVM>().ReverseMap();
-
-        CreateMap<Collection, CollectionVM>()
+        CreateMap<Bookmark, BookmarkModel>().ReverseMap();
+        
+        CreateMap<Collection, CollectionDetailVM>()
             .ForMember(model => model.CreatedBy, opt => opt.MapFrom(src => src.Account))
-            .ForMember(model => model.Artworks, opt => opt.MapFrom(src => src.Bookmarks));        
+            .ForMember(model => model.Artworks, opt => opt.MapFrom(src => src.Bookmarks));
+        CreateMap<Collection, CollectionVM>()
+            .ForMember(model => model.CreatedBy, opt => opt.MapFrom(src => src.Account))        
+            .ForMember(model => model.Items, opt => opt.MapFrom(src => src.Bookmarks.Count()));        
+        CreateMap<Collection, CollectionModificationModel>().ReverseMap();
+        CreateMap<CollectionCreationModel, Collection>().ReverseMap();
+        
     }
 }

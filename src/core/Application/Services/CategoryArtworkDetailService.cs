@@ -19,7 +19,7 @@ public class CategoryArtworkDetailService : ICategoryArtworkDetailService
 
     public async Task AddCategoryArtworkAsync(CategoryArtworkModel categoryArtworkModel)
     {
-        bool IsCategoryExist = await _unitOfWork.CategoryRepository.IsExisted(categoryArtworkModel.CategoryId);
+        bool IsCategoryExist = await _unitOfWork.CategoryRepository.IsExistedAsync(categoryArtworkModel.CategoryId);
         if (!IsCategoryExist)
         {
             throw new NullReferenceException("Category does not exist");

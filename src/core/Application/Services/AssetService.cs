@@ -1,4 +1,4 @@
-﻿using Application.Models;
+using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
@@ -79,7 +79,7 @@ public class AssetService : IAssetService
     public async Task AddRangeAssetAsync(MultiAssetModel multiAssetModel)
     {
         // kiem tra artwork co ton tai khong
-        bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExisted(multiAssetModel.ArtworkId);
+        bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(multiAssetModel.ArtworkId);
         if (!IsArtworkExisted)
             throw new NullReferenceException("Artwork that contains this image does not exist!");
         var allAssetsOfArtwork = await _unitOfWork.AssetRepository.GetListByConditionAsync(x => x.ArtworkId == multiAssetModel.ArtworkId);

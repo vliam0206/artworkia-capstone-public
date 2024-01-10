@@ -32,4 +32,10 @@ public class GenericCreationRepository<TEntity> : GenericRepository<TEntity>
         }
         await _dbSet.AddRangeAsync(entities);
     }
+
+    public override async Task<List<TEntity>> GetAllAsync()
+    {
+        return await _dbSet.OrderByDescending(x => x.CreatedOn)
+                    .ToListAsync();
+    }
 }

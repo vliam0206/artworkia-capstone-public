@@ -32,9 +32,9 @@ public class AccountVM
     [MaxLength(255)]
     public string Fullname { get; set; } = default!;
     [MaxLength(255)]
-    public string Bio { get; set; }
+    public string? Bio { get; set; }
     public DateTime? Birthdate;
-    public RoleEnum Role { get; set; }
+    public string Role { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }

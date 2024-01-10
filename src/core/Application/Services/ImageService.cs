@@ -46,7 +46,7 @@ public class ImageService : IImageService
     public async Task AddImageAsync(ImageModel imageModel)
     {
         // kiem tra artwork co ton tai khong
-        bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExisted(imageModel.ArtworkId);
+        bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(imageModel.ArtworkId);
         if (!IsArtworkExisted)
             throw new NullReferenceException("Artwork that contains this image does not exist!");
 
@@ -72,7 +72,7 @@ public class ImageService : IImageService
     public async Task AddRangeImageAsync(MultiImageModel multiImageModel)
     {
         // kiem tra artwork co ton tai khong
-        bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExisted(multiImageModel.ArtworkId);
+        bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(multiImageModel.ArtworkId);
         if (!IsArtworkExisted)
             throw new NullReferenceException("Artwork that contains this image does not exist!");
 

@@ -1,13 +1,13 @@
-﻿using Domain.Entitites;
+using Domain.Entitites;
 using Domain.Enums;
 
 namespace WebApi.ViewModels;
 
-public class CollectionVM
+public class CollectionDetailVM
 {
     public Guid Id { get; set; }
     public string CollectionName { get; set; } = default!;
-    public PrivacyEnum Privacy { get; set; }
+    public string Privacy { get; set; } = default!;
     public AccountDisplayModel CreatedBy { get; set; } = default!;
     public DateTime CreatedOn { get; set; }
     public ICollection<BookmarkVM> Artworks { get; set; } = new List<BookmarkVM>();
@@ -16,4 +16,14 @@ public class CollectionVM
 public class BookmarkVM
 {
     public ArtworkDisplayModel Artwork { get; set; } = default!;
+}
+
+public class CollectionVM
+{
+    public Guid Id { get; set; }
+    public string CollectionName { get; set; } = default!;
+    public string Privacy { get; set; } = default!;
+    public AccountDisplayModel CreatedBy { get; set; } = default!;
+    public DateTime CreatedOn { get; set; }
+    public int Items { get; set; }
 }

@@ -24,12 +24,12 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public virtual void Delete(TEntity entity)
         => _dbSet.Remove(entity);
-    public async Task<List<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
+    public virtual async Task<List<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
 
     public async Task<TEntity?> GetByIdAsync(Guid id)
         => await _dbSet.FindAsync(id);
 
-    public async Task<bool> IsExisted(Guid id)
+    public async Task<bool> IsExistedAsync(Guid id)
         => await _dbSet.AnyAsync(x => x.Id == id);
 
     public virtual void SoftDelete(TEntity entity)
