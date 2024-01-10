@@ -4,10 +4,10 @@ using Domain.Entitites;
 namespace Application.Services.Abstractions;
 public interface IArtworkService
 {
-    Task<Artwork?> GetArtworkByIdAsync(Guid artworkId);
-    Task<List<Artwork>> GetAllArtworksAsync();
-    Task<List<ArtworkSearchVM>> GetArtworksBySearchAsync();
+    Task<ArtworkVM?> GetArtworkByIdAsync(Guid artworkId);
+    Task<List<ArtworkPreviewVM>> GetAllArtworksAsync();
+    Task<List<ArtworkPreviewVM>> GetArtworksBySearchAsync(SearchArtworkCriteria searchArtworkCriteria);
     Task DeleteArtworkAsync(Guid artworkId);
-    Task UpdateArtworkAsync(Artwork artwork);
-    Task<Guid> AddArtworkAsync(ArtworkModel artwork);
+    Task UpdateArtworkAsync(Guid artworkId, ArtworkEM artworkEM);
+    Task<ArtworkVM> AddArtworkAsync(ArtworkModel artwork);
 }

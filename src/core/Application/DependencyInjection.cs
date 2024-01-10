@@ -12,19 +12,21 @@ public static class DependencyInjection
     {
         services.AddScoped<IAccountService, AccountService>();        
         services.AddScoped<IArtworkService, ArtworkService>();        
-        services.AddScoped<ICategoryService, CategoryService>();        
-        services.AddScoped<ITagService, TagService>();        
-        services.AddScoped<IImageService, ImageService>();        
         services.AddScoped<IAssetService, AssetService>();        
-        services.AddScoped<IUserTokenService, UserTokenService>();
-        services.AddScoped<IFollowService, FollowService>();
-        services.AddScoped<ILikeService, LikeService>();
-        services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<IBlockService, BlockService>();
+        services.AddScoped<ICategoryArtworkDetailService, CategoryArtworkDetailService>();
+        services.AddScoped<ICategoryService, CategoryService>();        
+        services.AddScoped<ICommentService, CommentService>();
+        services.AddScoped<IFollowService, FollowService>();
+        services.AddScoped<IImageService, ImageService>();        
+        services.AddScoped<ILikeService, LikeService>();
         services.AddScoped<IReportService, ReportService>();
+        services.AddScoped<IServiceService, ServiceService>();
+        services.AddScoped<ITagService, TagService>();        
         services.AddScoped<ITagDetailService, TagDetailService>();
         services.AddScoped<ICollectionService, CollectionService>();
 
+        services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<ITokenHandler, TokenHandler>();
         services.AddScoped<IFirebaseService, FirebaseService>();
         services.AddScoped<IThirdAuthenticationService, ThirdAuthenticationService>();

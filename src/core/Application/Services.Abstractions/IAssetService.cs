@@ -4,12 +4,12 @@ using Domain.Entitites;
 namespace Application.Services.Abstractions;
 public interface IAssetService
 {
-    Task<Asset?> GetAssetByIdAsync(Guid assetId);
-    Task<List<Asset>> GetAllAssetsAsync();
-    Task<List<Asset>> GetAllAssetsOfArtworkAsync(Guid artworkId);
-    Task AddAssetAsync(AssetModel assetModel);
+    Task<AssetVM?> GetAssetByIdAsync(Guid assetId);
+    Task<List<AssetVM>> GetAllAssetsAsync();
+    Task<List<AssetVM>> GetAllAssetsOfArtworkAsync(Guid artworkId);
+    Task<AssetVM> AddAssetAsync(AssetModel assetModel);
     Task AddRangeAssetAsync(MultiAssetModel multiAssetModel);
-    Task UpdateAssetAsync(Asset asset);
+    Task UpdateAssetAsync(Guid assetId, AssetEM assetEM);
     Task DeleteAssetAsync(Guid assetId);
 
 }

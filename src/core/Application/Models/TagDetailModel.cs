@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Entitites;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models;
 public class TagDetailModel
@@ -12,6 +13,12 @@ public class TagListArtworkModel
 {
     public Guid ArtworkId { get; set; }
     public List<string> TagList { get; set; } = default!;
+}
+
+public class TagDetailVM
+{
+    public Guid ArtworkId { get; set; }
+    public TagVM Tag { get; set; } = default!;
 }
 
 public class TagListArtworkVM

@@ -23,4 +23,15 @@ public class AssetRepository : GenericRepository<Asset>, IAssetRepository
         asset.DeletedBy = _claimService.GetCurrentUserId;
         _dbContext.Entry(asset).State = EntityState.Modified;
     }
+
+    public override void Update(Asset entity)
+    {
+        base.Update(entity);
+        entity.LastModificatedBy = _claimService.GetCurrentUserId;
+    }
+
+    public override async Task<List<Asset>> GetAllUndeletedAsync()
+    {
+        return await _dbContext.Assets.Where(a => a.DeletedOn == null).ToListAsync();
+    }
 }

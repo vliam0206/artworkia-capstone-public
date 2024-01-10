@@ -37,6 +37,11 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         throw new NotImplementedException();
     }
 
+    public virtual Task<List<TEntity>> GetAllUndeletedAsync()
+    {
+        throw new NotImplementedException();
+    }
+
     public virtual void Update(TEntity entity)
         => _dbContext.Entry(entity).State = EntityState.Modified;
 

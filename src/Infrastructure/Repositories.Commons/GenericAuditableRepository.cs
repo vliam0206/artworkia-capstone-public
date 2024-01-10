@@ -40,4 +40,9 @@ public class GenericAuditableRepository<TEntity> : GenericCreationRepository<TEn
         entity.DeletedBy = _claimService.GetCurrentUserId;
         _dbContext.Entry(entity).State = EntityState.Modified;
     }
+
+    public override async Task<List<TEntity>> GetAllUndeletedAsync()
+    {
+        return await _dbSet.Where(x => x.DeletedOn == null).ToListAsync();
+    }
 }

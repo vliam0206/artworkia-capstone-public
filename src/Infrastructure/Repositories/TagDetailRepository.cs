@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Repositories;
 public class TagDetailRepository : ITagDetailRepository
 {
-    private AppDBContext _dbContext;
+    private readonly AppDBContext _dbContext;
 
     public TagDetailRepository(AppDBContext dBContext)
     {

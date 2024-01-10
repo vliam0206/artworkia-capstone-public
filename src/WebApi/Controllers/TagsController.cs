@@ -4,9 +4,7 @@ using AutoMapper;
 using Domain.Entitites;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
-using WebApi.ViewModels;
 using WebApi.ViewModels.Commons;
 
 namespace WebApi.Controllers;
@@ -83,11 +81,7 @@ public class TagsController : ControllerBase
                 ErrorMessage = ex.Message
             }); ;
         }
-        return Ok(new ApiResponse
-        {
-            IsSuccess = true,
-            Result = tagModel
-        });
+        return Ok(tagModel);
     }
 
     private bool IsTagValid(string tagName)

@@ -19,10 +19,12 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
     public Task<Artwork?> GetArtworkDetailByIdAsync(Guid artworkId)
     {
         return _dbContext.Artworks
-            .Include(a => a.Account).ThenInclude(a => new { a.Id, a.Username, a.Email})
-            .Include(i => i.Images).ThenInclude(i => new { i.Id, i.ImageName, i.Location, i.Order })
+            .Include(a => a.Account)
+            .Include(i => i.Images)
+            .Include(a => a.Assets)
             .Include(a => a.TagDetails)
-            .ThenInclude(ac => ac.Tag)
+            .Include(a => a.CategoryArtworkDetails)
+                .ThenInclude(c => c.Category)
             .FirstOrDefaultAsync(a => a.Id == artworkId);
     }
 }

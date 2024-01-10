@@ -11,6 +11,7 @@ public class AssetService : IAssetService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;   
     private readonly IFirebaseService _firebaseService;
+
     public AssetService(IUnitOfWork unitOfWork, IMapper mapper, IFirebaseService firebaseService)
     {
         _unitOfWork = unitOfWork;
@@ -18,14 +19,22 @@ public class AssetService : IAssetService
         _firebaseService = firebaseService;
     }
 
-    public async Task<List<Asset>> GetAllAssetsAsync()
+    public async Task<List<AssetVM>> GetAllAssetsAsync()
     {
-        return await _unitOfWork.AssetRepository.GetAllAsync();
+        var listAsset = await _unitOfWork.AssetRepository.GetAllUndeletedAsync();
+        var listAssetVM = _mapper.Map<List<AssetVM>>(listAsset);
+        return listAssetVM;
     }
 
-    public async Task<Asset?> GetAssetByIdAsync(Guid assetId)
+    public async Task<AssetVM?> GetAssetByIdAsync(Guid assetId)
     {
-        return await _unitOfWork.AssetRepository.GetByIdAsync(assetId);
+        var asset = await _unitOfWork.AssetRepository.GetByIdAsync(assetId); 
+        if (asset == null)
+            throw new NullReferenceException("Asset does not exist!");
+        if (asset.DeletedOn != null)
+            throw new Exception("Asset already deleted!");
+        var assetVM = _mapper.Map<AssetVM>(asset);
+        return assetVM;
     }
 
     // lay so thu tu lon nhat cua asset trong artwork
@@ -35,12 +44,14 @@ public class AssetService : IAssetService
         return allAssetsOfArtwork.Count;
     }
 
-    public async Task AddAssetAsync(AssetModel assetModel)
+    public async Task<AssetVM> AddAssetAsync(AssetModel assetModel)
     {
         // kiem tra artwork co ton tai khong
-        bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExisted(assetModel.ArtworkId);
-        if (!IsArtworkExisted)
+        var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(assetModel.ArtworkId);
+        if (artwork == null)
             throw new NullReferenceException("Artwork that contains this image does not exist!");
+        if (artwork.DeletedOn != null)
+            throw new Exception("Artwork deleted!");
 
         // lay stt cua hinh anh, dat ten lai hinh anh
         int latestOrder = await GetLatestOrderOfAssetInArtwork(assetModel.ArtworkId);
@@ -52,12 +63,17 @@ public class AssetService : IAssetService
         var url = await _firebaseService.UploadFileToFirebaseStorage(assetModel.File, newAssetName, "Asset");
         if (url == null)
             throw new Exception("Cannot upload asset to firebase!");
+
+        // map assetModel sang asset
         Asset newAsset = _mapper.Map<Asset>(assetModel);
         newAsset.Location = url;
         newAsset.AssetName = newAssetName + imageExtension;
         newAsset.Order = latestOrder;
         await _unitOfWork.AssetRepository.AddAsync(newAsset);
         await _unitOfWork.SaveChangesAsync();
+
+        var assetVM = _mapper.Map<AssetVM>(newAsset);
+        return assetVM;
     }
 
     public async Task AddRangeAssetAsync(MultiAssetModel multiAssetModel)
@@ -106,15 +122,25 @@ public class AssetService : IAssetService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task UpdateAssetAsync(Asset asset)
+    public async Task UpdateAssetAsync(Guid assetId, AssetEM assetEM)
     {
-        _unitOfWork.AssetRepository.Update(asset);
+        var oldAsset = await _unitOfWork.AssetRepository.GetByIdAsync(assetId);
+        if (oldAsset == null)
+            throw new NullReferenceException("Asset does not exist!");
+        oldAsset.AssetTitle = assetEM.AssetTitle;
+        oldAsset.Description = assetEM.Description;
+        oldAsset.Price = assetEM.Price;
+
+        _unitOfWork.AssetRepository.Update(oldAsset);
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public Task<List<Asset>> GetAllAssetsOfArtworkAsync(Guid artworkId)
+    public async Task<List<AssetVM>> GetAllAssetsOfArtworkAsync(Guid artworkId)
     {
-        var result = _unitOfWork.AssetRepository.GetListByConditionAsync(x => x.ArtworkId == artworkId);
-        return result;
+        var listAssetOfArtwork = await _unitOfWork.AssetRepository.GetListByConditionAsync(x => x.ArtworkId == artworkId);
+        if (listAssetOfArtwork == null)
+            throw new NullReferenceException("This artwork does not have any asset!");
+        var listAssetVMOfArtwork = _mapper.Map<List<AssetVM>>(listAssetOfArtwork);
+        return listAssetVMOfArtwork;
     }
 }

@@ -5,7 +5,7 @@ namespace Domain.Entitites;
 
 public class Category : BaseEntity
 {
-    [MaxLength(150)]
+    [MaxLength(50)]
     public string CategoryName { get; set; } = default!;
     public Guid? ParentCategory { get; set; }
 

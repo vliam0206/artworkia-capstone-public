@@ -1,13 +1,9 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
-using Domain.Entitites;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WebApi.Utils;
-using WebApi.ViewModels;
 using WebApi.ViewModels.Commons;
 
 namespace WebApi.Controllers;
@@ -28,76 +24,64 @@ public class ArtworksController : ControllerBase
     public async Task<IActionResult> GetAllArtworks()
     {
         var result = await _artworkService.GetAllArtworksAsync();
-        var resultModel = _mapper.Map<List<ArtworkVM>>(result);
-        return Ok(new ApiResponse
-        {
-            IsSuccess = true,
-            Result = resultModel
-        });
+        return Ok(result);
     }
 
     [HttpGet("search")]
-    public async Task<IActionResult> GetArtworksBySearch([FromQuery] ItemFilterCriteria filterCriteria)
+    public async Task<IActionResult> GetArtworksBySearch([FromQuery] SearchArtworkCriteria searchArtworkCriteria)
     {
-        //var result = await _artworkService.GetArtworksBySearchAsync();
-        var filteredItems = FetchItemsFromDataSource(filterCriteria);
+        var result = await _artworkService.GetArtworksBySearchAsync(searchArtworkCriteria);
 
-        return Ok(new ApiResponse
-        {
-            IsSuccess = true,
-            Result = filteredItems
-        });
-    }
-
-    private IEnumerable<ArtworkSearchVM> FetchItemsFromDataSource(ItemFilterCriteria filterCriteria)
-    {
-        // Implement logic to fetch items from your data source
-        // based on the filtering criteria (e.g., using Entity Framework, etc.)
-        // Example:
-        //var query = dbContext.Items.AsQueryable();
-
-        //if (filterCriteria.PriceGte.HasValue)
-        //{
-        //    query = query.Where(item => item.Price >= filterCriteria.PriceGte.Value);
-        //}
-
-        //if (filterCriteria.PriceLte.HasValue)
-        //{
-        //    query = query.Where(item => item.Price <= filterCriteria.PriceLte.Value);
-        //}
-
-        //return query.ToList();
-        return new List<ArtworkSearchVM>();
-    }
-
-    public class ItemFilterCriteria
-    {
-        public decimal? PriceGte { get; set; }
-        public decimal? PriceLte { get; set; }
+        return Ok(result);
     }
 
 
     [HttpGet("{artworkId}")]
     public async Task<IActionResult> GetArtworkById(Guid artworkId)
     {
-        var result = await _artworkService.GetArtworkByIdAsync(artworkId);
-        if (result == null)
+        try
+        {
+            var result = await _artworkService.GetArtworkByIdAsync(artworkId);
+            var resultModel = _mapper.Map<ArtworkVM>(result);
+            return Ok(resultModel);
+        } catch (NullReferenceException ex)
+        {
             return NotFound(new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = "Artwork not found!"
+                ErrorMessage = ex.Message
             });
-        var resultModel = _mapper.Map<ArtworkVM>(result);
-        return Ok(new ApiResponse
+        } catch (Exception ex)
         {
-            IsSuccess = true,
-            Result = resultModel
-        });
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddArtwork([FromForm] ArtworkModel artworkModel)
     {
+        if (!FileValidationHelper.IsImageFormatValid(artworkModel.Thumbnail.FileName))
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = "Image must have extensions: JPG, JPEG, PNG, GIF, BMP, TIFF, TIF, WEBP, or SVG."
+            });
+        }
+        if (!FileValidationHelper.IsAvatarFileSizeValid(artworkModel.Thumbnail))
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = "Thumbnail must be less than 5MB."
+            });
+        }
+
         if (artworkModel.ImageFiles.Count > 200)
         {
             return BadRequest(new ApiResponse
@@ -114,8 +98,8 @@ public class ArtworksController : ControllerBase
                 return BadRequest(new ApiResponse
                 {
                     IsSuccess = false,
-                    ErrorMessage = "Image must have extensions: JPG, GIF, or PNG."
-                });
+                    ErrorMessage = "Image must have extensions: JPG, JPEG, PNG, GIF, BMP, TIFF, TIF, WEBP, or SVG."
+            });
             }
             if (!FileValidationHelper.IsImageFileSizeValid(image))
             {
@@ -127,14 +111,49 @@ public class ArtworksController : ControllerBase
             }
         }
 
+        // kiem tra cac dieu kien cua asset file
+        if (artworkModel.AssetFiles != null)
+        {
+            // toi da 5 file
+            if (artworkModel.AssetFiles.Count > 5)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Asset files must be less than 5 files."
+                });
+            }
+
+            // kiem tra dinh dang va kich thuoc file
+            foreach (var asset in artworkModel.AssetFiles)
+            {
+                if (!FileValidationHelper.IsAssetFormatValid(asset.File.FileName))
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        IsSuccess = false,
+                        ErrorMessage = "File must have extensions: ABR, AI, ASE, " +
+                        "DNG, DOC, DOCX, EPS, GIF, INDD, JPEG, JPG, OTF, PDF, PNG, " +
+                        "PPT, PPTX, PSD, RAW, SVG, TIF, TIFF, TTF, TXT, WEBP, WOFF, " +
+                        "WOFF2, XLS, XLSX, XMP, ZIP, RAR."
+                    });
+                }
+                if (!FileValidationHelper.IsAssetFileSizeValid(asset.File))
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        IsSuccess = false,
+                        ErrorMessage = "File must be less than 500MB."
+                    });
+                }
+            }
+        }
+
         try
         {
             var result = await _artworkService.AddArtworkAsync(artworkModel);
-            return Ok(new ApiResponse
-            {
-                IsSuccess = true,
-                Result = result
-            });
+            return CreatedAtAction(nameof(GetArtworkById), 
+                new { artworkId = result }, result);
         } catch (Exception ex)
         {
             return BadRequest(new ApiResponse
@@ -146,31 +165,47 @@ public class ArtworksController : ControllerBase
     }
 
     [HttpDelete("{artworkId}")]
+    [Authorize]
     public async Task<IActionResult> DeleteArtwork(Guid artworkId)
     {
-        await _artworkService.DeleteArtworkAsync(artworkId);
-        return Ok(new ApiResponse
+        try
         {
-            IsSuccess = true,
-        });
+            await _artworkService.DeleteArtworkAsync(artworkId);
+            return NoContent();
+
+        } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateArtwork([FromBody] ArtworkModel artworkModel)
+    [HttpPut("{artworkId}")]
+    [Authorize]
+    public async Task<IActionResult> UpdateArtwork(Guid artworkId, [FromBody] ArtworkEM artworkEM)
     {
-        Artwork artwork;
-        if (artworkModel == null)
-            return BadRequest();
-        //try
-        //{
-        //    await _artworkService.AddArtworkAsync(artworkModel);
-        //} catch (Exception ex)
-        //{
-        //    return BadRequest(ex.Message);
-        //}
-        //await _artworkService.UpdateArtworkAsync(artwork);
-        return Ok();
+        try
+        {
+            await _artworkService.UpdateArtworkAsync(artworkId, artworkEM);
+            return NoContent();
+        } catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
     }
-
-
 }

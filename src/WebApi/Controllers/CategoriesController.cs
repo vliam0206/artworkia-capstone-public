@@ -2,6 +2,10 @@
 using Domain.Entitites;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Application.Models;
+using WebApi.ViewModels;
+using WebApi.ViewModels.Commons;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers;
 [Route("api/[controller]")]
@@ -25,23 +29,94 @@ public class CategoriesController : ControllerBase
     [HttpGet("{categoryId}")]
     public async Task<IActionResult> GetCategoryById(Guid categoryId)
     {
-        var result = await _categoryService.GetCategoryByIdAsync(categoryId);
-        if (result == null)
-            return NotFound();
-        return Ok(result);
+        try
+        {
+            var result = await _categoryService.GetCategoryByIdAsync(categoryId);
+            return Ok(result);
+        } catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }   
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddCategory(Category category)
+    [Authorize]
+    public async Task<IActionResult> AddCategory(CategoryModel categoryModel)
     {
-        await _categoryService.AddCategoryAsync(category);
-        return Ok();
+        try
+        {
+            var category = await _categoryService.AddCategoryAsync(categoryModel);
+            return CreatedAtAction(nameof(GetCategoryById), 
+                new { categoryId = category.Id }, category);
+        } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    [HttpPut("{categoryId}")]
+    [Authorize]
+    public async Task<IActionResult> UpdateCategory(Guid categoryId, CategoryEM categoryEM)
+    {
+        try
+        {
+            await _categoryService.UpdateCategoryAsync(categoryId, categoryEM);
+            return NoContent();
+        } catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message   
+            });
+          } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
     }
 
     [HttpDelete("{categoryId}")]
+    [Authorize]
     public async Task<IActionResult> DeleteCategory(Guid categoryId)
     {
-        await _categoryService.DeleteCategoryAsync(categoryId);
-        return Ok();
+        try
+        {
+            await _categoryService.DeleteCategoryAsync(categoryId);
+            return NoContent();
+        } catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess= false,
+                ErrorMessage = ex.Message
+            });
+        } catch 
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = "Error when deleting! If you are deleting the main category, " +
+                "please make sure to delete all subcategories first."
+            });
+        }
     }
 }

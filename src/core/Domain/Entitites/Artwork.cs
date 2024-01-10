@@ -8,7 +8,7 @@ public class Artwork : BaseEntity, ICreation, IModification, ISoftDelete
 {
     [MaxLength(150)]
     public string Title { get; set; } = default!;
-    [MaxLength(500)]
+    [MaxLength(1000)]
     public string? Description { get; set; }
     public string Thumbnail { get; set; } = default!; // url address
     public string ThumbnailName { get; set; } = default!; // can ten thumbnail de xoa anh tren firebase

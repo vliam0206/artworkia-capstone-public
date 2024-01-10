@@ -19,10 +19,6 @@ public class TagDetailsController : ControllerBase
     public async Task<IActionResult> GetAllTagDetailsOfArtwork(Guid artworkId)
     {
         var result = await _tagDetailService.GetTagListOfArtworkAsync(artworkId);
-        return Ok(new ApiResponse
-        {
-            IsSuccess = true,
-            Result = result
-        });
+        return Ok(result);
     }
 }

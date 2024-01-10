@@ -1,11 +1,11 @@
-﻿using Domain.Entitites;
+﻿using Application.Models;
 
 namespace Application.Services.Abstractions;
 public interface ICategoryService
 {
-    Task<Category?> GetCategoryByIdAsync(Guid categoryId);
-    Task<List<Category>> GetAllCategoriesAsync();
+    Task<CategoryVM?> GetCategoryByIdAsync(Guid categoryId);
+    Task<List<CategoryVM>> GetAllCategoriesAsync();
     Task DeleteCategoryAsync(Guid categoryId);
-    Task UpdateCategoryAsync(Category category);
-    Task AddCategoryAsync(Category category);
+    Task UpdateCategoryAsync(Guid categoryId, CategoryEM categoryEM);
+    Task<CategoryVM> AddCategoryAsync(CategoryModel categoryModel);
 }

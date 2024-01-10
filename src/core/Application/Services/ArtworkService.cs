@@ -12,6 +12,7 @@ public class ArtworkService : IArtworkService
     private readonly IImageService _imageService;
     private readonly IAssetService _assetService;
     private readonly ITagDetailService _tagDetailService;
+    private readonly ICategoryArtworkDetailService _categoryArtworkDetailService;
     private readonly IFirebaseService _firebaseService;
     private readonly IMapper _mapper;
     public ArtworkService(
@@ -19,6 +20,7 @@ public class ArtworkService : IArtworkService
         IImageService imageService,
         IAssetService assetService,
         ITagDetailService tagDetailService,
+        ICategoryArtworkDetailService catworkDetailService,
         IFirebaseService firebaseService,
         IMapper mapper)
     {
@@ -26,31 +28,57 @@ public class ArtworkService : IArtworkService
         _imageService = imageService;
         _assetService = assetService;
         _tagDetailService = tagDetailService;
+        _categoryArtworkDetailService = catworkDetailService;
         _firebaseService = firebaseService;
         _mapper = mapper;
     }
 
-    public async Task<List<Artwork>> GetAllArtworksAsync()
+    public async Task<List<ArtworkPreviewVM>> GetAllArtworksAsync()
     {
-        return await _unitOfWork.ArtworkRepository.GetAllAsync();
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllUndeletedAsync();
+        var listArtowkPreviewVM = _mapper.Map<List<ArtworkPreviewVM>>(listArtwork);
+        return listArtowkPreviewVM;
     }
 
-    public Task<List<ArtworkSearchVM>> GetArtworksBySearchAsync()
-    {
-        throw new NotImplementedException();
-    }
 
-    public async Task<Artwork?> GetArtworkByIdAsync(Guid artworkId)
+    public async Task<List<ArtworkPreviewVM>> GetArtworksBySearchAsync(SearchArtworkCriteria searchArtworkCriteria)
     {
-        var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
-        if (artwork != null)
+        var result = await _unitOfWork.ArtworkRepository.GetAllUndeletedAsync();
+        if (searchArtworkCriteria.Key != null)
         {
-            await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId);
+            result = result.Where(x => x.Title.ToLower().Contains(searchArtworkCriteria.Key.ToLower())).ToList();
         }
 
-        return artwork;
+        if (searchArtworkCriteria.Sort != null)
+        {
+            if (searchArtworkCriteria.Sort == "createdOn")
+            {
+                if (searchArtworkCriteria.Order == "asc")
+                {
+                    result = result.OrderBy(x => x.CreatedOn).ToList();
+                } else
+                {
+                    result = result.OrderByDescending(x => x.CreatedOn).ToList();
+                }
+            }
+        }
+
+        return _mapper.Map<List<ArtworkPreviewVM>>(result);
     }
-    public async Task<Guid> AddArtworkAsync(ArtworkModel artworkModel)
+
+    public async Task<ArtworkVM?> GetArtworkByIdAsync(Guid artworkId)
+    {
+        var artwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId);
+        if (artwork == null)
+            throw new NullReferenceException("Artwork not found!");
+
+        if (artwork.DeletedOn != null)
+            throw new Exception("Artwork deleted!");
+        var artworkVM = _mapper.Map<ArtworkVM>(artwork);
+        return artworkVM;
+    }
+
+    public async Task<ArtworkVM> AddArtworkAsync(ArtworkModel artworkModel)
     {
         var newArtwork = _mapper.Map<Artwork>(artworkModel);
         string newThumbnailName = newArtwork.Id + "_t";
@@ -74,6 +102,14 @@ public class ArtworkService : IArtworkService
         };
         await _tagDetailService.AddTagListArtworkAsync(tagListArtworkModel);
 
+        // them cate
+        CategoryListArtworkModel categoryList = new CategoryListArtworkModel()
+        {
+            ArtworkId = newArtwork.Id,
+            CategoryList = artworkModel.Categories
+        };
+        await _categoryArtworkDetailService.AddCategoryListArtworkAsync(categoryList);
+
         // them hinh anh 
         MultiImageModel multiImageModel = new MultiImageModel()
         {
@@ -94,7 +130,7 @@ public class ArtworkService : IArtworkService
         }
 
         await _unitOfWork.SaveChangesAsync();
-        return newArtwork.Id;
+        return _mapper.Map<ArtworkVM>(newArtwork);
     }
 
     public async Task DeleteArtworkAsync(Guid artworkId)
@@ -106,13 +142,17 @@ public class ArtworkService : IArtworkService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task UpdateArtworkAsync(Artwork artwork)
+    public async Task UpdateArtworkAsync(Guid artworkId, ArtworkEM artworkEM)
     {
-        var result = await _unitOfWork.ArtworkRepository.GetByIdAsync(artwork.Id);
-        if (result == null)
+        var oldArtwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
+        if (oldArtwork == null)
             throw new Exception("Cannot found artwork!");
-        artwork.CreatedOn = result.CreatedOn;
-        _unitOfWork.ArtworkRepository.Update(artwork);
+
+        oldArtwork.Title = artworkEM.Title;
+        oldArtwork.Description = artworkEM.Description;
+        oldArtwork.Privacy = artworkEM.Privacy;
+
+        _unitOfWork.ArtworkRepository.Update(oldArtwork);
         await _unitOfWork.SaveChangesAsync();
     }
 }
