@@ -9,8 +9,8 @@ namespace Infrastructure.Repositories.Commons;
 
 public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
 {
-    private readonly DbSet<TEntity> _dbSet;
-    private readonly AppDBContext _dbContext;
+    protected readonly DbSet<TEntity> _dbSet;
+    protected readonly AppDBContext _dbContext;
     public GenericRepository(AppDBContext dBContext)
     {
         _dbContext = dBContext;

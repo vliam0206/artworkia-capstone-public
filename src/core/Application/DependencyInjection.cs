@@ -23,6 +23,7 @@ public static class DependencyInjection
         services.AddScoped<IBlockService, BlockService>();
         services.AddScoped<IReportService, ReportService>();
         services.AddScoped<ITagDetailService, TagDetailService>();
+        services.AddScoped<ICollectionService, CollectionService>();
 
         services.AddScoped<ITokenHandler, TokenHandler>();
         services.AddScoped<IFirebaseService, FirebaseService>();

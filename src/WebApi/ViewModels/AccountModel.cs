@@ -14,6 +14,7 @@ public class AccountModel
     [Required]
     [MaxLength(255)]
     public string? Fullname { get; set; }
+    public string? Avatar { get; set; }
     [Required]
     [MaxLength(255)]
     public string? Bio { get; set; }
@@ -50,4 +51,11 @@ public class AccountChangePasswordModel
     [Required]
     [MaxLength(255)]
     public string NewPassword { get; set; } = default!;
+}
+
+public class AccountDisplayModel
+{
+    public Guid Id { get; set; }    
+    public string Username { get; set; } = default!;
+    public string? Avatar { get; set; }
 }
