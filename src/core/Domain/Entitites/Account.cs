@@ -26,7 +26,7 @@ public class Account : BaseEntity, ICreation, IModification, ISoftDelete
     public Guid? DeletedBy { get; set; }
     public DateTime? DeletedOn { get; set; }
 
-    public virtual Wallet Wallet { get; set; } = new Wallet();
+    public virtual Wallet? Wallet { get; set; }
     public virtual ICollection<ChatBox> ChatBoxes_1 { get; set; } = new List<ChatBox>();
     public virtual ICollection<ChatBox> ChatBoxes_2 { get; set; } = new List<ChatBox>();    
     public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
