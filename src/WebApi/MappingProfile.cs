@@ -35,7 +35,9 @@ public class MappingProfile : Profile
         CreateMap<CategoryArtworkDetail, CategoryArtworkModel>().ReverseMap();
         CreateMap<CategoryArtworkDetail, CategoryArtworkVM>().ReverseMap();
 
-        CreateMap<Artwork, ArtworkVM>().ReverseMap();
+        CreateMap<Artwork, ArtworkVM>()
+            .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryArtworkDetails.Select(y => y.Category).ToList()))
+            .ForMember(model => model.TagList, opt => opt.MapFrom(x => x.TagDetails.Select(y => y.Tag).ToList()));
         CreateMap<Account, AccountArtworkVM>().ReverseMap();
         CreateMap<Account, AccountArtworkVM>().ReverseMap();
         CreateMap<Artwork, ArtworkModel>().ReverseMap();
@@ -71,6 +73,11 @@ public class MappingProfile : Profile
             .ForMember(model => model.Items, opt => opt.MapFrom(src => src.Bookmarks.Count()));        
         CreateMap<Collection, CollectionModificationModel>().ReverseMap();
         CreateMap<CollectionCreationModel, Collection>().ReverseMap();
+
+        CreateMap<Wallet, WalletModel>().ReverseMap();
+        CreateMap<Wallet, WalletVM>().ReverseMap();
         
+        CreateMap<TransactionHistory, AssetTransactionModel>().ReverseMap();
+        CreateMap<TransactionHistory, AssetTransactionVM>().ReverseMap();
     }
 }

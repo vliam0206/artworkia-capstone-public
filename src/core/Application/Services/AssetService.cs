@@ -8,15 +8,22 @@ using Domain.Repositories.Abstractions;
 namespace Application.Services;
 public class AssetService : IAssetService
 {
+    private static readonly string PARENT_FOLDER = "Artwork";
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;   
+    private readonly IMapper _mapper;
     private readonly IFirebaseService _firebaseService;
+    private readonly IClaimService _claimService;
 
-    public AssetService(IUnitOfWork unitOfWork, IMapper mapper, IFirebaseService firebaseService)
+    public AssetService(
+        IUnitOfWork unitOfWork,
+        IMapper mapper,
+        IFirebaseService firebaseService,
+        IClaimService claimService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _firebaseService = firebaseService;
+        _claimService = claimService;
     }
 
     public async Task<List<AssetVM>> GetAllAssetsAsync()
@@ -28,13 +35,38 @@ public class AssetService : IAssetService
 
     public async Task<AssetVM?> GetAssetByIdAsync(Guid assetId)
     {
-        var asset = await _unitOfWork.AssetRepository.GetByIdAsync(assetId); 
+        var asset = await _unitOfWork.AssetRepository.GetByIdAsync(assetId);
         if (asset == null)
             throw new NullReferenceException("Asset does not exist!");
         if (asset.DeletedOn != null)
             throw new Exception("Asset already deleted!");
         var assetVM = _mapper.Map<AssetVM>(asset);
         return assetVM;
+    }
+
+    public async Task<string?> GetDownloadUriAssetAsync(Guid assetId)
+    {
+        var asset = await _unitOfWork.AssetRepository.GetByIdAsync(assetId);
+        if (asset == null)
+            throw new NullReferenceException("Asset does not exist!");
+
+        // kiem tra xem user da mua asset chua
+        var accountId = _claimService.GetCurrentUserId ?? default;
+        var assetTransaction = await _unitOfWork.TransactionHistoryRepository.GetSingleByConditionAsync(
+            x => x.AssetId == assetId && x.AccountId == accountId);
+        if (assetTransaction != null)
+            return asset.Location;
+
+        if (asset.Artwork.CreatedBy == accountId)
+            return asset.Location;
+
+        if (asset.DeletedOn != null)
+            throw new Exception("Asset already deleted!");
+
+        if (asset.Price > 0)
+            throw new Exception("You have not bought this asset");
+
+        return asset.Location;
     }
 
     // lay so thu tu lon nhat cua asset trong artwork
@@ -56,11 +88,12 @@ public class AssetService : IAssetService
         // lay stt cua hinh anh, dat ten lai hinh anh
         int latestOrder = await GetLatestOrderOfAssetInArtwork(assetModel.ArtworkId);
         string newAssetName = assetModel.ArtworkId + "_a" + latestOrder;
+        string folderName = $"{PARENT_FOLDER}/{assetModel.ArtworkId}/Asset";
         string imageExtension = Path.GetExtension(assetModel.File.FileName); // lay duoi file (.zip, .rar, ...)
 
 
         // upload asset len firebase, lay url
-        var url = await _firebaseService.UploadFileToFirebaseStorage(assetModel.File, newAssetName, "Asset");
+        var url = await _firebaseService.UploadFileToFirebaseStorage(assetModel.File, newAssetName, folderName);
         if (url == null)
             throw new Exception("Cannot upload asset to firebase!");
 
@@ -90,10 +123,11 @@ public class AssetService : IAssetService
         foreach (var singleAsset in multiAssetModel.Assets)
         {
             string newAssetName = multiAssetModel.ArtworkId + "_a" + index;
+            string folderName = $"{PARENT_FOLDER}/{multiAssetModel.ArtworkId}/Asset";
             string imageExtension = Path.GetExtension(singleAsset.File.FileName); // lay duoi file (.zip, .rar, ...)
 
             // upload asset len firebase, lay url
-            var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.File, newAssetName, "Asset");
+            var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.File, newAssetName, folderName);
             if (url == null)
                 throw new Exception("Cannot upload asset to firebase!");
 

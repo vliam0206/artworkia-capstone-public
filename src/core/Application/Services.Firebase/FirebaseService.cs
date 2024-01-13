@@ -3,9 +3,7 @@ using Application.Commons;
 using Firebase.Auth;
 using Firebase.Auth.Providers;
 using Firebase.Storage;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using System.Net.Sockets;
 
 namespace Application.Services.Firebase;
 public class FirebaseService : IFirebaseService
@@ -25,7 +23,7 @@ public class FirebaseService : IFirebaseService
             ApiKey = _firebaseConfiguration.ApiKey,
             AuthDomain = _firebaseConfiguration.AuthDomain,
             Providers = new FirebaseAuthProvider[]{
-                        new EmailProvider()
+                        new EmailProvider(),
                     }
         };
         var client = new FirebaseAuthClient(config);
@@ -35,7 +33,6 @@ public class FirebaseService : IFirebaseService
 
     public async Task<string?> UploadFileToFirebaseStorage(IFormFile files, string fileName, string folderName)
     {
-        string? urlFile = null;
         if (files.Length > 0)
         {
             var task = new FirebaseStorage(
@@ -48,10 +45,17 @@ public class FirebaseService : IFirebaseService
                 .Child(folderName)
                 .Child($"{fileName}.{Path.GetExtension(files.FileName).Substring(1)}")
                 .PutAsync(files.OpenReadStream(), new CancellationTokenSource().Token);
-            urlFile = await task;
+            try
+            {
+                string? urlFile = await task;
+                return urlFile;
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
+        return null;
 
-        return urlFile;
     }
 
     public async Task DeleteFileInFirebaseStorage(string fileName, string folderName)
@@ -74,4 +78,50 @@ public class FirebaseService : IFirebaseService
             throw new Exception(ex.Message);
         }
     }
+
+    public async Task<string?> DownloadFileFromFirebaseStorage(string fileName, string folderName)
+    {
+        var task = new FirebaseStorage(
+            _firebaseConfiguration.Bucket,
+            new FirebaseStorageOptions
+            {
+                AuthTokenAsyncFactory = SignInAndGetAuthToken,
+                ThrowOnCancel = true
+            })
+            .Child(folderName)
+            .Child(fileName).
+            GetDownloadUrlAsync();
+        try
+        {
+            var downloadUrl = await task;
+            return downloadUrl;
+        } catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
+    public async Task<FirebaseMetaData?> GetMetadataFileFromFirebaseStorage(string fileName, string folderName)
+    {
+        var task = new FirebaseStorage(
+            _firebaseConfiguration.Bucket,
+            new FirebaseStorageOptions
+            {
+                AuthTokenAsyncFactory = SignInAndGetAuthToken,
+                ThrowOnCancel = true
+            })
+            .Child(folderName)
+            .Child(fileName).
+            GetMetaDataAsync();
+        try
+        {
+            var metadata = await task;
+            return metadata;
+        } catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
+
 }

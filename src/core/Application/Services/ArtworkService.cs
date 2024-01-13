@@ -8,6 +8,7 @@ using Domain.Repositories.Abstractions;
 namespace Application.Services;
 public class ArtworkService : IArtworkService
 {
+    private static readonly string PARENT_FOLDER = "Artwork";
     private readonly IUnitOfWork _unitOfWork;
     private readonly IImageService _imageService;
     private readonly IAssetService _assetService;
@@ -82,9 +83,10 @@ public class ArtworkService : IArtworkService
     {
         var newArtwork = _mapper.Map<Artwork>(artworkModel);
         string newThumbnailName = newArtwork.Id + "_t";
+        string folderName = $"{PARENT_FOLDER}/{newArtwork.Id}/Thumbnail";
         string extension = System.IO.Path.GetExtension(artworkModel.Thumbnail.FileName);
         // them thumbnail image vao firebase
-        var url = await _firebaseService.UploadFileToFirebaseStorage(artworkModel.Thumbnail, newThumbnailName, "ThumbnailArtwork");
+        var url = await _firebaseService.UploadFileToFirebaseStorage(artworkModel.Thumbnail, newThumbnailName, folderName);
         if (url == null)
             throw new Exception("Cannot upload thumbnail image to firebase!");
         newArtwork.Thumbnail = url;

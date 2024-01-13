@@ -17,6 +17,7 @@ public static class DependencyInjection
         services.AddScoped<ICategoryArtworkDetailService, CategoryArtworkDetailService>();
         services.AddScoped<ICategoryService, CategoryService>();        
         services.AddScoped<ICommentService, CommentService>();
+        services.AddScoped<ICollectionService, CollectionService>();
         services.AddScoped<IFollowService, FollowService>();
         services.AddScoped<IImageService, ImageService>();        
         services.AddScoped<ILikeService, LikeService>();
@@ -24,7 +25,8 @@ public static class DependencyInjection
         services.AddScoped<IServiceService, ServiceService>();
         services.AddScoped<ITagService, TagService>();        
         services.AddScoped<ITagDetailService, TagDetailService>();
-        services.AddScoped<ICollectionService, CollectionService>();
+        services.AddScoped<IWalletService, WalletService>();
+        services.AddScoped<IAssetTransactionService, AssetTransactionService>();
 
         services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<ITokenHandler, TokenHandler>();

@@ -11,6 +11,10 @@ public class ArtworkVM
     public string Title { get; set; } = default!;
     public string Description { get; set; } = default!;
     public string Thumbnail { get; set; } = default!; // url address
+    public int ViewCount { get; set; } = 999;
+    public int LikeCount { get; set; } = 99;
+    public int CommentCount { get; set; } = 5;
+    public int BookmarkCount { get; set; } = 12;
     public PrivacyEnum Privacy { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
@@ -19,13 +23,11 @@ public class ArtworkVM
     public Guid? DeletedBy { get; set; }
     public DateTime? DeletedOn { get; set; }
     public AccountArtworkVM Account { get; set; } = default!;
-    public List<CategoryArtworkVM> CategoryArtworkDetails { get; set; } = default!;
-    public List<TagDetailVM> TagDetails { get; set; } = default!;
+    public List<CategoryVM> CategoryList { get; set; } = default!;
+    public List<TagVM> TagList { get; set; } = default!;
     public List<AssetVM>? Assets { get; set; }
     public List<ImageVM> Images { get; set; } = default!;
-    public List<Like> Likes { get; set; } = new List<Like>();
-    public List<Comment> Comments { get; set; } = new List<Comment>();
-    public List<ServiceDetail>? ServiceDetails { get; set; }
+    public List<CommentVM>? Comments { get; set; }
     public class AccountArtworkVM
     {
         public Guid Id { get; set; }
@@ -42,7 +44,11 @@ public class ArtworkPreviewVM
     public Guid Id { get; set; }
     public string Title { get; set; } = default!;
     public string Description { get; set; } = default!;
-    public string Thumbnail { get; set; } = default!; 
+    public string Thumbnail { get; set; } = default!;
+    public int ViewCount { get; set; } = 999;
+    public int LikeCount { get; set; } = 99;
+    public int CommentCount { get; set; } = 5;
+    public int BookmarkCount { get; set; } = 12;
     public PrivacyEnum Privacy { get; set; } = default!;
     public DateTime CreatedOn { get; set; }
     public DateTime? LastModificatedOn { get; set; }

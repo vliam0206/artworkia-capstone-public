@@ -5,6 +5,7 @@ namespace Application.Services.Abstractions;
 public interface IAssetService
 {
     Task<AssetVM?> GetAssetByIdAsync(Guid assetId);
+    Task<string?> GetDownloadUriAssetAsync(Guid assetId);
     Task<List<AssetVM>> GetAllAssetsAsync();
     Task<List<AssetVM>> GetAllAssetsOfArtworkAsync(Guid artworkId);
     Task<AssetVM> AddAssetAsync(AssetModel assetModel);

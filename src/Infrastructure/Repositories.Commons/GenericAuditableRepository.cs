@@ -9,13 +9,9 @@ namespace Infrastructure.Repositories.Commons;
 public class GenericAuditableRepository<TEntity> : GenericCreationRepository<TEntity>
                 where TEntity : BaseEntity, ICreation, IModification, ISoftDelete
 {
-    private readonly AppDBContext _dbContext;
-    private readonly DbSet<TEntity> _dbSet;
     private readonly IClaimService _claimService;
     public GenericAuditableRepository(AppDBContext dBContext, IClaimService claimService) : base(dBContext, claimService)
     {
-        _dbContext = dBContext;
-        _dbSet = _dbContext.Set<TEntity>();
         _claimService = claimService;
     }
 

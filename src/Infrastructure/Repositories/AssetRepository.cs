@@ -8,12 +8,10 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Repositories;
 public class AssetRepository : GenericRepository<Asset>, IAssetRepository
 {
-    private AppDBContext _dbContext;
     private IClaimService _claimService;
 
     public AssetRepository(AppDBContext dBContext, IClaimService claimService) : base(dBContext)
     {
-        _dbContext = dBContext;
         _claimService = claimService;
     }
 

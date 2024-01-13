@@ -2,11 +2,8 @@
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
-using Domain.Entitites;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels;
 using WebApi.ViewModels.Commons;
 
 namespace WebApi.Controllers
@@ -32,6 +29,7 @@ namespace WebApi.Controllers
             var result = await _assetService.GetAllAssetsAsync();
             return Ok(result);
         }
+
         [HttpGet("{assetId}")]
         public async Task<IActionResult> GetAssetById(Guid assetId)
         {
@@ -57,6 +55,32 @@ namespace WebApi.Controllers
                 });
             }
         }
+
+        [HttpGet("download/{assetId}")]
+        [Authorize]
+        public async Task<IActionResult> GetAssetDownloadById(Guid assetId)
+        {
+            try
+            {
+                var link = await _assetService.GetDownloadUriAssetAsync(assetId);
+                return Ok(new { link });
+            } catch (NullReferenceException ex)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = ex.Message
+                });
+            } catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = ex.Message
+                });
+            }
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> AddAsset([FromForm] AssetModel assetModel)

@@ -86,8 +86,8 @@ public class TagsController : ControllerBase
 
     private bool IsTagValid(string tagName)
     {
-        // Kiểm tra xem tag có chứa chữ cái, số, và dấu gạch dưới không
-        if (!Regex.IsMatch(tagName, "^[a-zA-Z0-9_]+$"))
+        // Kiểm tra xem tag chỉ có chứa chữ cái tiếng việt, số, và dấu gạch dưới không
+        if (!Regex.IsMatch(tagName, "^[0-9\\saAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ]+$"))
         {
             return false;
         }

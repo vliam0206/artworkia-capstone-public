@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Services;
-using WebApi.ViewModels;
-
+using Application.Models;
 namespace WebApi.Controllers;
 
 [ApiController]

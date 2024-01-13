@@ -8,6 +8,7 @@ using Domain.Repositories.Abstractions;
 namespace Application.Services;
 public class ImageService : IImageService
 {
+    private static readonly string PARENT_FOLDER = "Artwork";
     private readonly IUnitOfWork _unitOfWork;
     private readonly IFirebaseService _firebaseService;
     private readonly IMapper _mapper;
@@ -53,10 +54,11 @@ public class ImageService : IImageService
         // lay stt cua hinh anh, dat ten lai hinh anh
         int latestOrder = await GetLatestOrderOfImageInArtwork(imageModel.ArtworkId);
         string newImageName = imageModel.ArtworkId + "_i" + latestOrder;
+        string folderName = $"{PARENT_FOLDER}/{imageModel.ArtworkId}/Image";
         string imageExtension = Path.GetExtension(imageModel.Image.FileName); // lay duoi file (.png, .jpg, ...)
 
         //upload hinh anh len firebase, lay url
-        var url = await _firebaseService.UploadFileToFirebaseStorage(imageModel.Image, newImageName, "Image");
+        var url = await _firebaseService.UploadFileToFirebaseStorage(imageModel.Image, newImageName, folderName);
         if (url == null)
             throw new Exception("Cannot upload image to firebase");
 
@@ -84,10 +86,11 @@ public class ImageService : IImageService
         foreach (var singleImage in multiImageModel.Images.Select((image, index) => (image, index)))
         {
             string newImageName = multiImageModel.ArtworkId + "_i" + singleImage.index;
+            string folderName = $"{PARENT_FOLDER}/{multiImageModel.ArtworkId}/Image";
             string imageExtension = Path.GetExtension(singleImage.image.FileName); // lay duoi file (.png, .jpg, ...)
 
             //upload hinh anh len firebase, lay url
-            var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, "Image");
+            var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName);
             if (url == null)
                 throw new Exception("Error when uploading images to firebase");
 

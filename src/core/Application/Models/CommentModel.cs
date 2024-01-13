@@ -1,7 +1,7 @@
 ﻿using Domain.Entitites;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApi.ViewModels;
+namespace Application.Models;
 
 public class CommentModel
 {
@@ -15,7 +15,7 @@ public class CommentVM
     public Guid? ReplyId { get; set; }
     public Guid ArtworkId { get; set; }
     public Guid? CreatedBy { get; set; }
-    public string Content { get; set; } = default!;    
+    public string Content { get; set; } = default!;
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }
     public DateTime? LastModificatedOn { get; set; }
@@ -23,3 +23,4 @@ public class CommentVM
     public DateTime? DeletedOn { get; set; }
     public virtual ICollection<Comment> Replies { get; set; } = new List<Comment>();
 }
+

@@ -7,10 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Repositories;
 public class TagRepository : GenericRepository<Tag>, ITagRepository
 {
-    private readonly AppDBContext _dbContext;
     public TagRepository(AppDBContext dBContext) : base(dBContext)
     {
-        _dbContext = dBContext;
     }
 
     public async Task<Tag?> GetTagByNameAsync(string tagName)
