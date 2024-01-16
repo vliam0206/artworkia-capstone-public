@@ -8,15 +8,13 @@ public class Service : BaseEntity, ICreation, IModification, ISoftDelete
     [MaxLength(150)]
     public string ServiceName { get; set; } = default!;
     [MaxLength(1000)]
-    public string Description { get; set; } = string.Empty;
+    public string Description { get; set; } = default!;
     [MaxLength(150)]
     public string DeliveryTime { get; set; } = default!;
-    [MaxLength(150)]
-    public string NumberOfConcept { get; set; } = default!;
-    [MaxLength(150)]
-    public string NumberOfRevision { get; set; } = default!;
+    public int NumberOfConcept { get; set; } = default!;
+    public int NumberOfRevision { get; set; } = default!;
     public double StartingPrice { get; set; } = default!;
-    public string CoverLocation { get; set; } = default!;
+    public string Thumbnail { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow.ToLocalTime();
     public Guid? LastModificatedBy { get; set; }

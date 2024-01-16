@@ -39,6 +39,6 @@ public class GenericAuditableRepository<TEntity> : GenericCreationRepository<TEn
 
     public override async Task<List<TEntity>> GetAllUndeletedAsync()
     {
-        return await _dbSet.Where(x => x.DeletedOn == null).ToListAsync();
+        return await _dbSet.Where(x => x.DeletedOn == null).OrderByDescending(x => x.CreatedOn).ToListAsync();
     }
 }

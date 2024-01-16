@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20231229093418_EditReport")]
-    partial class EditReport
+    [Migration("20240116041609_InitDataV1")]
+    partial class InitDataV1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,9 @@ namespace Migrators.MSSQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("Avatar")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Bio")
                         .HasMaxLength(150)
@@ -69,7 +72,6 @@ namespace Migrators.MSSQL.Migrations
                         .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -90,6 +92,92 @@ namespace Migrators.MSSQL.Migrations
                         .IsUnique();
 
                     b.ToTable("Account", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7d580000-c214-88a4-cc1d-08dc1445b3e0"),
+                            Avatar = "https://i.pinimg.com/564x/be/85/2f/be852fd4ad1cb76b83ce962f618895bd.jpg",
+                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 626, DateTimeKind.Local).AddTicks(2967),
+                            Email = "user@example.com",
+                            Fullname = "Người dùng mặc định",
+                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 626, DateTimeKind.Local).AddTicks(2985),
+                            Password = "/Yvo/zNSPcJB+6Roi0BD6gR/tx9tPXSqrslB+3Zy0rwOC2lA",
+                            Role = 2,
+                            Username = "user"
+                        },
+                        new
+                        {
+                            Id = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            Avatar = "https://i.pinimg.com/564x/ed/de/aa/eddeaaf250c19489e25bd0a2dd3e7756.jpg",
+                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 628, DateTimeKind.Local).AddTicks(9861),
+                            Email = "lamlam@example.com",
+                            Fullname = "Trúc Lam Võ",
+                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 628, DateTimeKind.Local).AddTicks(9864),
+                            Password = "P9i8PUWQ4DnT6Dnstg7HEXTlnFUDoZFTNJopEJ4UxxoK3zRn",
+                            Role = 2,
+                            Username = "lamlam"
+                        },
+                        new
+                        {
+                            Id = new Guid("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
+                            Avatar = "https://i.pinimg.com/564x/14/b0/3b/14b03bdcab41f458dd15c9f5669cef2d.jpg",
+                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 631, DateTimeKind.Local).AddTicks(6615),
+                            Email = "hoanganh@example.com",
+                            Fullname = "Đặng Hoàng Anh",
+                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 631, DateTimeKind.Local).AddTicks(6615),
+                            Password = "RZX95v+qA/O+EKXLkilrMbLW+cKQ7jekrOE9uwWE4fSupbQM",
+                            Role = 2,
+                            Username = "hoanganh"
+                        },
+                        new
+                        {
+                            Id = new Guid("7d580000-c214-88a4-0f12-08dc1445b3e2"),
+                            Avatar = "https://i.pinimg.com/564x/6c/a3/4b/6ca34beddfbd279418c915d2258d698b.jpg",
+                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 634, DateTimeKind.Local).AddTicks(3537),
+                            Email = "thong@example.com",
+                            Fullname = "Nguyễn Trung Thông",
+                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 634, DateTimeKind.Local).AddTicks(3538),
+                            Password = "BCpA8roVqTkU54PKIBXU4Iyl3YqyF5wYPagAXZ/1HYFEB9dh",
+                            Role = 2,
+                            Username = "thong"
+                        },
+                        new
+                        {
+                            Id = new Guid("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
+                            Avatar = "https://i.pinimg.com/736x/81/3c/57/813c57fcb969d58fac1672594da05532.jpg",
+                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 637, DateTimeKind.Local).AddTicks(584),
+                            Email = "phu@example.com",
+                            Fullname = "Huỳnh Vạn Phú",
+                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 637, DateTimeKind.Local).AddTicks(584),
+                            Password = "44p9oaVq2ED8i7Q6vKIaS//ynDYqhnLcHcX/W7sDDIa1m3v/",
+                            Role = 2,
+                            Username = "phuhuynh"
+                        },
+                        new
+                        {
+                            Id = new Guid("7d580000-c214-88a4-e5f6-08dc1445b3e2"),
+                            Avatar = "https://i.pinimg.com/564x/7d/cd/61/7dcd61988b0add83b5ba9a656512593e.jpg",
+                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 639, DateTimeKind.Local).AddTicks(7415),
+                            Email = "mod@example.com",
+                            Fullname = "Kiểm soát viên",
+                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 639, DateTimeKind.Local).AddTicks(7415),
+                            Password = "/yI89eEokmyCtc8FQcA8Salpuc2Gnv6+xvWUi9jfF3D56K8l",
+                            Role = 1,
+                            Username = "mod"
+                        },
+                        new
+                        {
+                            Id = new Guid("7d580000-c214-88a4-5141-08dc1445b3e3"),
+                            Avatar = "https://i.pinimg.com/564x/0e/4b/7a/0e4b7aef4834bfc646775d8fd3705825.jpg",
+                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 642, DateTimeKind.Local).AddTicks(4141),
+                            Email = "admin@example.com",
+                            Fullname = "Quản trị viên hệ thống",
+                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 642, DateTimeKind.Local).AddTicks(4141),
+                            Password = "tmb/sYLga1PDxUtRiIEU4YJtaG2HN58av/VA2S/8v19GLbSx",
+                            Role = 0,
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.Artwork", b =>
@@ -114,9 +202,8 @@ namespace Migrators.MSSQL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<Guid?>("LastModificatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -129,6 +216,14 @@ namespace Migrators.MSSQL.Migrations
                     b.Property<int>("Privacy")
                         .HasColumnType("int");
 
+                    b.Property<string>("Thumbnail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThumbnailName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -139,6 +234,172 @@ namespace Migrators.MSSQL.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.ToTable("Artwork", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Đây là tuyển tập tâm huyết của mình, nhớ like và comment để ủng hộ mình nha",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "35966d1a-9b08-4743-b1c3-474a58350f6e_t.jpg",
+                            Title = "Tuyển tập minh hoạ sách tâm lý"
+                        },
+                        new
+                        {
+                            Id = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
+                            CreatedOn = new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Privacy = 0,
+                            Thumbnail = "https://i.pximg.net/c/250x250_80_a2/custom-thumb/img/2023/11/13/18/56/54/113380427_p0_custom1200.jpg",
+                            ThumbnailName = "72fbdead-0704-4f69-82ec-0cd09218fef9_t.jpg",
+                            Title = "Touhou Project Image Cute"
+                        },
+                        new
+                        {
+                            Id = new Guid("35966d1a-9b08-4743-b1c3-474a58350f5e"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Đây là tuyển tập tâm huyết của mình, nhớ like và comment để ủng hộ mình nha",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "35966d1a-9b08-4743-b1c3-474a58350f5e_t.jpg",
+                            Title = "Tuyển tập minh hoạ sách tâm lý"
+                        },
+                        new
+                        {
+                            Id = new Guid("ab5e5cda-2b09-4ba1-8d6c-74f169c8a9a3"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Sách tìm hiểu về những bí mật đằng sau tâm lý con người",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "ab5e5cda-2b09-4ba1-8d6c-74f169c8a9a3_t.jpg",
+                            Title = "Bí mật tâm lý học"
+                        },
+                        new
+                        {
+                            Id = new Guid("e74b9b62-1f9e-4a12-97e1-8c79c9a2aeb7"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Khám phá sâu hơn về cảm xúc và tâm trạng trong cuộc sống",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "e74b9b62-1f9e-4a12-97e1-8c79c9a2aeb7_t.jpg",
+                            Title = "Hành trình sâu cảm xúc"
+                        },
+                        new
+                        {
+                            Id = new Guid("3f22b8d1-0d5b-4da0-9f4e-876c1586c5b3"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Bức tranh thể hiện sự huyền bí và phức tạp của tâm trí con người",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "3f22b8d1-0d5b-4da0-9f4e-876c1586c5b3_t.jpg",
+                            Title = "Sự huyền bí của tâm trí"
+                        },
+                        new
+                        {
+                            Id = new Guid("56f86f82-4622-4710-8d1c-b8c1664711a2"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Tác phẩm thể hiện sự ảnh hưởng của quá khứ đối với hiện tại",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "56f86f82-4622-4710-8d1c-b8c1664711a2_t.jpg",
+                            Title = "Dấu vết của quá khứ"
+                        },
+                        new
+                        {
+                            Id = new Guid("8c24a1d8-9f14-44cd-9e86-2c542d14413c"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Minh họa cho hành trình không ngừng của sự sáng tạo",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "8c24a1d8-9f14-44cd-9e86-2c542d14413c_t.jpg",
+                            Title = "Hành trình của sự sáng tạo"
+                        },
+                        new
+                        {
+                            Id = new Guid("5fdaf3c7-6c68-45fb-9610-b67b8a1d0bd0"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Tượng trưng cho sự đồng hành và hỗ trợ của đối tác tâm lý",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "5fdaf3c7-6c68-45fb-9610-b67b8a1d0bd0_t.jpg",
+                            Title = "Sự đồng hành của đối tác tâm lý"
+                        },
+                        new
+                        {
+                            Id = new Guid("fb7c52b9-64f8-4e84-a992-14b8bcb6ea35"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Hình ảnh tượng trưng cho ánh sáng và năng lượng bên trong chúng ta",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "fb7c52b9-64f8-4e84-a992-14b8bcb6ea35_t.jpg",
+                            Title = "Mặt trời bên trong"
+                        },
+                        new
+                        {
+                            Id = new Guid("91f9a14d-66a9-43da-8e43-2579baf7c8a7"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Minh họa cho tâm trạng lạc quan và hy vọng về tương lai",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "91f9a14d-66a9-43da-8e43-2579baf7c8a7_t.jpg",
+                            Title = "Sự lạc quan của tương lai"
+                        },
+                        new
+                        {
+                            Id = new Guid("b1c16326-7a16-4f6b-a76d-cf15ce2c71d3"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Tượng trưng cho nơi gặp gỡ và kết nối tâm hồn con người",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "b1c16326-7a16-4f6b-a76d-cf15ce2c71d3_t.jpg",
+                            Title = "Nơi gặp gỡ tâm hồn"
+                        },
+                        new
+                        {
+                            Id = new Guid("9202bb7f-71f3-4641-b1d4-9bc858416d84"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Tượng trưng cho vũ trụ rộng lớn và không gian của tâm trí con người",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "9202bb7f-71f3-4641-b1d4-9bc858416d84_t.jpg",
+                            Title = "Vũ trụ tâm trí"
+                        },
+                        new
+                        {
+                            Id = new Guid("7a04e5c7-ffea-45da-80d2-875b0a0b8d35"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Bức tranh thể hiện hành trình tìm kiếm và theo đuổi đam mê trong cuộc sống",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "7a04e5c7-ffea-45da-80d2-875b0a0b8d35_t.jpg",
+                            Title = "Hành trình tìm kiếm đam mê"
+                        },
+                        new
+                        {
+                            Id = new Guid("f7e4df8d-b4b7-4a39-8f2b-74f5d4b512a4"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Tượng trưng cho biển cả tri thức sâu rộng và không ngừng mở rộng",
+                            Privacy = 0,
+                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            ThumbnailName = "f7e4df8d-b4b7-4a39-8f2b-74f5d4b512a4_t.jpg",
+                            Title = "Biển cả của tri thức"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.Asset", b =>
@@ -156,6 +417,21 @@ namespace Migrators.MSSQL.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<string>("AssetTitle")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<Guid?>("LastModificatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -168,6 +444,9 @@ namespace Migrators.MSSQL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
@@ -176,6 +455,40 @@ namespace Migrators.MSSQL.Migrations
                     b.HasIndex("ArtworkId");
 
                     b.ToTable("Asset", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ec114537-eadb-49d4-ad49-675d06ce6ccc"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
+                            AssetName = "PTS_1.zip",
+                            AssetTitle = "File PTS tuyển tập minh hoạ sách tâm lý",
+                            Description = "Mua đê",
+                            Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
+                            Order = 0,
+                            Price = 100000.0
+                        },
+                        new
+                        {
+                            Id = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
+                            AssetName = "PTS_1.zip",
+                            AssetTitle = "Touhout PTS",
+                            Description = "Tặng các bạn",
+                            Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
+                            Order = 0,
+                            Price = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("8225058f-9f38-49f2-a68d-d9237b0a550f"),
+                            ArtworkId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9"),
+                            AssetName = "PTS_1.zip",
+                            AssetTitle = "Tàu hũ ZIP",
+                            Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
+                            Order = 0,
+                            Price = 72000.0
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.Block", b =>
@@ -217,8 +530,8 @@ namespace Migrators.MSSQL.Migrations
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid?>("ParentCategory")
                         .HasColumnType("uniqueidentifier");
@@ -228,6 +541,68 @@ namespace Migrators.MSSQL.Migrations
                     b.HasIndex("ParentCategory");
 
                     b.ToTable("Category", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("57dbdb36-f9ad-4926-9fb6-2df15969ed5e"),
+                            CategoryName = "Minh hoạ"
+                        },
+                        new
+                        {
+                            Id = new Guid("8b0f2e91-9a3c-4d6e-b8e7-23c5a41a2f0a"),
+                            CategoryName = "Thiết kế đồ họa"
+                        },
+                        new
+                        {
+                            Id = new Guid("c51283f7-6d58-4a70-9bf2-13d3b5bc8456"),
+                            CategoryName = "UI/UX"
+                        },
+                        new
+                        {
+                            Id = new Guid("a6d7e9b2-85af-4f01-bd97-2c3bbd3a7e09"),
+                            CategoryName = "Kiến trúc"
+                        },
+                        new
+                        {
+                            Id = new Guid("f4e81ac1-1a6e-47c3-92fc-7a54ae95d689"),
+                            CategoryName = "Thời trang"
+                        },
+                        new
+                        {
+                            Id = new Guid("6dfe4e90-98e1-43e5-b2c1-ef7fd9e6fb67"),
+                            CategoryName = "Đồ họa chuyển động"
+                        },
+                        new
+                        {
+                            Id = new Guid("1b7a9c43-d8d3-4a64-9c4b-c5823e22a3f3"),
+                            CategoryName = "In ấn"
+                        },
+                        new
+                        {
+                            Id = new Guid("490f5bd6-1a32-4e9b-9236-5794c97526e1"),
+                            CategoryName = "Đồ họa 3D"
+                        },
+                        new
+                        {
+                            Id = new Guid("ced1a254-ecac-47e4-ae18-5d23c2711bf5"),
+                            CategoryName = "Nghệ thuật số"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec5"),
+                            CategoryName = "Nhiếp ảnh"
+                        },
+                        new
+                        {
+                            Id = new Guid("e839e134-9158-4d2d-a04f-503fdd2d275e"),
+                            CategoryName = "Thiết kế sản phẩm"
+                        },
+                        new
+                        {
+                            Id = new Guid("e839e134-9158-4d2d-a04f-503fdd2d2751"),
+                            CategoryName = "Quảng cáo"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.CategoryArtworkDetail", b =>
@@ -243,6 +618,33 @@ namespace Migrators.MSSQL.Migrations
                     b.HasIndex("ArtworkId");
 
                     b.ToTable("CategoryArtworkDetail", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = new Guid("57dbdb36-f9ad-4926-9fb6-2df15969ed5e"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e")
+                        },
+                        new
+                        {
+                            CategoryId = new Guid("8b0f2e91-9a3c-4d6e-b8e7-23c5a41a2f0a"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e")
+                        },
+                        new
+                        {
+                            CategoryId = new Guid("1b7a9c43-d8d3-4a64-9c4b-c5823e22a3f3"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e")
+                        },
+                        new
+                        {
+                            CategoryId = new Guid("57dbdb36-f9ad-4926-9fb6-2df15969ed5e"),
+                            ArtworkId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9")
+                        },
+                        new
+                        {
+                            CategoryId = new Guid("ced1a254-ecac-47e4-ae18-5d23c2711bf5"),
+                            ArtworkId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9")
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.CategoryServiceDetail", b =>
@@ -255,7 +657,16 @@ namespace Migrators.MSSQL.Migrations
 
                     b.HasKey("CategoryId", "ServiceId");
 
+                    b.HasIndex("ServiceId");
+
                     b.ToTable("CategoryServiceDetail", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = new Guid("8b0f2e91-9a3c-4d6e-b8e7-23c5a41a2f0a"),
+                            ServiceId = new Guid("1c8542d4-41bd-492b-9d21-905c6a8b0532")
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.ChatBox", b =>
@@ -355,6 +766,48 @@ namespace Migrators.MSSQL.Migrations
                     b.HasIndex("ReplyId");
 
                     b.ToTable("Comment", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("8ea03178-3cc7-40e5-9344-a6a96c492a42"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
+                            Content = "Đây là một bức tranh rất đẹp",
+                            CreatedBy = new Guid("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("74524095-a079-44b0-9e2a-a8e67ae6b06e"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
+                            Content = "Minh hoạ xuất sắc",
+                            CreatedBy = new Guid("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("457f3324-5594-4526-ab24-25c63e5ee7bd"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
+                            Content = "10 điểm",
+                            CreatedBy = new Guid("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("e05281fb-cfb2-4dc3-9be8-d8ae59016f9a"),
+                            ArtworkId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9"),
+                            Content = "Cute and funny",
+                            CreatedBy = new Guid("7d580000-c214-88a4-0f12-08dc1445b3e2"),
+                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("5075efb6-cd23-4cea-8882-2f5669c70ea7"),
+                            ArtworkId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9"),
+                            Content = "Like",
+                            CreatedBy = new Guid("7d580000-c214-88a4-0f12-08dc1445b3e2"),
+                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.Follow", b =>
@@ -387,9 +840,6 @@ namespace Migrators.MSSQL.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<bool>("IsCover")
-                        .HasColumnType("bit");
-
                     b.Property<Guid?>("LastModificatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -408,6 +858,48 @@ namespace Migrators.MSSQL.Migrations
                     b.HasIndex("ArtworkId");
 
                     b.ToTable("Image", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("01aa2232-7628-4227-b034-1c1a32cad359"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
+                            ImageName = "35966d1a-9b08-4743-b1c3-474a58350f6e_i1.jpg",
+                            Location = "https://www.dtv-ebook.com/images/files_2/2023/022023/tam-ly-hoc-toi-pham-phac-hoa-chan-dung-ke-pham-toi-diep-hong-vu.jpg",
+                            Order = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("ae8fb7be-5c63-481e-b997-2ada5ac5392b"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
+                            ImageName = "35966d1a-9b08-4743-b1c3-474a58350f6e_i2.jpg",
+                            Location = "https://lh3.googleusercontent.com/QKQqZt0RivsBmyjwFI8EomO6YZ2-hnSsiwLdKG9btAiNhVjiwpKtzTiULFqTRCo5JUOe5t8f6Be_sZ9ZBYRD7v3EYwqzlkomHabN_LqntP61rVbqqk9wuQqgVY4Dmk7JseAHmjbNWRacbMJynaBXgCoYvcQzAuYPOgNj-P2CAEWroKZcieC2GDyal2x02Cw0izhqYNCnJAQLnEPSErSXgYNBoSb3KlmjHcev9zq2KXRaorp04_aKLN5-iewZ27ee9OWmSuwfvnGgjSK98rKdtGfnqw5U_1cp1R89brso1E8VCIhFGfRTKijJMdCtjE3VbpyO_3vI46D5UVbJZB3N-c0-DulKgbP1EFp5p_wbgBwL2AQVAgQCB2TJ1IS_hVKqVS1GZ3xsCleYb7xTkaqqcojQIbR1GYMxirT_u2jU6xHq6ycB2w6UPCo_DZJfVhieyZXzjpIa92pN-6UM4I-Ou54BnFpvANrOxfOWxblViYR43PrSdHgu5XGGQYg2SYKvuAqbzkpOLpcnyRQBxDPV6bCMURXDTvnmRQj1Rl_14MEW278wjOe-D39mATYeEO6Xfq445Wu9SUEcXd40soLtSNcun92XJ-j_0Dyr1Dd2argkutkMXgiqRHyZxN1hfadB_T1xQ3Ln9TA8oSRrYEmoUIXi4iS9XD08kj5FZf-slMLA_KQeYT7F2Alkx11IBq2aahNUlf1FTWykZVpyxAr0DNjCypS44Lbmqsdw7xfQzKT8WrLR=w400-h500-no",
+                            Order = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("ff16271c-c04a-4cec-b6f1-04b555659b5a"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
+                            ImageName = "35966d1a-9b08-4743-b1c3-474a58350f6e_i3.jpg",
+                            Location = "https://vietbooks.info/attachments/upload_2023-2-3_11-29-1-png.19599/",
+                            Order = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("36208d9b-471a-4a88-be28-adabfd1f2ae5"),
+                            ArtworkId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9"),
+                            ImageName = "72fbdead-0704-4f69-82ec-0cd09218fef9_i0.jpg",
+                            Location = "https://i.pximg.net/img-original/img/2023/11/13/18/56/54/113380427_p0.png",
+                            Order = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("5d96552b-ff92-4064-8858-5e1e96ee9899"),
+                            ArtworkId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9"),
+                            ImageName = "72fbdead-0704-4f69-82ec-0cd09218fef9_i1.jpg",
+                            Location = "https://i.pximg.net/img-original/img/2023/11/13/18/56/54/113380427_p1.png",
+                            Order = 1
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.Like", b =>
@@ -715,10 +1207,6 @@ namespace Migrators.MSSQL.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newid()");
 
-                    b.Property<string>("CoverLocation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -751,15 +1239,11 @@ namespace Migrators.MSSQL.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getutcdate()");
 
-                    b.Property<string>("NumberOfConcept")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                    b.Property<int>("NumberOfConcept")
+                        .HasColumnType("int");
 
-                    b.Property<string>("NumberOfRevision")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                    b.Property<int>("NumberOfRevision")
+                        .HasColumnType("int");
 
                     b.Property<string>("ServiceName")
                         .IsRequired()
@@ -769,11 +1253,31 @@ namespace Migrators.MSSQL.Migrations
                     b.Property<double>("StartingPrice")
                         .HasColumnType("float");
 
+                    b.Property<string>("Thumbnail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
 
                     b.ToTable("Service", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("1c8542d4-41bd-492b-9d21-905c6a8b0532"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeliveryTime = "2 - 3 tuần",
+                            Description = "Mô tả Dịch vụ thiết kế",
+                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 656, DateTimeKind.Local).AddTicks(1390),
+                            NumberOfConcept = 2,
+                            NumberOfRevision = 2,
+                            ServiceName = "Dịch vụ thiết kế",
+                            StartingPrice = 100000.0,
+                            Thumbnail = "https://3.imimg.com/data3/SQ/DN/MY-16602737/banner-design-services.png"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.ServiceDetail", b =>
@@ -789,6 +1293,13 @@ namespace Migrators.MSSQL.Migrations
                     b.HasIndex("ArtworkId");
 
                     b.ToTable("ServiceDetail", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ServiceId = new Guid("1c8542d4-41bd-492b-9d21-905c6a8b0532"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e")
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.Tag", b =>
@@ -809,6 +1320,128 @@ namespace Migrators.MSSQL.Migrations
                         .IsUnique();
 
                     b.ToTable("Tag", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec1"),
+                            TagName = "Màu sắc"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec2"),
+                            TagName = "Trừu tượng"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec3"),
+                            TagName = "Phong cảnh"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec4"),
+                            TagName = "Thiên nhiên"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec5"),
+                            TagName = "Hình học"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec6"),
+                            TagName = "Anime"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec7"),
+                            TagName = "Chân dung"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec8"),
+                            TagName = "Sáng tạo"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec9"),
+                            TagName = "Kỹ thuật số"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95eca"),
+                            TagName = "Graffiti"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ecb"),
+                            TagName = "Dự án cá nhân"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ecc"),
+                            TagName = "Nghệ thuật số hóa"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ecd"),
+                            TagName = "Thể thao"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ece"),
+                            TagName = "Chủ đề xã hội"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ecf"),
+                            TagName = "Vintage"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ed0"),
+                            TagName = "Ảo"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ed1"),
+                            TagName = "Minimalism"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ed2"),
+                            TagName = "Figma"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ed3"),
+                            TagName = "Mèo"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ed4"),
+                            TagName = "Động vật hoang dã"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ed5"),
+                            TagName = "Nền tảng"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ed6"),
+                            TagName = "Nghệ thuật đương đại"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ed7"),
+                            TagName = "Chủ đề khoa học"
+                        },
+                        new
+                        {
+                            Id = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ed8"),
+                            TagName = "Giao thông"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.TagDetail", b =>
@@ -824,6 +1457,38 @@ namespace Migrators.MSSQL.Migrations
                     b.HasIndex("ArtworkId");
 
                     b.ToTable("TagDetail", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            TagId = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec2"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e")
+                        },
+                        new
+                        {
+                            TagId = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec5"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e")
+                        },
+                        new
+                        {
+                            TagId = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec8"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e")
+                        },
+                        new
+                        {
+                            TagId = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ecb"),
+                            ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e")
+                        },
+                        new
+                        {
+                            TagId = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ed6"),
+                            ArtworkId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9")
+                        },
+                        new
+                        {
+                            TagId = new Guid("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec9"),
+                            ArtworkId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9")
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.TransactionHistory", b =>
@@ -1081,7 +1746,7 @@ namespace Migrators.MSSQL.Migrations
 
                     b.HasOne("Domain.Entitites.Service", "Service")
                         .WithMany("CategoryServiceDetails")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1448,8 +2113,7 @@ namespace Migrators.MSSQL.Migrations
 
                     b.Navigation("UserTokens");
 
-                    b.Navigation("Wallet")
-                        .IsRequired();
+                    b.Navigation("Wallet");
                 });
 
             modelBuilder.Entity("Domain.Entitites.Artwork", b =>

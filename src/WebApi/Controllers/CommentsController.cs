@@ -112,7 +112,7 @@ public class CommentsController : ControllerBase
         {
             return NotFound(new { ErrorMessage = ex.Message });
         }
-        catch (UnauthorizedAccessException ex)
+        catch (UnauthorizedAccessException)
         {
             return Forbid();
         }

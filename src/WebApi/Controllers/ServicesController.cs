@@ -50,7 +50,7 @@ public class ServicesController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> AddService([FromBody] ServiceModel serviceModel)
+    public async Task<IActionResult> AddService([FromForm] ServiceModel serviceModel)
     {
         try
         {

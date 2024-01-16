@@ -1,5 +1,6 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
+using Application.Services.Firebase;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
@@ -8,13 +9,16 @@ namespace Application.Services;
 
 public class ServiceService : IServiceService
 {
+    private static readonly string PARENT_FOLDER = "Service";
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IFirebaseService _firebaseService;
 
-    public ServiceService(IUnitOfWork unitOfWork, IMapper mapper)
+    public ServiceService(IUnitOfWork unitOfWork, IMapper mapper, IFirebaseService firebaseService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _firebaseService = firebaseService;
     }
 
     public async Task<List<ServiceVM>> GetAllServicesAsync()
@@ -26,7 +30,7 @@ public class ServiceService : IServiceService
 
     public async Task<ServiceVM?> GetServiceByIdAsync(Guid serviceId)
     {
-        var service = await _unitOfWork.ServiceRepository.GetByIdAsync(serviceId);
+        var service = await _unitOfWork.ServiceRepository.GetServiceByIdAsync(serviceId);
         if (service == null)
         {
             throw new NullReferenceException("Service does not exist");
@@ -41,6 +45,15 @@ public class ServiceService : IServiceService
     public async Task<ServiceVM> AddServiceAsync(ServiceModel serviceModel)
     {
         var newService = _mapper.Map<Service>(serviceModel);
+        string newThumbnailName = newService.Id + "_t";
+        string folderName = $"{PARENT_FOLDER}/{newService.Id}/Thumbnail";
+
+        // them thumbnail image vao firebase
+        var url = await _firebaseService.UploadFileToFirebaseStorage(serviceModel.Thumbnail, newThumbnailName, folderName);
+        if (url == null)
+            throw new Exception("Cannot upload thumbnail image to firebase!");
+        newService.Thumbnail = url;
+
         await _unitOfWork.ServiceRepository.AddAsync(newService);
         await _unitOfWork.SaveChangesAsync();
 
@@ -66,13 +79,21 @@ public class ServiceService : IServiceService
         {
             throw new NullReferenceException("Service does not exist");
         }
+        string newThumbnailName = serviceId + "_t";
+        string folderName = $"{PARENT_FOLDER}/{serviceId}/Thumbnail";
+
+        // them thumbnail image vao firebase
+        var url = await _firebaseService.UploadFileToFirebaseStorage(serviceEM.Thumbnail, newThumbnailName, folderName);
+        if (url == null)
+            throw new Exception("Cannot upload thumbnail image to firebase!");
+
+        oldService.Thumbnail = url;
         oldService.ServiceName = serviceEM.ServiceName;
         oldService.Description = serviceEM.Description;
         oldService.DeliveryTime = serviceEM.DeliveryTime;
         oldService.NumberOfConcept = serviceEM.NumberOfConcept;
         oldService.NumberOfRevision = serviceEM.NumberOfRevision;
         oldService.StartingPrice = serviceEM.StartingPrice;
-        oldService.CoverLocation = serviceEM.CoverLocation;
         await _unitOfWork.SaveChangesAsync();
     }
 }

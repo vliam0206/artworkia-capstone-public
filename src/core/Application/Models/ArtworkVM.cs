@@ -22,20 +22,12 @@ public class ArtworkVM
     public DateTime? LastModificatedOn { get; set; }
     public Guid? DeletedBy { get; set; }
     public DateTime? DeletedOn { get; set; }
-    public AccountArtworkVM Account { get; set; } = default!;
+    public AccountBasicInfoVM Account { get; set; } = default!;
     public List<CategoryVM> CategoryList { get; set; } = default!;
     public List<TagVM> TagList { get; set; } = default!;
     public List<AssetVM>? Assets { get; set; }
     public List<ImageVM> Images { get; set; } = default!;
     public List<CommentVM>? Comments { get; set; }
-    public class AccountArtworkVM
-    {
-        public Guid Id { get; set; }
-        public string Username { get; set; } = default!;
-        public string Email { get; set; } = default!;
-        public string Fullname { get; set; } = default!;
-        public string? Avatar { get; set; }
-    }
 }
 
 // View model for search results
@@ -51,10 +43,8 @@ public class ArtworkPreviewVM
     public int BookmarkCount { get; set; } = 12;
     public PrivacyEnum Privacy { get; set; } = default!;
     public DateTime CreatedOn { get; set; }
-    public DateTime? LastModificatedOn { get; set; }
-
-    public List<CategoryArtworkDetail> CategoryArtworkDetails { get; set; } = new List<CategoryArtworkDetail>();
 }
+
 public class SearchArtworkCriteria
 {
     public string? Key { get; set; }

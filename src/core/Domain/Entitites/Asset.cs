@@ -10,7 +10,7 @@ public class Asset : BaseEntity, IModification, ISoftDelete
     [MaxLength(150)]
     public string AssetTitle { get; set; } = default!; // ten asset (vd: Bia sach 2023)
     [MaxLength(500)]
-    public string Description { get; set; } = default!; // mo ta asset
+    public string? Description { get; set; } // mo ta asset
     [MaxLength(150)]
     public string AssetName { get; set; } = default!; // ten file asset (vd: biasach2023.zip)
     public string Location { get; set; } = default!; // url address

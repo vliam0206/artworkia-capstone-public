@@ -38,8 +38,7 @@ public class MappingProfile : Profile
         CreateMap<Artwork, ArtworkVM>()
             .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryArtworkDetails.Select(y => y.Category).ToList()))
             .ForMember(model => model.TagList, opt => opt.MapFrom(x => x.TagDetails.Select(y => y.Tag).ToList()));
-        CreateMap<Account, AccountArtworkVM>().ReverseMap();
-        CreateMap<Account, AccountArtworkVM>().ReverseMap();
+        CreateMap<Account, AccountBasicInfoVM>().ReverseMap();
         CreateMap<Artwork, ArtworkModel>().ReverseMap();
         CreateMap<Artwork, ArtworkPreviewVM>().ReverseMap();
         CreateMap<Artwork, ArtworkDisplayModel>()
@@ -57,7 +56,9 @@ public class MappingProfile : Profile
         CreateMap<Block, BlockVM>().ReverseMap();
 
         CreateMap<Service, ServiceModel>().ReverseMap();
-        CreateMap<Service, ServiceVM>().ReverseMap();
+        CreateMap<Service, ServiceVM>()
+            .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryServiceDetails.Select(y => y.Category).ToList()));
+
 
         CreateMap<Report, ReportModel>().ReverseMap();
         CreateMap<Report, ReportVM>().ReverseMap();

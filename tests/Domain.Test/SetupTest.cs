@@ -54,6 +54,7 @@ public class SetupTest : IDisposable
     #region service mocks
     protected readonly Mock<IAccountService> _accountServiceMock;
     protected readonly Mock<ICommentService> _commentServiceMock;
+    protected readonly Mock<ITagService> _tagServiceMock;
     protected readonly Mock<IFollowService> _followServiceMock;
     protected readonly Mock<IUserTokenService> _userTokenServiceMock;
     protected readonly Mock<ITokenHandler> _tokenHandlerMock;
@@ -121,6 +122,7 @@ public class SetupTest : IDisposable
 
         _accountServiceMock = new Mock<IAccountService>();
         _commentServiceMock = new Mock<ICommentService>();
+        _tagServiceMock = new Mock<ITagService>();
         _followServiceMock = new Mock<IFollowService>();
         _userTokenServiceMock = new Mock<IUserTokenService>();
         _tokenHandlerMock = new Mock<ITokenHandler>();
@@ -133,6 +135,7 @@ public class SetupTest : IDisposable
     {
         _dbContext.Dispose();
     }
+
     // mock data methods
     protected List<Account> MockAccountList(int length)
     {
@@ -183,6 +186,23 @@ public class SetupTest : IDisposable
         return _fixture.Build<Follow>()
                        .Without(x => x.Account)
                        .Without(x => x.Follower)
+                       .CreateMany(length)
+                       .ToList();
+    }
+
+    protected List<Like> MockLikeList(int length)
+    {
+        return _fixture.Build<Like>()
+                       .Without(x => x.Account)
+                       .Without(x => x.Artwork)
+                       .CreateMany(length)
+                       .ToList();
+    }
+
+    protected List<Tag> MockTagList(int length)
+    {
+           return _fixture.Build<Tag>()
+                       .Without(x => x.TagDetails)
                        .CreateMany(length)
                        .ToList();
     }

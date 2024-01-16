@@ -8,8 +8,8 @@ public class ServiceVM
     public string ServiceName { get; set; } = default!;
     public string Description { get; set; } = string.Empty;
     public string DeliveryTime { get; set; } = default!;
-    public string NumberOfConcept { get; set; } = default!;
-    public string NumberOfRevision { get; set; } = default!;
+    public int NumberOfConcept { get; set; } = default!;
+    public int NumberOfRevision { get; set; } = default!;
     public double StartingPrice { get; set; } = default!;
     public string CoverLocation { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
@@ -19,9 +19,10 @@ public class ServiceVM
     public Guid? DeletedBy { get; set; }
     public DateTime? DeletedOn { get; set; }
 
-    public Account Account { get; set; } = default!;
+    public AccountBasicInfoVM Account { get; set; } = default!;
+    public List<CategoryVM> CategoryList { get; set; } = default!;
     public List<Request> Requests { get; set; } = default!;
     public List<Proposal> Proposals { get; set; } = default!;
     public List<ServiceDetail> ServiceDetails { get; set; } = default!;
-    public List<CategoryServiceDetail> CategoryServiceDetails { get; set; } = default!;
+
 }
