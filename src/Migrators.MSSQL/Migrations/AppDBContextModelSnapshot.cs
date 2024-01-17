@@ -1261,7 +1261,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DeliveryTime = "2 - 3 tuần",
                             Description = "Mô tả Dịch vụ thiết kế",
-                            LastModificatedOn = new DateTime(2024, 1, 17, 15, 43, 9, 414, DateTimeKind.Local).AddTicks(981),
+                            LastModificatedOn = new DateTime(2024, 1, 17, 21, 20, 0, 399, DateTimeKind.Local).AddTicks(4818),
                             NumberOfConcept = 2,
                             NumberOfRevision = 2,
                             ServiceName = "Dịch vụ thiết kế",
@@ -1721,7 +1721,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
                             CreatedOn = new DateTime(2023, 11, 7, 15, 30, 3, 678, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 1,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c1")
                         },
@@ -1732,7 +1732,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
                             CreatedOn = new DateTime(2023, 11, 10, 21, 20, 10, 234, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 1,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c1")
                         },
@@ -1743,7 +1743,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
                             CreatedOn = new DateTime(2023, 11, 14, 2, 59, 59, 0, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 0,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c1")
                         },
@@ -1754,7 +1754,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
                             CreatedOn = new DateTime(2023, 12, 10, 12, 40, 28, 901, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 1,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c1")
                         },
@@ -1765,7 +1765,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
                             CreatedOn = new DateTime(2023, 11, 16, 9, 37, 42, 345, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 1,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c2")
                         },
@@ -1776,7 +1776,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
                             CreatedOn = new DateTime(2023, 11, 29, 1, 30, 15, 567, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 1,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c2")
                         },
@@ -1787,7 +1787,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
                             CreatedOn = new DateTime(2023, 12, 1, 6, 59, 59, 999, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 0,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c2")
                         },
@@ -1798,7 +1798,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-0f12-08dc1445b3e2"),
                             CreatedOn = new DateTime(2023, 11, 19, 12, 40, 28, 901, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 1,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c3")
                         },
@@ -1809,7 +1809,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-0f12-08dc1445b3e2"),
                             CreatedOn = new DateTime(2023, 11, 29, 1, 30, 15, 567, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 1,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c3")
                         },
@@ -1820,7 +1820,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-0f12-08dc1445b3e2"),
                             CreatedOn = new DateTime(2023, 12, 10, 12, 40, 28, 901, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 0,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c3")
                         },
@@ -1831,7 +1831,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
                             CreatedOn = new DateTime(2023, 11, 22, 12, 37, 42, 345, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 1,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c4")
                         },
@@ -1842,7 +1842,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
                             CreatedOn = new DateTime(2023, 11, 15, 10, 45, 20, 123, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 1,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c4")
                         },
@@ -1853,7 +1853,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
                             CreatedOn = new DateTime(2023, 12, 5, 9, 37, 42, 345, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 0,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c4")
                         },
@@ -1864,7 +1864,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-cc1d-08dc1445b3e0"),
                             CreatedOn = new DateTime(2023, 11, 3, 17, 45, 20, 123, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 1,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c0")
                         },
@@ -1875,7 +1875,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-cc1d-08dc1445b3e0"),
                             CreatedOn = new DateTime(2023, 11, 17, 9, 59, 59, 0, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 0,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c0")
                         },
@@ -1886,7 +1886,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("7d580000-c214-88a4-cc1d-08dc1445b3e0"),
                             CreatedOn = new DateTime(2023, 11, 6, 1, 20, 45, 890, DateTimeKind.Local),
                             PaymentMethod = 0,
-                            TransactionStatus = 0,
+                            TransactionStatus = 1,
                             Type = 1,
                             WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c0")
                         });

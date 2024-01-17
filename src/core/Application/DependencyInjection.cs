@@ -27,6 +27,8 @@ public static class DependencyInjection
         services.AddScoped<ITagDetailService, TagDetailService>();
         services.AddScoped<IWalletService, WalletService>();
         services.AddScoped<IAssetTransactionService, AssetTransactionService>();
+        services.AddScoped<IWalletHistoryService, WalletHistoryService>();
+        services.AddScoped<ITransactionHistoryService, TransactionHistoryService>();
 
         services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<ITokenHandler, TokenHandler>();

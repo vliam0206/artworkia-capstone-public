@@ -80,5 +80,11 @@ public class MappingProfile : Profile
         
         CreateMap<TransactionHistory, AssetTransactionModel>().ReverseMap();
         CreateMap<TransactionHistory, AssetTransactionVM>().ReverseMap();
+
+        CreateMap<WalletHistory, WalletHistoryVM>()
+            .ForMember(model => model.AccountId, opt => opt.MapFrom(src => src.CreatedBy));
+
+        CreateMap<TransactionHistory, TransactionHistoryVM>()
+            .ForMember(model => model.AccountId, opt => opt.MapFrom(src => src.CreatedBy));
     }
 }

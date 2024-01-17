@@ -75,7 +75,7 @@ public class CollectionsController : ControllerBase
             collection = await _collectionService.GetCollectionDetailAsync(collection.Id);
             if (collection == null)
             {
-                return StatusCode(500, "Server failed to create collection!");
+                return StatusCode(500, new ApiResponse { ErrorMessage = "Server failed to create collection!" });
             }
         }
         catch (Exception ex)
