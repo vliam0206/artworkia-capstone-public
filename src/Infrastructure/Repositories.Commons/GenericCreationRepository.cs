@@ -17,6 +17,7 @@ public class GenericCreationRepository<TEntity> : GenericRepository<TEntity>
 
     public override async Task AddAsync(TEntity entity)
     {
+        entity.CreatedOn = DateTime.UtcNow.ToLocalTime();
         entity.CreatedBy = _claimService.GetCurrentUserId;
         await _dbSet.AddAsync(entity);
     }
@@ -25,6 +26,7 @@ public class GenericCreationRepository<TEntity> : GenericRepository<TEntity>
     {
         foreach (var entity in entities)
         {
+            entity.CreatedOn = DateTime.UtcNow.ToLocalTime();
             entity.CreatedBy = _claimService.GetCurrentUserId;
         }
         await _dbSet.AddRangeAsync(entities);

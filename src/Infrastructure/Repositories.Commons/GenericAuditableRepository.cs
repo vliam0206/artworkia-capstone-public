@@ -17,6 +17,7 @@ public class GenericAuditableRepository<TEntity> : GenericCreationRepository<TEn
 
     public override void Update(TEntity entity)
     {
+        entity.LastModificatedOn = DateTime.UtcNow.ToLocalTime();
         entity.LastModificatedBy = _claimService.GetCurrentUserId;
         _dbContext.Entry(entity).State = EntityState.Modified;
     }
@@ -25,6 +26,7 @@ public class GenericAuditableRepository<TEntity> : GenericCreationRepository<TEn
     {
         foreach (var entity in entities)
         {
+            entity.LastModificatedOn = DateTime.UtcNow.ToLocalTime();
             entity.LastModificatedBy = _claimService.GetCurrentUserId;
         }
         _dbSet.UpdateRange(entities);

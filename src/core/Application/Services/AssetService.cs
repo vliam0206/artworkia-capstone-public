@@ -53,7 +53,7 @@ public class AssetService : IAssetService
         // kiem tra xem user da mua asset chua
         var accountId = _claimService.GetCurrentUserId ?? default;
         var assetTransaction = await _unitOfWork.TransactionHistoryRepository.GetSingleByConditionAsync(
-            x => x.AssetId == assetId && x.AccountId == accountId);
+            x => x.AssetId == assetId && x.CreatedBy == accountId);
         if (assetTransaction != null)
             return asset.Location;
 

@@ -7,6 +7,6 @@ public class WalletVM
     public Guid Id { get; set; }
     public Guid AccountId { get; set; }
     public double Balance { get; set; } = 0;
-    public WithdrawMethodEnum WithdrawMethod { get; set; }
+    public string WithdrawMethod { get; set; } = default!;
     public string WithdrawInformation { get; set; } = default!;
 }

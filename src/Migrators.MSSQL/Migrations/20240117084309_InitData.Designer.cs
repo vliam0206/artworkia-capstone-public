@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240116041609_InitDataV1")]
-    partial class InitDataV1
+    [Migration("20240117084309_InitData")]
+    partial class InitData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,11 +97,10 @@ namespace Migrators.MSSQL.Migrations
                         new
                         {
                             Id = new Guid("7d580000-c214-88a4-cc1d-08dc1445b3e0"),
-                            Avatar = "https://i.pinimg.com/564x/be/85/2f/be852fd4ad1cb76b83ce962f618895bd.jpg",
-                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 626, DateTimeKind.Local).AddTicks(2967),
+                            Avatar = "https://i.pinimg.com/564x/ed/de/aa/eddeaaf250c19489e25bd0a2dd3e7756.jpg",
+                            CreatedOn = new DateTime(2023, 10, 14, 12, 37, 42, 345, DateTimeKind.Local),
                             Email = "user@example.com",
                             Fullname = "Người dùng mặc định",
-                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 626, DateTimeKind.Local).AddTicks(2985),
                             Password = "/Yvo/zNSPcJB+6Roi0BD6gR/tx9tPXSqrslB+3Zy0rwOC2lA",
                             Role = 2,
                             Username = "user"
@@ -109,11 +108,10 @@ namespace Migrators.MSSQL.Migrations
                         new
                         {
                             Id = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            Avatar = "https://i.pinimg.com/564x/ed/de/aa/eddeaaf250c19489e25bd0a2dd3e7756.jpg",
-                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 628, DateTimeKind.Local).AddTicks(9861),
+                            Avatar = "https://i.pinimg.com/564x/be/85/2f/be852fd4ad1cb76b83ce962f618895bd.jpg",
+                            CreatedOn = new DateTime(2023, 10, 15, 17, 15, 47, 890, DateTimeKind.Local),
                             Email = "lamlam@example.com",
                             Fullname = "Trúc Lam Võ",
-                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 628, DateTimeKind.Local).AddTicks(9864),
                             Password = "P9i8PUWQ4DnT6Dnstg7HEXTlnFUDoZFTNJopEJ4UxxoK3zRn",
                             Role = 2,
                             Username = "lamlam"
@@ -122,10 +120,9 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
                             Avatar = "https://i.pinimg.com/564x/14/b0/3b/14b03bdcab41f458dd15c9f5669cef2d.jpg",
-                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 631, DateTimeKind.Local).AddTicks(6615),
+                            CreatedOn = new DateTime(2023, 10, 21, 19, 20, 47, 890, DateTimeKind.Local),
                             Email = "hoanganh@example.com",
                             Fullname = "Đặng Hoàng Anh",
-                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 631, DateTimeKind.Local).AddTicks(6615),
                             Password = "RZX95v+qA/O+EKXLkilrMbLW+cKQ7jekrOE9uwWE4fSupbQM",
                             Role = 2,
                             Username = "hoanganh"
@@ -134,10 +131,9 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("7d580000-c214-88a4-0f12-08dc1445b3e2"),
                             Avatar = "https://i.pinimg.com/564x/6c/a3/4b/6ca34beddfbd279418c915d2258d698b.jpg",
-                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 634, DateTimeKind.Local).AddTicks(3537),
+                            CreatedOn = new DateTime(2023, 10, 27, 19, 23, 47, 890, DateTimeKind.Local),
                             Email = "thong@example.com",
                             Fullname = "Nguyễn Trung Thông",
-                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 634, DateTimeKind.Local).AddTicks(3538),
                             Password = "BCpA8roVqTkU54PKIBXU4Iyl3YqyF5wYPagAXZ/1HYFEB9dh",
                             Role = 2,
                             Username = "thong"
@@ -146,10 +142,9 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
                             Avatar = "https://i.pinimg.com/736x/81/3c/57/813c57fcb969d58fac1672594da05532.jpg",
-                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 637, DateTimeKind.Local).AddTicks(584),
+                            CreatedOn = new DateTime(2023, 10, 30, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "phu@example.com",
                             Fullname = "Huỳnh Vạn Phú",
-                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 637, DateTimeKind.Local).AddTicks(584),
                             Password = "44p9oaVq2ED8i7Q6vKIaS//ynDYqhnLcHcX/W7sDDIa1m3v/",
                             Role = 2,
                             Username = "phuhuynh"
@@ -158,10 +153,9 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("7d580000-c214-88a4-e5f6-08dc1445b3e2"),
                             Avatar = "https://i.pinimg.com/564x/7d/cd/61/7dcd61988b0add83b5ba9a656512593e.jpg",
-                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 639, DateTimeKind.Local).AddTicks(7415),
+                            CreatedOn = new DateTime(2023, 10, 14, 12, 37, 42, 345, DateTimeKind.Local),
                             Email = "mod@example.com",
                             Fullname = "Kiểm soát viên",
-                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 639, DateTimeKind.Local).AddTicks(7415),
                             Password = "/yI89eEokmyCtc8FQcA8Salpuc2Gnv6+xvWUi9jfF3D56K8l",
                             Role = 1,
                             Username = "mod"
@@ -170,10 +164,9 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("7d580000-c214-88a4-5141-08dc1445b3e3"),
                             Avatar = "https://i.pinimg.com/564x/0e/4b/7a/0e4b7aef4834bfc646775d8fd3705825.jpg",
-                            CreatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 642, DateTimeKind.Local).AddTicks(4141),
+                            CreatedOn = new DateTime(2023, 10, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "admin@example.com",
                             Fullname = "Quản trị viên hệ thống",
-                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 642, DateTimeKind.Local).AddTicks(4141),
                             Password = "tmb/sYLga1PDxUtRiIEU4YJtaG2HN58av/VA2S/8v19GLbSx",
                             Role = 0,
                             Username = "admin"
@@ -240,20 +233,20 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Đây là tuyển tập tâm huyết của mình, nhớ like và comment để ủng hộ mình nha",
+                            CreatedOn = new DateTime(2023, 11, 27, 15, 40, 28, 901, DateTimeKind.Local),
+                            Description = "Bộ sưu tập người máy - biểu tượng của tương lai.",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.D7FfBXsOQCjc28w68xZS?pid=ImgGn",
                             ThumbnailName = "35966d1a-9b08-4743-b1c3-474a58350f6e_t.jpg",
-                            Title = "Tuyển tập minh hoạ sách tâm lý"
+                            Title = "Kỷ nguyên mới"
                         },
                         new
                         {
                             Id = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9"),
                             CreatedBy = new Guid("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
-                            CreatedOn = new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2023, 11, 6, 1, 20, 45, 890, DateTimeKind.Local),
                             Privacy = 0,
-                            Thumbnail = "https://i.pximg.net/c/250x250_80_a2/custom-thumb/img/2023/11/13/18/56/54/113380427_p0_custom1200.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.MC3PObbEmuJhfsPJ8biQ?pid=ImgGn",
                             ThumbnailName = "72fbdead-0704-4f69-82ec-0cd09218fef9_t.jpg",
                             Title = "Touhou Project Image Cute"
                         },
@@ -261,10 +254,10 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("35966d1a-9b08-4743-b1c3-474a58350f5e"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2023, 11, 20, 15, 30, 3, 678, DateTimeKind.Local),
                             Description = "Đây là tuyển tập tâm huyết của mình, nhớ like và comment để ủng hộ mình nha",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.yy76iMmgUCmXetlfQxqn?w=1024&h=1024&rs=1&pid=ImgDetMain",
                             ThumbnailName = "35966d1a-9b08-4743-b1c3-474a58350f5e_t.jpg",
                             Title = "Tuyển tập minh hoạ sách tâm lý"
                         },
@@ -272,21 +265,21 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("ab5e5cda-2b09-4ba1-8d6c-74f169c8a9a3"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Sách tìm hiểu về những bí mật đằng sau tâm lý con người",
+                            CreatedOn = new DateTime(2023, 12, 5, 9, 37, 42, 345, DateTimeKind.Local),
+                            Description = "Tuyển tập những bức vẽ về hoàng hôn",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.7WfKwqG.VAbgwQ87iaTU?w=1024&h=1024&rs=1&pid=ImgDetMain",
                             ThumbnailName = "ab5e5cda-2b09-4ba1-8d6c-74f169c8a9a3_t.jpg",
-                            Title = "Bí mật tâm lý học"
+                            Title = "Hoàng hôn rực nắng"
                         },
                         new
                         {
                             Id = new Guid("e74b9b62-1f9e-4a12-97e1-8c79c9a2aeb7"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2024, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2023, 12, 20, 22, 20, 45, 890, DateTimeKind.Local),
                             Description = "Khám phá sâu hơn về cảm xúc và tâm trạng trong cuộc sống",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.mMOt1xWJJCHsRoPJXtHQ?pid=ImgGn",
                             ThumbnailName = "e74b9b62-1f9e-4a12-97e1-8c79c9a2aeb7_t.jpg",
                             Title = "Hành trình sâu cảm xúc"
                         },
@@ -294,21 +287,21 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("3f22b8d1-0d5b-4da0-9f4e-876c1586c5b3"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Bức tranh thể hiện sự huyền bí và phức tạp của tâm trí con người",
+                            CreatedOn = new DateTime(2023, 12, 18, 20, 55, 30, 456, DateTimeKind.Local),
+                            Description = "Minh họa những cuộc chiến tiêu biểu của thời đại",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.k0SSs9Qn3tHNvlcMdMrG?w=1024&h=1024&rs=1&pid=ImgDetMain",
                             ThumbnailName = "3f22b8d1-0d5b-4da0-9f4e-876c1586c5b3_t.jpg",
-                            Title = "Sự huyền bí của tâm trí"
+                            Title = "Vẻ đẹp của lịch sử"
                         },
                         new
                         {
                             Id = new Guid("56f86f82-4622-4710-8d1c-b8c1664711a2"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2024, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2023, 12, 22, 15, 30, 3, 678, DateTimeKind.Local),
                             Description = "Tác phẩm thể hiện sự ảnh hưởng của quá khứ đối với hiện tại",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.Oe0vi0jHSKaHn5DZ267N?w=1024&h=1024&rs=1&pid=ImgDetMain",
                             ThumbnailName = "56f86f82-4622-4710-8d1c-b8c1664711a2_t.jpg",
                             Title = "Dấu vết của quá khứ"
                         },
@@ -316,10 +309,10 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("8c24a1d8-9f14-44cd-9e86-2c542d14413c"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2023, 12, 20, 7, 30, 15, 567, DateTimeKind.Local),
                             Description = "Minh họa cho hành trình không ngừng của sự sáng tạo",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.LTaVFacabNQc22SAk1r1?pid=ImgGn",
                             ThumbnailName = "8c24a1d8-9f14-44cd-9e86-2c542d14413c_t.jpg",
                             Title = "Hành trình của sự sáng tạo"
                         },
@@ -327,10 +320,10 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("5fdaf3c7-6c68-45fb-9610-b67b8a1d0bd0"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2023, 12, 26, 12, 40, 28, 901, DateTimeKind.Local),
                             Description = "Tượng trưng cho sự đồng hành và hỗ trợ của đối tác tâm lý",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.AoM9akz.gT4RMZ9R6DOh?pid=ImgGn",
                             ThumbnailName = "5fdaf3c7-6c68-45fb-9610-b67b8a1d0bd0_t.jpg",
                             Title = "Sự đồng hành của đối tác tâm lý"
                         },
@@ -338,10 +331,10 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("fb7c52b9-64f8-4e84-a992-14b8bcb6ea35"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2024, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2023, 12, 30, 1, 30, 15, 567, DateTimeKind.Local),
                             Description = "Hình ảnh tượng trưng cho ánh sáng và năng lượng bên trong chúng ta",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG..gPcXaRan.FdnEjYCvT3?pid=ImgGn",
                             ThumbnailName = "fb7c52b9-64f8-4e84-a992-14b8bcb6ea35_t.jpg",
                             Title = "Mặt trời bên trong"
                         },
@@ -349,10 +342,10 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("91f9a14d-66a9-43da-8e43-2579baf7c8a7"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2024, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2024, 1, 2, 4, 20, 10, 234, DateTimeKind.Local),
                             Description = "Minh họa cho tâm trạng lạc quan và hy vọng về tương lai",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.Uz66_wn15hsKPirpv6Pb?pid=ImgGn",
                             ThumbnailName = "91f9a14d-66a9-43da-8e43-2579baf7c8a7_t.jpg",
                             Title = "Sự lạc quan của tương lai"
                         },
@@ -360,10 +353,10 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("b1c16326-7a16-4f6b-a76d-cf15ce2c71d3"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2024, 1, 8, 20, 55, 30, 456, DateTimeKind.Local),
                             Description = "Tượng trưng cho nơi gặp gỡ và kết nối tâm hồn con người",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.78MNqZpoa6ReKmvZCHPI?pid=ImgGn",
                             ThumbnailName = "b1c16326-7a16-4f6b-a76d-cf15ce2c71d3_t.jpg",
                             Title = "Nơi gặp gỡ tâm hồn"
                         },
@@ -371,10 +364,10 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("9202bb7f-71f3-4641-b1d4-9bc858416d84"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2024, 1, 10, 15, 30, 3, 678, DateTimeKind.Local),
                             Description = "Tượng trưng cho vũ trụ rộng lớn và không gian của tâm trí con người",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.Iar__phrqaC3bhQLIHAZ?w=1024&h=1024&rs=1&pid=ImgDetMain",
                             ThumbnailName = "9202bb7f-71f3-4641-b1d4-9bc858416d84_t.jpg",
                             Title = "Vũ trụ tâm trí"
                         },
@@ -382,10 +375,10 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("7a04e5c7-ffea-45da-80d2-875b0a0b8d35"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2024, 1, 11, 9, 37, 42, 345, DateTimeKind.Local),
                             Description = "Bức tranh thể hiện hành trình tìm kiếm và theo đuổi đam mê trong cuộc sống",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.MxQxUggA0RKmKdTjwAqw?pid=ImgGn",
                             ThumbnailName = "7a04e5c7-ffea-45da-80d2-875b0a0b8d35_t.jpg",
                             Title = "Hành trình tìm kiếm đam mê"
                         },
@@ -393,10 +386,10 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("f7e4df8d-b4b7-4a39-8f2b-74f5d4b512a4"),
                             CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTime(2024, 1, 12, 17, 55, 30, 456, DateTimeKind.Local),
                             Description = "Tượng trưng cho biển cả tri thức sâu rộng và không ngừng mở rộng",
                             Privacy = 0,
-                            Thumbnail = "https://hiu.vn/wp-content/uploads/2022/02/review-nganh-tam-ly-hoc-1024x768.jpg",
+                            Thumbnail = "https://th.bing.com/th/id/OIG.5gNG99_0Acz4Y8CGOYlg?pid=ImgGn",
                             ThumbnailName = "f7e4df8d-b4b7-4a39-8f2b-74f5d4b512a4_t.jpg",
                             Title = "Biển cả của tri thức"
                         });
@@ -466,7 +459,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Mua đê",
                             Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
                             Order = 0,
-                            Price = 100000.0
+                            Price = 10.0
                         },
                         new
                         {
@@ -487,7 +480,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Tàu hũ ZIP",
                             Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
                             Order = 0,
-                            Price = 72000.0
+                            Price = 12.0
                         });
                 });
 
@@ -1271,7 +1264,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DeliveryTime = "2 - 3 tuần",
                             Description = "Mô tả Dịch vụ thiết kế",
-                            LastModificatedOn = new DateTime(2024, 1, 16, 11, 16, 9, 656, DateTimeKind.Local).AddTicks(1390),
+                            LastModificatedOn = new DateTime(2024, 1, 17, 15, 43, 9, 414, DateTimeKind.Local).AddTicks(981),
                             NumberOfConcept = 2,
                             NumberOfRevision = 2,
                             ServiceName = "Dịch vụ thiết kế",
@@ -1498,10 +1491,10 @@ namespace Migrators.MSSQL.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newid()");
 
-                    b.Property<Guid>("AccountId")
+                    b.Property<Guid?>("AssetId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AssetId")
+                    b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
@@ -1525,13 +1518,45 @@ namespace Migrators.MSSQL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("AssetId");
+
+                    b.HasIndex("CreatedBy");
 
                     b.HasIndex("ProposalId");
 
                     b.ToTable("TransactionHistory", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d5951c1f-b46f-4af1-9c9a-f95dc6e9f9d1"),
+                            AssetId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-cc1d-08dc1445b3e0"),
+                            CreatedOn = new DateTime(2024, 1, 13, 22, 30, 3, 678, DateTimeKind.Local),
+                            Detail = "Mở khóa tài nguyên \"Tàu hũ ZIP\"",
+                            Price = 12.0,
+                            TransactionStatus = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("d5951c1f-b46f-4af1-9c9a-f95dc6e9f9d2"),
+                            AssetId = new Guid("ec114537-eadb-49d4-ad49-675d06ce6ccc"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-cc1d-08dc1445b3e0"),
+                            CreatedOn = new DateTime(2024, 1, 15, 9, 59, 59, 0, DateTimeKind.Local),
+                            Detail = "Mở khóa tài nguyên \"File PTS tuyển tập minh hoạ sách tâm lý\"",
+                            Price = 10.0,
+                            TransactionStatus = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("d5951c1f-b46f-4af1-9c9a-f95dc6e9f9d3"),
+                            AssetId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9"),
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2024, 1, 14, 22, 30, 3, 678, DateTimeKind.Local),
+                            Detail = "Mở khóa tài nguyên \"Tàu hũ ZIP\"",
+                            Price = 12.0,
+                            TransactionStatus = 1
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.UserToken", b =>
@@ -1611,6 +1636,48 @@ namespace Migrators.MSSQL.Migrations
                         .IsUnique();
 
                     b.ToTable("Wallet", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c0"),
+                            AccountId = new Guid("7d580000-c214-88a4-cc1d-08dc1445b3e0"),
+                            Balance = 2000.0,
+                            WithdrawInformation = "0902287461",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c1"),
+                            AccountId = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            Balance = 1000.0,
+                            WithdrawInformation = "0939959417",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c2"),
+                            AccountId = new Guid("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
+                            Balance = 1000.0,
+                            WithdrawInformation = "0902287462",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c3"),
+                            AccountId = new Guid("7d580000-c214-88a4-0f12-08dc1445b3e2"),
+                            Balance = 1000.0,
+                            WithdrawInformation = "0902287463",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c4"),
+                            AccountId = new Guid("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
+                            Balance = 1000.0,
+                            WithdrawInformation = "0902287464",
+                            WithdrawMethod = 0
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.WalletHistory", b =>
@@ -1648,6 +1715,184 @@ namespace Migrators.MSSQL.Migrations
                     b.HasIndex("WalletId");
 
                     b.ToTable("WalletHistory", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf0290"),
+                            Amount = 200.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2023, 11, 7, 15, 30, 3, 678, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 1,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c1")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf0291"),
+                            Amount = 2500.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2023, 11, 10, 21, 20, 10, 234, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 1,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c1")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf0292"),
+                            Amount = 2000.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2023, 11, 14, 2, 59, 59, 0, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 0,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c1")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf0293"),
+                            Amount = 300.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2023, 12, 10, 12, 40, 28, 901, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 1,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c1")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf0294"),
+                            Amount = 200.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2023, 11, 16, 9, 37, 42, 345, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 1,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c2")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf0295"),
+                            Amount = 2500.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2023, 11, 29, 1, 30, 15, 567, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 1,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c2")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf0296"),
+                            Amount = 1700.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
+                            CreatedOn = new DateTime(2023, 12, 1, 6, 59, 59, 999, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 0,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c2")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf0297"),
+                            Amount = 200.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-0f12-08dc1445b3e2"),
+                            CreatedOn = new DateTime(2023, 11, 19, 12, 40, 28, 901, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 1,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c3")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf0298"),
+                            Amount = 2500.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-0f12-08dc1445b3e2"),
+                            CreatedOn = new DateTime(2023, 11, 29, 1, 30, 15, 567, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 1,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c3")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf0299"),
+                            Amount = 1700.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-0f12-08dc1445b3e2"),
+                            CreatedOn = new DateTime(2023, 12, 10, 12, 40, 28, 901, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 0,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c3")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf029a"),
+                            Amount = 200.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
+                            CreatedOn = new DateTime(2023, 11, 22, 12, 37, 42, 345, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 1,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c4")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf029b"),
+                            Amount = 2500.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
+                            CreatedOn = new DateTime(2023, 11, 15, 10, 45, 20, 123, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 1,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c4")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf029c"),
+                            Amount = 1700.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
+                            CreatedOn = new DateTime(2023, 12, 5, 9, 37, 42, 345, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 0,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c4")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf029d"),
+                            Amount = 3000.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-cc1d-08dc1445b3e0"),
+                            CreatedOn = new DateTime(2023, 11, 3, 17, 45, 20, 123, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 1,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c0")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf029e"),
+                            Amount = 1500.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-cc1d-08dc1445b3e0"),
+                            CreatedOn = new DateTime(2023, 11, 17, 9, 59, 59, 0, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 0,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c0")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b7d2223-c1fe-4a45-ad69-8e893ebf029f"),
+                            Amount = 500.0,
+                            CreatedBy = new Guid("7d580000-c214-88a4-cc1d-08dc1445b3e0"),
+                            CreatedOn = new DateTime(2023, 11, 6, 1, 20, 45, 890, DateTimeKind.Local),
+                            PaymentMethod = 0,
+                            TransactionStatus = 0,
+                            Type = 1,
+                            WalletId = new Guid("73b5f912-28d7-4473-9c8d-56a734d8a1c0")
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.Artwork", b =>
@@ -2019,15 +2264,13 @@ namespace Migrators.MSSQL.Migrations
 
             modelBuilder.Entity("Domain.Entitites.TransactionHistory", b =>
                 {
-                    b.HasOne("Domain.Entitites.Account", "Account")
-                        .WithMany("TransactionHistories")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entitites.Asset", "Asset")
                         .WithMany("TransactionHistories")
                         .HasForeignKey("AssetId");
+
+                    b.HasOne("Domain.Entitites.Account", "Account")
+                        .WithMany("TransactionHistories")
+                        .HasForeignKey("CreatedBy");
 
                     b.HasOne("Domain.Entitites.Proposal", "Proposal")
                         .WithMany("TransactionHistories")

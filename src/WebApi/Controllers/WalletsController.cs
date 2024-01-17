@@ -6,7 +6,6 @@ using WebApi.ViewModels.Commons;
 
 namespace WebApi.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
 public class WalletsController : ControllerBase
 {
@@ -17,7 +16,9 @@ public class WalletsController : ControllerBase
         _walletService = walletService;
     }
 
-    [HttpGet("{walletId}")]
+    [Route("api/[controller]/{walletId}")]
+    [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetWalletById(Guid walletId)
     {
         try
@@ -26,22 +27,35 @@ public class WalletsController : ControllerBase
             return Ok(result);
         } catch (NullReferenceException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         } catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
-    [HttpPut("{walletId}")]
+    [Route("api/account/{userId}/[controller]")]
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> GetWalletByUserId(Guid userId)
+    {
+        try
+        {
+            var result = await _walletService.GetWalletByAccountIdAsync(userId);
+            return Ok(result);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
+
+    [Route("api/[controller]/{walletId}")]
+    [HttpPut]
     [Authorize]
     public async Task<IActionResult> UpdateWallet(Guid walletId, WalletEM walletEM)
     {
@@ -51,18 +65,10 @@ public class WalletsController : ControllerBase
             return NoContent();
         } catch (NullReferenceException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         } catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

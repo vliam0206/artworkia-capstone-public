@@ -19,7 +19,8 @@ public class TagDetailConfiguration : IEntityTypeConfiguration<TagDetail>
         #region init data
         builder.HasData
         (
-            new TagDetail() { 
+            new TagDetail()
+            {
                 ArtworkId = Guid.Parse("35966d1a-9b08-4743-b1c3-474a58350f6e"),
                 TagId = Guid.Parse("7cfdb5fc-7fe7-48e9-a1a2-78b788f95ec2")
             },

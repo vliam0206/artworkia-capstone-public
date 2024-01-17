@@ -18,7 +18,8 @@ public class CategoryArtworkDetailConfiguration : IEntityTypeConfiguration<Categ
         #region init data
         builder.HasData
         (
-            new CategoryArtworkDetail() { 
+            new CategoryArtworkDetail()
+            {
                 ArtworkId = Guid.Parse("35966d1a-9b08-4743-b1c3-474a58350f6e"),
                 CategoryId = Guid.Parse("57dbdb36-f9ad-4926-9fb6-2df15969ed5e")
             },

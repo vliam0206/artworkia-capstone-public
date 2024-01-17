@@ -32,7 +32,7 @@ namespace Infrastructure.Database.Configuration
                     Id = Guid.Parse("8ea03178-3cc7-40e5-9344-a6a96c492a42"),
                     ArtworkId = Guid.Parse("35966d1a-9b08-4743-b1c3-474a58350f6e"),
                     Content = "Đây là một bức tranh rất đẹp",
-                    CreatedBy = Guid.Parse("7d580000-c214-88a4-a3f1-08dc1445b3e1"), 
+                    CreatedBy = Guid.Parse("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
                     CreatedOn = DateTime.Parse("2024-1-1"),
                 },
                 new Comment()

@@ -2,6 +2,6 @@
 
 public enum WithdrawMethodEnum
 {
-    Momo = 0,
+    Zalopay = 0,
     BankAccount = 1
 }

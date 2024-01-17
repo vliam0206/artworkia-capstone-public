@@ -23,14 +23,15 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
         #region init data
         builder.HasData
         (
-            new Asset() { 
-                Id = Guid.Parse("ec114537-eadb-49d4-ad49-675d06ce6ccc"), 
-                ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"), 
-                AssetTitle = "File PTS tuyển tập minh hoạ sách tâm lý", 
+            new Asset()
+            {
+                Id = Guid.Parse("ec114537-eadb-49d4-ad49-675d06ce6ccc"),
+                ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
+                AssetTitle = "File PTS tuyển tập minh hoạ sách tâm lý",
                 Description = "Mua đê",
-                AssetName = "PTS_1.zip", 
+                AssetName = "PTS_1.zip",
                 Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
-                Price = 100000, 
+                Price = 10,
             },
             new Asset()
             {
@@ -50,7 +51,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 Description = null,
                 AssetName = "PTS_1.zip",
                 Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
-                Price = 72000,
+                Price = 12,
             }
         );
         #endregion

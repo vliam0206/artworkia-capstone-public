@@ -27,7 +27,7 @@ public class AssetTransactionService : IAssetTransactionService
     {
         // Check if user already has this asset
         var assetTransaction = await _unitOfWork.TransactionHistoryRepository
-            .GetSingleByConditionAsync(x => x.AccountId == _claimService.GetCurrentUserId
+            .GetSingleByConditionAsync(x => x.CreatedBy == _claimService.GetCurrentUserId
             && x.AssetId == assetTransactionModel.AssetId);
         if (assetTransaction is not null)
             throw new Exception("You already have this asset in your library");
@@ -52,7 +52,7 @@ public class AssetTransactionService : IAssetTransactionService
         wallet.Balance -= asset.Price;
         TransactionHistory newAssetTransaction = new TransactionHistory()
         {
-            AccountId = accountId,
+            CreatedBy = accountId,
             AssetId = assetTransactionModel.AssetId,
             Detail = $"Bought {asset.AssetTitle} for {asset.Price} coins successfully",
             Price = asset.Price,

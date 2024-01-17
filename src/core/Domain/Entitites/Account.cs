@@ -20,9 +20,9 @@ public class Account : BaseEntity, ICreation, IModification, ISoftDelete
     public DateTime? Birthdate;
     public RoleEnum Role { get; set; } = RoleEnum.CommonUser;
     public Guid? CreatedBy { get; set; }
-    public DateTime CreatedOn { get; set; } = DateTime.UtcNow.ToLocalTime();
+    public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }
-    public DateTime? LastModificatedOn { get; set; } = DateTime.UtcNow.ToLocalTime();
+    public DateTime? LastModificatedOn { get; set; }
     public Guid? DeletedBy { get; set; }
     public DateTime? DeletedOn { get; set; }
 

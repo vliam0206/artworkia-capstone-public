@@ -56,7 +56,8 @@ public class WalletService : IWalletService
 
     public async Task<WalletVM?> GetWalletByAccountIdAsync(Guid accountId)
     {
-        var wallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x => x.AccountId == accountId);
+        var wallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x 
+                                    => x.AccountId == accountId);
         if (wallet is null)
         {
             throw new NullReferenceException("Wallet is not exist");
