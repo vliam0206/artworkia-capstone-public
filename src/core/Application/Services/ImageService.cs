@@ -107,6 +107,43 @@ public class ImageService : IImageService
         await _unitOfWork.SaveChangesAsync();
     }
 
+    public async Task PutRangeImageAsync(MultiImageModel multiImageModel)
+    {
+        var listOldImage = await _unitOfWork.ImageRepository.GetListByConditionAsync(x => x.ArtworkId == multiImageModel.ArtworkId);
+        if (listOldImage != null)
+        {
+            foreach (var image in listOldImage)
+            {
+                await _firebaseService.DeleteFileInFirebaseStorage(image.ImageName, $"{PARENT_FOLDER}/{multiImageModel.ArtworkId}/Image");
+                _unitOfWork.ImageRepository.Delete(image);
+            }
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        foreach (var singleImage in multiImageModel.Images.Select((image, index) => (image, index)))
+        {
+            string newImageName = multiImageModel.ArtworkId + "_i" + singleImage.index;
+            string folderName = $"{PARENT_FOLDER}/{multiImageModel.ArtworkId}/Image";
+            string imageExtension = Path.GetExtension(singleImage.image.FileName); // lay duoi file (.png, .jpg, ...)
+
+            //upload hinh anh len firebase, lay url
+            var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName);
+            if (url == null)
+                throw new Exception("Error when uploading images to firebase");
+
+            // luu thong tin hinh anh vao database
+            Image image = new Image()
+            {
+                ArtworkId = multiImageModel.ArtworkId,
+                Location = url,
+                ImageName = newImageName + imageExtension,
+                Order = singleImage.index
+            };
+            await _unitOfWork.ImageRepository.AddAsync(image);
+        }
+
+    }
+
     public async Task DeleteImageAsync(Guid imageId)
     {
         var result = await _unitOfWork.ImageRepository.GetByIdAsync(imageId);

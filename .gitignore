@@ -237,6 +237,8 @@ ClientBin/
 *.dbproj.schemaview
 *.jfm
 *.pfx
+# khong ignore file pfx nay, de tao cert cho docker
+!ssl_cer/*.pfx 
 *.publishsettings
 orleans.codegen.cs
 

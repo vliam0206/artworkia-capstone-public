@@ -131,7 +131,7 @@ public class TagsController : ControllerBase
             return BadRequest(new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = $"Tag name '{tagModel.TagName}' is invalid (only contains uppercase, lowercase, digits, space, 2-30 characters)"
+                ErrorMessage = $"Tag name '{tagModel.TagName}' is invalid (only contains uppercase, lowercase, digits, space, 2-30 characters)."
             });
 
         try

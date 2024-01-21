@@ -51,7 +51,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> AddCategory(CategoryModel categoryModel)
     {
         try
@@ -70,7 +70,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPut("{categoryId}")]
-    [Authorize]
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> UpdateCategory(Guid categoryId, CategoryEM categoryEM)
     {
         try
@@ -95,7 +95,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpDelete("{categoryId}")]
-    [Authorize]
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> DeleteCategory(Guid categoryId)
     {
         try
