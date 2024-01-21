@@ -10,12 +10,8 @@ public class ArtworkEM
     [MaxLength(150)]
     public string Title { get; set; } = default!;
     [MaxLength(1000)]
-    public string? Description { get; set; } 
+    public string Description { get; set; } = default!;
     public PrivacyEnum Privacy { get; set; } = default!;
-    public IFormFile? Thumbnail { get; set; }
-    public List<IFormFile>? ImageFiles { get; set; }
-    public List<string>? Tags { get; set; }
-    public List<Guid>? Categories { get; set; } 
 }
 
 public class ArtworkModel
@@ -26,9 +22,9 @@ public class ArtworkModel
     [MaxLength(1000)]
     public string? Description { get; set; }
     [Required]
-    public IFormFile Thumbnail { get; set; } = default!;
-    [Required]
     public PrivacyEnum Privacy { get; set; } = default!;
+    [Required]
+    public IFormFile Thumbnail { get; set; } = default!;
     [Required]
     public List<IFormFile> ImageFiles { get; set; } = default!;
     public List<SingleAssetModel>? AssetFiles { get; set; }

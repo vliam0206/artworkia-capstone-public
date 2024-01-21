@@ -15,7 +15,7 @@ public class ArtworkVM
     public int LikeCount { get; set; } = 99;
     public int CommentCount { get; set; } = 5;
     public int BookmarkCount { get; set; } = 12;
-    public string Privacy { get; set; } = default!;
+    public PrivacyEnum Privacy { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }
@@ -41,7 +41,7 @@ public class ArtworkPreviewVM
     public int LikeCount { get; set; } = 99;
     public int CommentCount { get; set; } = 5;
     public int BookmarkCount { get; set; } = 12;
-    public string Privacy { get; set; } = default!;
+    public PrivacyEnum Privacy { get; set; } = default!;
     public DateTime CreatedOn { get; set; }
 }
 
