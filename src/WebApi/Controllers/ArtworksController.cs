@@ -12,11 +12,17 @@ namespace WebApi.Controllers;
 public class ArtworksController : ControllerBase
 {
     private readonly IArtworkService _artworkService;
+    private readonly ITagService _tagService;
     private readonly IMapper _mapper;
 
-    public ArtworksController(IArtworkService artworkService, IMapper mapper)
+    public ArtworksController(
+        IArtworkService artworkService, 
+        ITagService tagService,
+        IMapper mapper
+        )
     {
         _artworkService = artworkService;
+        _tagService = tagService;
         _mapper = mapper;
     }
 
@@ -65,95 +71,110 @@ public class ArtworksController : ControllerBase
     [Authorize]
     public async Task<IActionResult> AddArtwork([FromForm] ArtworkModel artworkModel)
     {
-        if (!FileValidationHelper.IsImageFormatValid(artworkModel.Thumbnail.FileName))
+        #region Validate artwork model
+        var tagValidationResult = ValidateTag(artworkModel.Tags);
+        if (!tagValidationResult.IsSuccess)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = "Image must have extensions: JPG, JPEG, PNG, GIF, BMP, TIFF, TIF, WEBP, or SVG."
-            });
-        }
-        if (!FileValidationHelper.IsAvatarFileSizeValid(artworkModel.Thumbnail))
-        {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = "Thumbnail must be less than 5MB."
-            });
+            return BadRequest(tagValidationResult);
         }
 
-        if (artworkModel.ImageFiles.Count > 200)
+        var categoryValidationResult = ValidateCategory(artworkModel.Categories);
+        if (!categoryValidationResult.IsSuccess)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = "Image files must be less than 200 files."
-            });
+            return BadRequest(categoryValidationResult);
         }
 
-        foreach (var image in artworkModel.ImageFiles)
+        var thumbnailValidationResult = ValidateThumbnail(artworkModel.Thumbnail);
+        if (!thumbnailValidationResult.IsSuccess)
         {
-            if (!FileValidationHelper.IsImageFormatValid(image.FileName))
-            {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = "Image must have extensions: JPG, JPEG, PNG, GIF, BMP, TIFF, TIF, WEBP, or SVG."
-            });
-            }
-            if (!FileValidationHelper.IsImageFileSizeValid(image))
-            {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = "Image must be less than 32MB."
-                });
-            }
+            return BadRequest(thumbnailValidationResult);
         }
 
-        // kiem tra cac dieu kien cua asset file
+        var imageFilesValidationResult = ValidateImageFiles(artworkModel.ImageFiles);
+        if (!imageFilesValidationResult.IsSuccess)
+        {
+            return BadRequest(imageFilesValidationResult);
+        }
+
         if (artworkModel.AssetFiles != null)
         {
-            // toi da 5 file
-            if (artworkModel.AssetFiles.Count > 5)
+            var assetFilesValidationResult = ValidateAssetFiles(artworkModel.AssetFiles);
+            if (!assetFilesValidationResult.IsSuccess)
             {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = "Asset files must be less than 5 files."
-                });
-            }
-
-            // kiem tra dinh dang va kich thuoc file
-            foreach (var asset in artworkModel.AssetFiles)
-            {
-                if (!FileValidationHelper.IsAssetFormatValid(asset.File.FileName))
-                {
-                    return BadRequest(new ApiResponse
-                    {
-                        IsSuccess = false,
-                        ErrorMessage = "File must have extensions: ABR, AI, ASE, " +
-                        "DNG, DOC, DOCX, EPS, GIF, INDD, JPEG, JPG, OTF, PDF, PNG, " +
-                        "PPT, PPTX, PSD, RAW, SVG, TIF, TIFF, TTF, TXT, WEBP, WOFF, " +
-                        "WOFF2, XLS, XLSX, XMP, ZIP, RAR."
-                    });
-                }
-                if (!FileValidationHelper.IsAssetFileSizeValid(asset.File))
-                {
-                    return BadRequest(new ApiResponse
-                    {
-                        IsSuccess = false,
-                        ErrorMessage = "File must be less than 500MB."
-                    });
-                }
+                return BadRequest(assetFilesValidationResult);
             }
         }
+        #endregion
 
         try
         {
             var result = await _artworkService.AddArtworkAsync(artworkModel);
-            return CreatedAtAction(nameof(GetArtworkById), 
+            return CreatedAtAction(nameof(GetArtworkById),
                 new { artworkId = result }, result);
+        } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+
+    [HttpPut("{artworkId}")]
+    [Authorize]
+    public async Task<IActionResult> UpdateArtwork(Guid artworkId, [FromForm] ArtworkEM artworkEM)
+    {
+        #region Validate artwork model
+        if (artworkEM.Tags != null)
+        {
+            var tagValidationResult = ValidateTag(artworkEM.Tags);
+            if (!tagValidationResult.IsSuccess)
+            {
+                return BadRequest(tagValidationResult);
+            }
+        }
+
+        if (artworkEM.Categories != null)
+        {
+            var categoryValidationResult = ValidateCategory(artworkEM.Categories);
+            if (!categoryValidationResult.IsSuccess)
+            {
+                return BadRequest(categoryValidationResult);
+            }
+        }
+
+        if (artworkEM.Thumbnail != null)
+        {
+            var thumbnailValidationResult = ValidateThumbnail(artworkEM.Thumbnail);
+            if (!thumbnailValidationResult.IsSuccess)
+            {
+                return BadRequest(thumbnailValidationResult);
+            }
+        }
+
+        if (artworkEM.ImageFiles != null)
+        {
+            var imageFilesValidationResult = ValidateImageFiles(artworkEM.ImageFiles);
+            if (!imageFilesValidationResult.IsSuccess)
+            {
+                return BadRequest(imageFilesValidationResult);
+            }
+        }
+        #endregion
+
+        try
+        {
+            await _artworkService.UpdateArtworkAsync(artworkId, artworkEM);
+            return NoContent();
+        } catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         } catch (Exception ex)
         {
             return BadRequest(new ApiResponse
@@ -182,30 +203,139 @@ public class ArtworksController : ControllerBase
             });
         }
     }
-
-    [HttpPut("{artworkId}")]
-    [Authorize]
-    public async Task<IActionResult> UpdateArtwork(Guid artworkId, [FromBody] ArtworkEM artworkEM)
+    private ApiResponse ValidateThumbnail(IFormFile thumbnail)
     {
-        try
+        if (!FileValidationHelper.IsImageFormatValid(thumbnail.FileName))
         {
-            await _artworkService.UpdateArtworkAsync(artworkId, artworkEM);
-            return NoContent();
-        } catch (NullReferenceException ex)
-        {
-            return NotFound(new ApiResponse
+            return new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+                ErrorMessage = "Image must have extensions: JPG, JPEG, PNG, GIF, BMP, TIFF, TIF, WEBP, or SVG."
+            };
         }
-        catch (Exception ex)
+
+        if (!FileValidationHelper.IsAvatarFileSizeValid(thumbnail))
         {
-            return BadRequest(new ApiResponse
+            return new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+                ErrorMessage = "Thumbnail must be less than 5MB."
+            };
         }
+
+        return new ApiResponse { IsSuccess = true };
+    }
+
+    // so tag toi da la 30, moi tag phai hop le
+    private ApiResponse ValidateTag(List<string> Tags)
+    {
+        if (Tags.Count > 30)
+        {
+            return new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = "Number of tag must be less than 30."
+            };
+        }
+
+        foreach (var tag in Tags)
+        {
+            if (!_tagService.IsTagValid(tag))
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = $"Tag name '{tag}' is invalid (only contains uppercase, lowercase, digits, space, 2-30 characters)."
+                };
+            }
+        }
+
+        return new ApiResponse { IsSuccess = true };
+    }
+    private ApiResponse ValidateCategory(List<Guid> Categories)
+    {
+        if (Categories.Count > 3)
+        {
+            return new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = "Number of category must be less than 3."
+            };
+        }
+
+        return new ApiResponse { IsSuccess = true };
+    }
+
+
+    private ApiResponse ValidateImageFiles(List<IFormFile> imageFiles)
+    {
+        if (imageFiles.Count > 200)
+        {
+            return new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = "Image files must be less than 200 files."
+            };
+        }
+
+        foreach (var image in imageFiles)
+        {
+            if (!FileValidationHelper.IsImageFormatValid(image.FileName))
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Image must have extensions: JPG, JPEG, PNG, GIF, BMP, TIFF, TIF, WEBP, or SVG."
+                };
+            }
+
+            if (!FileValidationHelper.IsImageFileSizeValid(image))
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Image must be less than 32MB."
+                };
+            }
+        }
+
+        return new ApiResponse { IsSuccess = true };
+    }
+
+    private ApiResponse ValidateAssetFiles(List<SingleAssetModel> assetFiles)
+    {
+        {
+            if (assetFiles.Count > 5)
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Asset files must be less than 5 files."
+                };
+            }
+
+            foreach (var asset in assetFiles)
+            {
+                if (!FileValidationHelper.IsAssetFormatValid(asset.File.FileName))
+                {
+                    return new ApiResponse
+                    {
+                        IsSuccess = false,
+                        ErrorMessage = "File must have extensions: ABR, AI, ASE, DNG, DOC, DOCX, EPS, GIF, INDD, JPEG, JPG, OTF, PDF, PNG, PPT, PPTX, PSD, RAW, SVG, TIF, TIFF, TTF, TXT, WEBP, WOFF, WOFF2, XLS, XLSX, XMP, ZIP, RAR."
+                    };
+                }
+
+                if (!FileValidationHelper.IsAssetFileSizeValid(asset.File))
+                {
+                    return new ApiResponse
+                    {
+                        IsSuccess = false,
+                        ErrorMessage = "File must be less than 500MB."
+                    };
+                }
+            }
+        }
+
+        return new ApiResponse { IsSuccess = true };
     }
 }
