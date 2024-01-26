@@ -132,7 +132,8 @@ public class ArtworkService : IArtworkService
         }
 
         await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<ArtworkVM>(newArtwork);
+        var result = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(newArtwork.Id);
+        return _mapper.Map<ArtworkVM>(result);
     }
 
     public async Task DeleteArtworkAsync(Guid artworkId)

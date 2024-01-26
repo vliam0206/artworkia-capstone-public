@@ -11,6 +11,10 @@ Example:
 ```
 dotnet ef migrations add MigrationName -s WebApi -p Migrators.MSSQL
 ```
+- To remove recently migration, run this command(run the command from <strong>artworkia-web-api\src folder</strong>)
+```
+dotnet ef migrations remove -s WebApi -p Migrators.MSSQL
+```
 Example:
 ![](./screenshots/Screenshot%202023-12-06%20232425.png)
 ## Branch convention

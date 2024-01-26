@@ -35,6 +35,7 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                 StartingPrice = 100000,
                 CreatedBy = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"),
                 CreatedOn = DateTime.Parse("2024-1-2"),
+                LastModificatedOn = DateTime.Parse("2024-1-2"),
                 Thumbnail = "https://3.imimg.com/data3/SQ/DN/MY-16602737/banner-design-services.png"
             }
         );

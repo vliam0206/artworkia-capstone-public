@@ -61,6 +61,13 @@ public class AccountsController : ControllerBase
         return Ok(_mapper.Map<AccountVM>(account));
     }
 
+    [HttpGet("role-enum")]
+    public IActionResult GetAccountRoleEnum()
+    {
+        var roleEnums = Enum.GetNames(typeof(RoleEnum));
+        return Ok(roleEnums);
+    }
+
     // PUT: api/accounts/5    
     [HttpPut("{id}")]
     [Authorize]

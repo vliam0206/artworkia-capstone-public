@@ -1,6 +1,7 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
+using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
@@ -39,6 +40,13 @@ public class ArtworksController : ControllerBase
         var result = await _artworkService.GetArtworksBySearchAsync(searchArtworkCriteria);
 
         return Ok(result);
+    }
+
+    [HttpGet("privacy-enum")]
+    public IActionResult GetArtworkPrivacyEnum()
+    {
+        var privacyEnums = Enum.GetNames(typeof(PrivacyEnum));
+        return Ok(privacyEnums);
     }
 
 
