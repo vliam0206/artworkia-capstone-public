@@ -21,8 +21,6 @@ public class ServiceVM
 
     public AccountBasicInfoVM Account { get; set; } = default!;
     public List<CategoryVM> CategoryList { get; set; } = default!;
-    public List<Request> Requests { get; set; } = default!;
-    public List<Proposal> Proposals { get; set; } = default!;
-    public List<ServiceDetail> ServiceDetails { get; set; } = default!;
-
+    public List<ArtworkPreviewVM> ArtworkReferences { get; set; } = default!;
 }
+

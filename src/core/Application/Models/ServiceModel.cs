@@ -17,6 +17,7 @@ public class ServiceModel
     public int NumberOfRevision { get; set; } = default!;
     public double StartingPrice { get; set; } = default!;
     public IFormFile Thumbnail { get; set; } = default!;
+    public List<Guid> ArtworkReference { get; set; } = default!; // chua cac guid cua artwork tham chieu den service
 }
 public class ServiceEM
 {

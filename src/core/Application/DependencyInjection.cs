@@ -22,6 +22,7 @@ public static class DependencyInjection
         services.AddScoped<IImageService, ImageService>();        
         services.AddScoped<ILikeService, LikeService>();
         services.AddScoped<IReportService, ReportService>();
+        services.AddScoped<IRequestService, RequestService>();
         services.AddScoped<IServiceService, ServiceService>();
         services.AddScoped<ITagService, TagService>();        
         services.AddScoped<ITagDetailService, TagDetailService>();

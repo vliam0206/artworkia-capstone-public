@@ -1,36 +1,38 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
+using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.ViewModels.Commons;
+
 namespace WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ServicesController : ControllerBase
+public class RequestsController : ControllerBase
 {
-    private readonly IServiceService _serviceService;
+    private readonly IRequestService _requestService;
 
-    public ServicesController(IServiceService serviceService)
+    public RequestsController(IRequestService requestService)
     {
-        _serviceService = serviceService;
+        _requestService = requestService;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllServices()
+    public async Task<IActionResult> GetAllRequests()
     {
-        var listService = await _serviceService.GetAllServicesAsync();
-        return Ok(listService);
+        var listRequest = await _requestService.GetAllRequestsAsync();
+        return Ok(listRequest);
     }
 
-    [HttpGet("{serviceId}")]
-    public async Task<IActionResult> GetServiceById(Guid serviceId)
+    [HttpGet("{requestId}")]
+    public async Task<IActionResult> GetRequestById(Guid requestId)
     {
         try
         {
-            var serviceVM = await _serviceService.GetServiceByIdAsync(serviceId);
-            return Ok(serviceVM);
+            var requestVM = await _requestService.GetRequestByIdAsync(requestId);
+            return Ok(requestVM);
         } catch (NullReferenceException ex)
         {
             return NotFound(new ApiResponse
@@ -48,13 +50,40 @@ public class ServicesController : ControllerBase
         }
     }
 
-    [HttpGet("account/{accountId}")]
-    public async Task<IActionResult> GetServicesByAccountId(Guid accountId)
+    [HttpGet("creator")]
+    [Authorize]
+    public async Task<IActionResult> GetRequestsByCreatorId()
     {
         try
         {
-            var serviceVM = await _serviceService.GetServicesByAccountIdAsync(accountId);
-            return Ok(serviceVM);
+            var requestVM = await _requestService.GetRequestsByCreatorIdAsync();
+            return Ok(requestVM);
+        } catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+
+    [HttpGet("service/{serviceId}")]
+    [Authorize]
+    public async Task<IActionResult> GetRequestsByServiceId(Guid serviceId)
+    {
+        try
+        {
+            var requestVM = await _requestService.GetRequestsByServiceIdAsync(serviceId);
+            return Ok(requestVM);
         } catch (NullReferenceException ex)
         {
             return NotFound(new ApiResponse
@@ -74,19 +103,18 @@ public class ServicesController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> AddService([FromForm] ServiceModel serviceModel)
+    public async Task<IActionResult> AddRequest([FromBody] RequestModel requestModel)
     {
         try
         {
-            var serviceVM = await _serviceService.AddServiceAsync(serviceModel);
-            return CreatedAtAction(nameof(GetServiceById), 
-                new { serviceId = serviceVM.Id }, serviceVM);
+            var requestVM = await _requestService.AddRequestAsync(requestModel);
+            return Ok(requestVM);
         } catch (NullReferenceException ex)
         {
             return NotFound(new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = ex.Message,
+                ErrorMessage = ex.Message
             });
         } catch (Exception ex)
         {
@@ -98,20 +126,21 @@ public class ServicesController : ControllerBase
         }
     }
 
-    [HttpDelete("{serviceId}")]
+
+    [HttpGet("audience")]
     [Authorize]
-    public async Task<IActionResult> DeleteService(Guid serviceId)
+    public async Task<IActionResult> GetRequestsByAudienceId()
     {
         try
         {
-            await _serviceService.DeleteServiceAsync(serviceId);
-            return NoContent();
+            var requestVM = await _requestService.GetRequestsByAudienceIdAsync();
+            return Ok(requestVM);
         } catch (NullReferenceException ex)
         {
             return NotFound(new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = ex.Message,
+                ErrorMessage = ex.Message
             });
         } catch (Exception ex)
         {
@@ -123,20 +152,21 @@ public class ServicesController : ControllerBase
         }
     }
 
-    [HttpPut("{serviceId}")]
+
+    [HttpPut("status/{requestId}")]
     [Authorize]
-    public async Task<IActionResult> UpdateService(Guid serviceId, [FromBody] ServiceEM serviceEM)
+    public async Task<IActionResult> UpdateRequestStatus(Guid requestId, [FromBody] StateEnum requestStatus)
     {
         try
         {
-            await _serviceService.UpdateServiceAsync(serviceId, serviceEM);
-            return NoContent();
+            var requestVM = await _requestService.UpdateRequestStatusAsync(requestId, requestStatus);
+            return Ok(requestVM);
         } catch (NullReferenceException ex)
         {
             return NotFound(new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = ex.Message,
+                ErrorMessage = ex.Message
             });
         } catch (Exception ex)
         {

@@ -1,4 +1,6 @@
-﻿namespace Application.Models;
+﻿using Firebase.Storage;
+
+namespace Application.Models;
 
 public class AssetVM
 {
@@ -8,7 +10,7 @@ public class AssetVM
     public string AssetTitle { get; set; } = default!; 
     public string Description { get; set; } = default!;
     public string AssetName { get; set; } = default!; 
-    public double Price { get; set; } = 0;
-    public Guid? LastModificatedBy { get; set; }
+    public double Price { get; set; } = 0; 
+    public FirebaseMetaData FileMetaData { get; set; } = default!;
     public DateTime? LastModificatedOn { get; set; }
 }

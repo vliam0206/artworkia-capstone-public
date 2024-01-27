@@ -37,6 +37,48 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                 CreatedOn = DateTime.Parse("2024-1-2"),
                 LastModificatedOn = DateTime.Parse("2024-1-2"),
                 Thumbnail = "https://3.imimg.com/data3/SQ/DN/MY-16602737/banner-design-services.png"
+            },
+            new Service()
+            {
+                Id = Guid.Parse("2c8542d4-41bd-492b-9d21-905c6a8b0532"),
+                ServiceName = "Dịch vụ phát triển website",
+                Description = "Mô tả Dịch vụ phát triển website",
+                DeliveryTime = "4 - 6 tuần",
+                NumberOfConcept = 3,
+                NumberOfRevision = 3,
+                StartingPrice = 150000,
+                CreatedBy = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                CreatedOn = DateTime.Parse("2024-1-3"),
+                LastModificatedOn = DateTime.Parse("2024-1-3"),
+                Thumbnail = "https://laptopdieplinh.com/uploads/7%20c%C3%B4ng%20c%E1%BB%A5%20ph%C3%A1t%20tri%E1%BB%83n%20website%20b%E1%BA%A1n%20c%E1%BA%A7n%20bi%E1%BA%BFt%20-%200.jpg"
+            },
+            new Service()
+            {
+                Id = Guid.Parse("3c8542d4-41bd-492b-9d21-905c6a8b0532"),
+                ServiceName = "Dịch vụ in ấn",
+                Description = "Mô tả Dịch vụ in ấn",
+                DeliveryTime = "1 - 2 tuần",
+                NumberOfConcept = 1,
+                NumberOfRevision = 1,
+                StartingPrice = 50000,
+                CreatedBy = Guid.Parse("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
+                CreatedOn = DateTime.Parse("2024-1-5"),
+                LastModificatedOn = DateTime.Parse("2024-1-5"),
+                Thumbnail = "https://channel.mediacdn.vn/2022/3/17/photo-1-1647512803989607433836.jpg"
+            },
+            new Service()
+            {
+                Id = Guid.Parse("4c8542d4-41bd-492b-9d21-905c6a8b0532"),
+                ServiceName = "Dịch vụ quản lý dự án",
+                Description = "Mô tả Dịch vụ quản lý dự án",
+                DeliveryTime = "3 - 4 tuần",
+                NumberOfConcept = 2,
+                NumberOfRevision = 2,
+                StartingPrice = 120000,
+                CreatedBy = Guid.Parse("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
+                CreatedOn = DateTime.Parse("2024-1-7"),
+                LastModificatedOn = DateTime.Parse("2024-1-7"),
+                Thumbnail = "https://www.inandaiduong.com/wp-content/uploads/2015/01/dich-vu-thiet-ke-in-an.jpg"
             }
         );
         #endregion

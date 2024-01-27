@@ -42,8 +42,25 @@ public class ServiceService : IServiceService
         var serviceVM = _mapper.Map<ServiceVM>(service);    
         return serviceVM;
     }
+
+    public async Task<List<ServiceVM>> GetServicesByAccountIdAsync(Guid accountId)
+    {
+        var listService = await _unitOfWork.ServiceRepository.GetServicesByAccountIdAsync(accountId);
+        var listServiceVM = _mapper.Map<List<ServiceVM>>(listService);
+        return listServiceVM;
+    }
+
     public async Task<ServiceVM> AddServiceAsync(ServiceModel serviceModel)
     {
+        foreach (var artworkId in serviceModel.ArtworkReference)
+        {
+            var artworkExistInDb = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
+            if (artworkExistInDb == null || artworkExistInDb.DeletedOn != null)
+            {
+                throw new NullReferenceException("Artwork does not exist or has been deleted");
+            }
+        }
+
         var newService = _mapper.Map<Service>(serviceModel);
         string newThumbnailName = newService.Id + "_t";
         string folderName = $"{PARENT_FOLDER}/{newService.Id}/Thumbnail";
@@ -55,6 +72,15 @@ public class ServiceService : IServiceService
         newService.Thumbnail = url;
 
         await _unitOfWork.ServiceRepository.AddAsync(newService);
+        foreach (Guid artworkId in serviceModel.ArtworkReference)
+        {
+            ServiceDetail serviceDetail = new()
+            {
+                ArtworkId = artworkId,
+                ServiceId = newService.Id
+            };
+            await _unitOfWork.ServiceDetailRepository.AddServiceDetailAsync(serviceDetail);
+        }
         await _unitOfWork.SaveChangesAsync();
 
         var serviceVM = _mapper.Map<ServiceVM>(newService);

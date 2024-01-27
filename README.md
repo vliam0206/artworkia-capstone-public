@@ -11,12 +11,12 @@ Example:
 ```
 dotnet ef migrations add MigrationName -s WebApi -p Migrators.MSSQL
 ```
+Example:
+![](./screenshots/Screenshot%202023-12-06%20232425.png)
 - To remove recently migration, run this command(run the command from <strong>artworkia-web-api\src folder</strong>)
 ```
 dotnet ef migrations remove -s WebApi -p Migrators.MSSQL
 ```
-Example:
-![](./screenshots/Screenshot%202023-12-06%20232425.png)
 ## Branch convention
 - For every new function, you must create a new branch, then invite other members to review your code in Git Hub, when that branch merged successfully, you can delete it and continue to create a new branch based on main for other functions.
 - **Can not push code directly to the main branch**

@@ -36,6 +36,7 @@ public class AppDBContext : DbContext
     public DbSet<Request> Requests { get; set; }
     public DbSet<Review> Reviews { get; set; }
     public DbSet<Service> Services { get; set; }
+    public DbSet<ServiceDetail> ServiceDetails { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<TagDetail> TagDetails { get; set; }
     public DbSet<TransactionHistory> TransactionHistories { get; set; }

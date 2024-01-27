@@ -17,8 +17,17 @@ public class ServiceRepository : GenericAuditableRepository<Service>, IServiceRe
         return await _dbContext.Services
             .Include(x => x.Account)
             .Include(x => x.ServiceDetails)
+                .ThenInclude(x => x.Artwork)
             .Include(x => x.CategoryServiceDetails)
                 .ThenInclude(x => x.Category)
             .SingleOrDefaultAsync(x => x.Id == id && x.DeletedOn == null);
+    }
+
+    public async Task<List<Service>?> GetServicesByAccountIdAsync(Guid accountId)
+    {
+        return await _dbContext.Services
+            .Include(x => x.Account)
+            .Where(x => x.Account.Id == accountId && x.DeletedOn == null)
+            .ToListAsync();
     }
 }

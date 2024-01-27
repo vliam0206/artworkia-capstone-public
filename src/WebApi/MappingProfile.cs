@@ -57,8 +57,11 @@ public class MappingProfile : Profile
 
         CreateMap<Service, ServiceModel>().ReverseMap();
         CreateMap<Service, ServiceVM>()
-            .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryServiceDetails.Select(y => y.Category).ToList()));
+            .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryServiceDetails.Select(y => y.Category).ToList()))
+            .ForMember(model => model.ArtworkReferences, opt => opt.MapFrom(x => x.ServiceDetails.Select(y => y.Artwork).ToList()));
 
+        CreateMap<Request, RequestModel>().ReverseMap();
+        CreateMap<Request, RequestVM>().ReverseMap();
 
         CreateMap<Report, ReportModel>().ReverseMap();
         CreateMap<Report, ReportVM>().ReverseMap();

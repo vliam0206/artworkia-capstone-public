@@ -9,7 +9,7 @@ namespace Infrastructure.Repositories.Commons;
 public class GenericCreationRepository<TEntity> : GenericRepository<TEntity>
                                         where TEntity : BaseEntity, ICreation
 {
-    private readonly IClaimService _claimService;
+    protected readonly IClaimService _claimService;
     public GenericCreationRepository(AppDBContext dBContext, IClaimService claimService) : base(dBContext)
     {
         _claimService = claimService;

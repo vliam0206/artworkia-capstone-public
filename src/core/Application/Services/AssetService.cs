@@ -41,12 +41,16 @@ public class AssetService : IAssetService
         if (asset.DeletedOn != null)
             throw new Exception("Asset already deleted!");
         var assetVM = _mapper.Map<AssetVM>(asset);
+        var fileMetaData = await _firebaseService.GetMetadataFileFromFirebaseStorage(assetVM.AssetName, $"{PARENT_FOLDER}/{assetVM.ArtworkId}/Asset");
+        if (fileMetaData == null)
+            throw new Exception("Cannot get metadata of asset! Maybe file was deleted on cloud storage");
+        assetVM.FileMetaData = fileMetaData;
         return assetVM;
     }
 
     public async Task<string?> GetDownloadUriAssetAsync(Guid assetId)
     {
-        var asset = await _unitOfWork.AssetRepository.GetByIdAsync(assetId);
+        var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId);
         if (asset == null)
             throw new NullReferenceException("Asset does not exist!");
 
@@ -101,7 +105,6 @@ public class AssetService : IAssetService
         Asset newAsset = _mapper.Map<Asset>(assetModel);
         newAsset.Location = url;
         newAsset.AssetName = newAssetName + imageExtension;
-        newAsset.Order = latestOrder;
         await _unitOfWork.AssetRepository.AddAsync(newAsset);
         await _unitOfWork.SaveChangesAsync();
 
@@ -139,7 +142,6 @@ public class AssetService : IAssetService
                 Price = singleAsset.Price,
                 Location = url,
                 AssetName = newAssetName + imageExtension,
-                Order = index
             };
             await _unitOfWork.AssetRepository.AddAsync(newAsset);
             index++;
