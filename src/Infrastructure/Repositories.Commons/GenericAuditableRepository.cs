@@ -17,7 +17,7 @@ public class GenericAuditableRepository<TEntity> : GenericCreationRepository<TEn
 
     public override void Update(TEntity entity)
     {
-        entity.LastModificatedOn = DateTime.UtcNow.ToLocalTime();
+        entity.LastModificatedOn = CurrentTime.GetCurrentTime;
         entity.LastModificatedBy = _claimService.GetCurrentUserId;
         _dbContext.Entry(entity).State = EntityState.Modified;
     }
@@ -26,7 +26,7 @@ public class GenericAuditableRepository<TEntity> : GenericCreationRepository<TEn
     {
         foreach (var entity in entities)
         {
-            entity.LastModificatedOn = DateTime.UtcNow.ToLocalTime();
+            entity.LastModificatedOn = CurrentTime.GetCurrentTime;
             entity.LastModificatedBy = _claimService.GetCurrentUserId;
         }
         _dbSet.UpdateRange(entities);
@@ -34,7 +34,7 @@ public class GenericAuditableRepository<TEntity> : GenericCreationRepository<TEn
 
     public override void SoftDelete(TEntity entity)
     {
-        entity.DeletedOn = DateTime.UtcNow.ToLocalTime();
+        entity.DeletedOn = CurrentTime.GetCurrentTime;
         entity.DeletedBy = _claimService.GetCurrentUserId;
         _dbContext.Entry(entity).State = EntityState.Modified;
     }

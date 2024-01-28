@@ -19,7 +19,7 @@ public class Proposal : BaseEntity, ICreation
     public double Total { get; set; }
     public StateEnum ProposalStatus { get; set; }
     public Guid? CreatedBy { get; set; }
-    public DateTime CreatedOn { get; set; } = DateTime.UtcNow.ToLocalTime();    
+    public DateTime CreatedOn { get; set; }  
 
     public virtual Account Account { get; set; } = default!;
     public virtual Service Service { get; set; } = default!;

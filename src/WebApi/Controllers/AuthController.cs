@@ -1,4 +1,5 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Commons;
+using Application.Services.Abstractions;
 using Application.Services.Authentication;
 using AutoMapper;
 using Domain.Entitites;
@@ -66,7 +67,7 @@ public class AuthController : ControllerBase
             });
         }
         // login success - issue (access token, refresh token) pair
-        var issuedDate = DateTime.UtcNow.ToLocalTime();
+        var issuedDate = CurrentTime.GetCurrentTime;
         var accessToken = _tokenHandler.CreateAccessToken(account, issuedDate);
         var refreshToken = _tokenHandler.CreateRefreshToken(account, issuedDate);
         var token = new UserToken
@@ -173,7 +174,7 @@ public class AuthController : ControllerBase
         }
 
         // login success - issue (access token, refresh token) pair
-        var issuedDate = DateTime.UtcNow.ToLocalTime();
+        var issuedDate = CurrentTime.GetCurrentTime;
         var accessToken = _tokenHandler.CreateAccessToken(account, issuedDate);
         var refreshToken = _tokenHandler.CreateRefreshToken(account, issuedDate);
         var token = new UserToken

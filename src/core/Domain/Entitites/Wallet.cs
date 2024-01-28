@@ -13,5 +13,5 @@ public class Wallet : BaseEntity
     public string WithdrawInformation { get; set; } = string.Empty;    
 
     public virtual Account Account { get; set; } = default!;
-    public virtual ICollection<WalletHistory> WalletHistories { get; set; } = new List<WalletHistory>();
+    //public virtual ICollection<WalletHistory> WalletHistories { get; set; } = new List<WalletHistory>();
 }

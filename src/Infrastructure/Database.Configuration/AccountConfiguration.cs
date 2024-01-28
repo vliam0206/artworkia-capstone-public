@@ -22,6 +22,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.HasIndex(x => x.Email).IsUnique();
 
         #region relationships
+
         builder.HasOne(x => x.Wallet).WithOne(w => w.Account).HasForeignKey<Wallet>(x => x.AccountId);
         builder.HasMany(x => x.ChatBoxes_1).WithOne(c => c.Account_1).HasForeignKey(c => c.AccountId_1);
         builder.HasMany(x => x.ChatBoxes_2).WithOne(c => c.Account_2).HasForeignKey(c => c.AccountId_2);
@@ -38,6 +39,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.HasMany(x => x.Comments).WithOne(c => c.Account).HasForeignKey(c => c.CreatedBy);
         builder.HasMany(x => x.Followings).WithOne(f => f.Account).HasForeignKey(f => f.AccountId);
         builder.HasMany(x => x.Followers).WithOne(f => f.Follower).HasForeignKey(f => f.FollowerId);
+        builder.HasMany(x => x.WalletHistories).WithOne(h => h.Account).HasForeignKey(h => h.CreatedBy);
+
         #endregion
 
         #region init data

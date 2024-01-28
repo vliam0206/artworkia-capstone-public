@@ -1,4 +1,5 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Commons;
+using Application.Services.Abstractions;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
@@ -17,7 +18,7 @@ public class AssetRepository : GenericRepository<Asset>, IAssetRepository
 
     public override void SoftDelete(Asset asset)
     {
-        asset.DeletedOn = DateTime.UtcNow.ToLocalTime();
+        asset.DeletedOn = CurrentTime.GetCurrentTime;
         asset.DeletedBy = _claimService.GetCurrentUserId;
         _dbContext.Entry(asset).State = EntityState.Modified;
     }

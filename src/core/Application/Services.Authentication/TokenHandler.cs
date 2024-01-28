@@ -147,7 +147,7 @@ public class TokenHandler : ITokenHandler
                 userToken.IsUsed = true;
                 await _userTokenService.UpdateTokenAsync(userToken);
 
-                var issuedDate = DateTime.UtcNow.ToLocalTime();
+                var issuedDate = CurrentTime.GetCurrentTime;
                 var accessToken= this.CreateAccessToken(account, issuedDate);
                 var newRefreshToken = this.CreateRefreshToken(account, issuedDate);
                 

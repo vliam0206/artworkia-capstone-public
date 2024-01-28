@@ -3,7 +3,6 @@
 public class WalletHistoryVM
 {
     public Guid Id { get; set; }
-    public Guid WalletId { get; set; }
     public Guid AccountId { get; set; }
     public double Amount { get; set; }
     public string Type { get; set; } = default!;

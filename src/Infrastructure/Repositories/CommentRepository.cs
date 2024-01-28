@@ -1,4 +1,5 @@
-﻿    using Application.Services.Abstractions;
+﻿using Application.Commons;
+using Application.Services.Abstractions;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
@@ -8,11 +9,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Repositories;
 public class CommentRepository : GenericAuditableRepository<Comment>, ICommentRepository
 {
-    private AppDBContext _dbContext;
     private IClaimService _claimService;
     public CommentRepository(AppDBContext dBContext, IClaimService claimService) : base(dBContext, claimService)
     {
-        _dbContext = dBContext;
         _claimService = claimService;
     }
     public void SoftDeleteReplies(Guid commentId)
@@ -25,7 +24,7 @@ public class CommentRepository : GenericAuditableRepository<Comment>, ICommentRe
         {
             foreach (var reply in replies)
             {
-                reply.DeletedOn = DateTime.UtcNow.ToLocalTime();
+                reply.DeletedOn = CurrentTime.GetCurrentTime;
                 reply.DeletedBy = currentUserId;
             }
             _dbContext.UpdateRange(replies);

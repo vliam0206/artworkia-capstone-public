@@ -9,7 +9,6 @@ public class CollectionCreationModel
     public string CollectionName { get; set; } = default!;
     [Required]
     public PrivacyEnum Privacy { get; set; } = PrivacyEnum.Public;
-    public DateTime CreatedOn { get; set; } = DateTime.UtcNow.ToLocalTime();
     [Required]
     public Guid ArtworkId { get; set; }
 }

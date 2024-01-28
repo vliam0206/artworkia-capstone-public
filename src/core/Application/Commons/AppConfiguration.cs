@@ -8,4 +8,6 @@ public class AppConfiguration
     public JwtConfiguration JwtConfiguration { get; set; } = default!;
     public FirebaseConfiguration FirebaseConfiguration { get; set; } = default!;
     public ThirdAuthentication ThirdAuthentication { get; set; } = default!;
+    public ZaloPayConfiguration ZaloPayConfiguration { get; set; } = default!;
+
 }

@@ -1,4 +1,5 @@
 ﻿using Application.Models;
+using Application.Models.ZaloPayModels;
 using AutoMapper;
 using Domain.Entitites;
 using WebApi.ViewModels;
@@ -89,5 +90,7 @@ public class MappingProfile : Profile
 
         CreateMap<TransactionHistory, TransactionHistoryVM>()
             .ForMember(model => model.AccountId, opt => opt.MapFrom(src => src.CreatedBy));
+
+        CreateMap<ZaloPayOrderCreate, OrderCreateModel>().ReverseMap();
     }
 }

@@ -14,8 +14,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
         builder.Property(x => x.Id).HasDefaultValueSql("newid()");
 
         // relationship
-        builder.HasOne(x => x.Account).WithOne(a => a.Wallet).HasForeignKey<Wallet>(x => x.AccountId);
-        builder.HasMany(x => x.WalletHistories).WithOne(h => h.Wallet).HasForeignKey(h => h.WalletId);
+        builder.HasOne(x => x.Account).WithOne(a => a.Wallet).HasForeignKey<Wallet>(x => x.AccountId);        
 
         #region init data
         builder.HasData(

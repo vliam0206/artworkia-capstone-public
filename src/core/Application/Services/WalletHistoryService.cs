@@ -1,6 +1,7 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
+using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 
 namespace Application.Services;
@@ -14,6 +15,12 @@ public class WalletHistoryService : IWalletHistoryService
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+    }
+
+    public async Task AddWalletHistory(WalletHistory walletHistory)
+    {
+        await _unitOfWork.WalletHistoryRepository.AddAsync(walletHistory);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task<List<WalletHistoryVM>> GetWalletHistoriesOfAccount(Guid accountId)
