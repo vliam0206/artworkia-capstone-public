@@ -44,14 +44,8 @@ public class AccountsController : ControllerBase
 
     // GET: api/accounts/5
     [HttpGet("{id}")]
-    [Authorize]
     public async Task<ActionResult<AccountVM>> GetAccount(Guid id)
     {
-        // check authorize
-        if (!CheckAuthorize(id))
-        {
-            return Forbid();
-        }
         // get account
         var account = await _accountService.GetAccountByIdAsync(id);
         if (account == null || account.DeletedOn != null)
