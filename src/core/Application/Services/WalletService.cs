@@ -74,10 +74,23 @@ public class WalletService : IWalletService
             throw new Exception("Wallet is not exist");
         }
 
-        oldWallet.Balance = walletEM.Balance; // neu da lam thanh toan thi bo cai nay
+        //oldWallet.Balance = walletEM.Balance; // neu da lam thanh toan thi bo cai nay
         oldWallet.WithdrawMethod = walletEM.WithdrawMethod;
         oldWallet.WithdrawInformation = walletEM.WithdrawInformation;
         _unitOfWork.WalletRepository.Update(oldWallet);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task DepositCoinsAsync(Guid accountId, double amount)
+    {
+        var wallet = await _unitOfWork.WalletRepository
+                                .GetSingleByConditionAsync(x => x.AccountId == accountId);   
+        if (wallet == null)
+        {
+            throw new Exception("Account Id has any wallet yet!");
+        }
+        wallet.Balance += amount;
+        _unitOfWork.WalletRepository.Update(wallet);
         await _unitOfWork.SaveChangesAsync();
     }
 }

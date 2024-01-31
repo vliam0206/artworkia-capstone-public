@@ -11,6 +11,6 @@ public class OrderCreateModel
     public string BankCode { get; set; } = "";
     [Required]
     public string EmbedData { get; set; } = default!;
-    [Required]
-    public string CallbackUrl { get; set; } = default!;
+    //[Required]
+    //public string CallbackUrl { get; set; } = default!;
 }

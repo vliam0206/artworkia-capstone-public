@@ -15,7 +15,7 @@ public class WalletModel
 public class WalletEM
 {
     // them field nay de nap tien tam thoi, sau nay lam thanh toan se loai bo 
-    public double Balance { get; set; } = 10 ^ 9; 
+    //public double Balance { get; set; } = 10 ^ 9; 
     [Required]
     public WithdrawMethodEnum WithdrawMethod { get; set; }
     [Required]

@@ -2,6 +2,7 @@
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
+using Domain.Enums;
 using Domain.Repositories.Abstractions;
 
 namespace Application.Services;
@@ -28,5 +29,20 @@ public class WalletHistoryService : IWalletHistoryService
         var result = await _unitOfWork.WalletHistoryRepository
                                 .GetListByConditionAsync(x => x.CreatedBy == accountId);
         return _mapper.Map<List<WalletHistoryVM>>(result);
+    }
+
+    public async Task UpdateWalletHistoryStatus(string appTransId, TransactionStatusEnum status)
+    {
+        var walletHistory = await _unitOfWork
+                                    .WalletHistoryRepository
+                                    .GetSingleByConditionAsync(x => x.AppTransId.Equals(appTransId));
+        if (walletHistory == null)
+        {
+            throw new Exception("AppTransIs not found!");
+        }
+        // update status
+        walletHistory.TransactionStatus = status;
+        _unitOfWork.WalletHistoryRepository.Update(walletHistory);
+        await _unitOfWork.SaveChangesAsync();
     }
 }

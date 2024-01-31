@@ -8,4 +8,5 @@ public interface IWalletService
     Task<WalletVM?> GetWalletByAccountIdAsync(Guid accountId);
     Task UpdateWalletAsync(Guid walletId, WalletEM walletEM);
     Task<WalletVM> AddWalletAsync(WalletModel walletModel);
+    Task DepositCoinsAsync(Guid accountId, double amount);
 }

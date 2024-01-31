@@ -12,7 +12,7 @@ public class WalletHistory : BaseEntity, ICreation
     public TransactionStatusEnum TransactionStatus { get; set; } = TransactionStatusEnum.InProgress;
     public Guid? CreatedBy {get; set;}
     public DateTime CreatedOn { get; set; }
-    public string AppTransId { get; set; } = default!;
+    public string AppTransId { get; set; } = default!; // nho updat db Unique
 
     //public virtual Wallet Wallet { get; set; } = default!;
     public virtual Account Account { get; set; } = default!;
