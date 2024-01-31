@@ -1,5 +1,6 @@
 ﻿using Application.Services.Abstractions;
 using Domain.Entitites;
+using Domain.Pagination;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
 using Infrastructure.Repositories.Commons;
@@ -12,9 +13,32 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
     {
     }
 
-    public Task<Artwork?> GetArtworkDetailByIdAsync(Guid artworkId)
+    public PagedList<Artwork> GetAllArtworksByAccountIdAsync(Guid accountId, string? sortBy, int page, int pageSize)
     {
-        return _dbContext.Artworks
+        var allArtworks = _dbContext.Artworks
+            .Include(a => a.Account)
+            .Where(a => a.CreatedBy == accountId).AsQueryable();
+
+        #region sorting
+        allArtworks = sortBy switch
+        {
+            "view" => allArtworks.OrderBy(a => a.ViewCount),
+            "created_on" => allArtworks.OrderBy(a => a.CreatedOn),
+            "created_on_desc" => allArtworks.OrderByDescending(a => a.CreatedOn),
+            _ => allArtworks.OrderByDescending(a => a.CreatedOn),
+        };
+        #endregion
+
+        #region paging
+        var result = PagedList<Artwork>.GetPagedList(allArtworks, page, pageSize);
+        #endregion
+
+        return result;
+    }
+
+    public async Task<Artwork?> GetArtworkDetailByIdAsync(Guid artworkId)
+    {
+        return await _dbContext.Artworks
             .Include(a => a.Account)
             .Include(i => i.Images)
             .Include(a => a.Assets)

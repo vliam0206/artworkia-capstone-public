@@ -8,7 +8,7 @@ public interface IImageService
     Task<List<Image>> GetAllImagesAsync();
     Task<List<Image>> GetAllImagesOfArtworkAsync(Guid artworkId);
     Task AddImageAsync(ImageModel image);
-    Task AddRangeImageAsync(MultiImageModel image);
+    Task AddRangeImageAsync(MultiImageModel multiImageModel, bool IsSaveChanges = true);
     Task PutRangeImageAsync(MultiImageModel multiImageModel);
     Task UpdateImageAsync(Image image);
     Task DeleteImageAsync(Guid imageId);

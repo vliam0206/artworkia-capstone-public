@@ -54,7 +54,7 @@ public class ImageService : IImageService
         // lay stt cua hinh anh, dat ten lai hinh anh
         int latestOrder = await GetLatestOrderOfImageInArtwork(imageModel.ArtworkId);
         string newImageName = imageModel.ArtworkId + "_i" + latestOrder;
-        string folderName = $"{PARENT_FOLDER}/{imageModel.ArtworkId}/Image";
+        string folderName = $"{PARENT_FOLDER}/Image";
         string imageExtension = Path.GetExtension(imageModel.Image.FileName); // lay duoi file (.png, .jpg, ...)
 
         //upload hinh anh len firebase, lay url
@@ -71,8 +71,9 @@ public class ImageService : IImageService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task AddRangeImageAsync(MultiImageModel multiImageModel)
+    public async Task AddRangeImageAsync(MultiImageModel multiImageModel, bool isSaveChanges = true)
     {
+        #region validate
         // kiem tra artwork co ton tai khong
         bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(multiImageModel.ArtworkId);
         if (!IsArtworkExisted)
@@ -82,29 +83,65 @@ public class ImageService : IImageService
         var listImage = await _unitOfWork.ImageRepository.GetListByConditionAsync(x => x.ArtworkId == multiImageModel.ArtworkId);
         if (listImage.Count > 0)
             throw new Exception("Artwork already has images, cannot add multiple images again! (This API only allows adding for the first time)");
+        #endregion
 
+        #region upload range image (optimize)
+        var uploadImagesTask = new List<Task>();
         foreach (var singleImage in multiImageModel.Images.Select((image, index) => (image, index)))
         {
-            string newImageName = multiImageModel.ArtworkId + "_i" + singleImage.index;
-            string folderName = $"{PARENT_FOLDER}/{multiImageModel.ArtworkId}/Image";
+            Guid artworkId = multiImageModel.ArtworkId;
+
+            string newImageName = artworkId + "_i" + singleImage.index;
+            string folderName = $"{PARENT_FOLDER}/Image";
             string imageExtension = Path.GetExtension(singleImage.image.FileName); // lay duoi file (.png, .jpg, ...)
 
             //upload hinh anh len firebase, lay url
-            var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName);
-            if (url == null)
-                throw new Exception("Error when uploading images to firebase");
-
-            // luu thong tin hinh anh vao database
-            Image image = new Image()
+            uploadImagesTask.Add(Task.Run(async () =>
             {
-                ArtworkId = multiImageModel.ArtworkId,
-                Location = url,
-                ImageName = newImageName + imageExtension,
-                Order = singleImage.index
-            };
-            await _unitOfWork.ImageRepository.AddAsync(image);
+                var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName);
+                if (url == null)
+                    throw new Exception("Error when uploading images to firebase");
+
+                // luu thong tin hinh anh vao database
+                Image image = new()
+                {
+                    ArtworkId = artworkId,
+                    Location = url,
+                    ImageName = newImageName + imageExtension,
+                    Order = singleImage.index
+                };
+                await _unitOfWork.ImageRepository.AddAsync(image);
+            }));
         }
-        await _unitOfWork.SaveChangesAsync();
+        await Task.WhenAll(uploadImagesTask);
+        #endregion
+
+        #region upload range image (legacy)
+        //foreach (var singleImage in multiImageModel.Images.Select((image, index) => (image, index)))
+        //{
+        //    string newImageName = multiImageModel.ArtworkId + "_i" + singleImage.index;
+        //    string folderName = $"{PARENT_FOLDER}/Image";
+        //    string imageExtension = Path.GetExtension(singleImage.image.FileName); // lay duoi file (.png, .jpg, ...)
+
+        //    //upload hinh anh len firebase, lay url
+        //    var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName);
+        //    if (url == null)
+        //        throw new Exception("Error when uploading images to firebase");
+
+        //    // luu thong tin hinh anh vao database
+        //    Image image = new Image()
+        //    {
+        //        ArtworkId = multiImageModel.ArtworkId,
+        //        Location = url,
+        //        ImageName = newImageName + imageExtension,
+        //        Order = singleImage.index
+        //    };
+        //    await _unitOfWork.ImageRepository.AddAsync(image);
+        //}
+        #endregion
+
+        if (isSaveChanges)
+            await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task PutRangeImageAsync(MultiImageModel multiImageModel)
@@ -114,7 +151,7 @@ public class ImageService : IImageService
         {
             foreach (var image in listOldImage)
             {
-                await _firebaseService.DeleteFileInFirebaseStorage(image.ImageName, $"{PARENT_FOLDER}/{multiImageModel.ArtworkId}/Image");
+                await _firebaseService.DeleteFileInFirebaseStorage(image.ImageName, $"{PARENT_FOLDER}/Image");
                 _unitOfWork.ImageRepository.Delete(image);
             }
             await _unitOfWork.SaveChangesAsync();
@@ -123,7 +160,7 @@ public class ImageService : IImageService
         foreach (var singleImage in multiImageModel.Images.Select((image, index) => (image, index)))
         {
             string newImageName = multiImageModel.ArtworkId + "_i" + singleImage.index;
-            string folderName = $"{PARENT_FOLDER}/{multiImageModel.ArtworkId}/Image";
+            string folderName = $"{PARENT_FOLDER}/Image";
             string imageExtension = Path.GetExtension(singleImage.image.FileName); // lay duoi file (.png, .jpg, ...)
 
             //upload hinh anh len firebase, lay url

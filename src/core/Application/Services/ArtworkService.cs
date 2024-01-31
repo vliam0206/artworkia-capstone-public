@@ -3,6 +3,8 @@ using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
 using Domain.Entitites;
+using Domain.Enums;
+using Domain.Pagination;
 using Domain.Repositories.Abstractions;
 
 namespace Application.Services;
@@ -37,8 +39,21 @@ public class ArtworkService : IArtworkService
     public async Task<List<ArtworkPreviewVM>> GetAllArtworksAsync()
     {
         var listArtwork = await _unitOfWork.ArtworkRepository.GetAllUndeletedAsync();
-        var listArtowkPreviewVM = _mapper.Map<List<ArtworkPreviewVM>>(listArtwork);
-        return listArtowkPreviewVM;
+        var listArtworkPreviewVM = _mapper.Map<List<ArtworkPreviewVM>>(listArtwork);
+        return listArtworkPreviewVM;
+    }
+
+    public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, string? sortBy, int page = 1, int pageSize = 10)
+    {
+        PagedList<Artwork> listArtwork = _unitOfWork.ArtworkRepository.GetAllArtworksByAccountIdAsync(accountId, sortBy, page, pageSize);
+        //var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
+        var listArtworkPreviewVM = new PagedList<ArtworkPreviewVM>(
+            _mapper.Map<List<ArtworkPreviewVM>>(listArtwork),
+            listArtwork.TotalCount,
+            listArtwork.CurrentPage,
+            listArtwork.PageSize
+        );
+        return listArtworkPreviewVM;
     }
 
 
@@ -83,7 +98,7 @@ public class ArtworkService : IArtworkService
     {
         var newArtwork = _mapper.Map<Artwork>(artworkModel);
         string newThumbnailName = newArtwork.Id + "_t";
-        string folderName = $"{PARENT_FOLDER}/{newArtwork.Id}/Thumbnail";
+        string folderName = $"{PARENT_FOLDER}/Thumbnail";
         string extension = System.IO.Path.GetExtension(artworkModel.Thumbnail.FileName);
         // them thumbnail image vao firebase
         var url = await _firebaseService.UploadFileToFirebaseStorage(artworkModel.Thumbnail, newThumbnailName, folderName);
@@ -91,7 +106,7 @@ public class ArtworkService : IArtworkService
             throw new Exception("Cannot upload thumbnail image to firebase!");
         newArtwork.Thumbnail = url;
         newArtwork.ThumbnailName = newThumbnailName + extension;
-
+        newArtwork.Status = StateEnum.Accepted;
         // them artwork 
         await _unitOfWork.ArtworkRepository.AddAsync(newArtwork);
         await _unitOfWork.SaveChangesAsync();
@@ -102,7 +117,7 @@ public class ArtworkService : IArtworkService
             ArtworkId = newArtwork.Id,
             TagList = artworkModel.Tags
         };
-        await _tagDetailService.AddTagListArtworkAsync(tagListArtworkModel);
+        await _tagDetailService.AddTagListArtworkAsync(tagListArtworkModel, false);
 
         // them cate
         CategoryListArtworkModel categoryList = new CategoryListArtworkModel()
@@ -110,15 +125,15 @@ public class ArtworkService : IArtworkService
             ArtworkId = newArtwork.Id,
             CategoryList = artworkModel.Categories
         };
-        await _categoryArtworkDetailService.AddCategoryListArtworkAsync(categoryList);
+        await _categoryArtworkDetailService.AddCategoryListArtworkAsync(categoryList, false);
 
-        // them hinh anh 
+        // them hinh anh
         MultiImageModel multiImageModel = new MultiImageModel()
         {
             ArtworkId = newArtwork.Id,
             Images = artworkModel.ImageFiles
         };
-        await _imageService.AddRangeImageAsync(multiImageModel);
+        await _imageService.AddRangeImageAsync(multiImageModel, false);
 
         // them asset
         if (artworkModel.AssetFiles != null)
@@ -128,7 +143,7 @@ public class ArtworkService : IArtworkService
                 ArtworkId = newArtwork.Id,
                 Assets = artworkModel.AssetFiles
             };
-            await _assetService.AddRangeAssetAsync(multiAssetModel);
+            await _assetService.AddRangeAssetAsync(multiAssetModel, false);
         }
 
         await _unitOfWork.SaveChangesAsync();

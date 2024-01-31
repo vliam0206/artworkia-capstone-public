@@ -2,6 +2,7 @@
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Enums;
+using Domain.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
@@ -40,6 +41,21 @@ public class ArtworksController : ControllerBase
         var result = await _artworkService.GetArtworksBySearchAsync(searchArtworkCriteria);
 
         return Ok(result);
+    }
+
+    [HttpGet("account/{accountId}")]
+    public async Task<IActionResult> GetArtworksByAccount(Guid accountId, [FromQuery] PagingParameters parameters)
+    {
+        PagedList<ArtworkPreviewVM> result = await _artworkService.GetAllArtworksByAccountIdAsync(accountId, parameters.sortBy, parameters.PageNumber, parameters.PageSize);
+        ListApiResponse list = new()
+        {
+            CurrentPage = result.CurrentPage,
+            TotalPages = result.TotalPages,
+            PageSize = result.PageSize,
+            TotalCount = result.TotalCount,
+            ItemList = result
+        };
+        return Ok(list);
     }
 
     [HttpGet("privacy-enum")]

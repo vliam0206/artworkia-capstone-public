@@ -63,7 +63,7 @@ public class ServiceService : IServiceService
 
         var newService = _mapper.Map<Service>(serviceModel);
         string newThumbnailName = newService.Id + "_t";
-        string folderName = $"{PARENT_FOLDER}/{newService.Id}/Thumbnail";
+        string folderName = $"{PARENT_FOLDER}/Thumbnail";
 
         // them thumbnail image vao firebase
         var url = await _firebaseService.UploadFileToFirebaseStorage(serviceModel.Thumbnail, newThumbnailName, folderName);
@@ -106,7 +106,7 @@ public class ServiceService : IServiceService
             throw new NullReferenceException("Service does not exist");
         }
         string newThumbnailName = serviceId + "_t";
-        string folderName = $"{PARENT_FOLDER}/{serviceId}/Thumbnail";
+        string folderName = $"{PARENT_FOLDER}/Thumbnail";
 
         // them thumbnail image vao firebase
         var url = await _firebaseService.UploadFileToFirebaseStorage(serviceEM.Thumbnail, newThumbnailName, folderName);

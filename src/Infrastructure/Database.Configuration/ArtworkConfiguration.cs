@@ -60,7 +60,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "72fbdead-0704-4f69-82ec-0cd09218fef9_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Waiting
             },
             new Artwork()
             {
@@ -74,7 +75,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "35966d1a-9b08-4743-b1c3-474a58350f5e_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -88,7 +90,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "ab5e5cda-2b09-4ba1-8d6c-74f169c8a9a3_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -102,7 +105,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "e74b9b62-1f9e-4a12-97e1-8c79c9a2aeb7_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -116,7 +120,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "3f22b8d1-0d5b-4da0-9f4e-876c1586c5b3_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -130,7 +135,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "56f86f82-4622-4710-8d1c-b8c1664711a2_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -144,7 +150,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "8c24a1d8-9f14-44cd-9e86-2c542d14413c_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -158,7 +165,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "5fdaf3c7-6c68-45fb-9610-b67b8a1d0bd0_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -172,7 +180,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "fb7c52b9-64f8-4e84-a992-14b8bcb6ea35_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -186,7 +195,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "91f9a14d-66a9-43da-8e43-2579baf7c8a7_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -200,7 +210,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "b1c16326-7a16-4f6b-a76d-cf15ce2c71d3_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -214,7 +225,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "9202bb7f-71f3-4641-b1d4-9bc858416d84_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -228,7 +240,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "7a04e5c7-ffea-45da-80d2-875b0a0b8d35_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -242,7 +255,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "f7e4df8d-b4b7-4a39-8f2b-74f5d4b512a4_t.jpg",
                 ViewCount = 99,
                 LikeCount = 0,
-                CommentCount = 0
+                CommentCount = 0,
+                Status = StateEnum.Accepted
             }
         );
         #endregion

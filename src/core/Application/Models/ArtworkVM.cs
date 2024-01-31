@@ -11,9 +11,9 @@ public class ArtworkVM
     public string Title { get; set; } = default!;
     public string Description { get; set; } = default!;
     public string Thumbnail { get; set; } = default!; // url address
-    public int ViewCount { get; set; } = 999;
-    public int LikeCount { get; set; } = 99;
-    public int CommentCount { get; set; } = 5;
+    public int ViewCount { get; set; } = default!;
+    public int LikeCount { get; set; } = default!;
+    public int CommentCount { get; set; } = default!;
     public string Privacy { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
@@ -36,10 +36,11 @@ public class ArtworkPreviewVM
     public string Title { get; set; } = default!;
     public string Description { get; set; } = default!;
     public string Thumbnail { get; set; } = default!;
-    public int ViewCount { get; set; } = 999;
-    public int LikeCount { get; set; } = 99;
-    public int CommentCount { get; set; } = 5;
+    public int ViewCount { get; set; } = default!;
+    public int LikeCount { get; set; } = default!;
+    public int CommentCount { get; set; } = default!;
     public string Privacy { get; set; } = default!;
+    public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
 }
 

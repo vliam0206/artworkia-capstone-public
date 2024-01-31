@@ -29,7 +29,7 @@ public class CategoryArtworkDetailService : ICategoryArtworkDetailService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task AddCategoryListArtworkAsync(CategoryListArtworkModel categoryListArtworkModel)
+    public async Task AddCategoryListArtworkAsync(CategoryListArtworkModel categoryListArtworkModel, bool isSaveChanges = true)
     {
         var artwork = _unitOfWork.ArtworkRepository.GetByIdAsync(categoryListArtworkModel.ArtworkId);
         if (artwork == null)
@@ -47,6 +47,8 @@ public class CategoryArtworkDetailService : ICategoryArtworkDetailService
             };
             await AddCategoryArtworkAsync(categoryArtworkModel);
         }
+        if (isSaveChanges)
+            await _unitOfWork.SaveChangesAsync();
     }
 
     public Task DeleteCategoryArtworkAsync(Guid categoryArtworkId)

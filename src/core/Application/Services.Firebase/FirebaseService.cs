@@ -15,36 +15,39 @@ public class FirebaseService : IFirebaseService
         _firebaseConfiguration = config.FirebaseConfiguration;
     }
 
-    private async Task<string> SignInAndGetAuthToken()
-    {
-        //Firebase config
-        var config = new FirebaseAuthConfig
-        {
-            ApiKey = _firebaseConfiguration.ApiKey,
-            AuthDomain = _firebaseConfiguration.AuthDomain,
-            Providers = new FirebaseAuthProvider[]{
-                        new EmailProvider(),
-                    }
-        };
-        var client = new FirebaseAuthClient(config);
-        var authResult = await client.SignInWithEmailAndPasswordAsync(_firebaseConfiguration.AuthEmail, _firebaseConfiguration.AuthPassword);
-        return await authResult.User.GetIdTokenAsync();
-    }
+    //private async Task<string> SignInAndGetAuthToken()
+    //{
+    //    //Firebase config
+    //    var config = new FirebaseAuthConfig
+    //    {
+    //        ApiKey = _firebaseConfiguration.ApiKey,
+    //        AuthDomain = _firebaseConfiguration.AuthDomain,
+    //        Providers = new FirebaseAuthProvider[]{
+    //                    new EmailProvider(),
+    //                }
+    //    };
+    //    var client = new FirebaseAuthClient(config);
+    //    var authResult = await client.SignInWithEmailAndPasswordAsync(_firebaseConfiguration.AuthEmail, _firebaseConfiguration.AuthPassword);
+    //    return await authResult.User.GetIdTokenAsync();
+    //}
 
     public async Task<string?> UploadFileToFirebaseStorage(IFormFile files, string fileName, string folderName)
     {
         if (files.Length > 0)
         {
+            //var storage = new FirebaseStorage(
+            //    _firebaseConfiguration.Bucket,
+            //    new FirebaseStorageOptions
+            //    {
+            //        AuthTokenAsyncFactory = SignInAndGetAuthToken,
+            //        ThrowOnCancel = true
+            //    });
             var task = new FirebaseStorage(
-                _firebaseConfiguration.Bucket,
-                new FirebaseStorageOptions
-                {
-                    AuthTokenAsyncFactory = SignInAndGetAuthToken,
-                    ThrowOnCancel = true
-                })
+                _firebaseConfiguration.Bucket
+                )
                 .Child(folderName)
                 .Child($"{fileName}.{Path.GetExtension(files.FileName).Substring(1)}")
-                .PutAsync(files.OpenReadStream(), new CancellationTokenSource().Token);
+                .PutAsync(files.OpenReadStream());
             try
             {
                 string? urlFile = await task;
@@ -55,7 +58,6 @@ public class FirebaseService : IFirebaseService
             }
         }
         return null;
-
     }
 
     public async Task DeleteFileInFirebaseStorage(string fileName, string folderName)
@@ -64,7 +66,6 @@ public class FirebaseService : IFirebaseService
             _firebaseConfiguration.Bucket,
             new FirebaseStorageOptions
             {
-                AuthTokenAsyncFactory = SignInAndGetAuthToken,
                 ThrowOnCancel = true
             })
             .Child(folderName)
@@ -85,7 +86,6 @@ public class FirebaseService : IFirebaseService
             _firebaseConfiguration.Bucket,
             new FirebaseStorageOptions
             {
-                AuthTokenAsyncFactory = SignInAndGetAuthToken,
                 ThrowOnCancel = true
             })
             .Child(folderName)
@@ -107,7 +107,6 @@ public class FirebaseService : IFirebaseService
             _firebaseConfiguration.Bucket,
             new FirebaseStorageOptions
             {
-                AuthTokenAsyncFactory = SignInAndGetAuthToken,
                 ThrowOnCancel = true
             })
             .Child(folderName)

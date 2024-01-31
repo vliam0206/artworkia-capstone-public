@@ -9,7 +9,7 @@ public interface IAssetService
     Task<List<AssetVM>> GetAllAssetsAsync();
     Task<List<AssetVM>> GetAllAssetsOfArtworkAsync(Guid artworkId);
     Task<AssetVM> AddAssetAsync(AssetModel assetModel);
-    Task AddRangeAssetAsync(MultiAssetModel multiAssetModel);
+    Task AddRangeAssetAsync(MultiAssetModel multiAssetModel, bool isSaveChanges = true);
     Task UpdateAssetAsync(Guid assetId, AssetEM assetEM);
     Task DeleteAssetAsync(Guid assetId);
 

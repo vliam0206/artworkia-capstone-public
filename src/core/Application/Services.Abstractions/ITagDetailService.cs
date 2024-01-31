@@ -6,6 +6,6 @@ public interface ITagDetailService
 {
     Task<TagListArtworkVM> GetTagListOfArtworkAsync(Guid artworkId);
     Task AddTagDetailAsync(TagDetailModel tagDetail);
-    Task AddTagListArtworkAsync(TagListArtworkModel tagListArtworkModel);
+    Task AddTagListArtworkAsync(TagListArtworkModel tagListArtworkModel, bool isSaveChanges = true);
     Task DeleteTagDetailAsync(Guid tagDetailId);
 }

@@ -29,7 +29,7 @@ public class TagDetailService : ITagDetailService
         return tagListArtworkVM;
     }
 
-    public async Task AddTagListArtworkAsync(TagListArtworkModel tagListArtworkModel)
+    public async Task AddTagListArtworkAsync(TagListArtworkModel tagListArtworkModel, bool isSaveChanges = true)
     {
         var artwork = _unitOfWork.ArtworkRepository.GetByIdAsync(tagListArtworkModel.ArtworkId);
         if (artwork == null)
@@ -47,6 +47,8 @@ public class TagDetailService : ITagDetailService
             };
             await AddTagDetailAsync(tagDetailModel);
         }
+        if (isSaveChanges)
+            await _unitOfWork.SaveChangesAsync();
         
     }
 

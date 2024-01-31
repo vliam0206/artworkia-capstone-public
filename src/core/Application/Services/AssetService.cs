@@ -41,7 +41,7 @@ public class AssetService : IAssetService
         if (asset.DeletedOn != null)
             throw new Exception("Asset already deleted!");
         var assetVM = _mapper.Map<AssetVM>(asset);
-        var fileMetaData = await _firebaseService.GetMetadataFileFromFirebaseStorage(assetVM.AssetName, $"{PARENT_FOLDER}/{assetVM.ArtworkId}/Asset");
+        var fileMetaData = await _firebaseService.GetMetadataFileFromFirebaseStorage(assetVM.AssetName, $"{PARENT_FOLDER}/Asset");
         if (fileMetaData == null)
             throw new Exception("Cannot get metadata of asset! Maybe file was deleted on cloud storage");
         assetVM.FileMetaData = fileMetaData;
@@ -92,7 +92,7 @@ public class AssetService : IAssetService
         // lay stt cua hinh anh, dat ten lai hinh anh
         int latestOrder = await GetLatestOrderOfAssetInArtwork(assetModel.ArtworkId);
         string newAssetName = assetModel.ArtworkId + "_a" + latestOrder;
-        string folderName = $"{PARENT_FOLDER}/{assetModel.ArtworkId}/Asset";
+        string folderName = $"{PARENT_FOLDER}/Asset";
         string imageExtension = Path.GetExtension(assetModel.File.FileName); // lay duoi file (.zip, .rar, ...)
 
 
@@ -112,8 +112,9 @@ public class AssetService : IAssetService
         return assetVM;
     }
 
-    public async Task AddRangeAssetAsync(MultiAssetModel multiAssetModel)
+    public async Task AddRangeAssetAsync(MultiAssetModel multiAssetModel, bool isSaveChanges = true)
     {
+        #region validate
         // kiem tra artwork co ton tai khong
         bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(multiAssetModel.ArtworkId);
         if (!IsArtworkExisted)
@@ -121,12 +122,45 @@ public class AssetService : IAssetService
         var allAssetsOfArtwork = await _unitOfWork.AssetRepository.GetListByConditionAsync(x => x.ArtworkId == multiAssetModel.ArtworkId);
         if (allAssetsOfArtwork.Count > 0)
             throw new Exception("Artwork already has assets!");
+        #endregion
 
+        #region upload asset (optimize)
+        //var uploadAssetsTask = new List<Task>();
+        //foreach (var singleAsset in multiAssetModel.Assets.Select((file, index) => (file, index)))
+        //{
+        //    Guid artworkId = multiAssetModel.ArtworkId;
+        //    string newAssetName = artworkId + "_a" + singleAsset.index;
+        //    string folderName = $"{PARENT_FOLDER}/Asset";
+        //    string imageExtension = Path.GetExtension(singleAsset.file.File.FileName); // lay duoi file (.zip, .rar, ...)
+
+        //    // upload asset len firebase, lay url
+        //    uploadAssetsTask.Add(Task.Run(async () =>
+        //    {
+        //        var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.file.File, newAssetName, folderName);
+        //        if (url == null)
+        //            throw new Exception("Cannot upload asset to firebase!");
+
+        //        Asset newAsset = new()
+        //        {
+        //            ArtworkId = artworkId,
+        //            Location = url,
+        //            AssetName = newAssetName + imageExtension,
+        //            AssetTitle = singleAsset.file.AssetTitle,
+        //            Description = singleAsset.file.Description,
+        //            Price = singleAsset.file.Price,
+        //        };
+        //        await _unitOfWork.AssetRepository.AddAsync(newAsset);
+        //    }));
+        //}
+        //await Task.WhenAll(uploadAssetsTask);
+        #endregion
+
+        #region upload asset (legacy)
         int index = 0;
         foreach (var singleAsset in multiAssetModel.Assets)
         {
             string newAssetName = multiAssetModel.ArtworkId + "_a" + index;
-            string folderName = $"{PARENT_FOLDER}/{multiAssetModel.ArtworkId}/Asset";
+            string folderName = $"{PARENT_FOLDER}/Asset";
             string imageExtension = Path.GetExtension(singleAsset.File.FileName); // lay duoi file (.zip, .rar, ...)
 
             // upload asset len firebase, lay url
@@ -146,7 +180,10 @@ public class AssetService : IAssetService
             await _unitOfWork.AssetRepository.AddAsync(newAsset);
             index++;
         }
-        await _unitOfWork.SaveChangesAsync();
+        #endregion
+
+        if (isSaveChanges)
+            await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task DeleteAssetAsync(Guid assetId)
