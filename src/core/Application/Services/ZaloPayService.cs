@@ -13,7 +13,7 @@ public class ZaloPayService : IZaloPayService
     private const string ZalopayBaseUrl = "https://sb-openapi.zalopay.vn/v2";
     private const string CreateOrderUrl = "/create";
     private const string QueryOrderUrl = "/query";
-    private const string ServerBaseUrl = "https://localhost:7076";
+    private const string ServerBaseUrl = "https://huynhvanphu.id.vn";
     private const string CallbackUrl = "/api/payments/callback";
     private readonly int _appId;
     private readonly string _key1;

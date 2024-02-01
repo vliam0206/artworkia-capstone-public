@@ -17,8 +17,9 @@ public class TransactionHistoryService : ITransactionHistoryService
 
     public async Task<List<TransactionHistoryVM>> GetTransactionHistoriesOfAccount(Guid accountId)
     {
-        var result = await _unitOfWork.TransactionHistoryRepository
-                                .GetListByConditionAsync(x => x.CreatedBy == accountId);
+        var result = (await _unitOfWork.TransactionHistoryRepository
+                                .GetListByConditionAsync(x => x.CreatedBy == accountId))
+                                .OrderByDescending(x => x.CreatedOn);
         return _mapper.Map<List<TransactionHistoryVM>>(result);
     }
 }

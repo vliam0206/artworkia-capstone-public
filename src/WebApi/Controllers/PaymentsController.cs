@@ -44,7 +44,7 @@ public class PaymentsController : ControllerBase
             // create order successfully -> save history to DB            
             var walletHistory = new WalletHistory
             {
-                Amount = zaloPayOrderCreate.Amount / 1000, // amount is coins
+                Amount = zaloPayOrderCreate.Amount, // amount in history is VND
                 AppTransId = zaloPayOrderCreate.AppTransId,
                 Type = Domain.Enums.WalletHistoryTypeEnum.Deposit
             };
@@ -59,16 +59,11 @@ public class PaymentsController : ControllerBase
     }
 
     [HttpPost("callback")]
-    public async Task<IActionResult> Callback([FromBody] dynamic cbdata)
+    public async Task<IActionResult> Callback([FromBody] ZaloPayCallbackOrder callbackOrder)
     {
         var result = new Dictionary<string, object>();
         try
-        {
-            var dataStr = Convert.ToString(cbdata["data"]);
-            var reqMac = Convert.ToString(cbdata["mac"]);
-            var type = Convert.ToString(cbdata["type"]);
-            var callbackOrder = new ZaloPayCallbackOrder { Type = type, Mac = reqMac, Data = dataStr };
-
+        {            
             // check valid callback (from ZaloPay server)
             if (!_zaloPayService.ValidateCallback(callbackOrder))
             {
@@ -78,19 +73,22 @@ public class PaymentsController : ControllerBase
             } else
             {   // payment success                
                 // update order status
-                var dataJson = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataStr);
-                await _walletHistoryService.UpdateWalletHistoryStatus(dataJson["app_trans_id"], 
+                var callbackData = callbackOrder.ToCallbackOrderData();
+                if (callbackData == null)
+                {
+                    throw new ArgumentException("Callback Data is invalid json format.");
+                }
+                await _walletHistoryService.UpdateWalletHistoryStatus(callbackData.AppTransId, 
                                                                       TransactionStatusEnum.Success);
                 // update coins in db
-                var accountId = Guid.Parse(dataJson["app_user"]);
-                var amount = dataJson["amount"] / 1000;
-                await _walletService.DepositCoinsAsync(accountId, amount);
+                var accountId = Guid.Parse(callbackData.AppUser);
+                var coins = callbackData.Amount / 1000;
+                await _walletService.DepositCoinsAsync(accountId, coins);
 
                 // return result
                 result["return_code"] = 1;
                 result["return_message"] = "success";
             }
-
         }
         catch (Exception ex)
         {
