@@ -56,4 +56,29 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         return await _dbSet.Where(query).ToListAsync();
     }
+
+    public async Task<IPagedList<TEntity>> ToPaginationAsync(IQueryable<TEntity> source, int pageNumber = 1, int pageSize = 10)
+    {
+        var itemCount = await source.CountAsync();
+        var items = await source.Skip((pageNumber - 1) * pageSize)
+                                .Take(pageSize)
+                                .AsNoTracking()
+                                .ToListAsync();
+
+        var result = new PagedList<TEntity>(items, itemCount, pageNumber, pageSize);
+        return result;
+    }
+
+    public async Task<IPagedList<TEntity>> ToPaginationAsync(IQueryable<TEntity> source, Expression<Func<TEntity, bool>> expression, int pageNumber = 1, int pageSize = 10)
+    {
+        var itemCount = await source.Where(expression).CountAsync();
+        var items = await source.Where(expression)
+                                .Skip((pageNumber - 1) * pageSize)
+                                .Take(pageSize)
+                                .AsNoTracking()
+                                .ToListAsync();
+
+        var result = new PagedList<TEntity>(items, itemCount, pageNumber, pageSize);
+        return result;
+    }
 }

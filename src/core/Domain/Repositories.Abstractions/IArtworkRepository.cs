@@ -1,9 +1,11 @@
-﻿using Domain.Entitites;
-using Domain.Pagination;
+﻿using Domain.Entities.Commons;
+using Domain.Entitites;
+using Domain.Enums;
 namespace Domain.Repositories.Abstractions;
 
 public interface IArtworkRepository : IGenericRepository<Artwork>
 {
-    PagedList<Artwork> GetAllArtworksByAccountIdAsync(Guid accountId, string? sortBy, int page, int pageSize);
+    Task<IPagedList<Artwork>> GetAllArtworksAsync(Guid? categoryId, StateEnum? status, string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize);
+    Task<IPagedList<Artwork>> GetAllArtworksByAccountIdAsync(Guid accountId, StateEnum? status, string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize);
     Task<Artwork?> GetArtworkDetailByIdAsync(Guid artworkId);
 }

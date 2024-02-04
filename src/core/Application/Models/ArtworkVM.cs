@@ -15,6 +15,7 @@ public class ArtworkVM
     public int LikeCount { get; set; } = default!;
     public int CommentCount { get; set; } = default!;
     public string Privacy { get; set; } = default!;
+    public string Status { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }
@@ -44,10 +45,27 @@ public class ArtworkPreviewVM
     public DateTime CreatedOn { get; set; }
 }
 
-public class SearchArtworkCriteria
+// View model for moderation
+public class ArtworkModerationVM
 {
-    public string? Key { get; set; }
-    public string? Category { get; set; }
-    public string? Sort { get; set; }
-    public string? Order { get; set; }
+    public Guid Id { get; set; }
+    public string Title { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public string Thumbnail { get; set; } = default!;
+    public string ThumbnailName { get; set; } = default!; 
+    public int ViewCount { get; set; } = default!;
+    public int LikeCount { get; set; } = default!;
+    public int CommentCount { get; set; } = default!;
+
+    public string Privacy { get; set; } = default!;
+    public string Status { get; set; } = default!;
+    public Guid? CreatedBy { get; set; }
+    public DateTime CreatedOn { get; set; }
+    public Guid? LastModificatedBy { get; set; }
+    public DateTime? LastModificatedOn { get; set; }
+    public Guid? DeletedBy { get; set; }
+    public DateTime? DeletedOn { get; set; }
+    public AccountBasicInfoVM Account { get; set; } = default!;
+    public List<CategoryVM> CategoryList { get; set; } = default!;
+    public List<TagVM> TagList { get; set; } = default!;
 }

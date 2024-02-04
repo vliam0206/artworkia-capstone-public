@@ -1,4 +1,5 @@
-﻿using Application.Models;
+﻿using Application.Commons;
+using Application.Models;
 using Application.Models.ZaloPayModels;
 using AutoMapper;
 using Domain.Entitites;
@@ -11,6 +12,8 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         // chu y: 1 so model, view model nam o Application.Models
+        CreateMap(typeof(PagedList<>), typeof(PagedList<>));
+
         CreateMap<Account, AccountVM>().ReverseMap();
         CreateMap<Account, RegisterModel>().ReverseMap();
         CreateMap<Account, AccountModel>().ReverseMap();
@@ -37,6 +40,9 @@ public class MappingProfile : Profile
         CreateMap<CategoryArtworkDetail, CategoryArtworkVM>().ReverseMap();
 
         CreateMap<Artwork, ArtworkVM>()
+            .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryArtworkDetails.Select(y => y.Category).ToList()))
+            .ForMember(model => model.TagList, opt => opt.MapFrom(x => x.TagDetails.Select(y => y.Tag).ToList()));
+        CreateMap<Artwork, ArtworkModerationVM>()
             .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryArtworkDetails.Select(y => y.Category).ToList()))
             .ForMember(model => model.TagList, opt => opt.MapFrom(x => x.TagDetails.Select(y => y.Tag).ToList()));
         CreateMap<Account, AccountBasicInfoVM>().ReverseMap();

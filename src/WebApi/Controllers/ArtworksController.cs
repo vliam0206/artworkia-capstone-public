@@ -1,14 +1,17 @@
-﻿using Application.Models;
+﻿using Application.Commons;
+using Application.Filters;
+using Application.Models;
+using Application.Services;
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Enums;
-using Domain.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
 using WebApi.ViewModels.Commons;
 
 namespace WebApi.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class ArtworksController : ControllerBase
@@ -29,33 +32,17 @@ public class ArtworksController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllArtworks()
+    public async Task<IActionResult> GetAllArtworks([FromQuery] ArtworkCriteria criteria)
     {
-        var result = await _artworkService.GetAllArtworksAsync();
+        var result = await _artworkService.GetAllArtworksAsync(criteria);
         return Ok(result);
     }
-
-    [HttpGet("search")]
-    public async Task<IActionResult> GetArtworksBySearch([FromQuery] SearchArtworkCriteria searchArtworkCriteria)
-    {
-        var result = await _artworkService.GetArtworksBySearchAsync(searchArtworkCriteria);
-
-        return Ok(result);
-    }
-
+    
     [HttpGet("account/{accountId}")]
-    public async Task<IActionResult> GetArtworksByAccount(Guid accountId, [FromQuery] PagingParameters parameters)
+    public async Task<IActionResult> GetArtworksByAccount(Guid accountId, [FromQuery] ArtworkCriteria criteria)
     {
-        PagedList<ArtworkPreviewVM> result = await _artworkService.GetAllArtworksByAccountIdAsync(accountId, parameters.sortBy, parameters.PageNumber, parameters.PageSize);
-        ListApiResponse list = new()
-        {
-            CurrentPage = result.CurrentPage,
-            TotalPages = result.TotalPages,
-            PageSize = result.PageSize,
-            TotalCount = result.TotalCount,
-            ItemList = result
-        };
-        return Ok(list);
+        PagedList<ArtworkPreviewVM> result = await _artworkService.GetAllArtworksByAccountIdAsync(accountId, criteria);
+        return Ok(result);
     }
 
     [HttpGet("privacy-enum")]
@@ -227,6 +214,42 @@ public class ArtworksController : ControllerBase
             });
         }
     }
+
+    [HttpGet, Route("/api/moderation/[controller]")]
+    [Authorize(Roles = "Moderator,Admin")]
+    public async Task<IActionResult> GetAllArtworksForModerator([FromQuery] ArtworkCriteria criteria)
+    {
+        var result = await _artworkService.GetAllArtworksForModerationAsync(criteria);
+        return Ok(result);
+    }
+
+    [HttpPut, Route("/api/moderation/[controller]/status/{artworkId}")]
+    [Authorize(Roles = "Moderator,Admin")]
+    public async Task<IActionResult> UpdateArtworkStatusForModerator(Guid artworkId, [FromBody] StateEnum status)
+    {
+        try
+        {
+            await _artworkService.UpdateArtworkStatusAsync(artworkId, status);
+            return NoContent();
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
     private ApiResponse ValidateThumbnail(IFormFile thumbnail)
     {
         if (!FileValidationHelper.IsImageFormatValid(thumbnail.FileName))
@@ -363,3 +386,4 @@ public class ArtworksController : ControllerBase
         return new ApiResponse { IsSuccess = true };
     }
 }
+

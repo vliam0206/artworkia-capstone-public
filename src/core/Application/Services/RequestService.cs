@@ -1,6 +1,5 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
-using Application.Services.Firebase;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;

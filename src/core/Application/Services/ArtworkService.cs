@@ -1,19 +1,18 @@
-﻿using Application.Models;
+﻿using Application.Commons;
+using Application.Filters;
+using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
-using Domain.Pagination;
 using Domain.Repositories.Abstractions;
-
 namespace Application.Services;
 public class ArtworkService : IArtworkService
 {
     private static readonly string PARENT_FOLDER = "Artwork";
     private readonly IUnitOfWork _unitOfWork;
     private readonly IImageService _imageService;
-    private readonly IAssetService _assetService;
     private readonly ITagDetailService _tagDetailService;
     private readonly ICategoryArtworkDetailService _categoryArtworkDetailService;
     private readonly IFirebaseService _firebaseService;
@@ -21,7 +20,6 @@ public class ArtworkService : IArtworkService
     public ArtworkService(
         IUnitOfWork unitOfWork,
         IImageService imageService,
-        IAssetService assetService,
         ITagDetailService tagDetailService,
         ICategoryArtworkDetailService catworkDetailService,
         IFirebaseService firebaseService,
@@ -29,57 +27,37 @@ public class ArtworkService : IArtworkService
     {
         _unitOfWork = unitOfWork;
         _imageService = imageService;
-        _assetService = assetService;
         _tagDetailService = tagDetailService;
         _categoryArtworkDetailService = catworkDetailService;
         _firebaseService = firebaseService;
         _mapper = mapper;
     }
 
-    public async Task<List<ArtworkPreviewVM>> GetAllArtworksAsync()
+    public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksAsync(ArtworkCriteria criteria)
     {
-        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllUndeletedAsync();
-        var listArtworkPreviewVM = _mapper.Map<List<ArtworkPreviewVM>>(listArtwork);
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
+            criteria.categoryId, criteria.status, criteria.keyword, criteria.sortColumn,
+            criteria.sortOrder, criteria.PageNumber, criteria.PageSize);
+        var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
         return listArtworkPreviewVM;
     }
 
-    public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, string? sortBy, int page = 1, int pageSize = 10)
+    public async Task<PagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkCriteria criteria)
     {
-        PagedList<Artwork> listArtwork = _unitOfWork.ArtworkRepository.GetAllArtworksByAccountIdAsync(accountId, sortBy, page, pageSize);
-        //var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
-        var listArtworkPreviewVM = new PagedList<ArtworkPreviewVM>(
-            _mapper.Map<List<ArtworkPreviewVM>>(listArtwork),
-            listArtwork.TotalCount,
-            listArtwork.CurrentPage,
-            listArtwork.PageSize
-        );
-        return listArtworkPreviewVM;
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
+            criteria.categoryId, criteria.status, criteria.keyword, criteria.sortColumn,
+            criteria.sortOrder, criteria.PageNumber, criteria.PageSize);
+        var listArtworkModerationVM = _mapper.Map<PagedList<ArtworkModerationVM>>(listArtwork);
+        return listArtworkModerationVM;
     }
 
-
-    public async Task<List<ArtworkPreviewVM>> GetArtworksBySearchAsync(SearchArtworkCriteria searchArtworkCriteria)
+    public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkCriteria criteria)
     {
-        var result = await _unitOfWork.ArtworkRepository.GetAllUndeletedAsync();
-        if (searchArtworkCriteria.Key != null)
-        {
-            result = result.Where(x => x.Title.ToLower().Contains(searchArtworkCriteria.Key.ToLower())).ToList();
-        }
-
-        if (searchArtworkCriteria.Sort != null)
-        {
-            if (searchArtworkCriteria.Sort == "createdOn")
-            {
-                if (searchArtworkCriteria.Order == "asc")
-                {
-                    result = result.OrderBy(x => x.CreatedOn).ToList();
-                } else
-                {
-                    result = result.OrderByDescending(x => x.CreatedOn).ToList();
-                }
-            }
-        }
-
-        return _mapper.Map<List<ArtworkPreviewVM>>(result);
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksByAccountIdAsync(
+            accountId, criteria.status, criteria.keyword, criteria.sortColumn, criteria.sortOrder, 
+            criteria.PageNumber, criteria.PageSize);
+        var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
+        return listArtworkPreviewVM;
     }
 
     public async Task<ArtworkVM?> GetArtworkByIdAsync(Guid artworkId)
@@ -135,16 +113,48 @@ public class ArtworkService : IArtworkService
         };
         await _imageService.AddRangeImageAsync(multiImageModel, false);
 
+        bool flagPrice = false;
         // them asset
         if (artworkModel.AssetFiles != null)
         {
-            MultiAssetModel multiAssetModel = new MultiAssetModel()
+            var uploadAssetsTask = new List<Task>();
+            foreach (var singleAsset in artworkModel.AssetFiles.Select((file, index) => (file, index)))
             {
-                ArtworkId = newArtwork.Id,
-                Assets = artworkModel.AssetFiles
-            };
-            await _assetService.AddRangeAssetAsync(multiAssetModel, false);
+                if (flagPrice == false && singleAsset.file.Price > 0)
+                {
+                    flagPrice = true;
+                }
+                Guid artworkId = newArtwork.Id;
+                string newAssetName = artworkId + "_a" + singleAsset.index;
+                string assetFolderName = $"{PARENT_FOLDER}/Asset";
+                string imageExtension = Path.GetExtension(singleAsset.file.File.FileName); 
+
+                // upload asset len firebase, lay url
+                uploadAssetsTask.Add(Task.Run(async () =>
+                {
+                    var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.file.File, newAssetName, assetFolderName);
+                    if (url == null)
+                        throw new Exception("Cannot upload asset to firebase!");
+
+                    Asset newAsset = new()
+                    {
+                        ArtworkId = artworkId,
+                        Location = url,
+                        AssetName = newAssetName + imageExtension,
+                        AssetTitle = singleAsset.file.AssetTitle,
+                        Description = singleAsset.file.Description,
+                        Price = singleAsset.file.Price,
+                    };
+                    await _unitOfWork.AssetRepository.AddAsync(newAsset);
+                }));
+            }
+            await Task.WhenAll(uploadAssetsTask);
         }
+
+        if (flagPrice) 
+            newArtwork.Status = StateEnum.Waiting;
+        else 
+            newArtwork.Status = StateEnum.Accepted;
 
         await _unitOfWork.SaveChangesAsync();
         var result = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(newArtwork.Id);
@@ -171,6 +181,16 @@ public class ArtworkService : IArtworkService
         oldArtwork.Privacy = artworkEM.Privacy;
 
         _unitOfWork.ArtworkRepository.Update(oldArtwork);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task UpdateArtworkStatusAsync(Guid artworkId, StateEnum status)
+    {
+        var oldArtwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
+        if (oldArtwork == null)
+            throw new Exception("Cannot found artwork!");
+
+        oldArtwork.Status = status;
         await _unitOfWork.SaveChangesAsync();
     }
 }

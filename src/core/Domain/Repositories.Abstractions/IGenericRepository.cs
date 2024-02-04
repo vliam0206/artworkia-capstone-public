@@ -18,4 +18,8 @@ public interface IGenericRepository<TEntity> where TEntity : BaseEntity
 
     Task<TEntity?> GetSingleByConditionAsync(Expression<Func<TEntity, bool>> query);
     Task<List<TEntity>> GetListByConditionAsync(Expression<Func<TEntity, bool>> query);
+
+    Task<IPagedList<TEntity>> ToPaginationAsync(IQueryable<TEntity> source, int pageNumber = 1, int pageSize = 10);
+    Task<IPagedList<TEntity>> ToPaginationAsync(IQueryable<TEntity> source, Expression<Func<TEntity, bool>> expression, int pageNumber = 1, int pageSize = 10);
+
 }
