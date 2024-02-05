@@ -4,9 +4,9 @@ public class BaseCriteria
 {
     const int maxPageSize = 50;
 
-    public string? keyword { set; get; }
-    public string? sortColumn { set; get; }
-    public string? sortOrder { set; get; }
+    public string? Keyword { set; get; }
+    public string? SortColumn { set; get; }
+    public string? SortOrder { set; get; }
     public int PageNumber { get; set; } = 1;
     private int _pageSize = 10;
     public int PageSize

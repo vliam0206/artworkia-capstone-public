@@ -5,6 +5,6 @@ namespace Application.Filters;
 
 public class ArtworkCriteria : BaseCriteria
 {
-    public Guid? categoryId { set; get; }
-    public StateEnum? status { set; get; }
+    public Guid? CategoryId { set; get; }
+    public StateEnum? Status { set; get; }
 }

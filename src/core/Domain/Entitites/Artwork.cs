@@ -16,7 +16,7 @@ public class Artwork : BaseEntity, ICreation, IModification, ISoftDelete
     public int LikeCount { get; set; } = default!;
     public int CommentCount { get; set; } = default!;
     public PrivacyEnum Privacy { get; set; } = default!;
-    public StateEnum Status { get; set; }
+    public StateEnum State { get; set; }
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }

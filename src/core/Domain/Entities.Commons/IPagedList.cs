@@ -8,5 +8,5 @@ public interface IPagedList<T>
     public int TotalCount { get; } // tong so item
     public bool HasPrevious { get; } // co trang truoc
     public bool HasNext { get; } // co trang sau
-    public IEnumerable<T> Items { get; }
+    public List<T> Items { get; }
 }

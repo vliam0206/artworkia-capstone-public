@@ -58,7 +58,8 @@ public class AccountsController : ControllerBase
     [HttpGet("role-enum")]
     public IActionResult GetAccountRoleEnum()
     {
-        var roleEnums = Enum.GetNames(typeof(RoleEnum));
+        var roleEnums = Enum.GetValues(typeof(RoleEnum))
+            .Cast<RoleEnum>().Select(r => new { Id = (int)r, Name = r.ToString() });
         return Ok(roleEnums);
     }
 

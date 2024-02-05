@@ -1,7 +1,6 @@
 ﻿using Application.Commons;
 using Application.Filters;
 using Application.Models;
-using Application.Services;
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Enums;
@@ -48,7 +47,8 @@ public class ArtworksController : ControllerBase
     [HttpGet("privacy-enum")]
     public IActionResult GetArtworkPrivacyEnum()
     {
-        var privacyEnums = Enum.GetNames(typeof(PrivacyEnum));
+        var privacyEnums = Enum.GetValues(typeof(PrivacyEnum))
+                .Cast<PrivacyEnum>().Select(r => new { Id = (int)r, Name = r.ToString() });
         return Ok(privacyEnums);
     }
 
@@ -121,7 +121,7 @@ public class ArtworksController : ControllerBase
         {
             var result = await _artworkService.AddArtworkAsync(artworkModel);
             return CreatedAtAction(nameof(GetArtworkById),
-                new { artworkId = result }, result);
+                new { artworkId = result.Id }, result);
         } catch (Exception ex)
         {
             return BadRequest(new ApiResponse
@@ -223,13 +223,13 @@ public class ArtworksController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPut, Route("/api/moderation/[controller]/status/{artworkId}")]
+    [HttpPut, Route("/api/moderation/[controller]/{artworkId}/state")]
     [Authorize(Roles = "Moderator,Admin")]
-    public async Task<IActionResult> UpdateArtworkStatusForModerator(Guid artworkId, [FromBody] StateEnum status)
+    public async Task<IActionResult> UpdateArtworkStatusForModerator(Guid artworkId, [FromBody] StateEnum state)
     {
         try
         {
-            await _artworkService.UpdateArtworkStatusAsync(artworkId, status);
+            await _artworkService.UpdateArtworkStateAsync(artworkId, state);
             return NoContent();
         }
         catch (NullReferenceException ex)

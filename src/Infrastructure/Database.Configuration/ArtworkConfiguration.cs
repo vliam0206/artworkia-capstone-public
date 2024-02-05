@@ -46,7 +46,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "35966d1a-9b08-4743-b1c3-474a58350f6e_t.jpg",
                 ViewCount = 99,
                 LikeCount = 2,
-                CommentCount = 2
+                CommentCount = 2,
+                State = StateEnum.Waiting
             },
             new Artwork()
             {
@@ -61,7 +62,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Waiting
+                State = StateEnum.Waiting
             },
             new Artwork()
             {
@@ -76,7 +77,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Accepted
+                State = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -91,7 +92,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Accepted
+                State = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -106,7 +107,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Accepted
+                State = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -121,7 +122,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Accepted
+                State = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -136,7 +137,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Accepted
+                State = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -151,7 +152,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Accepted
+                State = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -166,7 +167,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Accepted
+                State = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -181,7 +182,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Accepted
+                State = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -196,7 +197,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Accepted
+                State = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -211,7 +212,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Accepted
+                State = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -226,7 +227,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Accepted
+                State = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -241,7 +242,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Accepted
+                State = StateEnum.Accepted
             },
             new Artwork()
             {
@@ -256,7 +257,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 0,
                 CommentCount = 0,
-                Status = StateEnum.Accepted
+                State = StateEnum.Accepted
             }
         );
         #endregion

@@ -4,6 +4,7 @@ using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240203125918_EditReport")]
+    partial class EditReport
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,7 +215,7 @@ namespace Migrators.MSSQL.Migrations
                     b.Property<int>("Privacy")
                         .HasColumnType("int");
 
-                    b.Property<int>("State")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("Thumbnail")
@@ -247,7 +250,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Bộ sưu tập người máy - biểu tượng của tương lai.",
                             LikeCount = 2,
                             Privacy = 0,
-                            State = 0,
+                            Status = 0,
                             Thumbnail = "https://th.bing.com/th/id/OIG.D7FfBXsOQCjc28w68xZS?pid=ImgGn",
                             ThumbnailName = "35966d1a-9b08-4743-b1c3-474a58350f6e_t.jpg",
                             Title = "Kỷ nguyên mới",
@@ -261,7 +264,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 11, 6, 1, 20, 45, 890, DateTimeKind.Local),
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 0,
+                            Status = 0,
                             Thumbnail = "https://th.bing.com/th/id/OIG.MC3PObbEmuJhfsPJ8biQ?pid=ImgGn",
                             ThumbnailName = "72fbdead-0704-4f69-82ec-0cd09218fef9_t.jpg",
                             Title = "Touhou Project Image Cute",
@@ -276,7 +279,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Đây là tuyển tập tâm huyết của mình, nhớ like và comment để ủng hộ mình nha",
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 1,
+                            Status = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG.yy76iMmgUCmXetlfQxqn?w=1024&h=1024&rs=1&pid=ImgDetMain",
                             ThumbnailName = "35966d1a-9b08-4743-b1c3-474a58350f5e_t.jpg",
                             Title = "Tuyển tập minh hoạ sách tâm lý",
@@ -291,7 +294,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Tuyển tập những bức vẽ về hoàng hôn",
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 1,
+                            Status = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG.7WfKwqG.VAbgwQ87iaTU?w=1024&h=1024&rs=1&pid=ImgDetMain",
                             ThumbnailName = "ab5e5cda-2b09-4ba1-8d6c-74f169c8a9a3_t.jpg",
                             Title = "Hoàng hôn rực nắng",
@@ -306,7 +309,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Khám phá sâu hơn về cảm xúc và tâm trạng trong cuộc sống",
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 1,
+                            Status = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG.mMOt1xWJJCHsRoPJXtHQ?pid=ImgGn",
                             ThumbnailName = "e74b9b62-1f9e-4a12-97e1-8c79c9a2aeb7_t.jpg",
                             Title = "Hành trình sâu cảm xúc",
@@ -321,7 +324,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Minh họa những cuộc chiến tiêu biểu của thời đại",
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 1,
+                            Status = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG.k0SSs9Qn3tHNvlcMdMrG?w=1024&h=1024&rs=1&pid=ImgDetMain",
                             ThumbnailName = "3f22b8d1-0d5b-4da0-9f4e-876c1586c5b3_t.jpg",
                             Title = "Vẻ đẹp của lịch sử",
@@ -336,7 +339,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Tác phẩm thể hiện sự ảnh hưởng của quá khứ đối với hiện tại",
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 1,
+                            Status = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG.Oe0vi0jHSKaHn5DZ267N?w=1024&h=1024&rs=1&pid=ImgDetMain",
                             ThumbnailName = "56f86f82-4622-4710-8d1c-b8c1664711a2_t.jpg",
                             Title = "Dấu vết của quá khứ",
@@ -351,7 +354,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Minh họa cho hành trình không ngừng của sự sáng tạo",
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 1,
+                            Status = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG.LTaVFacabNQc22SAk1r1?pid=ImgGn",
                             ThumbnailName = "8c24a1d8-9f14-44cd-9e86-2c542d14413c_t.jpg",
                             Title = "Hành trình của sự sáng tạo",
@@ -366,7 +369,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Tượng trưng cho sự đồng hành và hỗ trợ của đối tác tâm lý",
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 1,
+                            Status = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG.AoM9akz.gT4RMZ9R6DOh?pid=ImgGn",
                             ThumbnailName = "5fdaf3c7-6c68-45fb-9610-b67b8a1d0bd0_t.jpg",
                             Title = "Sự đồng hành của đối tác tâm lý",
@@ -381,7 +384,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Hình ảnh tượng trưng cho ánh sáng và năng lượng bên trong chúng ta",
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 1,
+                            Status = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG..gPcXaRan.FdnEjYCvT3?pid=ImgGn",
                             ThumbnailName = "fb7c52b9-64f8-4e84-a992-14b8bcb6ea35_t.jpg",
                             Title = "Mặt trời bên trong",
@@ -396,7 +399,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Minh họa cho tâm trạng lạc quan và hy vọng về tương lai",
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 1,
+                            Status = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG.Uz66_wn15hsKPirpv6Pb?pid=ImgGn",
                             ThumbnailName = "91f9a14d-66a9-43da-8e43-2579baf7c8a7_t.jpg",
                             Title = "Sự lạc quan của tương lai",
@@ -411,7 +414,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Tượng trưng cho nơi gặp gỡ và kết nối tâm hồn con người",
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 1,
+                            Status = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG.78MNqZpoa6ReKmvZCHPI?pid=ImgGn",
                             ThumbnailName = "b1c16326-7a16-4f6b-a76d-cf15ce2c71d3_t.jpg",
                             Title = "Nơi gặp gỡ tâm hồn",
@@ -426,7 +429,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Tượng trưng cho vũ trụ rộng lớn và không gian của tâm trí con người",
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 1,
+                            Status = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG.Iar__phrqaC3bhQLIHAZ?w=1024&h=1024&rs=1&pid=ImgDetMain",
                             ThumbnailName = "9202bb7f-71f3-4641-b1d4-9bc858416d84_t.jpg",
                             Title = "Vũ trụ tâm trí",
@@ -441,7 +444,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Bức tranh thể hiện hành trình tìm kiếm và theo đuổi đam mê trong cuộc sống",
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 1,
+                            Status = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG.MxQxUggA0RKmKdTjwAqw?pid=ImgGn",
                             ThumbnailName = "7a04e5c7-ffea-45da-80d2-875b0a0b8d35_t.jpg",
                             Title = "Hành trình tìm kiếm đam mê",
@@ -456,7 +459,7 @@ namespace Migrators.MSSQL.Migrations
                             Description = "Tượng trưng cho biển cả tri thức sâu rộng và không ngừng mở rộng",
                             LikeCount = 0,
                             Privacy = 0,
-                            State = 1,
+                            Status = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG.5gNG99_0Acz4Y8CGOYlg?pid=ImgGn",
                             ThumbnailName = "f7e4df8d-b4b7-4a39-8f2b-74f5d4b512a4_t.jpg",
                             Title = "Biển cả của tri thức",
@@ -1185,7 +1188,7 @@ namespace Migrators.MSSQL.Migrations
                     b.Property<int>("State")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("TargetId")
+                    b.Property<Guid?>("TargetId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -1193,85 +1196,6 @@ namespace Migrators.MSSQL.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.ToTable("Report", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
-                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2023, 11, 27, 15, 40, 28, 901, DateTimeKind.Local),
-                            Reason = "this is sexual harrasment",
-                            ReportEntity = 2,
-                            ReportType = 0,
-                            State = 0,
-                            TargetId = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1")
-                        },
-                        new
-                        {
-                            Id = new Guid("7d580000-c214-88a4-eb45-08dc266225b8"),
-                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2023, 12, 7, 15, 40, 28, 901, DateTimeKind.Local),
-                            Reason = "Inappropriate content",
-                            ReportEntity = 2,
-                            ReportType = 3,
-                            State = 1,
-                            TargetId = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1")
-                        },
-                        new
-                        {
-                            Id = new Guid("7d580000-c214-88a4-a111-08dc2662267b"),
-                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2023, 12, 27, 15, 40, 28, 901, DateTimeKind.Local),
-                            Reason = "Abuse of platform",
-                            ReportEntity = 2,
-                            ReportType = 0,
-                            State = 2,
-                            TargetId = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1")
-                        },
-                        new
-                        {
-                            Id = new Guid("7d580000-c214-88a4-7151-08dc26627e8b"),
-                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2023, 12, 28, 15, 40, 28, 901, DateTimeKind.Local),
-                            Reason = "Disallowed content",
-                            ReportEntity = 2,
-                            ReportType = 5,
-                            State = 0,
-                            TargetId = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1")
-                        },
-                        new
-                        {
-                            Id = new Guid("7d580000-c214-88a4-0d90-08dc2662aa73"),
-                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2023, 12, 29, 15, 40, 28, 901, DateTimeKind.Local),
-                            Reason = "Disallowed content",
-                            ReportEntity = 2,
-                            ReportType = 4,
-                            State = 0,
-                            TargetId = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1")
-                        },
-                        new
-                        {
-                            Id = new Guid("7d580000-c214-88a4-4a40-08dc26620bdc"),
-                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2023, 11, 27, 15, 40, 28, 901, DateTimeKind.Local),
-                            Reason = "Not suitable",
-                            ReportEntity = 2,
-                            ReportType = 4,
-                            State = 0,
-                            TargetId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9")
-                        },
-                        new
-                        {
-                            Id = new Guid("7d580000-c214-88a4-4a40-08dc26621bdc"),
-                            CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                            CreatedOn = new DateTime(2023, 11, 28, 15, 40, 28, 901, DateTimeKind.Local),
-                            Reason = "This is spam",
-                            ReportEntity = 2,
-                            ReportType = 2,
-                            State = 0,
-                            TargetId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9")
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entitites.Request", b =>

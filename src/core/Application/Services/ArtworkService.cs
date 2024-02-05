@@ -36,8 +36,8 @@ public class ArtworkService : IArtworkService
     public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksAsync(ArtworkCriteria criteria)
     {
         var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
-            criteria.categoryId, criteria.status, criteria.keyword, criteria.sortColumn,
-            criteria.sortOrder, criteria.PageNumber, criteria.PageSize);
+            criteria.CategoryId, criteria.Status, criteria.Keyword, criteria.SortColumn,
+            criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
         var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
         return listArtworkPreviewVM;
     }
@@ -45,8 +45,8 @@ public class ArtworkService : IArtworkService
     public async Task<PagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkCriteria criteria)
     {
         var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
-            criteria.categoryId, criteria.status, criteria.keyword, criteria.sortColumn,
-            criteria.sortOrder, criteria.PageNumber, criteria.PageSize);
+            criteria.CategoryId, criteria.Status, criteria.Keyword, criteria.SortColumn,
+            criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
         var listArtworkModerationVM = _mapper.Map<PagedList<ArtworkModerationVM>>(listArtwork);
         return listArtworkModerationVM;
     }
@@ -54,7 +54,7 @@ public class ArtworkService : IArtworkService
     public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkCriteria criteria)
     {
         var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksByAccountIdAsync(
-            accountId, criteria.status, criteria.keyword, criteria.sortColumn, criteria.sortOrder, 
+            accountId, criteria.Status, criteria.Keyword, criteria.SortColumn, criteria.SortOrder, 
             criteria.PageNumber, criteria.PageSize);
         var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
         return listArtworkPreviewVM;
@@ -84,7 +84,6 @@ public class ArtworkService : IArtworkService
             throw new Exception("Cannot upload thumbnail image to firebase!");
         newArtwork.Thumbnail = url;
         newArtwork.ThumbnailName = newThumbnailName + extension;
-        newArtwork.Status = StateEnum.Accepted;
         // them artwork 
         await _unitOfWork.ArtworkRepository.AddAsync(newArtwork);
         await _unitOfWork.SaveChangesAsync();
@@ -152,9 +151,9 @@ public class ArtworkService : IArtworkService
         }
 
         if (flagPrice) 
-            newArtwork.Status = StateEnum.Waiting;
+            newArtwork.State = StateEnum.Waiting;
         else 
-            newArtwork.Status = StateEnum.Accepted;
+            newArtwork.State = StateEnum.Accepted;
 
         await _unitOfWork.SaveChangesAsync();
         var result = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(newArtwork.Id);
@@ -184,13 +183,14 @@ public class ArtworkService : IArtworkService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task UpdateArtworkStatusAsync(Guid artworkId, StateEnum status)
+    public async Task UpdateArtworkStateAsync(Guid artworkId, StateEnum state)
     {
         var oldArtwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
         if (oldArtwork == null)
             throw new Exception("Cannot found artwork!");
-
-        oldArtwork.Status = status;
+        if (oldArtwork.State != StateEnum.Waiting)
+            throw new Exception($"Report already resolve! (current state is {oldArtwork.State})");
+        oldArtwork.State = state;
         await _unitOfWork.SaveChangesAsync();
     }
 }

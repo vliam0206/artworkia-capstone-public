@@ -15,7 +15,7 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
     {
     }
 
-    public async Task<IPagedList<Artwork>> GetAllArtworksAsync(Guid? categoryId, StateEnum? status, string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize)
+    public async Task<IPagedList<Artwork>> GetAllArtworksAsync(Guid? categoryId, StateEnum? state, string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize)
     {
         var allArtworks = _dbContext.Artworks
             .Include(a => a.Account)
@@ -25,9 +25,9 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
                 .ThenInclude(t => t.Tag)
             .Where(a => a.DeletedOn == null);
 
-        if (status != null)
+        if (state != null)
         {
-            allArtworks = allArtworks.Where(a => a.Status == status);
+            allArtworks = allArtworks.Where(a => a.State == state);
         }   
 
         if (categoryId != null)
@@ -71,15 +71,15 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         return result;
     }
 
-    public async Task<IPagedList<Artwork>> GetAllArtworksByAccountIdAsync(Guid accountId, StateEnum? status, string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize)
+    public async Task<IPagedList<Artwork>> GetAllArtworksByAccountIdAsync(Guid accountId, StateEnum? state, string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize)
     {
         var allArtworks = _dbContext.Artworks
             .Include(a => a.Account)
             .Where(a => a.CreatedBy == accountId && a.DeletedOn == null);
 
-        if (status != null)
+        if (state != null)
         {
-            allArtworks = allArtworks.Where(a => a.Status == status);
+            allArtworks = allArtworks.Where(a => a.State == state);
         }
 
         if (!string.IsNullOrEmpty(keyword))

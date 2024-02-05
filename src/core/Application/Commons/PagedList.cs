@@ -10,7 +10,7 @@ public class PagedList<T> : IPagedList<T>
     public int TotalCount { get; private set; } // tong so item
     public bool HasPrevious => CurrentPage > 1; // co trang truoc
     public bool HasNext => CurrentPage < TotalPages; // co trang sau
-    public IEnumerable<T> Items { get; private set; } = default!;
+    public List<T> Items { get; private set; } = default!;
 
     public PagedList() { }
     public PagedList(List<T> items, int totalCount, int pageNumber, int pageSize)

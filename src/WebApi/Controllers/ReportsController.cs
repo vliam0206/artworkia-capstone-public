@@ -1,11 +1,12 @@
 ﻿using Application.Services.Abstractions;
 using AutoMapper;
-using Domain.Entitites;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.ViewModels;
+using Application.Filters;
+using WebApi.ViewModels.Commons;
 
 namespace WebApi.Controllers
 {
@@ -25,21 +26,39 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllReports()
+        [Authorize(Roles = "Moderator,Admin")]
+        public async Task<IActionResult> GetAllReports([FromQuery] ReportCriteria criteria)
         {
-            var result = await _reportService.GetAllReportsAsync();
+            var result = await _reportService.GetAllReportsAsync(criteria);
             return Ok(result);
         }
 
-        [HttpGet("type/{type}")]
-        public async Task<IActionResult> GetAllReports(ReportEntityEnum type)
+        [HttpGet("report-entity-enum")]
+        public IActionResult GetReportEntityEnum()
         {
-            var reports = await _reportService.GetAllReportsAsync();
-            var commentReports = reports.Where(report => report.ReportEntity == type);
-            return Ok(commentReports);
+            var reportEntityEnums = Enum.GetValues(typeof(ReportEntityEnum))
+                .Cast<ReportEntityEnum>().Select(r => new { Id = (int)r, Name = r.ToString() });
+            return Ok(reportEntityEnums);
+        }
+
+        [HttpGet("report-state-enum")]
+        public IActionResult GetReportStateEnum()
+        {
+            var reportStateEnum = Enum.GetValues(typeof(StateEnum))
+                .Cast<StateEnum>().Select(r => new { Id = (int)r, Name = r.ToString() });
+            return Ok(reportStateEnum);
+        }
+
+        [HttpGet("report-type-enum")]
+        public IActionResult GetReportTypeEnum()
+        {
+            var reportTypeEnum = Enum.GetValues(typeof(ReportTypeEnum))
+                .Cast<ReportTypeEnum>().Select(r => new { Id = (int)r, Name = r.ToString() });
+            return Ok(reportTypeEnum);
         }
 
         [HttpGet("{reportId}")]
+        [Authorize(Roles = "Moderator,Admin")]
         public async Task<IActionResult> GetReportById(Guid reportId)
         {
             var result = await _reportService.GetReportByIdAsync(reportId);
@@ -49,35 +68,84 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
         public async Task<IActionResult> AddReport(ReportModel reportModel)
         {
-            if (reportModel == null)
-                return BadRequest();
-            var report = _mapper.Map<Report>(reportModel);
-            report.State = StateEnum.Waiting;
             try
             {
-                await _reportService.AddReportAsync(report);
-            } catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
+                var result = await _reportService.AddReportAsync(reportModel);
+                return CreatedAtAction(nameof(GetReportById),
+                new { reportId = result.Id }, result);
             }
-            return Ok(new { IsSuccess = true });
+            catch (NullReferenceException ex)
+            {
+                return NotFound(new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = ex.Message
+                });
+            }
+        }
+
+        [HttpPut, Route("/api/[controller]/{reportId}/state")]
+        [Authorize(Roles = "Moderator,Admin")]
+        public async Task<IActionResult> UpdateReportState(Guid reportId, [FromBody] StateEnum state)
+        {
+            try
+            {
+                await _reportService.UpdateReportState(reportId, state);
+                return NoContent();
+            }
+            catch (NullReferenceException ex)
+            {
+                return NotFound(new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = ex.Message
+                });
+            }
         }
 
         [HttpDelete("{reportId}")]
-        //[Authorize]
+        [Authorize(Roles = "Moderator,Admin")]
         public async Task<IActionResult> DeleteReport(Guid reportId)
         {
             try
             {
                 await _reportService.DeleteReportAsync(reportId);
-            } catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
+                return NoContent();
             }
-            return Ok(new { IsSuccess = true });
+            catch (NullReferenceException ex)
+            {
+                return NotFound(new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = ex.Message
+                });
+            }
         }
     }
 }
