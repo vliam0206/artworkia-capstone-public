@@ -1,4 +1,5 @@
-﻿using Application.Models;
+﻿using Application.Filters;
+using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
@@ -24,9 +25,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAssets()
+        public async Task<IActionResult> GetAllAssets([FromQuery] AssetCriteria criteria)
         {
-            var result = await _assetService.GetAllAssetsAsync();
+            var result = await _assetService.GetAllAssetsAsync(criteria);
             return Ok(result);
         }
 

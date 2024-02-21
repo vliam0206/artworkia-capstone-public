@@ -15,7 +15,7 @@ public class ArtworkVM
     public int LikeCount { get; set; } = default!;
     public int CommentCount { get; set; } = default!;
     public string Privacy { get; set; } = default!;
-    public string Status { get; set; } = default!;
+    public string State { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }
@@ -41,8 +41,10 @@ public class ArtworkPreviewVM
     public int LikeCount { get; set; } = default!;
     public int CommentCount { get; set; } = default!;
     public string Privacy { get; set; } = default!;
+    public string State { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
+    public AccountBasicInfoVM Account { get; set; } = default!;
 }
 
 // View model for moderation
@@ -58,7 +60,7 @@ public class ArtworkModerationVM
     public int CommentCount { get; set; } = default!;
 
     public string Privacy { get; set; } = default!;
-    public string Status { get; set; } = default!;
+    public string State { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }

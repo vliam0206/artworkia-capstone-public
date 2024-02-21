@@ -1,7 +1,10 @@
-﻿using Application.Models;
+﻿using Application.Commons;
+using Application.Filters;
+using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
+using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 
@@ -21,10 +24,21 @@ public class ServiceService : IServiceService
         _firebaseService = firebaseService;
     }
 
-    public async Task<List<ServiceVM>> GetAllServicesAsync()
+    public async Task<IPagedList<ServiceVM>> GetAllServicesAsync(ServiceCriteria criteria)
     {
-        var listService = await _unitOfWork.ServiceRepository.GetAllUndeletedAsync();
-        var listServiceVM = _mapper.Map<List<ServiceVM>>(listService);    
+        var listService = await _unitOfWork.ServiceRepository.GetAllServicesAsync(
+            null, criteria.MinPrice, criteria.MaxPrice, criteria.Keyword, criteria.SortColumn, 
+            criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
+        var listServiceVM = _mapper.Map<PagedList<ServiceVM>>(listService);    
+        return listServiceVM;
+    }
+
+    public async Task<IPagedList<ServiceVM>> GetServicesOfAccountAsync(Guid accountId, ServiceCriteria criteria)
+    {
+        var listService = await _unitOfWork.ServiceRepository.GetAllServicesAsync(
+            accountId, criteria.MinPrice, criteria.MaxPrice, criteria.Keyword, criteria.SortColumn,
+            criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
+        var listServiceVM = _mapper.Map<PagedList<ServiceVM>>(listService);
         return listServiceVM;
     }
 
@@ -41,13 +55,6 @@ public class ServiceService : IServiceService
         }
         var serviceVM = _mapper.Map<ServiceVM>(service);    
         return serviceVM;
-    }
-
-    public async Task<List<ServiceVM>> GetServicesByAccountIdAsync(Guid accountId)
-    {
-        var listService = await _unitOfWork.ServiceRepository.GetServicesByAccountIdAsync(accountId);
-        var listServiceVM = _mapper.Map<List<ServiceVM>>(listService);
-        return listServiceVM;
     }
 
     public async Task<ServiceVM> AddServiceAsync(ServiceModel serviceModel)

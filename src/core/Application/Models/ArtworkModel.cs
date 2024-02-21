@@ -9,7 +9,7 @@ public class ArtworkEM
 {
     [MaxLength(150)]
     public string Title { get; set; } = default!;
-    [MaxLength(1000)]
+    [MaxLength(5000)]
     public string? Description { get; set; } 
     public PrivacyEnum Privacy { get; set; } = default!;
     public IFormFile? Thumbnail { get; set; }
@@ -23,7 +23,7 @@ public class ArtworkModel
     [MaxLength(150)]
     [Required]
     public string Title { get; set; } = default!;
-    [MaxLength(1000)]
+    [MaxLength(5000)]
     public string? Description { get; set; }
     [Required]
     public IFormFile Thumbnail { get; set; } = default!;

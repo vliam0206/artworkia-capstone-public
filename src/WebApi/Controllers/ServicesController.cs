@@ -1,4 +1,5 @@
-﻿using Application.Models;
+﻿using Application.Filters;
+using Application.Models;
 using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,9 +19,9 @@ public class ServicesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllServices()
+    public async Task<IActionResult> GetAllServices([FromQuery] ServiceCriteria criteria)
     {
-        var listService = await _serviceService.GetAllServicesAsync();
+        var listService = await _serviceService.GetAllServicesAsync(criteria);
         return Ok(listService);
     }
 
@@ -30,30 +31,6 @@ public class ServicesController : ControllerBase
         try
         {
             var serviceVM = await _serviceService.GetServiceByIdAsync(serviceId);
-            return Ok(serviceVM);
-        } catch (NullReferenceException ex)
-        {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
-        {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        }
-    }
-
-    [HttpGet("account/{accountId}")]
-    public async Task<IActionResult> GetServicesByAccountId(Guid accountId)
-    {
-        try
-        {
-            var serviceVM = await _serviceService.GetServicesByAccountIdAsync(accountId);
             return Ok(serviceVM);
         } catch (NullReferenceException ex)
         {

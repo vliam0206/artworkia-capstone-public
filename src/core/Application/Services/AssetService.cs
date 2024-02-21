@@ -1,7 +1,10 @@
+using Application.Commons;
+using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
+using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 
@@ -26,10 +29,19 @@ public class AssetService : IAssetService
         _claimService = claimService;
     }
 
-    public async Task<List<AssetVM>> GetAllAssetsAsync()
+    public async Task<IPagedList<AssetVM>> GetAllAssetsAsync(AssetCriteria criteria)
     {
-        var listAsset = await _unitOfWork.AssetRepository.GetAllUndeletedAsync();
-        var listAssetVM = _mapper.Map<List<AssetVM>>(listAsset);
+        var listAsset = await _unitOfWork.AssetRepository.GetAllAssetsAsync(
+            null, criteria.MinPrice, criteria.MaxPrice, criteria.Keyword, criteria.SortColumn, criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
+        var listAssetVM = _mapper.Map<PagedList<AssetVM>>(listAsset);
+        return listAssetVM;
+    }
+
+    public async Task<IPagedList<AssetVM>> GetAssetsOfAccountAsync(Guid accountId, AssetCriteria criteria)
+    {
+        var listAsset = await _unitOfWork.AssetRepository.GetAllAssetsAsync(
+            accountId, criteria.MinPrice, criteria.MaxPrice, criteria.Keyword, criteria.SortColumn, criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
+        var listAssetVM = _mapper.Map<PagedList<AssetVM>>(listAsset);
         return listAssetVM;
     }
 

@@ -1,4 +1,6 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Filters;
+using Application.Services;
+using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
@@ -14,17 +16,26 @@ namespace WebApi.Controllers;
 public class AccountsController : ControllerBase
 {
     private readonly IAccountService _accountService;
+    private readonly IAssetService _assetService;
+    private readonly IServiceService _serviceService;
     private readonly IMapper _mapper;
     private readonly IClaimService _claimService;
 
-    public AccountsController(IAccountService accountService,
+    public AccountsController(
+        IAccountService accountService,
         IMapper mapper,
-        IClaimService claimService)
+        IClaimService claimService,
+        IAssetService assetService,
+        IServiceService serviceService
+        )
     {
         _accountService = accountService;
         _mapper = mapper;
         _claimService = claimService;
+        _assetService = assetService;   
+        _serviceService = serviceService;
     }
+
     // GET: api/accounts
     [HttpGet]
     [Authorize]
@@ -171,17 +182,74 @@ public class AccountsController : ControllerBase
     }
     
     private bool CheckAuthorize(Guid accountId)
-{
-    // check authorize
-    var currentRole = _claimService.GetCurrentRole;
-    if (!currentRole.Equals(RoleEnum.Moderator.ToString())
-        && !currentRole.Equals(RoleEnum.Admin.ToString()))
     {
-        if (_claimService.GetCurrentUserId != accountId)
+        // check authorize
+        var currentRole = _claimService.GetCurrentRole;
+        if (!currentRole.Equals(RoleEnum.Moderator.ToString())
+            && !currentRole.Equals(RoleEnum.Admin.ToString()))
         {
-            return false;
+            if (_claimService.GetCurrentUserId != accountId)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    // GET: /api/accounts/{account_id}/assets
+    [HttpGet("{accountId}/assets")]
+    public async Task<IActionResult> GetAssetsOfAccount(Guid accountId, [FromQuery] AssetCriteria criteria)
+    {
+        try
+        {
+            var results = await _assetService.GetAssetsOfAccountAsync(accountId, criteria);
+            if (results == null)
+                return NotFound();
+            return Ok(results);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
     }
-    return true;
-}
+
+    // GET: /api/accounts/{account_id}/services
+    [HttpGet("{accountId}/services")]
+    public async Task<IActionResult> GetServicesOfAccount(Guid accountId, [FromQuery] ServiceCriteria criteria)
+    {
+        try
+        {
+            var listServiceVM = await _serviceService.GetServicesOfAccountAsync(accountId, criteria);
+            return Ok(listServiceVM);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
 }
