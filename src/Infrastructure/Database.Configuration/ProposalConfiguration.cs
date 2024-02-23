@@ -20,5 +20,6 @@ public class ProposalConfiguration : IEntityTypeConfiguration<Proposal>
         builder.HasMany(x => x.ProposalAssets).WithOne(a => a.Proposal).HasForeignKey(a => a.ProposalId);
         builder.HasOne(x => x.Review).WithOne(r => r.Proposal).HasForeignKey<Review>(x => x.ProposalId);
         builder.HasMany(x => x.TransactionHistories).WithOne(t => t.Proposal).HasForeignKey(t => t.ProposalId);
+        builder.HasMany(x => x.Milestones).WithOne(m => m.Proposal).HasForeignKey(m => m.ProposalId);
     }
 }

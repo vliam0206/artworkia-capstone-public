@@ -1,0 +1,12 @@
+﻿using Application.Models;
+using Domain.Entitites;
+using Domain.Enums;
+
+namespace Application.Services.Abstractions;
+
+public interface IMilestoneService
+{
+    Task<List<MilestoneVM>> GetMilestonesAsync(Guid proposalId);    
+    Task AddMilestoneToProposalAsync(Guid proposalId,
+            string? details = "", StateEnum? state = null);
+}

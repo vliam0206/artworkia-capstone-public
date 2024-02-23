@@ -14,12 +14,13 @@ public class Proposal : BaseEntity, ICreation
     public string Category { get; set; } = default!;
     [MaxLength(1000)]
     public string Description { get; set; } = default!;
-    public DateTime Deadline { get; set; }
+    public DateTime TargetDelivery { get; set; }
     public double InitialPrice { get; set; }
     public double Total { get; set; }
     public StateEnum ProposalStatus { get; set; }
     public Guid? CreatedBy { get; set; }
-    public DateTime CreatedOn { get; set; }  
+    public DateTime CreatedOn { get; set; }
+    public Guid OrdererId { get; set; }
 
     public virtual Account Account { get; set; } = default!;
     public virtual Service Service { get; set; } = default!;
@@ -27,4 +28,5 @@ public class Proposal : BaseEntity, ICreation
     public virtual ICollection<ProposalAsset> ProposalAssets { get; set; } = new List<ProposalAsset>();
     public virtual Review? Review { get; set; }
     public virtual ICollection<TransactionHistory> TransactionHistories { get; set; } = new List<TransactionHistory>();
+    public virtual ICollection<Milestone> Milestones { get; set; } = new List<Milestone>();
 }

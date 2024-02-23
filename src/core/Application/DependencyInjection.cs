@@ -30,6 +30,8 @@ public static class DependencyInjection
         services.AddScoped<IAssetTransactionService, AssetTransactionService>();
         services.AddScoped<IWalletHistoryService, WalletHistoryService>();
         services.AddScoped<ITransactionHistoryService, TransactionHistoryService>();
+        services.AddScoped<IProposalService, ProposalService>();
+        services.AddScoped<IMilestoneService, MilestoneService>();
 
         services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<ITokenHandler, TokenHandler>();

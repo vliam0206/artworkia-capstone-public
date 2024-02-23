@@ -3,6 +3,7 @@ using Application.Services.Abstractions;
 using Domain.Entities.Commons;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories.Commons;
 
@@ -36,5 +37,12 @@ public class GenericCreationRepository<TEntity> : GenericRepository<TEntity>
     {
         return await _dbSet.OrderByDescending(x => x.CreatedOn)
                     .ToListAsync();
+    }
+
+    public override async Task<List<TEntity>> GetListByConditionAsync(Expression<Func<TEntity, bool>> query)
+    {
+        return (await base.GetListByConditionAsync(query))
+                .OrderByDescending(x => x.CreatedOn)
+                .ToList();
     }
 }

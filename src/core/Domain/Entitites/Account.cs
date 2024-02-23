@@ -47,4 +47,5 @@ public class Account : BaseEntity, ICreation, IModification, ISoftDelete
     public virtual ICollection<Block> Blocking { get; set; } = new List<Block>(); // nguoi block
     public virtual ICollection<Block> Blocked { get; set; } = new List<Block>(); // nguoi bi block
     public virtual ICollection<WalletHistory> WalletHistories { get; set; } = new List<WalletHistory>();
+    public virtual ICollection<Milestone> Milestones { get; set; } = new List<Milestone>();
 }

@@ -1,0 +1,50 @@
+﻿using Domain.Enums;
+using System.ComponentModel.DataAnnotations;
+
+namespace Application.Models;
+
+public class ProposalModel
+{
+    [Required]
+    public Guid OrdererId { get; set; }
+    [Required]
+    public Guid ServiceId { get; set; }
+    [Required]
+    [MaxLength(150)]
+    public string ProjectTitle { get; set; } = default!;
+    [Required]
+    [MaxLength(255)]
+    public string Category { get; set; } = default!;
+    [Required]
+    [MaxLength(1000)]
+    public string Description { get; set; } = default!;
+    [Required]
+    public DateTime TargetDelivery { get; set; }
+    [Required]
+    public double InitialPrice { get; set; }
+    [Required]
+    public double Total { get; set; }
+    public StateEnum ProposalStatus { get; set; } = StateEnum.Waiting;
+}
+
+public class ProposalVM
+{
+    public Guid Id { get; set; }
+    public Guid ChatBoxId { get; set; }
+    public Guid ServiceId { get; set; }
+    public string ProjectTitle { get; set; } = default!;
+    public string Category { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public DateTime TargetDelivery { get; set; }
+    public double InitialPrice { get; set; }
+    public double Total { get; set; }
+    public string ProposalStatus { get; set; } = default!;
+    public Guid? CreatedBy { get; set; }
+    public DateTime CreatedOn { get; set; }
+}
+
+public class ProposalUpdateStatusModel
+{
+    [Required]
+    public StateEnum Status { get; set; }
+}

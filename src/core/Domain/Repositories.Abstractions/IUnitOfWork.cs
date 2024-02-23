@@ -31,6 +31,7 @@ public interface IUnitOfWork
     public IUserTokenRepository UserTokenRepository { get; }
     public IImageRepository ImageRepository { get; }
     public IBlockRepository BlockRepository { get; }
+    public IMilestoneRepository MilestoneRepository { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

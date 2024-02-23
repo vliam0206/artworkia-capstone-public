@@ -40,6 +40,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.HasMany(x => x.Followings).WithOne(f => f.Account).HasForeignKey(f => f.AccountId);
         builder.HasMany(x => x.Followers).WithOne(f => f.Follower).HasForeignKey(f => f.FollowerId);
         builder.HasMany(x => x.WalletHistories).WithOne(h => h.Account).HasForeignKey(h => h.CreatedBy);
+        builder.HasMany(x => x.Milestones).WithOne(m => m.CreatedAccount).HasForeignKey(m => m.CreatedBy);
 
         #endregion
 

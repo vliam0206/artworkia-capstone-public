@@ -1,0 +1,60 @@
+﻿using Application.Models;
+using Application.Services.Abstractions;
+using AutoMapper;
+using Domain.Entitites;
+using Domain.Enums;
+using Domain.Repositories.Abstractions;
+using Microsoft.IdentityModel.Tokens;
+
+namespace Application.Services;
+
+public class MilestoneService : IMilestoneService
+{
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+
+    public MilestoneService(IUnitOfWork unitOfWork, IMapper mapper)
+    {
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+    }
+
+    public async Task AddMilestoneToProposalAsync(Guid proposalId, string? details = "", StateEnum? state = null)
+    {
+        var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalId);
+        if (proposal == null)
+        {
+            throw new ArgumentException("Proposal does not exist!");
+        }
+        var milestone = new Milestone { ProposalId = proposalId };
+        if (state != null) // udpate state case
+        {
+            switch (state)
+            {
+                case StateEnum.Accepted:
+                    details = $"Thỏa thuận đã được chấp nhận";
+                    break;
+                case StateEnum.Declined:
+                    details = "Thỏa thuận đã bị từ chối";
+                    break;
+                case StateEnum.Cancel:
+                    details = "Thỏa thuận đã bị hủy";
+                    break;
+            }
+        }
+        milestone.MilestoneName = details!;
+        await _unitOfWork.MilestoneRepository.AddAsync(milestone);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task<List<MilestoneVM>> GetMilestonesAsync(Guid proposalId)
+    {
+        var proposalExist = await _unitOfWork.ProposalRepository.IsExistedAsync(proposalId);
+        if (!proposalExist)
+        {
+            throw new ArgumentException("Proposal does not exist!");
+        }
+        var milestones = await _unitOfWork.MilestoneRepository.GetAllMilstoneOfProposalAsync(proposalId);
+        return _mapper.Map<List<MilestoneVM>>(milestones);
+    }
+}
