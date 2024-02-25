@@ -8,5 +8,5 @@ public interface IMilestoneService
 {
     Task<List<MilestoneVM>> GetMilestonesAsync(Guid proposalId);    
     Task AddMilestoneToProposalAsync(Guid proposalId,
-            string? details = "", StateEnum? state = null);
+            string? details = "", ProposalStateEnum? state = null);
 }

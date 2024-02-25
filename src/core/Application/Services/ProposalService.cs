@@ -16,14 +16,20 @@ public class ProposalService : IProposalService
     private readonly IMapper _mapper;
     private readonly IClaimService _claimService;
     private readonly IMilestoneService _milstoneService;
+    private readonly ITransactionHistoryService _transactionHistoryService;
+    private readonly IWalletService _walletService;
 
     public ProposalService(IUnitOfWork unitOfWork, IMapper mapper, 
-        IClaimService claimService, IMilestoneService milstoneService)
+        IClaimService claimService, IMilestoneService milstoneService,
+        ITransactionHistoryService transactionHistoryService, 
+        IWalletService walletService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _claimService = claimService;
         _milstoneService = milstoneService;
+        _transactionHistoryService = transactionHistoryService;
+        _walletService = walletService;
     }
 
     public async Task<ProposalVM> CreateProposalAsync(ProposalModel model)
@@ -137,8 +143,8 @@ public class ProposalService : IProposalService
         }
         Guid currenUser = _claimService.GetCurrentUserId ?? default;
         if ((currenUser != proposal.CreatedBy && currenUser != proposal.OrdererId)
-            || (currenUser == proposal.CreatedBy && model.Status != StateEnum.Cancel)
-            || (currenUser == proposal.OrdererId && model.Status == StateEnum.Cancel))
+            || (currenUser == proposal.CreatedBy && model.Status != ProposalStateEnum.Cancelled)
+            || (currenUser == proposal.OrdererId && model.Status == ProposalStateEnum.Cancelled))
         {
             throw new BadHttpRequestException("You can not do this action!");
         }
@@ -161,5 +167,98 @@ public class ProposalService : IProposalService
 
         _unitOfWork.ProposalRepository.Delete(proposal);
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task<TransactionHistoryVM> InitPaymentProposalAsync(Guid proposalId)
+    {
+        var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalId);
+        if (proposal == null)
+        {
+            throw new ArgumentException("ProposalId not found!");
+        }
+        if (proposal.InitialPrice == 0)
+        {
+            throw new ArgumentException("This proposal has no init payment need to pay.");
+        }
+        // if (isInitPayment) throw Exception...
+        if (proposal.ProposalStatus == ProposalStateEnum.InitPayment
+            || proposal.ProposalStatus == ProposalStateEnum.CompletePayment)
+        {
+            throw new ArgumentException("This proposal has been paid.");
+        }
+        var currentId = _claimService.GetCurrentUserId ?? default;
+        if (currentId != proposal.OrdererId)
+        {
+            throw new ArgumentException("You are not authorized to pay for this proposal.");
+        }
+        // payment (coins)
+        var amount = proposal.InitialPrice * proposal.Total;        
+        var wallet = await _unitOfWork.WalletRepository
+                        .GetSingleByConditionAsync(x => x.AccountId == currentId);
+        if (wallet == null)
+        {
+            throw new ArgumentException("WalletId not found!");
+        }        
+        await _walletService.SubtrasctCoinsFromWallet(wallet.Id, amount);
+        // payment successfully -> add new payment history
+        var transactionHistory = new TransactionModel
+        {
+            ProposalId = proposalId,
+            Detail = $"Đặt cọc thỏa thuận {proposal.ProjectTitle} ({proposal.InitialPrice * 100}%)",
+            Price = amount,
+            TransactionStatus = TransactionStatusEnum.Success
+        };
+        await _transactionHistoryService.CreateTransactionHistory(transactionHistory);
+        // update the proposal status
+        proposal.ProposalStatus = ProposalStateEnum.InitPayment;
+        _unitOfWork.ProposalRepository.Update(proposal);
+        await _unitOfWork.SaveChangesAsync();
+
+        var transactionVM = await _transactionHistoryService.CreateTransactionHistory(transactionHistory);
+        return transactionVM;
+    }
+
+    public async Task<TransactionHistoryVM> CompletePaymentProposalAsync(Guid proposalId)
+    {
+        var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalId);
+        if (proposal == null)
+        {
+            throw new ArgumentException("ProposalId not found!");
+        }
+        // if (IsCompletePayment) throw Exception...
+        if (proposal.ProposalStatus == ProposalStateEnum.CompletePayment)
+        {
+            throw new ArgumentException("This proposal has been paid.");
+        }
+        var currentId = _claimService.GetCurrentUserId ?? default;
+        if (currentId != proposal.OrdererId)
+        {
+            throw new ArgumentException("You are not authorized to pay for this proposal.");
+        }
+
+        // payment (coins)
+        var amount = proposal.Total - (proposal.InitialPrice * proposal.Total);        
+        var wallet = await _unitOfWork.WalletRepository
+                        .GetSingleByConditionAsync(x => x.AccountId == currentId);
+        if (wallet == null)
+        {
+            throw new ArgumentException("WalletId not found!");
+        }
+        await _walletService.SubtrasctCoinsFromWallet(wallet.Id, amount);
+        // payment successfully -> add new payment history
+        var transactionHistory = new TransactionModel
+        {
+            ProposalId = proposalId,
+            Detail = $"Hoàn tất thanh toán thỏa thuận {proposal.ProjectTitle} ({(1-proposal.InitialPrice) * 100}%)",
+            Price = amount,
+            TransactionStatus = TransactionStatusEnum.Success
+        };
+        await _transactionHistoryService.CreateTransactionHistory(transactionHistory);
+        // update the proposal status
+        proposal.ProposalStatus = ProposalStateEnum.CompletePayment;
+        _unitOfWork.ProposalRepository.Update(proposal);
+        await _unitOfWork.SaveChangesAsync();
+        var transactionVM = await _transactionHistoryService.CreateTransactionHistory(transactionHistory);
+        return transactionVM;
     }
 }

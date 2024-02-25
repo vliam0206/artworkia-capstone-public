@@ -13,4 +13,6 @@ public interface IProposalService
     Task<ProposalVM> CreateProposalAsync(ProposalModel model);
     Task<ProposalVM> UpdateProposalStatusAsync(Guid id, ProposalUpdateStatusModel model);
     Task DeleteProposalAsync(Guid proposalId);
+    Task<TransactionHistoryVM> InitPaymentProposalAsync(Guid proposalId);
+    Task<TransactionHistoryVM> CompletePaymentProposalAsync(Guid proposalId);
 }

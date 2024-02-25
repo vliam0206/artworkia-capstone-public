@@ -14,7 +14,8 @@ public class ProposalsController : ControllerBase
     private readonly IProposalService _proposalService;
     private readonly IMilestoneService _milestoneService;
 
-    public ProposalsController(IProposalService proposalService, IMilestoneService milestoneService)
+    public ProposalsController(IProposalService proposalService, 
+                IMilestoneService milestoneService)
     {
         _proposalService = proposalService;
         _milestoneService = milestoneService;
@@ -140,6 +141,35 @@ public class ProposalsController : ControllerBase
         } catch( ArgumentException ex)
         {
             return NotFound(ex.Message);
+        }
+    }
+
+    [HttpPost("init-payment/{id}")]
+    [Authorize]
+    public async Task<IActionResult> InitPaymentProposal(Guid id)
+    {
+        try
+        {
+            var transaction = await _proposalService.InitPaymentProposalAsync(id);
+            return Ok(transaction);
+        } catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }         
+    }
+
+    [HttpPost("complete-payment/{id}")]
+    [Authorize]
+    public async Task<IActionResult> CompletePaymentProposal(Guid id)
+    {
+        try
+        {
+            var transaction = await _proposalService.CompletePaymentProposalAsync(id);
+            return Ok(transaction);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
         }
     }
 }

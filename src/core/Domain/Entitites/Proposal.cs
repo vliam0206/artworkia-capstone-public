@@ -17,7 +17,7 @@ public class Proposal : BaseEntity, ICreation
     public DateTime TargetDelivery { get; set; }
     public double InitialPrice { get; set; }
     public double Total { get; set; }
-    public StateEnum ProposalStatus { get; set; }
+    public ProposalStateEnum ProposalStatus { get; set; }
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid OrdererId { get; set; }

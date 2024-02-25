@@ -24,12 +24,13 @@ public class ProposalModel
     public double InitialPrice { get; set; }
     [Required]
     public double Total { get; set; }
-    public StateEnum ProposalStatus { get; set; } = StateEnum.Waiting;
+    public ProposalStateEnum ProposalStatus { get; set; } = ProposalStateEnum.Waiting;
 }
 
 public class ProposalVM
 {
     public Guid Id { get; set; }
+    public Guid OrdererId { get; set; }
     public Guid ChatBoxId { get; set; }
     public Guid ServiceId { get; set; }
     public string ProjectTitle { get; set; } = default!;
@@ -46,5 +47,5 @@ public class ProposalVM
 public class ProposalUpdateStatusModel
 {
     [Required]
-    public StateEnum Status { get; set; }
+    public ProposalStateEnum Status { get; set; }
 }

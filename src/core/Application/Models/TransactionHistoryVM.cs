@@ -1,4 +1,6 @@
-﻿namespace Application.Models;
+﻿using Domain.Enums;
+
+namespace Application.Models;
 
 public class TransactionHistoryVM
 {
@@ -10,4 +12,13 @@ public class TransactionHistoryVM
     public double Price { get; set; }
     public string TransactionStatus { get; set; } = default!;
     public DateTime CreatedOn { get; set; }
+}
+
+public class TransactionModel
+{
+    public Guid? AssetId { get; set; }
+    public Guid? ProposalId { get; set; }
+    public string Detail { get; set; } = default!;
+    public double Price { get; set; }
+    public TransactionStatusEnum TransactionStatus { get; set; }
 }

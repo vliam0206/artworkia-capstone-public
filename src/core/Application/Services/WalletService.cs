@@ -93,4 +93,32 @@ public class WalletService : IWalletService
         _unitOfWork.WalletRepository.Update(wallet);
         await _unitOfWork.SaveChangesAsync();
     }
+
+    public async Task AddCoinsToWallet(Guid walletId, double amount)
+    {
+        var wallet = await _unitOfWork.WalletRepository.GetByIdAsync(walletId);
+        if (wallet == null)
+        {
+            throw new Exception("WalletId does not exist!");
+        }
+        wallet.Balance += amount;
+        _unitOfWork.WalletRepository.Update(wallet);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task SubtrasctCoinsFromWallet(Guid walletId, double amount)
+    {
+        var wallet = await _unitOfWork.WalletRepository.GetByIdAsync(walletId);
+        if (wallet == null)
+        {
+            throw new Exception("WalletId does not exist!");
+        }
+        if (wallet.Balance < amount)
+        {
+            throw new ArgumentOutOfRangeException("The remaining balance in the wallet is not enough to make this transaction.");
+        }
+        wallet.Balance -= amount;
+        _unitOfWork.WalletRepository.Update(wallet);
+        await _unitOfWork.SaveChangesAsync();
+    }
 }

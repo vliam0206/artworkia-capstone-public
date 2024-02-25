@@ -19,7 +19,7 @@ public class MilestoneService : IMilestoneService
         _mapper = mapper;
     }
 
-    public async Task AddMilestoneToProposalAsync(Guid proposalId, string? details = "", StateEnum? state = null)
+    public async Task AddMilestoneToProposalAsync(Guid proposalId, string? details = "", ProposalStateEnum? state = null)
     {
         var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalId);
         if (proposal == null)
@@ -31,13 +31,13 @@ public class MilestoneService : IMilestoneService
         {
             switch (state)
             {
-                case StateEnum.Accepted:
+                case ProposalStateEnum.Accepted:
                     details = $"Thỏa thuận đã được chấp nhận";
                     break;
-                case StateEnum.Declined:
+                case ProposalStateEnum.Declined:
                     details = "Thỏa thuận đã bị từ chối";
                     break;
-                case StateEnum.Cancel:
+                case ProposalStateEnum.Cancelled:
                     details = "Thỏa thuận đã bị hủy";
                     break;
             }

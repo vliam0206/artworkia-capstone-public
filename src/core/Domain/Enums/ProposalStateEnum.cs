@@ -1,9 +1,11 @@
 ﻿namespace Domain.Enums;
 
-public enum StateEnum
+public enum ProposalStateEnum
 {
     Waiting,
     Accepted,
     Declined,
+    InitPayment,
+    CompletePayment,
     Cancelled
 }
