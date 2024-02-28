@@ -9,6 +9,7 @@ using WebApi.ViewModels;
 using Domain.Enums;
 using WebApi.Services;
 using AutoMapper;
+using Microsoft.Identity.Client;
 
 namespace WebApi.Controllers;
 
@@ -33,32 +34,29 @@ public class FollowsController : ControllerBase
     // GET: api/follows/5/followers
     [HttpGet("{followingId}/followers")]
     [Authorize]
-    public async Task<ActionResult<IEnumerable<FollowVM>>> GetFollowers(Guid followingId)
+    public async Task<ActionResult<IEnumerable<FollowerVM>>> GetFollowers(Guid followingId)
     {
         var follows = await _followService.GetAllFollowersAsync(followingId);
-        return Ok(_mapper.Map<List<FollowVM>>(follows));
+        return Ok(_mapper.Map<List<FollowerVM>>(follows));
     }
 
     // GET: api/follows/5/followings
     [HttpGet("{followerId}/followings")]
     [Authorize]
-    public async Task<ActionResult<IEnumerable<FollowVM>>> GetFollowings(Guid followerId)
+    public async Task<ActionResult<IEnumerable<FollowingVM>>> GetFollowings(Guid followerId)
     {
         var follows = await _followService.GetAllFollowingsAsync(followerId);
-        return Ok(_mapper.Map<List<FollowVM>>(follows));
+        return Ok(_mapper.Map<List<FollowingVM>>(follows));
     }
 
     // POST: api/follows    
     [HttpPost]
-    [Authorize] // admin & own user
+    [Authorize] // own user
     public async Task<ActionResult<Follow>> PostFollow(FollowModel model)
     {
-        // check authorize
-        if (!CheckAuthorize(model.FollowerId))
-        {
-            return Forbid();
-        }
+        var currentUserId = _claimService.GetCurrentUserId ?? default;
         var follow = _mapper.Map<Follow>(model);
+        follow.FollowerId = currentUserId;
         try
         {
             await _followService.CreateFollowAsync(follow);
@@ -76,14 +74,10 @@ public class FollowsController : ControllerBase
     [Authorize]
     public async Task<IActionResult> DeleteFollow(FollowModel model)
     {
-        // check authorize
-        if (!CheckAuthorize(model.FollowerId))
-        {
-            return Forbid();
-        }
+        var currentUserId = _claimService.GetCurrentUserId ?? default;
         try
         {
-            await _followService.DeleteFollowAsync(model.AccountId, model.FollowerId);
+            await _followService.DeleteFollowAsync(model.AccountId, currentUserId);
         }
         catch (ArgumentException ex)
         {
@@ -95,6 +89,22 @@ public class FollowsController : ControllerBase
         }
 
         return NoContent();
+    }
+
+    // GET: api/follows/is-existed
+    [HttpGet("is-existed/{accountId}")]
+    [Authorize]
+    public async Task<IActionResult> IsFollowExisted(Guid accountId)
+    {
+        try
+        {
+            var isExisted = await _followService.IsFollowedAsync(accountId);
+            return Ok(isExisted);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { ErrorMessage = ex.Message });
+        }
     }
 
     private bool CheckAuthorize(Guid accountId)

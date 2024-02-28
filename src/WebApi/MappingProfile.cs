@@ -52,12 +52,15 @@ public class MappingProfile : Profile
             .ForMember(model => model.Author, opt => opt.MapFrom(src => src.Account));
 
         CreateMap<Follow, FollowModel>().ReverseMap();
-        CreateMap<Follow, FollowVM>().ReverseMap();
+        CreateMap<Follow, FollowingVM>().ReverseMap();
+        CreateMap<Follow, FollowerVM>().ReverseMap();
 
         CreateMap<Like, LikeModel>().ReverseMap();
         CreateMap<Like, LikeVM>().ReverseMap();
 
-        CreateMap<Comment, CommentVM>().ReverseMap();
+        CreateMap<Comment, CommentVM>()
+            .ForMember(model => model.CreatedBy, opt => opt.MapFrom(x => x.Account))
+            .ForMember(model => model.ReplyCount, opt => opt.MapFrom(x => x.Replies.Count()));
 
         CreateMap<Block, BlockModel>().ReverseMap();
         CreateMap<Block, BlockVM>().ReverseMap();

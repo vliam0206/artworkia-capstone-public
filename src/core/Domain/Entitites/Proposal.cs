@@ -15,6 +15,8 @@ public class Proposal : BaseEntity, ICreation
     [MaxLength(1000)]
     public string Description { get; set; } = default!;
     public DateTime TargetDelivery { get; set; }
+    public int NumberOfConcept { get; set; } = default!;
+    public int NumberOfRevision { get; set; } = default!;
     public double InitialPrice { get; set; }
     public double Total { get; set; }
     public ProposalStateEnum ProposalStatus { get; set; }

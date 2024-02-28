@@ -20,6 +20,8 @@ public class ProposalModel
     public string Description { get; set; } = default!;
     [Required]
     public DateTime TargetDelivery { get; set; }
+    public int NumberOfConcept { get; set; } = 1;
+    public int NumberOfRevision { get; set; } = 0;
     [Required]
     public double InitialPrice { get; set; }
     [Required]
@@ -37,6 +39,8 @@ public class ProposalVM
     public string Category { get; set; } = default!;
     public string Description { get; set; } = default!;
     public DateTime TargetDelivery { get; set; }
+    public int NumberOfConcept { get; set; }
+    public int NumberOfRevision { get; set; }
     public double InitialPrice { get; set; }
     public double Total { get; set; }
     public string ProposalStatus { get; set; } = default!;

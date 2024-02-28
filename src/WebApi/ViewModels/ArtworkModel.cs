@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Application.Models;
+using Domain.Enums;
 
 namespace WebApi.ViewModels;
 

@@ -9,4 +9,5 @@ public interface IFollowService
     Task<List<Follow>> GetAllFollowingsAsync(Guid followerId);
     Task<List<Follow>> GetAllFollowersAsync(Guid followingId);
     Task<Follow?> GetFollowByIdAsync(Guid accountId, Guid followerId);
+    Task<bool> IsFollowedAsync(Guid accountId);
 }

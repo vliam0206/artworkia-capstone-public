@@ -35,13 +35,26 @@ public class CommentRepository : GenericAuditableRepository<Comment>, ICommentRe
         return await _dbContext.Comments
             .Where(x => x.ReplyId == commentId
                 && x.DeletedOn == null)
+            .Include(x => x.Account)
+            .OrderByDescending(x => x.CreatedOn)
             .ToListAsync();
     }
     public async Task<List<Comment>> GetCommentsWithRepliesAsync(Guid artworkId)
     {
         return await _dbContext.Comments
-            .Where(x => x.ArtworkId == artworkId)
+            .Where(x => x.ArtworkId == artworkId
+                    && x.DeletedOn == null)
             .Include(x => x.Replies)
+            .Include(x => x.Account)
+            .OrderByDescending(x => x.CreatedOn)
             .ToListAsync();
+    }
+
+    public async Task<Comment?> GetCommentById(Guid commentId)
+    {
+        return await _dbContext.Comments
+            .Include(x => x.Replies)
+            .Include(x => x.Account)
+            .FirstOrDefaultAsync(x => x.Id == commentId);
     }
 }

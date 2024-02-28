@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Application.Models;
 
 namespace WebApi.ViewModels;
 public class BlockModel

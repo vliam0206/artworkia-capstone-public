@@ -7,14 +7,20 @@ namespace Application.Services;
 public class FollowService : IFollowService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IClaimService _claimService;
 
-    public FollowService(IUnitOfWork unitOfWork)
+    public FollowService(IUnitOfWork unitOfWork, IClaimService claimService)
     {
         _unitOfWork = unitOfWork;
+        _claimService = claimService;
     }
 
     public async Task CreateFollowAsync(Follow follow)
     {
+        if (follow.AccountId == follow.FollowerId)
+        {
+            throw new ArgumentException("You can not follow yourself.");
+        }
         var tmpFollow = await _unitOfWork.FollowRepository.GetByIdAsync(follow.AccountId, follow.FollowerId);
         if (tmpFollow != null)
         {
@@ -44,4 +50,12 @@ public class FollowService : IFollowService
 
     public async Task<Follow?> GetFollowByIdAsync(Guid accountId, Guid followerId)
         => await _unitOfWork.FollowRepository.GetByIdAsync(accountId, followerId);
+
+    public async Task<bool> IsFollowedAsync(Guid accountId)
+    {
+        var currentUserId = _claimService.GetCurrentUserId ?? default;
+        return await _unitOfWork.FollowRepository
+                    .GetByIdAsync(accountId, currentUserId) != null;
+
+    }
 }

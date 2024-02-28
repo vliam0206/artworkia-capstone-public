@@ -1,4 +1,5 @@
 ﻿using Application.Filters;
+using Application.Models;
 using Application.Services;
 using Application.Services.Abstractions;
 using AutoMapper;

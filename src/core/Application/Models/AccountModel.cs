@@ -1,7 +1,7 @@
 ﻿using Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApi.ViewModels;
+namespace Application.Models;
 
 public class AccountModel
 {
@@ -33,6 +33,7 @@ public class AccountVM
     public string Fullname { get; set; } = default!;
     [MaxLength(255)]
     public string? Bio { get; set; }
+    public string? Avatar { get; set; }
     public DateTime? Birthdate;
     public string Role { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
@@ -47,7 +48,7 @@ public class AccountChangePasswordModel
 {
     [Required]
     [MaxLength(255)]
-    public string OldPassword { get; set;} =default!;
+    public string OldPassword { get; set; } = default!;
     [Required]
     [MaxLength(255)]
     public string NewPassword { get; set; } = default!;
@@ -55,7 +56,17 @@ public class AccountChangePasswordModel
 
 public class AccountDisplayModel
 {
-    public Guid Id { get; set; }    
+    public Guid Id { get; set; }
     public string Username { get; set; } = default!;
+    public string Fullname { get; set; } = default!;
+    public string? Avatar { get; set; }
+}
+
+public class AccountBasicInfoVM
+{
+    public Guid Id { get; set; }
+    public string Username { get; set; } = default!;
+    public string Email { get; set; } = default!;
+    public string Fullname { get; set; } = default!;
     public string? Avatar { get; set; }
 }

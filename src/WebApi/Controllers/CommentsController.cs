@@ -49,7 +49,7 @@ public class CommentsController : ControllerBase
     // api/artworks/5/comments
     [Route("api/artworks/{artworkId}/comments")]
     [HttpPost]
-    [Authorize(Roles = "CommonUser")]
+    [Authorize]
     public async Task<IActionResult> PostComment(Guid artworkId, [FromBody] CommentModel model)
     {        
         try

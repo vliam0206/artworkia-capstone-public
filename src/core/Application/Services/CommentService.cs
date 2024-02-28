@@ -1,4 +1,6 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Models;
+using Application.Services.Abstractions;
+using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
@@ -9,11 +11,14 @@ public class CommentService : ICommentService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IClaimService _claimService;
+    private readonly IMapper _mapper;
 
-    public CommentService(IUnitOfWork unitOfWork, IClaimService claimService)
+    public CommentService(IUnitOfWork unitOfWork, IClaimService claimService,
+        IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _claimService = claimService;
+        _mapper = mapper;
     }
     public async Task<Comment> AddCommentAsync(Guid artworkId, string commentText)
     {
@@ -59,19 +64,19 @@ public class CommentService : ICommentService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task<List<Comment>> GetCommentsByArtworkAsync(Guid artworkId)
+    public async Task<List<CommentVM>> GetCommentsByArtworkAsync(Guid artworkId)
     {
-        return await _unitOfWork.CommentRepository
-            .GetListByConditionAsync(x => x.ArtworkId == artworkId
-                                        && x.DeletedOn == null);
+        var comments = await _unitOfWork.CommentRepository.GetCommentsWithRepliesAsync(artworkId);
+        var commentVM = _mapper.Map<List<CommentVM>>(comments);
+        //commentVM.Replies = null;
+        return commentVM;
     }
 
-    public async Task<List<Comment>> GetCommentsByArtworkWithRepliesAsync(Guid artworkId)
+    public async Task<List<CommentVM>> GetCommentsByArtworkWithRepliesAsync(Guid artworkId)
     {
-        return (await _unitOfWork.CommentRepository
-            .GetCommentsWithRepliesAsync(artworkId))
-            .Where(x => x.DeletedOn == null)
-            .ToList();
+        var comments = await _unitOfWork.CommentRepository.GetCommentsWithRepliesAsync(artworkId);
+        var commentVMs = _mapper.Map<List<CommentVM>>(comments);
+        return commentVMs;
     }
 
     public async Task<List<Comment>> GetReplyCommentsAsync(Guid commentId)
@@ -84,9 +89,10 @@ public class CommentService : ICommentService
         return await _unitOfWork.CommentRepository.GetReplyCommentsAsync(commentId);
     }
 
-    public async Task<Comment?> GetCommentByIdAsync(Guid commentId)
+    public async Task<CommentVM?> GetCommentByIdAsync(Guid commentId)
     {
-        return await _unitOfWork.CommentRepository.GetByIdAsync(commentId);
+        var comment = await _unitOfWork.CommentRepository.GetCommentById(commentId);
+        return _mapper.Map<CommentVM?>(comment);
     }
 
     public async Task<Comment> ReplyCommentAsync(Guid commentId, string replyCommentText)
