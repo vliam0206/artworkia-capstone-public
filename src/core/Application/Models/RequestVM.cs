@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Application.Models;
 public class RequestVM
 {
+    public Guid Id { get; set; }
     public Guid ServiceId { get; set; }
     public Guid ChatBoxId { get; set; }
     [MaxLength(255)]

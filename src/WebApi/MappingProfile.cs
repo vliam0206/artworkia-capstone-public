@@ -105,6 +105,9 @@ public class MappingProfile : Profile
 
         CreateMap<Proposal, ProposalModel>().ReverseMap();
         CreateMap<Proposal, ProposalVM>().ReverseMap();
+
+        CreateMap<ProposalAsset, ProposalAssetModel>().ReverseMap();
+        CreateMap<ProposalAsset, ProposalAssetVM>().ReverseMap();
         
         CreateMap<Milestone, MilestoneVM>().ReverseMap();
     }

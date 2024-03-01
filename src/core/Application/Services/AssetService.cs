@@ -85,6 +85,33 @@ public class AssetService : IAssetService
         return asset.Location;
     }
 
+    public async Task<string?> GetDownloadUriAssetAlternativeAsync(Guid assetId)
+    {
+        var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId);
+        if (asset == null)
+            throw new NullReferenceException("Asset does not exist!");
+
+        var link = await _firebaseService.DownloadFileFromFirebaseStorage(asset.AssetName, $"{PARENT_FOLDER}/Asset");
+
+        // kiem tra xem user da mua asset chua
+        var accountId = _claimService.GetCurrentUserId ?? default;
+        var assetTransaction = await _unitOfWork.TransactionHistoryRepository.GetSingleByConditionAsync(
+            x => x.AssetId == assetId && x.CreatedBy == accountId);
+        if (assetTransaction != null)
+            return link;
+
+        if (asset.Artwork.CreatedBy == accountId)
+            return link;
+
+        if (asset.DeletedOn != null)
+            throw new Exception("Asset already deleted!");
+
+        if (asset.Price > 0)
+            throw new Exception("You have not bought this asset");
+
+        return link;
+    }
+
     // lay so thu tu lon nhat cua asset trong artwork
     private async Task<int> GetLatestOrderOfAssetInArtwork(Guid artworkId)
     {

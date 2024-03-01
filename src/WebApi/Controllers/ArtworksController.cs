@@ -36,13 +36,6 @@ public class ArtworksController : ControllerBase
         var result = await _artworkService.GetAllArtworksAsync(criteria);
         return Ok(result);
     }
-    
-    [HttpGet("account/{accountId}")]
-    public async Task<IActionResult> GetArtworksByAccount(Guid accountId, [FromQuery] ArtworkCriteria criteria)
-    {
-        PagedList<ArtworkPreviewVM> result = await _artworkService.GetAllArtworksByAccountIdAsync(accountId, criteria);
-        return Ok(result);
-    }
 
     [HttpGet("privacy-enum")]
     public IActionResult GetArtworkPrivacyEnum()

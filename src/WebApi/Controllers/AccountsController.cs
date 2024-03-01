@@ -1,6 +1,6 @@
-﻿using Application.Filters;
+﻿using Application.Commons;
+using Application.Filters;
 using Application.Models;
-using Application.Services;
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
@@ -19,6 +19,7 @@ public class AccountsController : ControllerBase
     private readonly IAccountService _accountService;
     private readonly IAssetService _assetService;
     private readonly IServiceService _serviceService;
+    private readonly IArtworkService _artworkService;
     private readonly IMapper _mapper;
     private readonly IClaimService _claimService;
 
@@ -27,7 +28,8 @@ public class AccountsController : ControllerBase
         IMapper mapper,
         IClaimService claimService,
         IAssetService assetService,
-        IServiceService serviceService
+        IServiceService serviceService,
+        IArtworkService artworkService
         )
     {
         _accountService = accountService;
@@ -35,6 +37,7 @@ public class AccountsController : ControllerBase
         _claimService = claimService;
         _assetService = assetService;   
         _serviceService = serviceService;
+        _artworkService = artworkService;
     }
 
     // GET: api/accounts
@@ -235,6 +238,33 @@ public class AccountsController : ControllerBase
         {
             var listServiceVM = await _serviceService.GetServicesOfAccountAsync(accountId, criteria);
             return Ok(listServiceVM);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    // GET: /api/accounts/{account_id}/artworks
+    [HttpGet("{accountId}/artworks")]
+    public async Task<IActionResult> GetArtworksByAccount(Guid accountId, [FromQuery] ArtworkCriteria criteria)
+    {
+        try
+        {
+            PagedList<ArtworkPreviewVM> result = await _artworkService.GetAllArtworksByAccountIdAsync(accountId, criteria);
+            return Ok(result);
         }
         catch (NullReferenceException ex)
         {

@@ -1,161 +1,186 @@
 ﻿using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
-using Application.Services.Firebase;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.ViewModels.Commons;
 
-namespace WebApi.Controllers
+namespace WebApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class AssetsController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AssetsController : ControllerBase
+    private readonly IAssetService _assetService;
+    private readonly IMapper _mapper;
+
+    public AssetsController(
+        IAssetService assetService, 
+        IMapper mapper)
     {
-        private readonly IAssetService _assetService;
-        private readonly IFirebaseService _firebaseService;
-        private readonly IMapper _mapper;
+        _assetService = assetService;
+        _mapper = mapper;
+    }
 
-        public AssetsController(IFirebaseService firebaseService, IAssetService assetService, IMapper mapper)
-        {
-            _firebaseService = firebaseService;
-            _assetService = assetService;
-            _mapper = mapper;
-        }
+    [HttpGet]
+    public async Task<IActionResult> GetAllAssets([FromQuery] AssetCriteria criteria)
+    {
+        var result = await _assetService.GetAllAssetsAsync(criteria);
+        return Ok(result);
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllAssets([FromQuery] AssetCriteria criteria)
+    [HttpGet("{assetId}")]
+    public async Task<IActionResult> GetAssetById(Guid assetId)
+    {
+        try
         {
-            var result = await _assetService.GetAllAssetsAsync(criteria);
+            var result = await _assetService.GetAssetByIdAsync(assetId);
+            if (result == null)
+                return NotFound();
             return Ok(result);
-        }
-
-        [HttpGet("{assetId}")]
-        public async Task<IActionResult> GetAssetById(Guid assetId)
+        } catch (NullReferenceException ex)
         {
-            try
+            return NotFound(new ApiResponse
             {
-                var result = await _assetService.GetAssetByIdAsync(assetId);
-                if (result == null)
-                    return NotFound();
-                return Ok(result);
-            } catch (NullReferenceException ex)
-            {
-                return NotFound(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
-            } catch (Exception ex)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
-            }
-        }
-
-        [HttpGet("download/{assetId}")]
-        [Authorize]
-        public async Task<IActionResult> GetAssetDownloadById(Guid assetId)
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        } catch (Exception ex)
         {
-            try
+            return BadRequest(new ApiResponse
             {
-                var link = await _assetService.GetDownloadUriAssetAsync(assetId);
-                return Ok(new { link });
-            } catch (NullReferenceException ex)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
-            } catch (Exception ex)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
-            }
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
+    }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> AddAsset([FromForm] AssetModel assetModel)
+    [HttpGet("download/{assetId}")]
+    [Authorize]
+    public async Task<IActionResult> GetAssetDownloadById(Guid assetId)
+    {
+        try
         {
-            try
+            var link = await _assetService.GetDownloadUriAssetAsync(assetId);
+            return Ok(new { link });
+        } catch (NullReferenceException ex)
+        {
+            return BadRequest(new ApiResponse
             {
-                var asset = await _assetService.AddAssetAsync(assetModel);
-                return CreatedAtAction(nameof(GetAssetById), new { assetId = asset.Id }, asset);
-            } catch (NullReferenceException ex)
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
             {
-                return NotFound(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
-            } catch (Exception ex)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
-            }
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
+    }
 
-        [HttpPut("{assetId}")]
-        [Authorize]
-        public async Task<IActionResult> UpdateAsset(Guid assetId, [FromBody] AssetEM assetEM)
+    [HttpGet("download-alt/{assetId}")]
+    [Authorize]
+    public async Task<IActionResult> GetAssetDownloadAlternativeAById(Guid assetId)
+    {
+        try
         {
-            try
-            {
-                await _assetService.UpdateAssetAsync(assetId, assetEM);
-                return NoContent();
-            } catch (NullReferenceException ex)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-
-                });
-            } catch (Exception ex)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
-            }
+            var link = await _assetService.GetDownloadUriAssetAlternativeAsync(assetId);
+            return Ok(new { link });
         }
-
-        [HttpDelete("{assetId}")]
-        [Authorize]
-        public async Task<IActionResult> DeleteAsset(Guid assetId)
+        catch (NullReferenceException ex)
         {
-            try
+            return BadRequest(new ApiResponse
             {
-                await _assetService.DeleteAssetAsync(assetId);
-                return NoContent();
-            } catch (NullReferenceException ex)
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
             {
-                return NotFound(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
-            } catch (Exception ex)
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> AddAsset([FromForm] AssetModel assetModel)
+    {
+        try
+        {
+            var asset = await _assetService.AddAssetAsync(assetModel);
+            return CreatedAtAction(nameof(GetAssetById), new { assetId = asset.Id }, asset);
+        } catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
             {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
-            }
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    [HttpPut("{assetId}")]
+    [Authorize]
+    public async Task<IActionResult> UpdateAsset(Guid assetId, [FromBody] AssetEM assetEM)
+    {
+        try
+        {
+            await _assetService.UpdateAssetAsync(assetId, assetEM);
+            return NoContent();
+        } catch (NullReferenceException ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+
+            });
+        } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    [HttpDelete("{assetId}")]
+    [Authorize]
+    public async Task<IActionResult> DeleteAsset(Guid assetId)
+    {
+        try
+        {
+            await _assetService.DeleteAssetAsync(assetId);
+            return NoContent();
+        } catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
     }
 }
