@@ -2,6 +2,8 @@
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
+using CoenM.ImageHash;
+using CoenM.ImageHash.HashAlgorithms;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 
@@ -62,13 +64,28 @@ public class ImageService : IImageService
         if (url == null)
             throw new Exception("Cannot upload image to firebase");
 
+        // hashing image de kiem tra trung anh
+        var hashAlgorithm = new PerceptualHash();
+        ulong imageHash = hashAlgorithm.Hash(imageModel.Image.OpenReadStream());
+
         // luu thong tin hinh anh vao database
         Image image = _mapper.Map<Image>(imageModel);
         image.Location = url;
         image.ImageName = newImageName + imageExtension;
         image.Order = latestOrder;
+        image.ImageHash = imageHash;
         await _unitOfWork.ImageRepository.AddAsync(image);
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task<List<ImageVM>> GetImagesDuplicateAsync(Guid imageId)
+    {
+        var image = await _unitOfWork.ImageRepository.GetByIdAsync(imageId);
+        if (image == null)
+            throw new NullReferenceException("Cannot found image!");
+
+        var result = await _unitOfWork.ImageRepository.GetImagesDuplicateAsync(imageId);
+        return _mapper.Map<List<ImageVM>>(result);
     }
 
     public async Task AddRangeImageAsync(MultiImageModel multiImageModel, bool isSaveChanges = true)

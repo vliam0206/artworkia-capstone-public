@@ -11,6 +11,7 @@ public interface IArtworkService
     Task<PagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkCriteria criteria);
     Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkCriteria criteria);
     Task DeleteArtworkAsync(Guid artworkId);
+    Task SoftDeleteArtworkAsync(Guid artworkId);
     Task UpdateArtworkAsync(Guid artworkId, ArtworkEM artworkEM);
     Task UpdateArtworkStateAsync(Guid artworkId, StateEnum state);
     Task<ArtworkVM> AddArtworkAsync(ArtworkModel artwork);

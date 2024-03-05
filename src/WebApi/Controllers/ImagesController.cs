@@ -33,6 +33,14 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{imageId}/duplication")]
+        public async Task<IActionResult> GetImagesDuplicate(Guid imageId)
+        {
+            var result = await _imageService.GetImagesDuplicateAsync(imageId);
+            return Ok(result);
+        }
+
+
         [HttpGet("{imageId}")]
         public async Task<IActionResult> GetImageById(Guid imageId)
         {

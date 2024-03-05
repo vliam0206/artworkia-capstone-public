@@ -12,4 +12,5 @@ public interface IImageService
     Task PutRangeImageAsync(MultiImageModel multiImageModel);
     Task UpdateImageAsync(Image image);
     Task DeleteImageAsync(Guid imageId);
+    Task<List<ImageVM>> GetImagesDuplicateAsync(Guid imageId);
 }

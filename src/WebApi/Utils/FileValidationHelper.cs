@@ -3,7 +3,7 @@
 public static class FileValidationHelper
 {
     private static readonly string[] ALLOW_IMAGE_EXTENSIONS = { 
-        ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", "tif", ".webp", ".svg" 
+        ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".svg" 
     };
 
     private static readonly string[] ALLOW_ASSET_EXTENSIONS = new[] {
@@ -12,7 +12,7 @@ public static class FileValidationHelper
         ".ttf", ".txt", ".webp", ".woff", ".woff2", ".xls", ".xlsx", ".xmp", ".zip", ".rar"
     };
     private static readonly long MAX_AVATAR_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
-    private static readonly long MAX_IMAGE_FILE_SIZE = 32 * 1024 * 1024; // 32 MB
+    private static readonly long MAX_IMAGE_FILE_SIZE = 16 * 1024 * 1024; // 16 MB
     private static readonly long MAX_ASSET_FILE_SIZE = 500 * 1024 * 1024; // 500 MB
 
     public static bool IsImageFormatValid(string fileName)

@@ -7,6 +7,7 @@ using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
+using System.Security.Principal;
 namespace Application.Services;
 public class ArtworkService : IArtworkService
 {
@@ -16,6 +17,7 @@ public class ArtworkService : IArtworkService
     private readonly ITagDetailService _tagDetailService;
     private readonly ICategoryArtworkDetailService _categoryArtworkDetailService;
     private readonly IFirebaseService _firebaseService;
+    private readonly IClaimService _claimService;
     private readonly IMapper _mapper;
     public ArtworkService(
         IUnitOfWork unitOfWork,
@@ -23,6 +25,7 @@ public class ArtworkService : IArtworkService
         ITagDetailService tagDetailService,
         ICategoryArtworkDetailService catworkDetailService,
         IFirebaseService firebaseService,
+        IClaimService claimService,
         IMapper mapper)
     {
         _unitOfWork = unitOfWork;
@@ -30,6 +33,7 @@ public class ArtworkService : IArtworkService
         _tagDetailService = tagDetailService;
         _categoryArtworkDetailService = catworkDetailService;
         _firebaseService = firebaseService;
+        _claimService = claimService;
         _mapper = mapper;
     }
 
@@ -162,10 +166,34 @@ public class ArtworkService : IArtworkService
 
     public async Task DeleteArtworkAsync(Guid artworkId)
     {
-        var result = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
-        if (result == null)
+        // check if artwork exist
+        var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
+        if (artwork == null)
             throw new Exception("Cannot found artwork!");
-        _unitOfWork.ArtworkRepository.SoftDelete(result);
+
+        // check authorized
+        if (_claimService.GetCurrentRole.Equals(RoleEnum.CommonUser.ToString()) &&
+            artwork.CreatedBy != _claimService.GetCurrentUserId)
+        {
+            throw new UnauthorizedAccessException("You are not allow to access this function.");
+        }   
+        _unitOfWork.ArtworkRepository.Delete(artwork);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task SoftDeleteArtworkAsync(Guid artworkId)
+    {
+        var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
+        if (artwork == null)
+            throw new Exception("Cannot found artwork!");
+
+        // check authorized
+        if (_claimService.GetCurrentRole.Equals(RoleEnum.CommonUser.ToString()) &&
+            artwork.CreatedBy != _claimService.GetCurrentUserId)
+        {
+            throw new UnauthorizedAccessException("You are not allow to access this function.");
+        }
+        _unitOfWork.ArtworkRepository.SoftDelete(artwork);
         await _unitOfWork.SaveChangesAsync();
     }
 

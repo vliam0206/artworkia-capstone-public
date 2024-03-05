@@ -208,6 +208,26 @@ public class ArtworksController : ControllerBase
         }
     }
 
+    [HttpDelete("softdelete/{artworkId}")]
+    [Authorize]
+    public async Task<IActionResult> SoftDeleteArtwork(Guid artworkId)
+    {
+        try
+        {
+            await _artworkService.SoftDeleteArtworkAsync(artworkId);
+            return NoContent();
+
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
     [HttpGet, Route("/api/moderation/[controller]")]
     [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> GetAllArtworksForModerator([FromQuery] ArtworkCriteria criteria)
@@ -250,7 +270,7 @@ public class ArtworksController : ControllerBase
             return new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = "Image must have extensions: JPG, JPEG, PNG, GIF, BMP, TIFF, TIF, WEBP, or SVG."
+                ErrorMessage = "Image must have extensions: JPG, JPEG, PNG, GIF, BMP, WEBP, or SVG."
             };
         }
 
@@ -309,12 +329,12 @@ public class ArtworksController : ControllerBase
 
     private ApiResponse ValidateImageFiles(List<IFormFile> imageFiles)
     {
-        if (imageFiles.Count > 200)
+        if (imageFiles.Count > 30)
         {
             return new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = "Image files must be less than 200 files."
+                ErrorMessage = "Image files must be less than 30 files."
             };
         }
 
@@ -325,7 +345,7 @@ public class ArtworksController : ControllerBase
                 return new ApiResponse
                 {
                     IsSuccess = false,
-                    ErrorMessage = "Image must have extensions: JPG, JPEG, PNG, GIF, BMP, TIFF, TIF, WEBP, or SVG."
+                    ErrorMessage = "Image must have extensions: JPG, JPEG, PNG, GIF, BMP, WEBP, or SVG."
                 };
             }
 
@@ -334,7 +354,7 @@ public class ArtworksController : ControllerBase
                 return new ApiResponse
                 {
                     IsSuccess = false,
-                    ErrorMessage = "Image must be less than 32MB."
+                    ErrorMessage = "Image must be less than 16MB."
                 };
             }
         }
