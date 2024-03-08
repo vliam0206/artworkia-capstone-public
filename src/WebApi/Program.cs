@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Serilog;
 using System.Text.Json.Serialization;
 using WebApi;
 using WebApi.Extensions;
@@ -42,9 +43,16 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 // Add Cors
 builder.Services.AddCorsPolicy();
 
+// Serilog configuration
+Log.Logger = new LoggerConfiguration()
+      .ReadFrom.Configuration(builder.Configuration).CreateLogger();
+
+builder.Host.UseSerilog();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseSerilogRequestLogging();
 
 app.UseOpenApi(); // use swagger
 
