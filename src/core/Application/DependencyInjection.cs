@@ -33,6 +33,8 @@ public static class DependencyInjection
         services.AddScoped<IProposalService, ProposalService>();
         services.AddScoped<IProposalAssetService, ProposalAssetService>();
         services.AddScoped<IMilestoneService, MilestoneService>();
+        services.AddScoped<IMessageService, MessageService>();
+        services.AddScoped<IChatBoxService, ChatBoxService>();
 
         services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<ITokenHandler, TokenHandler>();

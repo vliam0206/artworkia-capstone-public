@@ -4,7 +4,6 @@ using Application.Models.ZaloPayModels;
 using AutoMapper;
 using Domain.Entitites;
 using WebApi.ViewModels;
-using static Application.Models.ArtworkVM;
 namespace WebApi;
 
 public class MappingProfile : Profile
@@ -110,5 +109,10 @@ public class MappingProfile : Profile
         CreateMap<ProposalAsset, ProposalAssetVM>().ReverseMap();
         
         CreateMap<Milestone, MilestoneVM>().ReverseMap();
+
+        CreateMap<Message, MessageModel>().ReverseMap();
+        CreateMap<Message, MessageVM>().ReverseMap();
+
+        CreateMap<ChatBox, ChatBoxVM>().ReverseMap();
     }
 }
