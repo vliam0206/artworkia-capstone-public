@@ -44,7 +44,8 @@ public class UnitOfWorkTest : SetupTest
                 _walletHistoryRepositoryMock.Object,
                 _walletRepositoryMock.Object,
                 _followRepositoryMock.Object,
-                _blockRepositoryMock.Object
+                _blockRepositoryMock.Object,
+                _milestoneRepositoryMock.Object
                 );
     }
 

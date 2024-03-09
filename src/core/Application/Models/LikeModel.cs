@@ -1,11 +1,9 @@
 ﻿using Application.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApi.ViewModels;
+namespace Application.Models;
 public class LikeModel
 {
-    [Required]
-    public Guid AccountId { get; set; }
     [Required]
     public Guid ArtworkId { get; set; }
 }

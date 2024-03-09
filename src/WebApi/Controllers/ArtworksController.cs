@@ -1,6 +1,7 @@
 ﻿using Application.Commons;
 using Application.Filters;
 using Application.Models;
+using Application.Services;
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Enums;
@@ -62,6 +63,32 @@ public class ArtworksController : ControllerBase
                 ErrorMessage = ex.Message
             });
         } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    [HttpGet("{artworkId}/duplication")]
+    public async Task<IActionResult> GetArtworksDuplicate(Guid artworkId)
+    {
+        try
+        {
+            var result = await _artworkService.GetArtworksDuplicateAsync(artworkId);
+            return Ok(result);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
         {
             return BadRequest(new ApiResponse
             {

@@ -22,12 +22,17 @@ public class ImageRepository : GenericRepository<Image>, IImageRepository
         var artworkOfImage = _dbContext.Artworks.Where(x => x.Id == image.ArtworkId).FirstOrDefault();
         var createdByOfArtwork = artworkOfImage.CreatedBy;
         //x.Artwork.State == Domain.Enums.StateEnum.Accepted
-        var result = await _dbContext.Images.Where(x => x.Artwork.CreatedBy != createdByOfArtwork 
+        var result = await _dbContext.Images.Where(x => x.Artwork.CreatedBy != createdByOfArtwork
         ).ToListAsync();
-        var result2 = result.Where(x => CompareHash.Similarity(x.ImageHash.GetValueOrDefault(), image.ImageHash.GetValueOrDefault()) > 95).ToList();
-        foreach (var item in result2)
+        List<Image> result2 = new List<Image>();
+        foreach (Image item in result)
         {
-            Console.WriteLine(item.ImageName + ": " + CompareHash.Similarity(item.ImageHash.GetValueOrDefault(), image.ImageHash.GetValueOrDefault()));
+            var similarity = CompareHash.Similarity(item.ImageHash.GetValueOrDefault(), image.ImageHash.GetValueOrDefault());
+            if (similarity > 95)
+            {
+                item.Similarity = similarity;
+                result2.Add(item);
+            }
         }
         return result2;
     }

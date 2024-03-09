@@ -15,4 +15,5 @@ public interface IArtworkService
     Task UpdateArtworkAsync(Guid artworkId, ArtworkEM artworkEM);
     Task UpdateArtworkStateAsync(Guid artworkId, StateEnum state);
     Task<ArtworkVM> AddArtworkAsync(ArtworkModel artwork);
+    Task<List<ImageDuplicationVM>> GetArtworksDuplicateAsync(Guid artworkId);
 }

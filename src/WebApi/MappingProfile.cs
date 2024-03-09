@@ -30,6 +30,7 @@ public class MappingProfile : Profile
 
         CreateMap<Image, ImageModel>().ReverseMap(); 
         CreateMap<Image, ImageVM>().ReverseMap(); 
+        CreateMap<Image, ImageDuplicationVM>().ReverseMap(); 
 
         CreateMap<Category, CategoryModel>().ReverseMap();
         CreateMap<Category, CategoryVM>().ReverseMap();

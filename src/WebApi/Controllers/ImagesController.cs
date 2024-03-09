@@ -16,13 +16,11 @@ namespace WebApi.Controllers
     public class ImagesController : ControllerBase
     {
         private readonly IImageService _imageService;
-        private readonly IFirebaseService _firebaseService;
         private readonly IMapper _mapper;
 
-        public ImagesController(IImageService imageService, IFirebaseService firebaseService, IMapper mapper)
+        public ImagesController(IImageService imageService, IMapper mapper)
         {
             _imageService = imageService;
-            _firebaseService = firebaseService;
             _mapper = mapper;
         }
 
@@ -36,18 +34,39 @@ namespace WebApi.Controllers
         [HttpGet("{imageId}/duplication")]
         public async Task<IActionResult> GetImagesDuplicate(Guid imageId)
         {
-            var result = await _imageService.GetImagesDuplicateAsync(imageId);
-            return Ok(result);
+            try
+            {
+                var result = await _imageService.GetImagesDuplicateAsync(imageId);
+                return Ok(result);
+            }
+            catch (NullReferenceException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
 
         [HttpGet("{imageId}")]
         public async Task<IActionResult> GetImageById(Guid imageId)
         {
-            var result = await _imageService.GetImageByIdAsync(imageId);
-            if (result == null)
-                return NotFound();
-            return Ok(result);
+            try
+            {
+                var result = await _imageService.GetImageByIdAsync(imageId);
+                if (result == null)
+                    return NotFound();
+                return Ok(result);
+            }
+            catch (NullReferenceException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         //API upload only 1 image
@@ -60,12 +79,12 @@ namespace WebApi.Controllers
             try
             {
                 await _imageService.AddImageAsync(imageModel);
+                return Ok();
 
             } catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return Ok();
         }
 
         //API upload only 1 image
@@ -78,12 +97,11 @@ namespace WebApi.Controllers
             try
             {
                 await _imageService.AddRangeImageAsync(multiImageModel);
-
+                return Ok();
             } catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return Ok();
         }
 
         [HttpDelete("{imageId}")]
@@ -93,6 +111,7 @@ namespace WebApi.Controllers
             try
             {
                 await _imageService.DeleteImageAsync(imageId);
+                return NoContent();
             } catch (NullReferenceException ex)
             {
                 return NotFound(ex.Message);
@@ -101,7 +120,6 @@ namespace WebApi.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            return Ok();
         }
     }
 }

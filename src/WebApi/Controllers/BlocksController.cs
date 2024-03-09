@@ -96,6 +96,14 @@ public class BlocksController : ControllerBase
     {
         try
         {
+            if (_claimService.GetCurrentUserId == model.BlockedId)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "You can not block yourself."
+                });
+            }
             await _blockService.CreateBlockAsync(model);
             return Ok();
         }

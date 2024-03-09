@@ -6,6 +6,7 @@ using CoenM.ImageHash;
 using CoenM.ImageHash.HashAlgorithms;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Application.Services;
 public class ImageService : IImageService
@@ -78,14 +79,14 @@ public class ImageService : IImageService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task<List<ImageVM>> GetImagesDuplicateAsync(Guid imageId)
+    public async Task<List<ImageDuplicationVM>> GetImagesDuplicateAsync(Guid imageId)
     {
-        var image = await _unitOfWork.ImageRepository.GetByIdAsync(imageId);
-        if (image == null)
+        var isExisted = await _unitOfWork.ImageRepository.IsExistedAsync(imageId);
+        if (!isExisted)
             throw new NullReferenceException("Cannot found image!");
 
         var result = await _unitOfWork.ImageRepository.GetImagesDuplicateAsync(imageId);
-        return _mapper.Map<List<ImageVM>>(result);
+        return _mapper.Map<List<ImageDuplicationVM>>(result);
     }
 
     public async Task AddRangeImageAsync(MultiImageModel multiImageModel, bool isSaveChanges = true)
@@ -119,14 +120,19 @@ public class ImageService : IImageService
                 if (url == null)
                     throw new Exception("Error when uploading images to firebase");
 
+                // hashing image de kiem tra trung anh
+                var hashAlgorithm = new PerceptualHash();
+                ulong imageHash = hashAlgorithm.Hash(singleImage.image.OpenReadStream());
+
                 // luu thong tin hinh anh vao database
                 Image image = new()
                 {
                     ArtworkId = artworkId,
                     Location = url,
                     ImageName = newImageName + imageExtension,
-                    Order = singleImage.index
-                };
+                    Order = singleImage.index,
+                    ImageHash = imageHash
+            };
                 await _unitOfWork.ImageRepository.AddAsync(image);
             }));
         }

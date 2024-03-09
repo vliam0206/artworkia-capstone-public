@@ -64,14 +64,29 @@ public class ArtworkService : IArtworkService
         return listArtworkPreviewVM;
     }
 
+    public async Task<List<ImageDuplicationVM>> GetArtworksDuplicateAsync(Guid artworkId)
+    {
+        var isExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(artworkId);
+        if (!isExisted)
+            throw new NullReferenceException("Cannot found artwork!");
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetArtworksDuplicateAsync(artworkId);
+        var listArtworkVM = _mapper.Map<List<ImageDuplicationVM>>(listArtwork);
+        return listArtworkVM;
+    }
+
     public async Task<ArtworkVM?> GetArtworkByIdAsync(Guid artworkId)
     {
         var artwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId);
         if (artwork == null)
             throw new NullReferenceException("Artwork not found!");
-
         if (artwork.DeletedOn != null)
             throw new Exception("Artwork deleted!");
+
+        // increase view count
+        artwork.ViewCount++;
+        _unitOfWork.ArtworkRepository.Update(artwork);
+        await _unitOfWork.SaveChangesAsync();
+
         var artworkVM = _mapper.Map<ArtworkVM>(artwork);
         return artworkVM;
     }

@@ -50,6 +50,7 @@ public class SetupTest : IDisposable
     protected readonly Mock<IUserTokenRepository> _userTokenRepositoryMock;
     protected readonly Mock<IWalletHistoryRepository> _walletHistoryRepositoryMock;
     protected readonly Mock<IWalletRepository> _walletRepositoryMock;
+    protected readonly Mock<IMilestoneRepository> _milestoneRepositoryMock;
     #endregion
     #region service mocks
     protected readonly Mock<IAccountService> _accountServiceMock;
@@ -115,6 +116,7 @@ public class SetupTest : IDisposable
         _userTokenRepositoryMock = new Mock<IUserTokenRepository>();
         _walletHistoryRepositoryMock = new Mock<IWalletHistoryRepository>();
         _walletRepositoryMock = new Mock<IWalletRepository>();
+        _milestoneRepositoryMock = new Mock<IMilestoneRepository>();
 
         #endregion
 

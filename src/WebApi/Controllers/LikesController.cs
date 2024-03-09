@@ -1,11 +1,12 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Models;
+using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels;
+using WebApi.ViewModels.Commons;
 
 namespace WebApi.Controllers;
 [Route("api/[controller]")]
@@ -48,20 +49,27 @@ public class LikesController : ControllerBase
     [Authorize] // admin & own user
     public async Task<IActionResult> AddLike(LikeModel model)
     {
-        if (!CheckAuthorize(model.AccountId))
-        {
-            return Forbid();
-        }
-        var like = _mapper.Map<Like>(model);
         try
         {
-            await _likeService.CreateLikeAsync(like);
-        } catch (Exception ex)
-        {
-            return BadRequest(new {ErrorMessage = ex.Message });
+            await _likeService.CreateLikeAsync(model);
+            return Ok();
         }
-
-        return Ok(new { IsSuccess = true });
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
     }
 
     // DELETE: api/likes/5
@@ -69,24 +77,29 @@ public class LikesController : ControllerBase
     [Authorize]
     public async Task<IActionResult> DeleteLike(LikeModel model)
     {
-        if (!CheckAuthorize(model.AccountId))
-        {
-            return Forbid();
-        }
         var like = _mapper.Map<Like>(model);
         try
         {
-            await _likeService.DeleteLikeAsync(model.AccountId, model.ArtworkId);
+            await _likeService.DeleteLikeAsync(model.ArtworkId);
+            return NoContent();
+
         }
-        catch (ArgumentException ex)
+        catch (NullReferenceException ex)
         {
-            return NotFound(new { ErrorMessage = ex.Message });
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
         catch (Exception ex)
         {
-            return BadRequest(new { ErrorMessage = ex.Message });
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
-        return Ok(new { IsSuccess = true });
     }
 
     private bool CheckAuthorize(Guid accountId)

@@ -1,4 +1,5 @@
 ﻿using Application.Services.Abstractions;
+using CoenM.ImageHash;
 using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
@@ -11,6 +12,7 @@ using System.Linq.Expressions;
 namespace Infrastructure.Repositories;
 public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRepository
 {
+    private readonly static int MIN_SIMILARITY = 95;
     public ArtworkRepository(AppDBContext dBContext, IClaimService claimService) : base(dBContext, claimService)
     {
     }
@@ -126,5 +128,37 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
             .Include(a => a.CategoryArtworkDetails)
                 .ThenInclude(c => c.Category)
             .FirstOrDefaultAsync(a => a.Id == artworkId);
+    }
+
+    public async Task<List<Image>> GetArtworksDuplicateAsync(Guid artworkId)
+    {
+        var artwork = await _dbContext.Artworks
+            .Include(x => x.Images)
+            .Where(x => x.Id == artworkId).FirstOrDefaultAsync();
+        if (artwork == null) 
+            throw new Exception("Artwork not found");
+        var createdByOfArtwork = artwork.CreatedBy;
+        //x.Artwork.State == Domain.Enums.StateEnum.Accepted
+        var listImage = await _dbContext.Images
+            .Include(x => x.Artwork)
+            .Where(x => x.Artwork.CreatedBy != createdByOfArtwork).ToListAsync();
+        List<Image> result2 = new List<Image>();
+        foreach (Image item in listImage)
+        {
+            foreach (Image image in artwork.Images)
+            {
+                var similarity = CompareHash.Similarity(item.ImageHash.GetValueOrDefault(), image.ImageHash.GetValueOrDefault());
+                if (similarity >= MIN_SIMILARITY)
+                {
+                    item.Similarity = similarity;
+                    result2.Add(item);
+                }
+                if (result2.Count > 10)
+                {
+                    break;
+                }
+            }
+        }
+        return result2;
     }
 }
