@@ -4,7 +4,7 @@ namespace Application.Models.ZaloPayModels;
 
 public class ZaloPayCallbackOrder
 {
-    public string Type { get; set; } = default!;
+    public int Type { get; set; }
     public string Mac { get; set; } = default!;
     public string Data { get; set; } = default!;
     public CallbackOrderData? ToCallbackOrderData()

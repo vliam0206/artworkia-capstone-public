@@ -97,7 +97,8 @@ public class PaymentsController : ControllerBase
         }
         return Ok(result);
     }
-
+    
+    // for testing the callback api
     [HttpGet("query-order/{appTransId}")]
     public async Task<IActionResult> QueryOrder(string appTransId)
     {
@@ -113,4 +114,18 @@ public class PaymentsController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
+    [HttpPost("hmac")]
+    public IActionResult GetHMacString(EncodeBodyModel model)
+    {
+        var hMacString = HmacHelper.Compute(model.Key, model.EncodeData);
+        return Ok(hMacString);
+    }
+}
+
+// for testing the callback api
+public class EncodeBodyModel
+{
+    public string Key { get; set; } = default!;
+    public string EncodeData { get; set; } = default!;
 }
