@@ -20,40 +20,40 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
         builder.HasData(
             new Wallet // wallet of user
             {
-                Id = Guid.Parse("73b5f912-28d7-4473-9c8d-56a734d8a1c0"),
-                AccountId = Guid.Parse("7d580000-c214-88a4-cc1d-08dc1445b3e0"),
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                AccountId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0902287461",
                 Balance = 2000
             },
             new Wallet // wallet of lamlam
             {
-                Id = Guid.Parse("73b5f912-28d7-4473-9c8d-56a734d8a1c1"),
-                AccountId = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"),
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                AccountId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0939959417",
                 Balance = 1000
             },
             new Wallet // wallet of hoanganh
             {
-                Id = Guid.Parse("73b5f912-28d7-4473-9c8d-56a734d8a1c2"),
-                AccountId = Guid.Parse("7d580000-c214-88a4-a3f1-08dc1445b3e1"),
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
+                AccountId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0902287462",
                 Balance = 1000
             },
             new Wallet // wallet of thong
             {
-                Id = Guid.Parse("73b5f912-28d7-4473-9c8d-56a734d8a1c3"),
-                AccountId = Guid.Parse("7d580000-c214-88a4-0f12-08dc1445b3e2"),
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
+                AccountId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0902287463",
                 Balance = 1000
             },
             new Wallet // wallet of phuhuynh
             {
-                Id = Guid.Parse("73b5f912-28d7-4473-9c8d-56a734d8a1c4"),
-                AccountId = Guid.Parse("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                AccountId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0902287464",
                 Balance = 1000

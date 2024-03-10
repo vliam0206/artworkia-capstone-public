@@ -17,44 +17,149 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
         (
             new Image()
             {
-                Id = Guid.Parse("01aa2232-7628-4227-b034-1c1a32cad359"),
-                ArtworkId = Guid.Parse("35966d1a-9b08-4743-b1c3-474a58350f6e"),
-                Location = "https://www.dtv-ebook.com/images/files_2/2023/022023/tam-ly-hoc-toi-pham-phac-hoa-chan-dung-ke-pham-toi-diep-hong-vu.jpg",
-                ImageName = "35966d1a-9b08-4743-b1c3-474a58350f6e_i1.jpg",
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
+                Location = "https://i.pinimg.com/originals/b5/7e/14/b57e14aa401d41db2072d1b0ccfbde2b.jpg",
+                ImageName = "00000000-0000-0000-0000-00000000000e_i1.jpg",
                 Order = 0
             },
             new Image()
             {
-                Id = Guid.Parse("ae8fb7be-5c63-481e-b997-2ada5ac5392b"),
-                ArtworkId = Guid.Parse("35966d1a-9b08-4743-b1c3-474a58350f6e"),
-                Location = "https://lh3.googleusercontent.com/QKQqZt0RivsBmyjwFI8EomO6YZ2-hnSsiwLdKG9btAiNhVjiwpKtzTiULFqTRCo5JUOe5t8f6Be_sZ9ZBYRD7v3EYwqzlkomHabN_LqntP61rVbqqk9wuQqgVY4Dmk7JseAHmjbNWRacbMJynaBXgCoYvcQzAuYPOgNj-P2CAEWroKZcieC2GDyal2x02Cw0izhqYNCnJAQLnEPSErSXgYNBoSb3KlmjHcev9zq2KXRaorp04_aKLN5-iewZ27ee9OWmSuwfvnGgjSK98rKdtGfnqw5U_1cp1R89brso1E8VCIhFGfRTKijJMdCtjE3VbpyO_3vI46D5UVbJZB3N-c0-DulKgbP1EFp5p_wbgBwL2AQVAgQCB2TJ1IS_hVKqVS1GZ3xsCleYb7xTkaqqcojQIbR1GYMxirT_u2jU6xHq6ycB2w6UPCo_DZJfVhieyZXzjpIa92pN-6UM4I-Ou54BnFpvANrOxfOWxblViYR43PrSdHgu5XGGQYg2SYKvuAqbzkpOLpcnyRQBxDPV6bCMURXDTvnmRQj1Rl_14MEW278wjOe-D39mATYeEO6Xfq445Wu9SUEcXd40soLtSNcun92XJ-j_0Dyr1Dd2argkutkMXgiqRHyZxN1hfadB_T1xQ3Ln9TA8oSRrYEmoUIXi4iS9XD08kj5FZf-slMLA_KQeYT7F2Alkx11IBq2aahNUlf1FTWykZVpyxAr0DNjCypS44Lbmqsdw7xfQzKT8WrLR=w400-h500-no",
-                ImageName = "35966d1a-9b08-4743-b1c3-474a58350f6e_i2.jpg",
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
+                Location = "https://i.pinimg.com/originals/04/b7/46/04b7460b2efef9c432dabbcda2507b71.jpg",
+                ImageName = "00000000-0000-0000-0000-00000000000e_i2.jpg",
                 Order = 1
             },
             new Image()
             {
-                Id = Guid.Parse("ff16271c-c04a-4cec-b6f1-04b555659b5a"),
-                ArtworkId = Guid.Parse("35966d1a-9b08-4743-b1c3-474a58350f6e"),
-                Location = "https://vietbooks.info/attachments/upload_2023-2-3_11-29-1-png.19599/",
-                ImageName = "35966d1a-9b08-4743-b1c3-474a58350f6e_i3.jpg",
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
+                Location = "https://i.pinimg.com/originals/d5/5e/e1/d55ee127c8dc1c7f9d94edc0ec596758.jpg",
+                ImageName = "00000000-0000-0000-0000-00000000000e_i3.jpg",
                 Order = 2
             },
             new Image()
             {
-                Id = Guid.Parse("36208d9b-471a-4a88-be28-adabfd1f2ae5"),
-                ArtworkId = Guid.Parse("72fbdead-0704-4f69-82ec-0cd09218fef9"),
-                Location = "https://i.pximg.net/img-original/img/2023/11/13/18/56/54/113380427_p0.png",
-                ImageName = "72fbdead-0704-4f69-82ec-0cd09218fef9_i0.jpg",
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000f"),
+                Location = "https://i.pinimg.com/originals/db/93/a1/db93a131d59201ed997d606ea33c4933.jpg",
+                ImageName = "00000000-0000-0000-0000-00000000000f_i0.jpg",
                 Order = 0
             },
             new Image()
             {
-                Id = Guid.Parse("5d96552b-ff92-4064-8858-5e1e96ee9899"),
-                ArtworkId = Guid.Parse("72fbdead-0704-4f69-82ec-0cd09218fef9"),
-                Location = "https://i.pximg.net/img-original/img/2023/11/13/18/56/54/113380427_p1.png",
-                ImageName = "72fbdead-0704-4f69-82ec-0cd09218fef9_i1.jpg",
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000f"),
+                Location = "https://i.pinimg.com/originals/b5/d4/7e/b5d47e1cf4555983a8017e59409b4d4a.jpg",
+                ImageName = "00000000-0000-0000-0000-00000000000f_i1.jpg",
                 Order = 1
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000006"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000008"),
+                Location = "https://th.bing.com/th/id/OIG.yy76iMmgUCmXetlfQxqn?w=1024&h=1024&rs=1&pid=ImgDetMain",
+                ImageName = "00000000-0000-0000-0000-000000000008_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                Location = "https://th.bing.com/th/id/OIG.7WfKwqG.VAbgwQ87iaTU?w=1024&h=1024&rs=1&pid=ImgDetMain",
+                ImageName = "00000000-0000-0000-0000-000000000001_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000008"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                Location = "https://th.bing.com/th/id/OIG.mMOt1xWJJCHsRoPJXtHQ?pid=ImgGn",
+                ImageName = "00000000-0000-0000-0000-000000000002_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000009"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
+                Location = "https://th.bing.com/th/id/OIG.k0SSs9Qn3tHNvlcMdMrG?w=1024&h=1024&rs=1&pid=ImgDetMain",
+                ImageName = "00000000-0000-0000-0000-000000000003_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000000c"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
+                Location = "https://th.bing.com/th/id/OIG.Oe0vi0jHSKaHn5DZ267N?w=1024&h=1024&rs=1&pid=ImgDetMain",
+                ImageName = "00000000-0000-0000-0000-000000000004_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                Location = "https://th.bing.com/th/id/OIG.LTaVFacabNQc22SAk1r1?pid=ImgGn",
+                ImageName = "00000000-0000-0000-0000-000000000005_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000010"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000006"),
+                Location = "https://th.bing.com/th/id/OIG.AoM9akz.gT4RMZ9R6DOh?pid=ImgGn",
+                ImageName = "00000000-0000-0000-0000-000000000006_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000013"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+                Location = "https://th.bing.com/th/id/OIG..gPcXaRan.FdnEjYCvT3?pid=ImgGn",
+                ImageName = "00000000-0000-0000-0000-000000000007_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000016"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000009"),
+                Location = "https://th.bing.com/th/id/OIG.Uz66_wn15hsKPirpv6Pb?pid=ImgGn",
+                ImageName = "00000000-0000-0000-0000-000000000009_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000019"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000a"),
+                Location = "https://th.bing.com/th/id/OIG.78MNqZpoa6ReKmvZCHPI?pid=ImgGn",
+                ImageName = "00000000-0000-0000-0000-00000000000a_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000001b"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000b"),
+                Location = "https://th.bing.com/th/id/OIG.Iar__phrqaC3bhQLIHAZ?w=1024&h=1024&rs=1&pid=ImgDetMain",
+                ImageName = "00000000-0000-0000-0000-00000000000b_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000001d"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000c"),
+                Location = "https://th.bing.com/th/id/OIG.MxQxUggA0RKmKdTjwAqw?pid=ImgGn",
+                ImageName = "00000000-0000-0000-0000-00000000000c_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000001f"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000010"),
+                Location = "https://th.bing.com/th/id/OIG.5gNG99_0Acz4Y8CGOYlg?pid=ImgGn",
+                ImageName = "00000000-0000-0000-0000-000000000010_i0.jpg",
+                Order = 0
             }
+
 
         );
         #endregion

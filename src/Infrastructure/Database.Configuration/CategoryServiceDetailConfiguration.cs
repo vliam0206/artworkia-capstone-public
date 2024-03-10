@@ -21,8 +21,8 @@ public class CategoryServiceDetailConfiguration : IEntityTypeConfiguration<Categ
         (
             new CategoryServiceDetail()
             {
-                CategoryId = Guid.Parse("8b0f2e91-9a3c-4d6e-b8e7-23c5a41a2f0a"),
-                ServiceId = Guid.Parse("1c8542d4-41bd-492b-9d21-905c6a8b0532")
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             }
         );
         #endregion

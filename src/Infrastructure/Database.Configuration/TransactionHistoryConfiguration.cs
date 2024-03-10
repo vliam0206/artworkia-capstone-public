@@ -24,19 +24,19 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
         (
             new TransactionHistory
             {
-                Id = Guid.Parse("d5951c1f-b46f-4af1-9c9a-f95dc6e9f9d1"),
-                AssetId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9"),
-                CreatedBy = new Guid("7d580000-c214-88a4-cc1d-08dc1445b3e0"), // user
-                Detail = "Mở khóa tài nguyên \"Tàu hũ ZIP\"",
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                AssetId = new Guid("00000000-0000-0000-0000-000000000004"),
+                CreatedBy = new Guid("00000000-0000-0000-0000-000000000001"), // user
+                Detail = "Mở khóa tài nguyên \"Cánh cụt ZIP\"",
                 Price = 12,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-13T15:30:03.678Z")
             },
             new TransactionHistory
             {
-                Id = Guid.Parse("d5951c1f-b46f-4af1-9c9a-f95dc6e9f9d2"),
-                AssetId = new Guid("ec114537-eadb-49d4-ad49-675d06ce6ccc"),
-                CreatedBy = new Guid("7d580000-c214-88a4-cc1d-08dc1445b3e0"), // user
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                AssetId = new Guid("00000000-0000-0000-0000-000000000001"),
+                CreatedBy = new Guid("00000000-0000-0000-0000-000000000001"), // user
                 Detail = "Mở khóa tài nguyên \"File PTS tuyển tập minh hoạ sách tâm lý\"",
                 Price = 10,
                 TransactionStatus = TransactionStatusEnum.Success,
@@ -44,10 +44,10 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
             },
             new TransactionHistory
             {
-                Id = Guid.Parse("d5951c1f-b46f-4af1-9c9a-f95dc6e9f9d3"),
-                AssetId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9"),
-                CreatedBy = new Guid("7d580000-c214-88a4-3886-08dc1445b3e1"), // lamlam
-                Detail = "Mở khóa tài nguyên \"Tàu hũ ZIP\"",
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
+                AssetId = new Guid("00000000-0000-0000-0000-000000000004"),
+                CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"), // lamlam
+                Detail = "Mở khóa tài nguyên \"Cánh cụt ZIP\"",
                 Price = 12,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-14T15:30:03.678Z")

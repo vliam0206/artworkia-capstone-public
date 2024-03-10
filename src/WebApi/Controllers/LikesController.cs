@@ -27,21 +27,116 @@ public class LikesController : ControllerBase
     }
 
     // GET: api/likes/5/artworks
-    [HttpGet("{artworkId}/artworks")]
-    [Authorize]
+    [HttpGet("/api/artworks/{artworkId}/likes")]
     public async Task<IActionResult> GetAllLikesOfArtwork(Guid artworkId)
     {
-        var result = await _likeService.GetAllLikesOfArtworkAsync(artworkId);
-        return Ok(result);
+        try
+        {
+            var result = await _likeService.GetAllLikesOfArtworkAsync(artworkId);
+            return Ok(result);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
     }
 
     // GET: api/likes/5/accounts
-    [HttpGet("{accountId}/accounts")]
+    [HttpGet("/api/accounts/{accountId}/likes")]
     [Authorize]
     public async Task<IActionResult> GetAllLikesOfAccount(Guid accountId)
     {
-        var result = await _likeService.GetAllLikesOfAccountAsync(accountId);
-        return Ok(result);
+        try
+        {
+            var result = await _likeService.GetAllLikesOfAccountAsync(accountId);
+            return Ok(result);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    // GET: api/likes/artworks/1
+    [HttpGet("artworks/{artworkId}")]
+    [Authorize] 
+    public async Task<IActionResult> GetIsLikedOfArtwork(Guid artworkId)
+    {
+        try
+        {
+            Guid accountId = _claimService.GetCurrentUserId ?? default;   
+            var result = await _likeService.GetIsLikedArtworkAsync(accountId, artworkId);
+            return Ok(result);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    // GET: api/likes/artworks/1
+    [HttpGet("artworks")]
+    [Authorize]
+    public async Task<IActionResult> GetIsLikedOfArtwork([FromQuery] List<Guid> artworkIds)
+    {
+        try
+        {
+            Guid accountId = _claimService.GetCurrentUserId ?? default;
+            var result = await _likeService.GetListIsLikedArtworkAsync(accountId, artworkIds);
+            return Ok(result);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
     }
 
     // POST: api/likes
@@ -72,7 +167,7 @@ public class LikesController : ControllerBase
         }
     }
 
-    // DELETE: api/likes/5
+    // DELETE: api/likes
     [HttpDelete]
     [Authorize]
     public async Task<IActionResult> DeleteLike(LikeModel model)
@@ -114,5 +209,4 @@ public class LikesController : ControllerBase
         }
         return true;
     }
-
 }

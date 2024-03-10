@@ -16,6 +16,7 @@ public class ArtworkVM
     public int CommentCount { get; set; } = default!;
     public string Privacy { get; set; } = default!;
     public string State { get; set; } = default!;
+    public bool IsLiked { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }
@@ -42,9 +43,22 @@ public class ArtworkPreviewVM
     public int CommentCount { get; set; } = default!;
     public string Privacy { get; set; } = default!;
     public string State { get; set; } = default!;
+    public bool IsLiked { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public AccountBasicInfoVM Account { get; set; } = default!;
+}
+
+public class ArtworkDisplayModel
+{
+    public Guid Id { get; set; }
+    public string Title { get; set; } = default!;
+    public string? Description { get; set; }
+    public string Thumbnail { get; set; } = default!;
+    public PrivacyEnum Privacy { get; set; } = default!;
+    public AccountDisplayModel Author { get; set; } = default!;
+    public DateTime CreatedOn { get; set; }
+    public DateTime? LastModificatedOn { get; set; }
 }
 
 // View model for moderation

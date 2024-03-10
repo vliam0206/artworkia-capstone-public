@@ -23,13 +23,13 @@ public class RequestConfiguration : IEntityTypeConfiguration<Request>
         (
             new Request()
             {
-                Id = Guid.Parse("7d580000-c214-88a4-2ef8-08dc1ef3c2fb"),
-                ServiceId = Guid.Parse("1c8542d4-41bd-492b-9d21-905c6a8b0532"),
-                ChatBoxId = Guid.Parse("5bd4c5d0-bee0-4b9c-9396-9cb914a1294c"),
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 Message = "yeu cau lam website ecommerce",
                 Timeline = "2 - 3 tuần",
                 RequestStatus = StateEnum.Waiting,
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-7ad3-08dc1445b3e2"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 CreatedOn = DateTime.Parse("2024-1-2"),
             }   
         );

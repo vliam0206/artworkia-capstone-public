@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Attributes;
+using Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models;
@@ -16,10 +17,10 @@ public class AccountModel
     public string? Fullname { get; set; }
     public string? Avatar { get; set; }
     [Required]
-    [MaxLength(255)]
+    [MaxLength(300)]
     public string? Bio { get; set; }
-    [Required]
-    public DateTime? Birthdate;
+    [Birthdate]
+    public DateTime? Birthdate { get; set; }
 }
 
 public class AccountVM
@@ -31,7 +32,7 @@ public class AccountVM
     public string Email { get; set; } = default!;
     [MaxLength(255)]
     public string Fullname { get; set; } = default!;
-    [MaxLength(255)]
+    [MaxLength(300)]
     public string? Bio { get; set; }
     public string? Avatar { get; set; }
     public DateTime? Birthdate;

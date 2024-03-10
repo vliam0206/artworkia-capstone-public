@@ -25,19 +25,20 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
         (
             new Asset()
             {
-                Id = Guid.Parse("ec114537-eadb-49d4-ad49-675d06ce6ccc"),
-                ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000008"),
                 AssetTitle = "File PTS tuyển tập minh hoạ sách tâm lý",
-                Description = "Mua đê",
+                Description = "tập tin PTS tuyển tập minh hoạ sách tâm lý " +
+                "sẽ cung cấp một cái nhìn tổng quan và thú vị.",
                 AssetName = "PTS_1.zip",
                 Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
-                Price = 10,
+                Price = 10000,
             },
             new Asset()
             {
-                Id = Guid.Parse("72fbdead-0704-4f69-82ec-0cd09218fef9"),
-                ArtworkId = new Guid("35966d1a-9b08-4743-b1c3-474a58350f6e"),
-                AssetTitle = "Touhout PTS",
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-00000000000e"),
+                AssetTitle = "Robot PTS",
                 Description = "Tặng các bạn",
                 AssetName = "PTS_1.zip",
                 Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
@@ -45,13 +46,13 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
             },
             new Asset()
             {
-                Id = Guid.Parse("8225058f-9f38-49f2-a68d-d9237b0a550f"),
-                ArtworkId = new Guid("72fbdead-0704-4f69-82ec-0cd09218fef9"),
-                AssetTitle = "Tàu hũ ZIP",
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-00000000000f"),
+                AssetTitle = "Canh cụt ZIP",
                 Description = null,
                 AssetName = "PTS_1.zip",
                 Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
-                Price = 12,
+                Price = 12000,
             }
         );
         #endregion

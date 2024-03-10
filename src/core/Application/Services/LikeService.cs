@@ -65,13 +65,69 @@ public class LikeService : ILikeService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task<List<Like>> GetAllLikesOfAccountAsync(Guid accountId)
-     => await _unitOfWork.LikeRepository.GetAllLikeOfAccountAsync(accountId);
+    public async Task<ArtworkLikeVM> GetAllLikesOfAccountAsync(Guid accountId)
+    {
+        var listAccounts = await _unitOfWork.LikeRepository.GetAllLikeOfAccountAsync(accountId);
+        var listArtworksLikeds = new List<ArtworkPreviewVM>();
+        foreach (var like in listAccounts)
+        {
+            listArtworksLikeds.Add(_mapper.Map<ArtworkPreviewVM>(like.Artwork));
+        }
+        ArtworkLikeVM artworkLikeVM = new()
+        {
+            AccountId = accountId,
+            ArtworkLikeds = listArtworksLikeds
+        };
+        return artworkLikeVM;
+    }
 
-    public async Task<List<Like>> GetAllLikesOfArtworkAsync(Guid artworkId)
-
-     => await _unitOfWork.LikeRepository.GetAllLikeOfArtworkAsync(artworkId);
-
+    public async Task<AccountLikeVM> GetAllLikesOfArtworkAsync(Guid artworkId)
+    {
+        var listLikes = await _unitOfWork.LikeRepository.GetAllLikeOfArtworkAsync(artworkId);
+        var listAccountsLikeds = new List<AccountBasicInfoVM>();
+        foreach (var like in listLikes)
+        {
+            listAccountsLikeds.Add(_mapper.Map<AccountBasicInfoVM>(like.Account));
+        }
+        AccountLikeVM accountLikeVM = new()
+        {
+            ArtworkId = artworkId,
+            AccountLikeds = listAccountsLikeds
+        };
+        return accountLikeVM;
+    }
     public Task<Like?> GetLikeByIdAsync(Guid accountId, Guid artworkId)
      => _unitOfWork.LikeRepository.GetByIdAsync(accountId, artworkId);
+
+    public async Task<IsLikedVM> GetIsLikedArtworkAsync(Guid accountId, Guid artworkId)
+    {
+        bool isArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(artworkId);  
+        if (!isArtworkExisted)
+            throw new NullReferenceException("Artwork not found.");
+        var likeObj = await _unitOfWork.LikeRepository.GetByIdAsync(accountId, artworkId);
+        return new IsLikedVM
+        {
+            ArtworkId = artworkId,
+            IsLiked = likeObj != null
+        };
+    }
+
+    public async Task<List<IsLikedVM>> GetListIsLikedArtworkAsync(Guid accountId, List<Guid> artworkIds)
+    {
+        List<IsLikedVM> listIsLiked = new();
+        foreach (var artworkId in artworkIds)
+        {
+            bool isArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(artworkId);
+            if (!isArtworkExisted)
+                throw new NullReferenceException("Artwork not found.");
+            var likeObj = await _unitOfWork.LikeRepository.GetByIdAsync(accountId, artworkId);
+            listIsLiked.Add(new IsLikedVM
+            {
+                ArtworkId = artworkId,
+                IsLiked = likeObj != null
+            });
+        }
+        return listIsLiked;
+
+    }
 }

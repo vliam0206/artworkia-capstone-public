@@ -22,79 +22,79 @@ namespace Infrastructure.Database.Configuration
             (
                 new Report()
                 {
-                    Id = Guid.Parse("35966d1a-9b08-4743-b1c3-474a58350f6e"),
+                    Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     ReportType = ReportTypeEnum.Harassment,
                     Reason = "this is sexual harrasment",
                     ReportEntity = ReportEntityEnum.Artwork,
                     State = StateEnum.Waiting,
-                    TargetId = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                    CreatedBy = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"), //lamlam
+                    TargetId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                    CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
                     CreatedOn = DateTime.Parse("2023-11-27T08:40:28.901Z"),
                 },
                 new Report()
                 {
-                    Id = Guid.Parse("7d580000-c214-88a4-eb45-08dc266225b8"),
+                    Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     ReportType = ReportTypeEnum.Impersonation,
                     Reason = "Inappropriate content",
                     ReportEntity = ReportEntityEnum.Artwork,
                     State = StateEnum.Accepted,
-                    TargetId = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                    CreatedBy = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"), //lamlam
+                    TargetId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                    CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
                     CreatedOn = DateTime.Parse("2023-12-07T08:40:28.901Z"),
                 },
                 new Report()
                 {
-                    Id = Guid.Parse("7d580000-c214-88a4-a111-08dc2662267b"),
+                    Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                     ReportType = ReportTypeEnum.Harassment,
                     Reason = "Abuse of platform",
                     ReportEntity = ReportEntityEnum.Artwork,
                     State = StateEnum.Declined,
-                    TargetId = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                    CreatedBy = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"), //lamlam
+                    TargetId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
+                    CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
                     CreatedOn = DateTime.Parse("2023-12-27T08:40:28.901Z"),
                 },
                 new Report()
                 {
-                    Id = Guid.Parse("7d580000-c214-88a4-7151-08dc26627e8b"),
+                    Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                     ReportType = ReportTypeEnum.Other,
                     Reason = "Disallowed content",
                     ReportEntity = ReportEntityEnum.Artwork,
                     State = StateEnum.Waiting,
-                    TargetId = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                    CreatedBy = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"), //lamlam
+                    TargetId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
+                    CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
                     CreatedOn = DateTime.Parse("2023-12-28T08:40:28.901Z"),
                 },
                 new Report()
                 {
-                    Id = Guid.Parse("7d580000-c214-88a4-0d90-08dc2662aa73"),
+                    Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                     ReportType = ReportTypeEnum.InappropriateContent,
                     Reason = "Disallowed content",
                     ReportEntity = ReportEntityEnum.Artwork,
                     State = StateEnum.Waiting,
-                    TargetId = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"),
-                    CreatedBy = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"), //lamlam
+                    TargetId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                    CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
                     CreatedOn = DateTime.Parse("2023-12-29T08:40:28.901Z"),
                 },
                 new Report()
                 {
-                    Id = Guid.Parse("7d580000-c214-88a4-4a40-08dc26620bdc"),
+                    Id = Guid.Parse("00000000-0000-0000-0000-000000000006"),
                     ReportType = ReportTypeEnum.InappropriateContent,
                     Reason = "Not suitable",
                     ReportEntity = ReportEntityEnum.Artwork,
                     State = StateEnum.Waiting,
-                    TargetId = Guid.Parse("72fbdead-0704-4f69-82ec-0cd09218fef9"),
-                    CreatedBy = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"), //lamlam
+                    TargetId = Guid.Parse("00000000-0000-0000-0000-000000000006"),
+                    CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
                     CreatedOn = DateTime.Parse("2023-11-27T08:40:28.901Z"),
                 },
                 new Report()
                 {
-                    Id = Guid.Parse("7d580000-c214-88a4-4a40-08dc26621bdc"),
+                    Id = Guid.Parse("00000000-0000-0000-0000-000000000007"),
                     ReportType = ReportTypeEnum.Spam,
                     Reason = "This is spam",
                     ReportEntity = ReportEntityEnum.Artwork,
                     State = StateEnum.Waiting,
-                    TargetId = Guid.Parse("72fbdead-0704-4f69-82ec-0cd09218fef9"),
-                    CreatedBy = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"), //lamlam
+                    TargetId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+                    CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
                     CreatedOn = DateTime.Parse("2023-11-28T08:40:28.901Z"),
                 }
             );

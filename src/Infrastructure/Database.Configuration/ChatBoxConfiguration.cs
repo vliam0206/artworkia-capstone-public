@@ -22,6 +22,15 @@ public class ChatBoxConfiguration : IEntityTypeConfiguration<ChatBox>
                                         .OnDelete(DeleteBehavior.NoAction);
         builder.HasMany(x => x.Messages).WithOne(p => p.ChatBox).HasForeignKey(p => p.ChatBoxId);
         builder.HasMany(x => x.Proposals).WithOne(p => p.ChatBox).HasForeignKey(p => p.ChatBoxId);
-        builder.HasMany(x => x.Requests).WithOne(r => r.ChatBox).HasForeignKey(r => r.ChatBoxId);        
+        builder.HasMany(x => x.Requests).WithOne(r => r.ChatBox).HasForeignKey(r => r.ChatBoxId);
+
+        builder.HasData(
+            new ChatBox()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                AccountId_1 = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                AccountId_2 = Guid.Parse("00000000-0000-0000-0000-000000000002")
+            }
+        );
     }
 }

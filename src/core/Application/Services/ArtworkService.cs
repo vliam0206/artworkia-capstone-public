@@ -88,6 +88,14 @@ public class ArtworkService : IArtworkService
         await _unitOfWork.SaveChangesAsync();
 
         var artworkVM = _mapper.Map<ArtworkVM>(artwork);
+
+        // check if user liked this artwork
+        Guid? accountId = _claimService.GetCurrentUserId;
+        if (accountId != null)
+        {
+            var isLiked = await _unitOfWork.LikeRepository.GetByIdAsync(accountId.Value, artworkId);
+            artworkVM.IsLiked = isLiked != null ? true : false;
+        }
         return artworkVM;
     }
 

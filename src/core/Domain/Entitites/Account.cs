@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Commons;
+﻿using Domain.Attributes;
+using Domain.Entities.Commons;
 using Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,10 +15,11 @@ public class Account : BaseEntity, ICreation, IModification, ISoftDelete
     public string Email { get; set; } = default!;
     [MaxLength(150)]
     public string Fullname { get; set; } = default!;
-    [MaxLength(150)]
+    [MaxLength(300)]
     public string? Bio { get; set; }
     public string? Avatar { get; set; }
-    public DateTime? Birthdate;
+    [Birthdate]
+    public DateTime? Birthdate { get; set; }
     public RoleEnum Role { get; set; } = RoleEnum.CommonUser;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }

@@ -23,8 +23,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             // lamlam histories
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf0290"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"), // lamlam
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,                
                 Amount = 200,
@@ -34,8 +34,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             },
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf0291"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"), // lamlam
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
                 Amount = 2500,
@@ -45,8 +45,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             },
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf0292"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"), // lamlam
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Withdraw,
                 Amount = 2000,
@@ -56,8 +56,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             },
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf0293"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-3886-08dc1445b3e1"), // lamlam
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
                 Amount = 300,
@@ -69,8 +69,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             // hoanganh histories
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf0294"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-a3f1-08dc1445b3e1"), // hoanganh
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
                 Amount = 200,
@@ -80,8 +80,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             },
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf0295"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-a3f1-08dc1445b3e1"), // hoanganh
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000006"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
                 Amount = 2500,
@@ -91,8 +91,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             },
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf0296"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-a3f1-08dc1445b3e1"), // hoanganh
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Withdraw,
                 Amount = 1700,
@@ -104,8 +104,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             // thong histories
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf0297"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-0f12-08dc1445b3e2"), // thong
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000008"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000004"), // thong
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
                 Amount = 200,
@@ -115,8 +115,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             },
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf0298"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-0f12-08dc1445b3e2"), // thong
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000009"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000004"), // thong
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
                 Amount = 2500,
@@ -126,8 +126,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             },
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf0299"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-0f12-08dc1445b3e2"), // thong
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000000a"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000004"), // thong
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Withdraw,
                 Amount = 1700,
@@ -139,8 +139,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             // phuhuynh histories
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf029a"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-7ad3-08dc1445b3e2"), // phuhuynh
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000000b"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
                 Amount = 200,
@@ -150,8 +150,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             },
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf029b"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-7ad3-08dc1445b3e2"), // phuhuynh
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000000c"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
                 Amount = 2500,
@@ -161,8 +161,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             },
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf029c"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-7ad3-08dc1445b3e2"), // phuhuynh
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000000d"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Withdraw,
                 Amount = 1700,
@@ -174,8 +174,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             // user histories
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf029d"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-cc1d-08dc1445b3e0"), //user
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000001"), //user
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
                 Amount = 3000,
@@ -185,8 +185,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             },
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf029e"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-cc1d-08dc1445b3e0"), //user
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000000f"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000001"), //user
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Withdraw,
                 Amount = 1500,
@@ -196,8 +196,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
             },
             new WalletHistory
             {
-                Id = Guid.Parse("7b7d2223-c1fe-4a45-ad69-8e893ebf029f"),
-                CreatedBy = Guid.Parse("7d580000-c214-88a4-cc1d-08dc1445b3e0"), //user
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000010"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000001"), //user
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
                 Amount = 500,

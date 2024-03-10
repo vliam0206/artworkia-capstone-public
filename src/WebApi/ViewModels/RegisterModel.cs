@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.ViewModels;
 
@@ -15,7 +16,7 @@ public class RegisterModel
     public string Email { get; set; } = default!;
     [Required]
     [MaxLength(150)]
-    public string Fullname { get; set; } = default!;   
-    [Required]
-    public DateTime? Birthdate;
+    public string Fullname { get; set; } = default!;
+    [Birthdate]
+    public DateTime? Birthdate { get; set; } = default!;
 }
