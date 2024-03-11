@@ -71,7 +71,7 @@ public class PaymentsController : ControllerBase
                 // invalid callback
                 result["return_code"] = -1;
                 result["return_message"] = "mac not equal";
-                Log.Debug("*****Mac not equal*****");
+                Log.Error("*****Mac not equal*****");
             } else
             {   // payment success                
                 // update order status
@@ -96,7 +96,7 @@ public class PaymentsController : ControllerBase
         {
             result["return_code"] = 0; // ZaloPay server will callback again (up to 3 times)
             result["return_message"] = ex.Message;
-            Log.Debug($"*****{ex.Message}*****");
+            Log.Error($"*****{ex.Message}*****");
         }
         return Ok(result);
     }
