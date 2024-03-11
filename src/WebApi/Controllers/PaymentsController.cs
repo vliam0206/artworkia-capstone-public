@@ -74,10 +74,6 @@ public class PaymentsController : ControllerBase
                 Log.Error("*****Mac not equal*****");
             } else
             {   // payment success
-                // Log calback data 
-                Log.Information("***************************************************");
-                Log.Information(callbackOrder.Data);
-                Log.Information("***************************************************");
                 // update order status
                 var callbackData = callbackOrder.ToCallbackOrderData();
                 if (callbackData == null)
@@ -88,7 +84,7 @@ public class PaymentsController : ControllerBase
                                                                       TransactionStatusEnum.Success);
                 // update coins in db
                 var accountId = Guid.Parse(callbackData.AppUser);
-                var coins = callbackData.Amount / 1000;
+                var coins = callbackData.Amount;
                 await _walletService.DepositCoinsAsync(accountId, coins);
 
                 // return result
@@ -104,8 +100,7 @@ public class PaymentsController : ControllerBase
         }
         return Ok(result);
     }
-    
-    // for testing the callback api
+        
     [HttpGet("query-order/{appTransId}")]
     public async Task<IActionResult> QueryOrder(string appTransId)
     {
@@ -122,6 +117,7 @@ public class PaymentsController : ControllerBase
         }
     }
 
+    // for testing the callback api
     [HttpPost("hmac")]
     public IActionResult GetHMacString(EncodeBodyModel model)
     {

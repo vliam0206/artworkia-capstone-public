@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Application.Models.ZaloPayModels;
 
@@ -8,7 +9,19 @@ public class ZaloPayCallbackOrder
     public string Mac { get; set; } = default!;
     public string Data { get; set; } = default!;
     public CallbackOrderData? ToCallbackOrderData()
-        => JsonSerializer.Deserialize<CallbackOrderData>(Data);
+    {
+        // convert json to object
+        var contractResolver = new DefaultContractResolver
+        {
+            NamingStrategy = new SnakeCaseNamingStrategy()
+        };
+        var result = JsonConvert.DeserializeObject<CallbackOrderData>(this.Data, new JsonSerializerSettings
+        {
+            ContractResolver = contractResolver,
+            Formatting = Formatting.Indented
+        });
+        return result;
+    }
 }
 
 public class CallbackOrderData
