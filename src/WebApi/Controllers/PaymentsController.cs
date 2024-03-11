@@ -73,7 +73,11 @@ public class PaymentsController : ControllerBase
                 result["return_message"] = "mac not equal";
                 Log.Error("*****Mac not equal*****");
             } else
-            {   // payment success                
+            {   // payment success
+                // Log calback data 
+                Log.Information("***************************************************");
+                Log.Information(callbackOrder.Data);
+                Log.Information("***************************************************");
                 // update order status
                 var callbackData = callbackOrder.ToCallbackOrderData();
                 if (callbackData == null)
