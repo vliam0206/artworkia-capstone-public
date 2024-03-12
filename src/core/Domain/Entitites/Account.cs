@@ -44,7 +44,7 @@ public class Account : BaseEntity, ICreation, IModification, ISoftDelete
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     public virtual ICollection<Collection> Collections { get; set; } = new List<Collection>();
     public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
-    public virtual ICollection<Follow> Followings { get; set; } = new List<Follow>(); // nguoi dc theo doi
+    public virtual ICollection<Follow> Followings { get; set; } = new List<Follow>(); // nguoi dang theo doi
     public virtual ICollection<Follow> Followers { get; set; } = new List<Follow>(); // nguoi dc theo doi
     public virtual ICollection<Block> Blocking { get; set; } = new List<Block>(); // nguoi block
     public virtual ICollection<Block> Blocked { get; set; } = new List<Block>(); // nguoi bi block

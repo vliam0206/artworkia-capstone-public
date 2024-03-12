@@ -10,6 +10,7 @@ using Domain.Enums;
 using WebApi.Services;
 using AutoMapper;
 using Microsoft.Identity.Client;
+using Application.Models;
 
 namespace WebApi.Controllers;
 
@@ -30,23 +31,62 @@ public class FollowsController : ControllerBase
         _mapper = mapper;
     }
 
-
-    // GET: api/follows/5/followers
-    [HttpGet("{followingId}/followers")]
-    [Authorize]
-    public async Task<ActionResult<IEnumerable<FollowerVM>>> GetFollowers(Guid followingId)
-    {
-        var follows = await _followService.GetAllFollowersAsync(followingId);
-        return Ok(_mapper.Map<List<FollowerVM>>(follows));
-    }
-
-    // GET: api/follows/5/followings
-    [HttpGet("{followerId}/followings")]
+    // GET: /api/accounts/6/followings
+    [HttpGet("/api/accounts/{followerId}/followings")]
     [Authorize]
     public async Task<ActionResult<IEnumerable<FollowingVM>>> GetFollowings(Guid followerId)
     {
-        var follows = await _followService.GetAllFollowingsAsync(followerId);
-        return Ok(_mapper.Map<List<FollowingVM>>(follows));
+        try
+        {
+            var follows = await _followService.GetAllFollowingsAsync(followerId);
+            return Ok(follows);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+
+    // GET: api/accounts/6/followers
+    [HttpGet("/api/accounts/{followingId}/followers")]
+    [Authorize]
+    public async Task<ActionResult<IEnumerable<FollowerVM>>> GetFollowers(Guid followingId)
+    {
+
+        try
+        {
+            var follows = await _followService.GetAllFollowersAsync(followingId);
+            return Ok(follows);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
     }
 
     // POST: api/follows    
@@ -54,19 +94,28 @@ public class FollowsController : ControllerBase
     [Authorize] // own user
     public async Task<ActionResult<Follow>> PostFollow(FollowModel model)
     {
-        var currentUserId = _claimService.GetCurrentUserId ?? default;
-        var follow = _mapper.Map<Follow>(model);
-        follow.FollowerId = currentUserId;
         try
         {
-            await _followService.CreateFollowAsync(follow);
+            await _followService.CreateFollowAsync(model);
+            return Ok();
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
         catch (Exception ex)
         {
-            return BadRequest(new { ErrorMessage = ex.Message });
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
 
-        return Ok(new { IsSuccess = true });
     }
 
     // DELETE: api/follows
@@ -74,21 +123,28 @@ public class FollowsController : ControllerBase
     [Authorize]
     public async Task<IActionResult> DeleteFollow(FollowModel model)
     {
-        var currentUserId = _claimService.GetCurrentUserId ?? default;
         try
         {
-            await _followService.DeleteFollowAsync(model.AccountId, currentUserId);
+            await _followService.DeleteFollowAsync(model);
+            return NoContent();
         }
-        catch (ArgumentException ex)
+        catch (NullReferenceException ex)
         {
-            return NotFound(new { ErrorMessage = ex.Message });
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
         catch (Exception ex)
         {
-            return BadRequest(new { ErrorMessage = ex.Message });
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
 
-        return NoContent();
     }
 
     // GET: api/follows/is-existed
@@ -101,9 +157,21 @@ public class FollowsController : ControllerBase
             var isExisted = await _followService.IsFollowedAsync(accountId);
             return Ok(isExisted);
         }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
         catch (Exception ex)
         {
-            return BadRequest(new { ErrorMessage = ex.Message });
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
     }
 

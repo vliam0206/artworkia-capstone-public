@@ -9,13 +9,12 @@ public class FollowConfiguration : IEntityTypeConfiguration<Follow>
     public void Configure(EntityTypeBuilder<Follow> builder)
     {
         builder.ToTable(nameof(Follow));
-        builder.HasKey(x => new { x.AccountId, x.FollowerId });
+        builder.HasKey(x => new { x.FollowingId, x.FollowedId });
 
         #region relationships
         // relationships
-        builder.HasOne(x => x.Account).WithMany(a => a.Followings).HasForeignKey(x => x.AccountId);
-        builder.HasOne(x => x.Follower).WithMany(a => a.Followers)
-            .HasForeignKey(x => x.FollowerId)
+        builder.HasOne(x => x.Followed).WithMany(a => a.Followings).HasForeignKey(x => x.FollowedId);
+        builder.HasOne(x => x.Following).WithMany(a => a.Followers).HasForeignKey(x => x.FollowingId)
             .OnDelete(DeleteBehavior.NoAction);
         #endregion
 
@@ -23,13 +22,13 @@ public class FollowConfiguration : IEntityTypeConfiguration<Follow>
         builder.HasData(
             new Follow
             {
-                AccountId = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
-                FollowerId = Guid.Parse("00000000-0000-0000-0000-000000000002")  // lamlam
+                FollowingId = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
+                FollowedId = Guid.Parse("00000000-0000-0000-0000-000000000002")  // lamlam
             },
             new Follow
             {
-                AccountId = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
-                FollowerId = Guid.Parse("00000000-0000-0000-0000-000000000005")  // phuhuynh
+                FollowingId = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
+                FollowedId = Guid.Parse("00000000-0000-0000-0000-000000000005")  // phuhuynh
             }
         );
         #endregion

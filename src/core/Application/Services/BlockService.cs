@@ -25,25 +25,35 @@ public class BlockService : IBlockService
 
     public async Task CreateBlockAsync(BlockModel blockModel)
     {
-        Guid? blockingId = _claimService.GetCurrentUserId;
-        if (blockingId == null)
-        {
-            throw new NullReferenceException("Blocking Account not found.");
-        }
+        Guid blockingId = _claimService.GetCurrentUserId ?? default;
+        
         var blockedAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockModel.BlockedId);
         if (!blockedAccountExist)
         {
             throw new NullReferenceException("Blocked Account not found.");
         }
 
-        var tempBlock = await _unitOfWork.BlockRepository.GetByIdAsync(blockingId.Value, blockModel.BlockedId);
+        var tempBlock = await _unitOfWork.BlockRepository.GetByIdAsync(blockingId, blockModel.BlockedId);
         if (tempBlock != null)
         {
             throw new Exception("Blocked already!");
         }
+
+        // delete follow if exist and vice versa
+        var following = await _unitOfWork.FollowRepository.GetByIdAsync(blockingId, blockModel.BlockedId);
+        var followed = await _unitOfWork.FollowRepository.GetByIdAsync(blockModel.BlockedId, blockingId);
+        if (following != null)
+        {
+            _unitOfWork.FollowRepository.DeleteFollow(following);
+        }
+        if (followed != null)
+        {
+            _unitOfWork.FollowRepository.DeleteFollow(followed);
+        } 
+
         Block block = new()
         {
-            BlockingId = blockingId.Value,
+            BlockingId = blockingId,
             BlockedId = blockModel.BlockedId
         };
         await _unitOfWork.BlockRepository.AddBlockAsync(block);
@@ -75,8 +85,8 @@ public class BlockService : IBlockService
 
     public async Task<BlockingVM> GetBlockingsOfBlockerAsync(Guid blockerId)
     {
-        var blockingAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockerId);
-        if (!blockingAccountExist)
+        var accountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockerId);
+        if (!accountExist)
         {
             throw new NullReferenceException("blocker Account not found.");
         }
@@ -97,8 +107,8 @@ public class BlockService : IBlockService
 
     public async Task<BlockerVM> GetBlockersOfBlockingAsync(Guid blockingId)
     {
-        var blockedAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockingId);
-        if (!blockedAccountExist)
+        var accountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockingId);
+        if (!accountExist)
         {
             throw new NullReferenceException("Blocking Account not found.");
         }

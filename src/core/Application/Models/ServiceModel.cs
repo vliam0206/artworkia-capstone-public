@@ -28,5 +28,7 @@ public class ServiceEM
     public int NumberOfConcept { get; set; } = default!;
     public int NumberOfRevision { get; set; } = default!;
     public double StartingPrice { get; set; } = default!;
-    public IFormFile Thumbnail { get; set; } = default!;
+    public IFormFile? Thumbnail { get; set; }
+    public List<Guid> ArtworkReference { get; set; } = default!; // chua cac guid cua artwork tham chieu den service
+
 }

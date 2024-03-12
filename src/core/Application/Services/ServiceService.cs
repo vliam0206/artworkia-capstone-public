@@ -15,12 +15,18 @@ public class ServiceService : IServiceService
     private static readonly string PARENT_FOLDER = "Service";
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IClaimService _claimService;
     private readonly IFirebaseService _firebaseService;
 
-    public ServiceService(IUnitOfWork unitOfWork, IMapper mapper, IFirebaseService firebaseService)
+    public ServiceService(
+        IUnitOfWork unitOfWork,
+        IMapper mapper,
+        IClaimService claimService,
+        IFirebaseService firebaseService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _claimService = claimService;
         _firebaseService = firebaseService;
     }
 
@@ -59,12 +65,17 @@ public class ServiceService : IServiceService
 
     public async Task<ServiceVM> AddServiceAsync(ServiceModel serviceModel)
     {
+        Guid creatorId = _claimService.GetCurrentUserId ?? default;
         foreach (var artworkId in serviceModel.ArtworkReference)
         {
             var artworkExistInDb = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
             if (artworkExistInDb == null || artworkExistInDb.DeletedOn != null)
             {
-                throw new NullReferenceException("Artwork does not exist or has been deleted");
+                throw new NullReferenceException("Artwork does not exist or has been deleted.");
+            }
+            if (artworkExistInDb.CreatedBy != creatorId)
+            {
+                throw new Exception("Artwork reference is not suitable, you do not own this artwork.");
             }
         }
 
@@ -107,6 +118,20 @@ public class ServiceService : IServiceService
 
     public async Task UpdateServiceAsync(Guid serviceId, ServiceEM serviceEM)
     {
+        Guid creatorId = _claimService.GetCurrentUserId ?? default;
+        foreach (var artworkId in serviceEM.ArtworkReference)
+        {
+            var artworkExistInDb = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
+            if (artworkExistInDb == null || artworkExistInDb.DeletedOn != null)
+            {
+                throw new NullReferenceException("Artwork does not exist or has been deleted.");
+            }
+            if (artworkExistInDb.CreatedBy != creatorId)
+            {
+                throw new Exception("Artwork reference is not suitable, you do not own this artwork.");
+            }
+        }
+
         var oldService = await _unitOfWork.ServiceRepository.GetByIdAsync(serviceId);
         if (oldService == null)
         {
@@ -115,18 +140,34 @@ public class ServiceService : IServiceService
         string newThumbnailName = serviceId + "_t";
         string folderName = $"{PARENT_FOLDER}/Thumbnail";
 
-        // them thumbnail image vao firebase
-        var url = await _firebaseService.UploadFileToFirebaseStorage(serviceEM.Thumbnail, newThumbnailName, folderName);
-        if (url == null)
-            throw new Exception("Cannot upload thumbnail image to firebase!");
+        // cap nhat thumbnail image vao firebase (neu co)
+        if (serviceEM.Thumbnail != null)
+        {
+            var url = await _firebaseService.UploadFileToFirebaseStorage(serviceEM.Thumbnail, newThumbnailName, folderName);
+            if (url == null)
+                throw new Exception("Cannot upload thumbnail image to firebase!");
+            oldService.Thumbnail = url;
+        }
 
-        oldService.Thumbnail = url;
         oldService.ServiceName = serviceEM.ServiceName;
         oldService.Description = serviceEM.Description;
         oldService.DeliveryTime = serviceEM.DeliveryTime;
         oldService.NumberOfConcept = serviceEM.NumberOfConcept;
         oldService.NumberOfRevision = serviceEM.NumberOfRevision;
         oldService.StartingPrice = serviceEM.StartingPrice;
+
+        // xoa het service detail cu va them moi service detail moi
+        await _unitOfWork.ServiceDetailRepository.DeleteAllServiceDetailAsync(serviceId);
+        foreach (Guid artworkId in serviceEM.ArtworkReference)
+        {
+            ServiceDetail serviceDetail = new()
+            {
+                ArtworkId = artworkId,
+                ServiceId = oldService.Id
+            };
+            await _unitOfWork.ServiceDetailRepository.AddServiceDetailAsync(serviceDetail);
+        }
+
         _unitOfWork.ServiceRepository.Update(oldService);
         await _unitOfWork.SaveChangesAsync();
     }

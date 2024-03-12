@@ -1,13 +1,14 @@
-﻿using Domain.Entitites;
+﻿using Application.Models;
+using Domain.Entitites;
 
 namespace Application.Services.Abstractions;
 
 public interface IFollowService
 {
-    Task CreateFollowAsync(Follow follow);
-    Task DeleteFollowAsync(Guid accountId, Guid followerId);
-    Task<List<Follow>> GetAllFollowingsAsync(Guid followerId);
-    Task<List<Follow>> GetAllFollowersAsync(Guid followingId);
-    Task<Follow?> GetFollowByIdAsync(Guid accountId, Guid followerId);
-    Task<bool> IsFollowedAsync(Guid accountId);
+    Task CreateFollowAsync(FollowModel model);
+    Task DeleteFollowAsync(FollowModel model);
+    Task<FollowingVM> GetAllFollowingsAsync(Guid followerId);
+    Task<FollowerVM> GetAllFollowersAsync(Guid followingId);
+    Task<Follow?> GetFollowByIdAsync(Guid followingId, Guid followedId);
+    Task<bool> IsFollowedAsync(Guid followedId);
 }

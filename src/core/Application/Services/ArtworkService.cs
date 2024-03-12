@@ -85,26 +85,35 @@ public class ArtworkService : IArtworkService
 
     public async Task<ArtworkVM?> GetArtworkByIdAsync(Guid artworkId)
     {
+        Guid? accountId = _claimService.GetCurrentUserId;
+
         var artwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId);
         if (artwork == null)
             throw new NullReferenceException("Artwork not found!");
         if (artwork.DeletedOn != null)
             throw new Exception("Artwork deleted!");
 
+
+        var artworkVM = _mapper.Map<ArtworkVM>(artwork);
+
+        // check if user is logged in
+        if (accountId != null)
+        {
+            // check if account is blocking or blocked
+            if (await _unitOfWork.BlockRepository.IsBlockedOrBlockingAsync(accountId.Value, artworkVM.CreatedBy!.Value))
+            {
+                throw new Exception("Can not view artwork because of blocking!");
+            }
+            // check if user liked this artwork
+            var isLiked = await _unitOfWork.LikeRepository.GetByIdAsync(accountId.Value, artworkId);
+            artworkVM.IsLiked = isLiked != null;
+        }
+
         // increase view count
         artwork.ViewCount++;
         _unitOfWork.ArtworkRepository.Update(artwork);
         await _unitOfWork.SaveChangesAsync();
 
-        var artworkVM = _mapper.Map<ArtworkVM>(artwork);
-
-        // check if user liked this artwork
-        Guid? accountId = _claimService.GetCurrentUserId;
-        if (accountId != null)
-        {
-            var isLiked = await _unitOfWork.LikeRepository.GetByIdAsync(accountId.Value, artworkId);
-            artworkVM.IsLiked = isLiked != null ? true : false;
-        }
         return artworkVM;
     }
 

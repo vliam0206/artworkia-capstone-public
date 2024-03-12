@@ -167,8 +167,8 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
     public async Task<IPagedList<Artwork>> GetArtworksOfFollowingsAsync(Guid followerId, int page, int pageSize)
     {
         var followingAccountIds = _dbContext.Follows
-            .Where(f => f.FollowerId == followerId)
-            .Select(f => f.AccountId)
+            .Where(f => f.FollowingId == followerId)
+            .Select(f => f.FollowedId)
             .ToList();
 
         var allArtworks = _dbContext.Artworks

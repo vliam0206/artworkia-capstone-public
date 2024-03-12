@@ -2,9 +2,9 @@
 
 public class Follow
 {
-    public Guid AccountId { get; set; }
-    public Guid FollowerId { get; set; }
+    public Guid FollowingId { get; set; } // Id of the account that is following another account (chu dong)
+    public Guid FollowedId { get; set; } // Id of the account that is being followed (bi dong)
 
-    public virtual Account Account { get; set; } = default!;
-    public virtual Account Follower { get; set; } = default!;
+    public virtual Account Following { get; set; } = default!;
+    public virtual Account Followed { get; set; } = default!;
 }

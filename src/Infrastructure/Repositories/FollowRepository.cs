@@ -14,24 +14,24 @@ public class FollowRepository : IFollowRepository
         _dbContext = dbContext;
     }
 
-    public async Task<Follow?> GetByIdAsync(Guid accountId, Guid followerId)
+    public async Task<Follow?> GetByIdAsync(Guid followingId, Guid followedId)
     {
         return await _dbContext.Follows
-            .FirstOrDefaultAsync(x => x.AccountId == accountId
-                                    && x.FollowerId == followerId);
+            .FirstOrDefaultAsync(x => x.FollowingId == followingId
+                                    && x.FollowedId == followedId);
     }
     public async Task<List<Follow>> GetAllFollowingsAsync(Guid followerId)
     {
         return await _dbContext.Follows
-            .Where(x => x.FollowerId == followerId)
-            .Include(x => x.Account)
+            .Where(x => x.FollowingId == followerId)
+            .Include(x => x.Followed)
             .ToListAsync();
     }
     public async Task<List<Follow>> GetAllFollowersAsync(Guid followingId)
     {
         return await _dbContext.Follows
-            .Where(x => x.AccountId == followingId)
-            .Include(x => x.Follower)            
+            .Where(x => x.FollowedId == followingId)
+            .Include(x => x.Following)            
             .ToListAsync();
     }
     public async Task AddFollowAsync(Follow follow)
