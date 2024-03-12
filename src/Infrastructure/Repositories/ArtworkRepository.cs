@@ -6,8 +6,10 @@ using Domain.Enums;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
 using Infrastructure.Repositories.Commons;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace Infrastructure.Repositories;
 public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRepository
@@ -160,5 +162,29 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
             }
         }
         return result2;
+    }
+
+    public async Task<IPagedList<Artwork>> GetArtworksOfFollowingsAsync(Guid followerId, int page, int pageSize)
+    {
+        var followingAccountIds = _dbContext.Follows
+            .Where(f => f.FollowerId == followerId)
+            .Select(f => f.AccountId)
+            .ToList();
+
+        var allArtworks = _dbContext.Artworks
+            .Include(a => a.Account)
+            .Include(c => c.CategoryArtworkDetails)
+                .ThenInclude(c => c.Category)
+            .Include(t => t.TagDetails)
+                .ThenInclude(t => t.Tag)
+            .Where(a => a.DeletedOn == null && followingAccountIds.Contains(a.CreatedBy ?? default));
+
+        // sorting
+        allArtworks = allArtworks.OrderByDescending(x => x.CreatedOn);
+
+        //paging
+        var result = await ToPaginationAsync(allArtworks, page, pageSize);
+
+        return result;
     }
 }

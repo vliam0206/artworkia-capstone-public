@@ -73,29 +73,47 @@ public class BlockService : IBlockService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task<List<BlockVM>> GetAllBlockOfBlockedAsync(Guid blockedId)
+    public async Task<BlockingVM> GetBlockingsOfBlockerAsync(Guid blockerId)
     {
-        var blockedAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockedId);
-        if (!blockedAccountExist)
+        var blockingAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockerId);
+        if (!blockingAccountExist)
         {
-            throw new NullReferenceException("Blocked Account not found.");
+            throw new NullReferenceException("blocker Account not found.");
         }
-        var blocks = await _unitOfWork.BlockRepository.GetAllBlockOfBlockedAsync(blockedId);
-        var blockVMs = _mapper.Map<List<BlockVM>>(blocks);
-        return blockVMs;
+
+        var listBlocks = await _unitOfWork.BlockRepository.GetAllBlockOfBlockingAsync(blockerId);
+        var listBlocking = new List<AccountBasicInfoVM>();
+        foreach (var block in listBlocks)
+        {
+            listBlocking.Add(_mapper.Map<AccountBasicInfoVM>(block.Blocked));
+        }
+        BlockingVM blockingVM = new()
+        {
+            BlockerId = blockerId,
+            Blockings = listBlocking
+        };
+        return blockingVM;
     }
 
-    public async Task<List<BlockVM>> GetAllBlockOfBlockingAsync(Guid blockingId)
+    public async Task<BlockerVM> GetBlockersOfBlockingAsync(Guid blockingId)
     {
-        var blockingAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockingId);
-        if (!blockingAccountExist)
+        var blockedAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockingId);
+        if (!blockedAccountExist)
         {
             throw new NullReferenceException("Blocking Account not found.");
         }
-
-        var blocks = await _unitOfWork.BlockRepository.GetAllBlockOfBlockingAsync(blockingId);
-        var blockVMs = _mapper.Map<List<BlockVM>>(blocks);
-        return blockVMs;
+        var listBlocks = await _unitOfWork.BlockRepository.GetAllBlockOfBlockedAsync(blockingId);
+        var listBlocker = new List<AccountBasicInfoVM>();
+        foreach (var block in listBlocks)
+        {
+            listBlocker.Add(_mapper.Map<AccountBasicInfoVM>(block.Blocking));
+        }
+        BlockerVM blockerVM = new()
+        {
+            BlockingId = blockingId,
+            Blockers = listBlocker
+        };
+        return blockerVM;
     }
 
     public async Task<BlockVM?> GetBlockByIdAsync(Guid blockingId, Guid blockedId)

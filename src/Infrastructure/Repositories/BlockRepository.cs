@@ -19,19 +19,19 @@ public class BlockRepository : IBlockRepository
     public void DeleteBlock(Block block)
      => _dbContext.Blocks.Remove(block);
 
-    public async Task<List<Block>> GetAllBlockOfBlockedAsync(Guid accountId)
-    {
-        return await _dbContext.Blocks
-            .Where(x => x.BlockedId == accountId)
-            .Include(x => x.Blocking)
-            .ToListAsync();
-    }
-
     public async Task<List<Block>> GetAllBlockOfBlockingAsync(Guid accountId)
     {
         return await _dbContext.Blocks
             .Where(x => x.BlockingId == accountId)
             .Include(x => x.Blocked)
+            .ToListAsync();
+    }
+
+    public async Task<List<Block>> GetAllBlockOfBlockedAsync(Guid accountId)
+    {
+        return await _dbContext.Blocks
+            .Where(x => x.BlockedId == accountId)
+            .Include(x => x.Blocking)
             .ToListAsync();
     }
 

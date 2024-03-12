@@ -12,7 +12,7 @@ public class Request : BaseEntity, ICreation
     public string Message { get; set; } = default!;
     [MaxLength(150)]
     public string Timeline { get; set; } = default!;
-    public double Budget { get; set; } = 0;
+    public double Budget { get; set; } = default!;
     public StateEnum RequestStatus { get; set; }
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }    

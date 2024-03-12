@@ -4,6 +4,7 @@ using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
+using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
@@ -60,6 +61,14 @@ public class ArtworkService : IArtworkService
         var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksByAccountIdAsync(
             accountId, criteria.Status, criteria.Keyword, criteria.SortColumn, criteria.SortOrder, 
             criteria.PageNumber, criteria.PageSize);
+        var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
+        return listArtworkPreviewVM;
+    }
+    public async Task<PagedList<ArtworkPreviewVM>> GetArtworksOfFollowingsAsync(PagedCriteria criteria)
+    {
+        Guid followerId = _claimService.GetCurrentUserId ?? default;
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetArtworksOfFollowingsAsync(
+            followerId, criteria.PageNumber, criteria.PageSize);
         var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
         return listArtworkPreviewVM;
     }
@@ -244,4 +253,5 @@ public class ArtworkService : IArtworkService
         oldArtwork.State = state;
         await _unitOfWork.SaveChangesAsync();
     }
+
 }

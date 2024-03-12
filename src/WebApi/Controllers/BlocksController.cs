@@ -22,19 +22,14 @@ public class BlocksController : ControllerBase
         _claimService = claimService;
     }
 
-    // GET: api/blocks/5/blocked
-    [HttpGet("{blockerId}/blocked")]
+    // GET: api/blocks/5/blocking
+    [HttpGet("/api/accounts/{blockerId}/blockings")]
     [Authorize] // admin & own user
-    public async Task<ActionResult<IEnumerable<BlockVM>>> GetBlocked(Guid blockerId)
+    public async Task<ActionResult<IEnumerable<BlockVM>>> GetBlocking(Guid blockerId)
     {
-        // check authorize
-        if (!CheckAuthorize(blockerId))
-        {
-            return Forbid();
-        }
         try
         {
-            var blocks = await _blockService.GetAllBlockOfBlockedAsync(blockerId);
+            var blocks = await _blockService.GetBlockingsOfBlockerAsync(blockerId);
             return Ok(blocks);
         }
         catch (NullReferenceException ex)
@@ -51,24 +46,18 @@ public class BlocksController : ControllerBase
             {
                 IsSuccess = false,
                 ErrorMessage = ex.Message
-
             });
         }
     }
 
-    // GET: api/blocks/5/blocking
-    [HttpGet("{blockingId}/blocking")]
+    // GET: api/blocks/5/blocked
+    [HttpGet("/api/accounts/{blockingId}/blockers")]
     [Authorize] // admin & own user
-    public async Task<ActionResult<IEnumerable<BlockVM>>> GetBlocking(Guid blockingId)
+    public async Task<IActionResult> GetBlockers(Guid blockingId)
     {
-        // check authorize
-        if (!CheckAuthorize(blockingId))
-        {
-            return Forbid();
-        }
         try
         {
-            var blocks = await _blockService.GetAllBlockOfBlockingAsync(blockingId);
+            var blocks = await _blockService.GetBlockersOfBlockingAsync(blockingId);
             return Ok(blocks);
         }
         catch (NullReferenceException ex)
@@ -85,6 +74,7 @@ public class BlocksController : ControllerBase
             {
                 IsSuccess = false,
                 ErrorMessage = ex.Message
+
             });
         }
     }

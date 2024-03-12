@@ -11,7 +11,7 @@ public class ServiceVM
     public int NumberOfConcept { get; set; } = default!;
     public int NumberOfRevision { get; set; } = default!;
     public double StartingPrice { get; set; } = default!;
-    public string CoverLocation { get; set; } = default!;
+    public string Thumbnail { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }

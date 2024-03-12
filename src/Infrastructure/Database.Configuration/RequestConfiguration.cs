@@ -28,6 +28,7 @@ public class RequestConfiguration : IEntityTypeConfiguration<Request>
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 Message = "yeu cau lam website ecommerce",
                 Timeline = "2 - 3 tuần",
+                Budget = 69000,
                 RequestStatus = StateEnum.Waiting,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 CreatedOn = DateTime.Parse("2024-1-2"),

@@ -2,13 +2,9 @@
 
 namespace Domain.Entities.Commons;
 
-public class BaseCriteria
+public class PagedCriteria 
 {
     const int maxPageSize = 50;
-
-    public string? Keyword { set; get; }
-    public string? SortColumn { set; get; }
-    public string? SortOrder { set; get; }
     [Range(1, Double.PositiveInfinity, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
     public int PageNumber { get; set; } = 1;
     private int _pageSize = 10;
@@ -18,4 +14,10 @@ public class BaseCriteria
         get => _pageSize;
         set => _pageSize = (value > maxPageSize) ? maxPageSize : value;
     }
+}
+public class BaseCriteria : PagedCriteria
+{
+    public string? Keyword { set; get; }
+    public string? SortColumn { set; get; }
+    public string? SortOrder { set; get; }
 }

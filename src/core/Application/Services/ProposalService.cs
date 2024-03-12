@@ -149,6 +149,7 @@ public class ProposalService : IProposalService
             throw new BadHttpRequestException("You can not do this action!");
         }
         proposal.ProposalStatus = model.Status;
+        _unitOfWork.ProposalRepository.Update(proposal);
         await _unitOfWork.SaveChangesAsync();
 
         // create proposal successfully -> add new milestone

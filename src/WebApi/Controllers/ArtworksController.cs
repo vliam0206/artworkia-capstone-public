@@ -4,6 +4,7 @@ using Application.Models;
 using Application.Services;
 using Application.Services.Abstractions;
 using AutoMapper;
+using Domain.Entities.Commons;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,14 @@ public class ArtworksController : ControllerBase
     public async Task<IActionResult> GetAllArtworks([FromQuery] ArtworkCriteria criteria)
     {
         var result = await _artworkService.GetAllArtworksAsync(criteria);
+        return Ok(result);
+    }
+
+    [HttpGet("followings")]
+    [Authorize]
+    public async Task<IActionResult> GetArtworksOfFollowings([FromQuery] PagedCriteria criteria)
+    {
+        var result = await _artworkService.GetArtworksOfFollowingsAsync(criteria);
         return Ok(result);
     }
 

@@ -106,6 +106,7 @@ public class ReportService : IReportService
         if (oldReport.State != StateEnum.Waiting)
             throw new Exception($"Report already resolve! (current state is {oldReport.State})");
         oldReport.State = state;
+        _unitOfWork.ReportRepository.Update(oldReport);
         await _unitOfWork.SaveChangesAsync();
     }
 }

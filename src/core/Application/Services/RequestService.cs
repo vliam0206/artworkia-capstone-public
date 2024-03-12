@@ -33,6 +33,13 @@ public class RequestService : IRequestService
             throw new NullReferenceException("Service does not exist or already deleted!");
         }
 
+        // kiem tra budget co >= statingPrice cua service khong
+        if (requestModel.Budget < service.StartingPrice)
+        {
+            throw new Exception("Budget must be greater than or equal to the starting price of the service!");
+        }
+
+        // kiem tra xem nguoi dung co the request service cua chinh minh khong
         Guid audienceId = _claimService.GetCurrentUserId ?? default;
         Guid creatorId = service.CreatedBy ?? default;
         if (audienceId == creatorId)

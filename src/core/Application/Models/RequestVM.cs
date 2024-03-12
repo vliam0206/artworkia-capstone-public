@@ -11,6 +11,7 @@ public class RequestVM
     public string Message { get; set; } = default!;
     [MaxLength(150)]
     public string Timeline { get; set; } = default!;
+    public double Budget { get; set; } = default!;
     public string RequestStatus { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }

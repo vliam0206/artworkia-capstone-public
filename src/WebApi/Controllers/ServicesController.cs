@@ -102,7 +102,7 @@ public class ServicesController : ControllerBase
 
     [HttpPut("{serviceId}")]
     [Authorize]
-    public async Task<IActionResult> UpdateService(Guid serviceId, [FromBody] ServiceEM serviceEM)
+    public async Task<IActionResult> UpdateService(Guid serviceId, [FromForm] ServiceEM serviceEM)
     {
         try
         {

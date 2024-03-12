@@ -127,6 +127,7 @@ public class ServiceService : IServiceService
         oldService.NumberOfConcept = serviceEM.NumberOfConcept;
         oldService.NumberOfRevision = serviceEM.NumberOfRevision;
         oldService.StartingPrice = serviceEM.StartingPrice;
+        _unitOfWork.ServiceRepository.Update(oldService);
         await _unitOfWork.SaveChangesAsync();
     }
 }
