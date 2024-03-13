@@ -20,7 +20,7 @@ public class ServiceVM
     public DateTime? DeletedOn { get; set; }
 
     public AccountBasicInfoVM Account { get; set; } = default!;
-    public List<CategoryVM> CategoryList { get; set; } = default!;
+    public List<CategoryVM> Categories { get; set; } = default!;
     public List<ArtworkPreviewVM> ArtworkReferences { get; set; } = default!;
 }
 

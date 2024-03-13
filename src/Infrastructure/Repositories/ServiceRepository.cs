@@ -30,6 +30,10 @@ public class ServiceRepository : GenericAuditableRepository<Service>, IServiceRe
     {
         var allServices = _dbContext.Services
             .Include(x => x.Account)
+            .Include(x => x.ServiceDetails)
+                .ThenInclude(x => x.Artwork)
+            .Include(x => x.CategoryServiceDetails)
+                .ThenInclude(x => x.Category)
             .Where(x => x.DeletedOn == null);
         if (accountId != null)
         {

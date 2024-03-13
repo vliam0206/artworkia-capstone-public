@@ -96,11 +96,11 @@ namespace WebApi.Controllers
 
         [HttpPut, Route("/api/[controller]/{reportId}/state")]
         [Authorize(Roles = "Moderator,Admin")]
-        public async Task<IActionResult> UpdateReportState(Guid reportId, [FromBody] StateEnum state)
+        public async Task<IActionResult> UpdateReportState(Guid reportId, [FromBody] ReportStateEM reportStateEM)
         {
             try
             {
-                await _reportService.UpdateReportState(reportId, state);
+                await _reportService.UpdateReportState(reportId, reportStateEM);
                 return NoContent();
             }
             catch (NullReferenceException ex)

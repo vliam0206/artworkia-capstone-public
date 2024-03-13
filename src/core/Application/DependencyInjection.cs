@@ -15,6 +15,7 @@ public static class DependencyInjection
         services.AddScoped<IAssetService, AssetService>();        
         services.AddScoped<IBlockService, BlockService>();
         services.AddScoped<ICategoryArtworkDetailService, CategoryArtworkDetailService>();
+        services.AddScoped<ICategoryServiceDetailService, CategoryServiceDetailService>();
         services.AddScoped<ICategoryService, CategoryService>();        
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<ICollectionService, CollectionService>();

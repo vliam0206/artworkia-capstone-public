@@ -17,17 +17,21 @@ public class ServiceService : IServiceService
     private readonly IMapper _mapper;
     private readonly IClaimService _claimService;
     private readonly IFirebaseService _firebaseService;
+    private readonly ICategoryServiceDetailService _categoryArtworkDetailService;
 
     public ServiceService(
         IUnitOfWork unitOfWork,
         IMapper mapper,
         IClaimService claimService,
-        IFirebaseService firebaseService)
+        IFirebaseService firebaseService,
+        ICategoryServiceDetailService categoryArtworkDetailService
+        )
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _claimService = claimService;
         _firebaseService = firebaseService;
+        _categoryArtworkDetailService = categoryArtworkDetailService;
     }
 
     public async Task<IPagedList<ServiceVM>> GetAllServicesAsync(ServiceCriteria criteria)
@@ -90,6 +94,8 @@ public class ServiceService : IServiceService
         newService.Thumbnail = url;
 
         await _unitOfWork.ServiceRepository.AddAsync(newService);
+
+        // them artwork reference
         foreach (Guid artworkId in serviceModel.ArtworkReference)
         {
             ServiceDetail serviceDetail = new()
@@ -99,10 +105,21 @@ public class ServiceService : IServiceService
             };
             await _unitOfWork.ServiceDetailRepository.AddServiceDetailAsync(serviceDetail);
         }
-        await _unitOfWork.SaveChangesAsync();
 
-        var serviceVM = _mapper.Map<ServiceVM>(newService);
-        return serviceVM;
+        // them cate
+        if (serviceModel.Categories != null)
+        {
+            CategoryListServiceModel categoryList = new CategoryListServiceModel()
+            {
+                ServiceId = newService.Id,
+                CategoryList = serviceModel.Categories
+            };
+            await _categoryArtworkDetailService.AddCategoryListServiceAsync(categoryList, false);
+        }
+
+        await _unitOfWork.SaveChangesAsync();
+        var result = await _unitOfWork.ServiceRepository.GetServiceByIdAsync(newService.Id);
+        return _mapper.Map<ServiceVM>(result);
     }
 
     public async Task DeleteServiceAsync(Guid serviceId)
@@ -119,16 +136,19 @@ public class ServiceService : IServiceService
     public async Task UpdateServiceAsync(Guid serviceId, ServiceEM serviceEM)
     {
         Guid creatorId = _claimService.GetCurrentUserId ?? default;
-        foreach (var artworkId in serviceEM.ArtworkReference)
+        if (serviceEM.ArtworkReference != null)
         {
-            var artworkExistInDb = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
-            if (artworkExistInDb == null || artworkExistInDb.DeletedOn != null)
+            foreach (var artworkId in serviceEM.ArtworkReference)
             {
-                throw new NullReferenceException("Artwork does not exist or has been deleted.");
-            }
-            if (artworkExistInDb.CreatedBy != creatorId)
-            {
-                throw new Exception("Artwork reference is not suitable, you do not own this artwork.");
+                var artworkExistInDb = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
+                if (artworkExistInDb == null || artworkExistInDb.DeletedOn != null)
+                {
+                    throw new NullReferenceException("Artwork does not exist or has been deleted.");
+                }
+                if (artworkExistInDb.CreatedBy != creatorId)
+                {
+                    throw new Exception("Artwork reference is not suitable, you do not own this artwork.");
+                }
             }
         }
 
@@ -156,16 +176,32 @@ public class ServiceService : IServiceService
         oldService.NumberOfRevision = serviceEM.NumberOfRevision;
         oldService.StartingPrice = serviceEM.StartingPrice;
 
-        // xoa het service detail cu va them moi service detail moi
-        await _unitOfWork.ServiceDetailRepository.DeleteAllServiceDetailAsync(serviceId);
-        foreach (Guid artworkId in serviceEM.ArtworkReference)
+
+        if (serviceEM.Categories != null)
         {
-            ServiceDetail serviceDetail = new()
+            // xoa het category cu va them moi category moi
+            await _unitOfWork.CategoryServiceDetailRepository.DeleteAllCategoryServiceByServiceIdAsync(serviceId);
+            CategoryListServiceModel categoryList = new()
             {
-                ArtworkId = artworkId,
-                ServiceId = oldService.Id
+                ServiceId = oldService.Id,
+                CategoryList = serviceEM.Categories
             };
-            await _unitOfWork.ServiceDetailRepository.AddServiceDetailAsync(serviceDetail);
+            await _categoryArtworkDetailService.AddCategoryListServiceAsync(categoryList, false);
+        }
+
+        if (serviceEM.ArtworkReference != null)
+        {
+            // xoa het service detail cu va them moi service detail moi
+            await _unitOfWork.ServiceDetailRepository.DeleteAllServiceDetailAsync(serviceId);
+            foreach (Guid artworkId in serviceEM.ArtworkReference)
+            {
+                ServiceDetail serviceDetail = new()
+                {
+                    ArtworkId = artworkId,
+                    ServiceId = oldService.Id
+                };
+                await _unitOfWork.ServiceDetailRepository.AddServiceDetailAsync(serviceDetail);
+            }
         }
 
         _unitOfWork.ServiceRepository.Update(oldService);

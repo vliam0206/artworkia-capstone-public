@@ -39,6 +39,9 @@ public class MappingProfile : Profile
         CreateMap<CategoryArtworkDetail, CategoryArtworkModel>().ReverseMap();
         CreateMap<CategoryArtworkDetail, CategoryArtworkVM>().ReverseMap();
 
+        CreateMap<CategoryServiceDetail, CategoryServiceModel>().ReverseMap();
+        CreateMap<CategoryServiceDetail, CategoryServiceVM>().ReverseMap();
+
         CreateMap<Artwork, ArtworkVM>()
             .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryArtworkDetails.Select(y => y.Category).ToList()))
             .ForMember(model => model.TagList, opt => opt.MapFrom(x => x.TagDetails.Select(y => y.Tag).ToList()));
@@ -67,7 +70,7 @@ public class MappingProfile : Profile
 
         CreateMap<Service, ServiceModel>().ReverseMap();
         CreateMap<Service, ServiceVM>()
-            .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryServiceDetails.Select(y => y.Category).ToList()))
+            .ForMember(model => model.Categories, opt => opt.MapFrom(x => x.CategoryServiceDetails.Select(y => y.Category).ToList()))
             .ForMember(model => model.ArtworkReferences, opt => opt.MapFrom(x => x.ServiceDetails.Select(y => y.Artwork).ToList()));
 
         CreateMap<Request, RequestModel>().ReverseMap();

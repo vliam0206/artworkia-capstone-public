@@ -38,6 +38,7 @@ namespace Infrastructure.Database.Configuration
                     Reason = "Inappropriate content",
                     ReportEntity = ReportEntityEnum.Artwork,
                     State = StateEnum.Accepted,
+                    Note = "This is impersonation",
                     TargetId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
                     CreatedOn = DateTime.Parse("2023-12-07T08:40:28.901Z"),
@@ -49,6 +50,7 @@ namespace Infrastructure.Database.Configuration
                     Reason = "Abuse of platform",
                     ReportEntity = ReportEntityEnum.Artwork,
                     State = StateEnum.Declined,
+                    Note = "This is not abuse of platform",
                     TargetId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                     CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
                     CreatedOn = DateTime.Parse("2023-12-27T08:40:28.901Z"),

@@ -10,6 +10,6 @@ public interface IReportService
     Task<ReportVM?> GetReportByIdAsync(Guid reportId);
     Task<IPagedList<ReportVM>> GetAllReportsAsync(ReportCriteria criteria);
     Task<ReportVM> AddReportAsync(ReportModel reportModel);
-    Task UpdateReportState(Guid reportId, StateEnum state);
+    Task UpdateReportState(Guid reportId, ReportStateEM reportStateEM);
     Task DeleteReportAsync(Guid reportId);
 }

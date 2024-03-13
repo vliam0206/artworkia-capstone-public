@@ -98,14 +98,15 @@ public class ReportService : IReportService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task UpdateReportState(Guid reportId, StateEnum state)
+    public async Task UpdateReportState(Guid reportId, ReportStateEM reportStateEM)
     {
         var oldReport = await _unitOfWork.ReportRepository.GetByIdAsync(reportId);    
         if (oldReport == null)
             throw new NullReferenceException("Cannot found report!");
         if (oldReport.State != StateEnum.Waiting)
             throw new Exception($"Report already resolve! (current state is {oldReport.State})");
-        oldReport.State = state;
+        oldReport.State = reportStateEM.State;
+        oldReport.Note = reportStateEM.Note;
         _unitOfWork.ReportRepository.Update(oldReport);
         await _unitOfWork.SaveChangesAsync();
     }
