@@ -149,6 +149,27 @@ public class AccountsController : ControllerBase
         return NoContent();
     }
 
+    // PUT: api/accounts/undelete/5
+    [HttpPut("undelete/{id}")]
+    [Authorize(Roles = "Moderator,Admin")]
+    public async Task<IActionResult> UndeleteAccount(Guid id)
+    {
+        try
+        {
+            await _accountService.UndeleteAccountAsync(id);
+        }
+        catch (ArgumentException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+
+        return NoContent();
+    }
+
     // GET: api/accounts/deleted
     [HttpGet("deleted")]
     [Authorize(Roles = "Moderator,Admin")]

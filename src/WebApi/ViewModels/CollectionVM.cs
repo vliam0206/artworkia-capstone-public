@@ -27,4 +27,5 @@ public class CollectionVM
     public AccountDisplayModel CreatedBy { get; set; } = default!;
     public DateTime CreatedOn { get; set; }
     public int Items { get; set; }
+    public string Thumbnail { get; set; } = default!;
 }

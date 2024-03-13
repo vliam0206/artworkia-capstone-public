@@ -85,6 +85,10 @@ public class AccountService : IAccountService
         {
             throw new ArgumentException("Account id not found.");
         }
+        if (account.DeletedOn != null)
+        {
+            throw new Exception("This account has been deleted already.");
+        }
         // soft delete account in db
         _unitOfWork.AccountRepository.SoftDelete(account);
         await _unitOfWork.SaveChangesAsync();
@@ -138,4 +142,21 @@ public class AccountService : IAccountService
     public async Task<Account?> GetAccountByEmailAsync(string email)
         => await _unitOfWork.AccountRepository
                 .GetSingleByConditionAsync(x => x.Email.Equals(email));
+
+    public async Task UndeleteAccountAsync(Guid id)
+    {
+        var account = await _unitOfWork.AccountRepository.GetByIdAsync(id);
+        if (account == null)
+        {
+            throw new ArgumentException("Account id not found.");
+        }
+        if (account.DeletedOn == null)
+        {
+            throw new Exception("This account has not been deleted.");
+        }
+        account.DeletedOn = null;
+        account.DeletedBy = null;
+        _unitOfWork.AccountRepository.Update(account);
+        await _unitOfWork.SaveChangesAsync();
+    }
 }

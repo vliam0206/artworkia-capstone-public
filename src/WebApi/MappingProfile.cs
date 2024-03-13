@@ -87,7 +87,8 @@ public class MappingProfile : Profile
             .ForMember(model => model.Artworks, opt => opt.MapFrom(src => src.Bookmarks));
         CreateMap<Collection, CollectionVM>()
             .ForMember(model => model.CreatedBy, opt => opt.MapFrom(src => src.Account))        
-            .ForMember(model => model.Items, opt => opt.MapFrom(src => src.Bookmarks.Count()));        
+            .ForMember(model => model.Items, opt => opt.MapFrom(src => src.Bookmarks.Count()))        
+            .ForMember(model => model.Thumbnail, opt => opt.MapFrom(src => src.Bookmarks.FirstOrDefault()!.Artwork.Thumbnail));        
         CreateMap<Collection, CollectionModificationModel>().ReverseMap();
         CreateMap<CollectionCreationModel, Collection>().ReverseMap();
 

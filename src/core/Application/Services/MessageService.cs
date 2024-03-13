@@ -1,6 +1,8 @@
-﻿using Application.Models;
+﻿using Application.Commons;
+using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
+using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using Microsoft.IdentityModel.Tokens;
@@ -27,6 +29,14 @@ public class MessageService : IMessageService
         var messages = await _unitOfWork.MessageRepository
                         .GetListByConditionAsync(x => x.ChatBoxId == chatId);
         return _mapper.Map<List<MessageVM>>(messages);
+    }
+
+    public async Task<PagedList<MessageVM>> GetAllMessagePaginationAsync(Guid chatId, PagedCriteria pagecriteria)
+    {
+        var messagesPagination = await _unitOfWork.MessageRepository
+            .GetMessageByChatBoxPaginationAsync(chatId, pagecriteria.PageNumber, pagecriteria.PageSize);
+        var viewModel = _mapper.Map<PagedList<MessageVM>>(messagesPagination);
+        return viewModel;
     }
 
     public async Task<MessageVM> SendMessageAsync(MessageModel model)

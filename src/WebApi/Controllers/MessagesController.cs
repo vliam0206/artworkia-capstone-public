@@ -1,5 +1,6 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
+using Domain.Entities.Commons;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,21 @@ public class MessagesController : ControllerBase
             var messages = await _messageService.GetAllMessageAsync(chatBoxId);
             return Ok(messages);
         } catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("/api/v2/chatbox/{chatBoxId}/[controller]")]
+    [Authorize] // not check authorized yet
+    public async Task<IActionResult> GetMessagesByChatIdPagination(Guid chatBoxId, [FromQuery] PagedCriteria pagedCriteria)
+    {
+        try
+        {
+            var messages = await _messageService.GetAllMessagePaginationAsync(chatBoxId, pagedCriteria);
+            return Ok(messages);
+        }
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
