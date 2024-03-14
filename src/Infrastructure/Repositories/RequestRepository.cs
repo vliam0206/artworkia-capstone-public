@@ -20,6 +20,14 @@ public class RequestRepository : GenericCreationRepository<Request>, IRequestRep
             .ToListAsync();
     }
 
+    public async Task<List<Request>> GetRequestsByChatBoxIdAsync(Guid chatboxId)
+    {
+        return await _dbContext.Requests
+            .Include(x => x.Service)
+            .Where(x => x.ChatBoxId == chatboxId)
+            .ToListAsync();
+    }
+
     public async Task<List<Request>> GetRequestsByCreatorIdAsync()
     {
         return await _dbContext.Requests

@@ -95,6 +95,13 @@ public class RequestService : IRequestService
         return listRequestVM;
     }
 
+    public async Task<List<RequestVM>> GetRequestsByChatboxIdIdAsync(Guid chatboxId)
+    {
+        var listRequest = await _unitOfWork.RequestRepository.GetRequestsByChatBoxIdAsync(chatboxId);
+        var listRequestVM = _mapper.Map<List<RequestVM>>(listRequest);
+        return listRequestVM;
+    }
+
     public async Task<List<RequestVM>> GetRequestsByCreatorIdAsync()
     {
         var listRequest = await _unitOfWork.RequestRepository.GetRequestsByCreatorIdAsync();

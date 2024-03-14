@@ -89,10 +89,9 @@ public class ArtworkService : IArtworkService
 
         var artwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId);
         if (artwork == null)
-            throw new NullReferenceException("Artwork not found!");
+            throw new NullReferenceException("Artwork not found.");
         if (artwork.DeletedOn != null)
-            throw new Exception("Artwork deleted!");
-
+            throw new Exception("Artwork deleted.");
 
         var artworkVM = _mapper.Map<ArtworkVM>(artwork);
 

@@ -43,17 +43,28 @@ public class AccountsController : ControllerBase
     // GET: api/accounts
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<IEnumerable<AccountVM>>> GetAccounts()
+    public async Task<ActionResult<IEnumerable<AccountVM>>> GetAccounts([FromQuery] AccountCriteria criteria)
     {
         try
         {
-            var accounts = await _accountService.GetAccountsAsync();
-
-            return Ok(_mapper.Map<List<AccountVM>>(accounts));
+            var accounts = await _accountService.GetAccountsAsync(criteria);
+            return Ok(accounts);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
     }
 

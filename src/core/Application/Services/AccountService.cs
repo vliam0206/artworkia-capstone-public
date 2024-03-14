@@ -1,4 +1,6 @@
 ﻿using Application.Commons;
+using Application.Filters;
+using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
@@ -10,11 +12,16 @@ public class AccountService : IAccountService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IClaimService _claimService;
+    private readonly IMapper _mapper;
 
-    public AccountService(IUnitOfWork unitOfWork, IClaimService claimService)
+    public AccountService(
+        IUnitOfWork unitOfWork, 
+        IClaimService claimService,
+        IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _claimService = claimService;
+        _mapper = mapper;
     }    
 
     public async Task<Account?> CheckLoginAsync(string username, string password)
@@ -34,13 +41,6 @@ public class AccountService : IAccountService
     public async Task<Account?> GetAccountByUsernameAsync(string username)
         => await _unitOfWork.AccountRepository
                 .GetSingleByConditionAsync(x => x.Username.Equals(username));
-
-    public async Task<List<Account>> GetAccountsAsync()
-    {
-        var accounts = await _unitOfWork.AccountRepository.GetAllAsync();
-        return accounts.Where(x => x.DeletedOn == null)
-                       .OrderByDescending(x => x.CreatedOn).ToList();
-    }
 
     public async Task<List<Account>> GetDeletedAccountsAsync()
     {
@@ -158,5 +158,14 @@ public class AccountService : IAccountService
         account.DeletedBy = null;
         _unitOfWork.AccountRepository.Update(account);
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task<PagedList<AccountVM>> GetAccountsAsync(AccountCriteria criteria)
+    {
+        var listAccount = await _unitOfWork.AccountRepository.GetAllAccountsAsync(
+                       criteria.Keyword, criteria.SortColumn, criteria.SortOrder, 
+                                  criteria.PageNumber, criteria.PageSize);
+        var listAccountVM = _mapper.Map<PagedList<AccountVM>>(listAccount);
+        return listAccountVM;
     }
 }

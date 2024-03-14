@@ -54,16 +54,25 @@ public class ServiceService : IServiceService
 
     public async Task<ServiceVM?> GetServiceByIdAsync(Guid serviceId)
     {
+        Guid? accountId = _claimService.GetCurrentUserId;
+
         var service = await _unitOfWork.ServiceRepository.GetServiceByIdAsync(serviceId);
         if (service == null)
-        {
-            throw new NullReferenceException("Service does not exist");
-        }
+            throw new NullReferenceException("Service not found.");
         if (service.DeletedOn != null)
+            throw new Exception("Service deleted.");
+
+        var serviceVM = _mapper.Map<ServiceVM>(service);
+
+        // check if user is logged in
+        if (accountId != null)
         {
-            throw new Exception("Service has been deleted");
+            // check if account is blocking or blocked
+            if (await _unitOfWork.BlockRepository.IsBlockedOrBlockingAsync(accountId.Value, serviceVM.CreatedBy!.Value))
+            {
+                throw new Exception("Can not view service because of blocking!");
+            }
         }
-        var serviceVM = _mapper.Map<ServiceVM>(service);    
         return serviceVM;
     }
 
@@ -79,7 +88,7 @@ public class ServiceService : IServiceService
             }
             if (artworkExistInDb.CreatedBy != creatorId)
             {
-                throw new Exception("Artwork reference is not suitable, you do not own this artwork.");
+                throw new Exception("Artwork reference is not inappropriate, you do not own this artwork.");
             }
         }
 

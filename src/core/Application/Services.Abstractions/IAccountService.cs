@@ -1,4 +1,7 @@
-﻿using Domain.Entitites;
+﻿using Application.Commons;
+using Application.Filters;
+using Application.Models;
+using Domain.Entitites;
 
 namespace Application.Services.Abstractions;
 
@@ -12,7 +15,7 @@ public interface IAccountService
     Task<Account?> GetAccountByEmailAsync(string email);
     Task<Account?> GetAccountByIdAsync(Guid accountId);
     Task<Account?> GetAccountByUsernameAsync(string username);
-    Task<List<Account>> GetAccountsAsync();
+    Task<PagedList<AccountVM>> GetAccountsAsync(AccountCriteria criteria);
     Task<List<Account>> GetDeletedAccountsAsync();
     Task UpdateAccountAsync(Account account);
 }

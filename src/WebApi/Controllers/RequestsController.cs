@@ -75,8 +75,7 @@ public class RequestsController : ControllerBase
         }
     }
 
-
-    [HttpGet("service/{serviceId}")]
+    [HttpGet("/api/services/{serviceId}/requests")]
     [Authorize]
     public async Task<IActionResult> GetRequestsByServiceId(Guid serviceId)
     {
@@ -92,6 +91,33 @@ public class RequestsController : ControllerBase
                 ErrorMessage = ex.Message
             });
         } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    [HttpGet("/api/chatboxs/{chatboxId}/requests")]
+    [Authorize]
+    public async Task<IActionResult> GetRequestsByChatboxId(Guid chatboxId)
+    {
+        try
+        {
+            var requestVM = await _requestService.GetRequestsByChatboxIdIdAsync(chatboxId);
+            return Ok(requestVM);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
         {
             return BadRequest(new ApiResponse
             {

@@ -10,6 +10,7 @@ public interface IRequestService
     Task<List<RequestVM>> GetRequestsByAudienceIdAsync();
     Task<List<RequestVM>> GetRequestsByCreatorIdAsync();
     Task<List<RequestVM>> GetRequestsByServiceIdAsync(Guid serviceId);
+    Task<List<RequestVM>> GetRequestsByChatboxIdIdAsync(Guid chatboxId);
     Task<RequestVM> AddRequestAsync(RequestModel requestModel);
     Task<RequestVM> UpdateRequestStatusAsync(Guid requestId, StateEnum requestStatus);
 }
