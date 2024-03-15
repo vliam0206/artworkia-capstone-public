@@ -285,7 +285,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
                 Fullname = "Đoàn Trang",
                 Email = "doantrang@example.com",
-                Bio = "Tôi là là một thiết kế UI/UX đam mê và sáng tạo, đã tham gia vào nhiều " +
+                Bio = "Tôi là một thiết kế UI/UX đam mê và sáng tạo, đã tham gia vào nhiều " +
                 "dự án thành công trong lĩnh vực công nghệ.",
                 Avatar = "https://i.pinimg.com/564x/ba/74/40/ba744092fe6e7222d44a5e89cf483d6d.jpg",
                 Birthdate = DateTime.Parse("2002-10-7"),

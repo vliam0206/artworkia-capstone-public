@@ -19,7 +19,9 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
     {
     }
 
-    public async Task<IPagedList<Artwork>> GetAllArtworksAsync(Guid? categoryId, StateEnum? state, string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize)
+    public async Task<IPagedList<Artwork>> GetAllArtworksAsync(
+        string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize,
+        Guid? accountId = null, Guid? categoryId = null, Guid? tagId = null, StateEnum? state = null)
     {
         var allArtworks = _dbContext.Artworks
             .Include(a => a.Account)
@@ -29,10 +31,10 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
                 .ThenInclude(t => t.Tag)
             .Where(a => a.DeletedOn == null);
 
-        if (state != null)
+        if (accountId != null)
         {
-            allArtworks = allArtworks.Where(a => a.State == state);
-        }   
+            allArtworks = allArtworks.Where(a => a.CreatedBy == accountId);
+        }
 
         if (categoryId != null)
         {
@@ -40,6 +42,18 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
                 .Where(a => a.CategoryArtworkDetails
                 .Any(c => c.CategoryId == categoryId));
         }
+
+        if (tagId != null)
+        {
+            allArtworks = allArtworks
+                .Where(a => a.TagDetails
+                               .Any(t => t.TagId == tagId));
+        }
+
+        if (state != null)
+        {
+            allArtworks = allArtworks.Where(a => a.State == state);
+        }   
 
         if (!string.IsNullOrEmpty(keyword))
         {
@@ -63,49 +77,6 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
             allArtworks = allArtworks.OrderBy(orderBy);
         }
         else
-        {
-            allArtworks = allArtworks.OrderByDescending(orderBy);
-        }
-        #endregion
-
-        #region paging
-        var result = await ToPaginationAsync(allArtworks, page, pageSize);
-        #endregion
-
-        return result;
-    }
-
-    public async Task<IPagedList<Artwork>> GetAllArtworksByAccountIdAsync(Guid accountId, StateEnum? state, string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize)
-    {
-        var allArtworks = _dbContext.Artworks
-            .Include(a => a.Account)
-            .Where(a => a.CreatedBy == accountId && a.DeletedOn == null);
-
-        if (state != null)
-        {
-            allArtworks = allArtworks.Where(a => a.State == state);
-        }
-
-        if (!string.IsNullOrEmpty(keyword))
-        {
-            keyword = keyword.ToLower();
-            allArtworks = allArtworks.Where(a => a.Title.ToLower().Contains(keyword) 
-            || (a.Description != null && a.Description.ToLower().Contains(keyword)));
-        }
-
-        #region sorting
-        Expression<Func<Artwork, object>> orderBy = sortColumn?.ToLower() switch
-        {
-            "view" => a => a.ViewCount,
-            "created_on" => a => a.CreatedOn,
-            "created_on_desc" => a => a.CreatedOn,
-            _ => a => a.CreatedOn,
-        };
-
-        if (sortOrder?.ToLower() == "asc")
-        {
-            allArtworks = allArtworks.OrderBy(orderBy);
-        } else
         {
             allArtworks = allArtworks.OrderByDescending(orderBy);
         }

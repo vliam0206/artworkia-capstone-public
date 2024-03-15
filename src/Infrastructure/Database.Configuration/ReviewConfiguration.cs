@@ -16,5 +16,19 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
         // relationship
         builder.HasOne(x => x.Account).WithMany(a => a.Reviews).HasForeignKey(x => x.CreatedBy);
         builder.HasOne(x => x.Proposal).WithOne(p => p.Review).HasForeignKey<Review>(x => x.ProposalId);
+
+        #region data
+        builder.HasData(
+            new Review()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                ProposalId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                Vote = 5,
+                Detail = "good",
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                CreatedOn = DateTime.Parse("2024-2-2"),
+            }
+        );
+        #endregion
     }
 }

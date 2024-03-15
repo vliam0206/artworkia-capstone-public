@@ -119,5 +119,9 @@ public class MappingProfile : Profile
         CreateMap<Message, MessageVM>().ReverseMap();
 
         CreateMap<ChatBox, ChatBoxVM>().ReverseMap();
+
+        CreateMap<Review, ReviewModel>().ReverseMap();
+        CreateMap<Review, ReviewVM>().ReverseMap();
+
     }
 }

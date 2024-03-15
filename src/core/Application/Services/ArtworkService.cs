@@ -41,8 +41,9 @@ public class ArtworkService : IArtworkService
     public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksAsync(ArtworkCriteria criteria)
     {
         var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
-            criteria.CategoryId, criteria.Status, criteria.Keyword, criteria.SortColumn,
-            criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
+            criteria.Keyword, criteria.SortColumn,
+            criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
+            null, criteria.CategoryId, criteria.TagId, criteria.Status);
         var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
         return listArtworkPreviewVM;
     }
@@ -50,17 +51,19 @@ public class ArtworkService : IArtworkService
     public async Task<PagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkCriteria criteria)
     {
         var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
-            criteria.CategoryId, criteria.Status, criteria.Keyword, criteria.SortColumn,
-            criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
+            criteria.Keyword, criteria.SortColumn,
+            criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
+            null, criteria.CategoryId, criteria.TagId, criteria.Status);
         var listArtworkModerationVM = _mapper.Map<PagedList<ArtworkModerationVM>>(listArtwork);
         return listArtworkModerationVM;
     }
 
     public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkCriteria criteria)
     {
-        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksByAccountIdAsync(
-            accountId, criteria.Status, criteria.Keyword, criteria.SortColumn, criteria.SortOrder, 
-            criteria.PageNumber, criteria.PageSize);
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
+            criteria.Keyword, criteria.SortColumn,
+            criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
+            accountId, criteria.CategoryId, criteria.TagId, criteria.Status);
         var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
         return listArtworkPreviewVM;
     }

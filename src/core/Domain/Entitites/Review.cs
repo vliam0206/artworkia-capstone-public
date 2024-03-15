@@ -14,5 +14,4 @@ public class Review : BaseEntity, ICreation
 
     public virtual Account Account { get; set; } = default!;
     public virtual Proposal Proposal { get; set; } = default!;
-
 }
