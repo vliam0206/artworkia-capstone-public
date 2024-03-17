@@ -4,6 +4,11 @@ using Domain.Entities.Commons;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.WebSockets;
+using System.Text;
+using System;
+using System.Text.Json;
+using SixLabors.ImageSharp.Memory;
 
 namespace WebApi.Controllers;
 
@@ -30,7 +35,7 @@ public class MessagesController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-    }
+    }    
 
     [HttpGet("/api/v2/chatbox/{chatBoxId}/[controller]")]
     [Authorize] // not check authorized yet
@@ -44,6 +49,85 @@ public class MessagesController : ControllerBase
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("/api/v2/chatbox/{chatBoxId}/[controller]/ws")]
+    [Authorize] // not check authorized yet
+    public async Task GetMessagesByChatIdPaginationWebSocket(Guid chatBoxId, [FromQuery] PagedCriteria pagedCriteria)
+    {
+        try
+        {
+            if (HttpContext.WebSockets.IsWebSocketRequest)
+            {
+                using (var ws = await HttpContext.WebSockets.AcceptWebSocketAsync())
+                {                    
+                    while (ws.State == WebSocketState.Open)
+                    {
+                        var messages = await _messageService.GetAllMessagePaginationAsync(chatBoxId, pagedCriteria);
+                        var jsonString = JsonSerializer.Serialize(messages);
+                        var buffer = Encoding.UTF8.GetBytes(jsonString);
+                        await ws.SendAsync(
+                            new ArraySegment<byte>(buffer),
+                            WebSocketMessageType.Text,
+                            true,
+                            CancellationToken.None);
+                    }
+                    // close ws connection
+                    await ws.CloseAsync(WebSocketCloseStatus.NormalClosure,
+                        "WebSocket connection closed by Server.", CancellationToken.None);
+                }               
+            } else
+            {
+                HttpContext.Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                await HttpContext.Response.WriteAsync("Only support WebSocket protocol!");
+            }
+        }
+        catch (Exception ex)
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await HttpContext.Response.WriteAsync(ex.Message);
+        }
+    }
+
+    // for testing only
+    [HttpGet("/api/chatbox/{chatBoxId}/[controller]/ws")]
+    public async Task GetMessagesByChatIdWebSocket(Guid chatBoxId)
+    {
+        try
+        {
+            if (HttpContext.WebSockets.IsWebSocketRequest)
+            {
+                using (var ws = await HttpContext.WebSockets.AcceptWebSocketAsync())
+                {
+                    while (ws.State == WebSocketState.Open)
+                    {
+                        var messages = await _messageService.GetAllMessageAsync(chatBoxId);
+                        var jsonString = JsonSerializer.Serialize(messages);
+                        var buffer = Encoding.UTF8.GetBytes(jsonString);
+                        await ws.SendAsync(
+                            new ArraySegment<byte>(buffer),
+                            WebSocketMessageType.Text,
+                            true,
+                            CancellationToken.None);
+
+                        await Task.Delay(5000);
+                    }
+                    // close ws connection
+                    await ws.CloseAsync(WebSocketCloseStatus.NormalClosure,
+                        "WebSocket connection closed by Server.", CancellationToken.None);
+                }
+            }
+            else
+            {
+                HttpContext.Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                await HttpContext.Response.WriteAsync("Only support WebSocket protocol!");
+            }
+        }
+        catch (Exception ex)
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await HttpContext.Response.WriteAsync(ex.Message);
         }
     }
 

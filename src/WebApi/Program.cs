@@ -69,6 +69,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// using websocket
+app.UseWebSockets(new WebSocketOptions
+{
+    KeepAliveInterval = TimeSpan.FromSeconds(10)
+});
+
 app.UseApplyMigrations(); // Apply latest migrations, especially when running in Docker
 
 app.Run();
