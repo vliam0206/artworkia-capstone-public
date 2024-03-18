@@ -186,8 +186,8 @@ public class SetupTest : IDisposable
     protected List<Follow> MockFollowList(int length)
     {
         return _fixture.Build<Follow>()
-                       .Without(x => x.Account)
-                       .Without(x => x.Follower)
+                       .Without(x => x.Following)
+                       .Without(x => x.Followed)
                        .CreateMany(length)
                        .ToList();
     }

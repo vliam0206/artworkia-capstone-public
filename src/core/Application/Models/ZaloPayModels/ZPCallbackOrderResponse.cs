@@ -1,25 +1,17 @@
 ﻿using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+using Application.Commons;
 
 namespace Application.Models.ZaloPayModels;
 
-public class ZaloPayCallbackOrder
+public class ZPCallbackOrderResponse
 {
     public int Type { get; set; }
     public string Mac { get; set; } = default!;
     public string Data { get; set; } = default!;
     public CallbackOrderData? ToCallbackOrderData()
     {
-        // convert json to object
-        var contractResolver = new DefaultContractResolver
-        {
-            NamingStrategy = new SnakeCaseNamingStrategy()
-        };
-        var result = JsonConvert.DeserializeObject<CallbackOrderData>(this.Data, new JsonSerializerSettings
-        {
-            ContractResolver = contractResolver,
-            Formatting = Formatting.Indented
-        });
+        var result = JsonConvertHelper<CallbackOrderData>.ConvertSnakeJsonToObject(Data);        
         return result;
     }
 }

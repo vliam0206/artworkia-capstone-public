@@ -1,4 +1,5 @@
-﻿using Application.Commons;
+﻿using Application.AppConfigurations;
+using Application.Commons;
 using Application.Models.ZaloPayModels;
 using Application.Services.Abstractions;
 using AutoMapper;
@@ -10,81 +11,72 @@ namespace Application.Services;
 
 public class ZaloPayService : IZaloPayService
 {
-    private const string ZalopayBaseUrl = "https://sb-openapi.zalopay.vn/v2";
-    private const string CreateOrderUrl = "/create";
-    private const string QueryOrderUrl = "/query";
+    private readonly string ZalopayBaseUrl;
+    private const string CreateOrderUrl = "/v2/create";
+    private const string QueryOrderUrl = "/v2/query";
+    private const string QueryUserUrl = "/v2/disbursement/user";
+
     private const string ServerBaseUrl = "https://huynhvanphu.id.vn";
     private const string CallbackUrl = "/api/payments/callback";
-    private readonly int _appId;
-    private readonly string _key1;
-    private readonly string _key2;
-    private readonly AppConfiguration _appConfiguration;
+
+    private readonly ZaloPayConfiguration _zaloPayConfig;
     private readonly HttpClient _httpClient;
     private readonly IMapper _mapper;
     private readonly IClaimService _claimService;
 
-    public ZaloPayService(AppConfiguration appConfiguration, IMapper mapper, 
+    public ZaloPayService(AppConfiguration appConfiguration, IMapper mapper,
         IClaimService claimService)
     {
-        _appConfiguration = appConfiguration;
+        _zaloPayConfig = appConfiguration.ZaloPayConfiguration;
         _httpClient = new HttpClient();
         _mapper = mapper;
-        _appId = _appConfiguration.ZaloPayConfiguration.AppId;
-        _key1 = _appConfiguration.ZaloPayConfiguration.Key1;
-        _key2 = _appConfiguration.ZaloPayConfiguration.Key2;
+        ZalopayBaseUrl = _zaloPayConfig.BaseUrl;
         _claimService = claimService;
     }
 
-    public ZaloPayOrderCreate BuildZaloPayOrderCreate(OrderCreateModel model)
+    public ZPCreateOrderRequest BuildZaloPayOrderCreate(OrderCreateModel model)
     {
         var appTime = CurrentTime.GetTimeStamp();
         var appUser = _claimService.GetCurrentUserId.ToString();
         appUser = appUser != null ? appUser : "AnonymousUser";
         var rnd = new Random();
         var appTransId = CurrentTime.GetCurrentTime.ToString("yyMMdd") + "_" + rnd.Next(1000000);                
-        var data = $"{_appId}|{appTransId}|{appUser}|{model.Amount}|{appTime}|{model.EmbedData}|{model.Item}";        
+        var data = $"{_zaloPayConfig.AppId}|{appTransId}|{appUser}|{model.Amount}|{appTime}|{model.EmbedData}|{model.Item}";        
         
-        var zalopayOrder = _mapper.Map<ZaloPayOrderCreate>(model);
-        zalopayOrder.AppId = _appId;
+        var zalopayOrder = _mapper.Map<ZPCreateOrderRequest>(model);
+        zalopayOrder.AppId = _zaloPayConfig.AppId;
         zalopayOrder.AppUser= appUser;
         zalopayOrder.AppTransId = appTransId;
         zalopayOrder.AppTime = appTime;
         zalopayOrder.Description = "Nap xu nen tang Artworkia.";
         zalopayOrder.CallbackUrl = ServerBaseUrl + CallbackUrl;
-        zalopayOrder.Mac = HmacHelper.Compute(_key1, data);
+        zalopayOrder.Mac = HmacHelper.Compute(_zaloPayConfig.Key1, data);
 
         return zalopayOrder;
     }
 
-    public async Task<ZaloPayOrderResult?> CreateOrder(ZaloPayOrderCreate zaloPayOrder)
+    public async Task<ZPCreateOrderResponse?> CreateOrderAsync(ZPCreateOrderRequest zaloPayOrder)
     {
         var url = ZalopayBaseUrl + CreateOrderUrl;
-        var result = await PostMethod<ZaloPayOrderResult>(url, zaloPayOrder);
+        var result = await PostMethodAsync<ZPCreateOrderResponse>(url, zaloPayOrder);
         return result;
     }
 
-    public async Task<ZaloPayOrderQueryResult?> QueryOrder(string appTransId)
+    public async Task<ZPQueryOrderResponse?> QueryOrderAsync(string appTransId)
     {
-        var data = $"{_appId}|{appTransId}|{_key1}";
-        var mac = HmacHelper.Compute(_key1, data);
-        var orderQuery = new ZaloPayOrderQuery{ AppId = _appId, AppTransId = appTransId, Mac = mac };
-        return await PostMethod<ZaloPayOrderQueryResult>(ZalopayBaseUrl + QueryOrderUrl, orderQuery);
+        var data = $"{_zaloPayConfig.AppId}|{appTransId}|{_zaloPayConfig.Key1}";
+        var mac = HmacHelper.Compute(_zaloPayConfig.Key1, data);
+        var orderQuery = new ZPQueryOrderRequest{ AppId = _zaloPayConfig.AppId, AppTransId = appTransId, Mac = mac };
+        return await PostMethodAsync<ZPQueryOrderResponse>(ZalopayBaseUrl + QueryOrderUrl, orderQuery);
     }
 
-    public bool ValidateCallback(ZaloPayCallbackOrder callbackOrder)
+    public bool ValidateCallback(ZPCallbackOrderResponse callbackOrder)
     {
-        var mac = HmacHelper.Compute(_key2, callbackOrder.Data);
+        var mac = HmacHelper.Compute(_zaloPayConfig.Key2, callbackOrder.Data);
         return mac.Equals(callbackOrder.Mac);        
-    }
+    }    
 
-    public bool ValidateRedirect(ZaloPayRedirectOrder redirectOrder)
-    {
-        var checksumData = $"{redirectOrder.Appid}|{redirectOrder.Apptransid}|{redirectOrder.Pmcid}|{redirectOrder.Bankcode}|{redirectOrder.Amount}|{redirectOrder.Discountamount}|{redirectOrder.Status}";
-        var mac = HmacHelper.Compute(_key2, checksumData);
-        return mac.Equals(redirectOrder.Checksum);
-    }
-
-    private async Task<T?> PostMethod<T>(string url, IBaseFormRequest form)
+    private async Task<T?> PostMethodAsync<T>(string url, IBaseFormRequest form)
     {
         var content = new FormUrlEncodedContent(form.ToDictionary());
         var response = await _httpClient.PostAsync(url, content);
@@ -100,6 +92,23 @@ public class ZaloPayService : IZaloPayService
             ContractResolver = contractResolver,
             Formatting = Formatting.Indented
         });
+        return result;
+    }
+
+    public async Task<ZPQueryUserResponse?> QueryZalopayUserAsync(UserQueryModel model)
+    {
+        var appTime = CurrentTime.GetTimeStamp();
+        var data = $"{_zaloPayConfig.AppId}|{model.Phone}|{appTime}";
+        var mac = HmacHelper.Compute(_zaloPayConfig.Key1, data);
+        var requestModel = new ZPQueryUserRequest
+        {
+            AppId = _zaloPayConfig.AppId,
+            Phone = model.Phone,
+            Time = appTime,
+            Mac = mac
+        };
+        var url = ZalopayBaseUrl + QueryUserUrl;
+        var result = await PostMethodAsync<ZPQueryUserResponse>(url, requestModel);
         return result;
     }
 }

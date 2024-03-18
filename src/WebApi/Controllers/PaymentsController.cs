@@ -1,4 +1,5 @@
 ﻿using Application.Commons;
+using Application.Models;
 using Application.Models.ZaloPayModels;
 using Application.Services.Abstractions;
 using Domain.Entitites;
@@ -37,7 +38,7 @@ public class PaymentsController : ControllerBase
         {
             // create (post) zalopay order
             var zaloPayOrderCreate = _zaloPayService.BuildZaloPayOrderCreate(model);
-            var result = await _zaloPayService.CreateOrder(zaloPayOrderCreate);
+            var result = await _zaloPayService.CreateOrderAsync(zaloPayOrderCreate);
             if (result == null || result.ReturnCode != 1)
             {
                 return BadRequest(result);
@@ -60,7 +61,7 @@ public class PaymentsController : ControllerBase
     }
 
     [HttpPost("callback")]
-    public async Task<IActionResult> Callback([FromBody] ZaloPayCallbackOrder callbackOrder)
+    public async Task<IActionResult> Callback([FromBody] ZPCallbackOrderResponse callbackOrder)
     {
         var result = new Dictionary<string, object>();
         try
@@ -107,7 +108,7 @@ public class PaymentsController : ControllerBase
         try
         {
             // query zalo pay order status
-            var result = await _zaloPayService.QueryOrder(appTransId);
+            var result = await _zaloPayService.QueryOrderAsync(appTransId);
             // return result
             return Ok(result);
         }
@@ -124,6 +125,29 @@ public class PaymentsController : ControllerBase
         var hMacString = HmacHelper.Compute(model.Key, model.EncodeData);
         return Ok(hMacString);
     }
+
+    [HttpPost("query-account")]
+    [Authorize]
+    public async Task<IActionResult> QueryPaymentAccount([FromBody] UserQueryModel model)
+    {
+        try
+        {          
+            var result = await _zaloPayService.QueryZalopayUserAsync(model);
+            if (result == null || result.ReturnCode != 1)
+            {
+                return BadRequest(result);
+            }
+            // verify successfully -> save new wallet info to DB
+            await _walletService.UpdateCurrentWalletAsync(new WalletEM { WithdrawInformation = model.Phone });
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
 }
 
 // for testing the callback api

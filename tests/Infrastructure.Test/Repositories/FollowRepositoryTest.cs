@@ -27,7 +27,7 @@ public class FollowRepositoryTest : SetupTest
 
         // act
         var result = await _followRepository
-            .GetByIdAsync(mockData.AccountId, mockData.FollowerId);
+            .GetByIdAsync(mockData.FollowingId, mockData.FollowedId);
 
         // assert
         result.Should().BeEquivalentTo(mockData);
@@ -90,9 +90,9 @@ public class FollowRepositoryTest : SetupTest
             var account = MockAccountList(1).FirstOrDefault()!;
             mockData.Add(new Follow
             {
-                AccountId = account.Id,
-                FollowerId = followerId,
-                Account = account
+                FollowingId = account.Id,
+                FollowedId = followerId,
+                Following = account
             });
         }
         await _dbContext.Follows.AddRangeAsync(mockData);
@@ -129,9 +129,9 @@ public class FollowRepositoryTest : SetupTest
             var follower = MockAccountList(1).FirstOrDefault()!;
             mockData.Add(new Follow
             {
-                AccountId = followingId,
-                FollowerId = follower.Id,
-                Follower = follower
+                FollowingId = followingId,
+                FollowedId = follower.Id,
+                Followed = follower
             });
         }
         await _dbContext.Follows.AddRangeAsync(mockData);

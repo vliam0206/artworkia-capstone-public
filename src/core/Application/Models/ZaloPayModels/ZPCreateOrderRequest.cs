@@ -1,10 +1,19 @@
-﻿namespace Application.Models.ZaloPayModels;
+﻿using System.ComponentModel.DataAnnotations;
 
-public interface IBaseFormRequest
+namespace Application.Models.ZaloPayModels;
+
+public class OrderCreateModel
 {
-    public Dictionary<string, string> ToDictionary();
+    [Required]
+    public long Amount { get; set; }
+    [Required]
+    public string Item { get; set; } = default!;
+    public string BankCode { get; set; } = "";
+    [Required]
+    public string EmbedData { get; set; } = default!;
 }
-public class ZaloPayOrderCreate : IBaseFormRequest
+
+public class ZPCreateOrderRequest : IBaseFormRequest
 {
     public int AppId { get; set; }
     public string AppUser { get; set; } = default!;

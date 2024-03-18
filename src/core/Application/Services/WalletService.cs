@@ -22,25 +22,13 @@ public class WalletService : IWalletService
         _claimService = claimService;
     }
 
-    public async Task<WalletVM> AddWalletAsync(WalletModel walletModel)
+    public async Task<Wallet> AddWalletAsync(Guid acocuntId, WalletEM walletModel)
     {
-        Guid? accountId = _claimService.GetCurrentUserId;
-        if (accountId is null)
-        {
-            throw new NullReferenceException("Account is not exist");
-        }
-
-        var wallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x => x.AccountId == accountId);  
-        if (wallet is not null)
-        {
-            throw new Exception("Wallet of this account is already exist");
-        }
-
         Wallet newWallet = _mapper.Map<Wallet>(walletModel);
         await _unitOfWork.WalletRepository.AddAsync(newWallet);
         await _unitOfWork.SaveChangesAsync();
 
-        return _mapper.Map<WalletVM>(newWallet);
+        return newWallet;
     }
 
     public async Task<WalletVM?> GetWalletByIdAsync(Guid walletId)
@@ -56,7 +44,7 @@ public class WalletService : IWalletService
 
     public async Task<WalletVM?> GetWalletByAccountIdAsync(Guid accountId)
     {
-        var wallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x 
+        var wallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x
                                     => x.AccountId == accountId);
         if (wallet is null)
         {
@@ -73,8 +61,6 @@ public class WalletService : IWalletService
         {
             throw new Exception("Wallet is not exist");
         }
-
-        //oldWallet.Balance = walletEM.Balance; // neu da lam thanh toan thi bo cai nay
         oldWallet.WithdrawMethod = walletEM.WithdrawMethod;
         oldWallet.WithdrawInformation = walletEM.WithdrawInformation;
         _unitOfWork.WalletRepository.Update(oldWallet);
@@ -84,7 +70,7 @@ public class WalletService : IWalletService
     public async Task DepositCoinsAsync(Guid accountId, double amount)
     {
         var wallet = await _unitOfWork.WalletRepository
-                                .GetSingleByConditionAsync(x => x.AccountId == accountId);   
+                                .GetSingleByConditionAsync(x => x.AccountId == accountId);
         if (wallet == null)
         {
             throw new Exception("Account Id has any wallet yet!");
@@ -120,5 +106,24 @@ public class WalletService : IWalletService
         wallet.Balance -= amount;
         _unitOfWork.WalletRepository.Update(wallet);
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task UpdateCurrentWalletAsync(WalletEM walletEM)
+    {
+        var currentAccountId = _claimService.GetCurrentUserId ?? default;
+        var wallet = await _unitOfWork.WalletRepository
+            .GetSingleByConditionAsync(x => x.AccountId == currentAccountId);
+
+        if (wallet == null)
+        { // wallet not exist -> create new
+            wallet = await this.AddWalletAsync(currentAccountId, walletEM);
+        }
+        else
+        { // wallet exist -> update
+            wallet.WithdrawInformation = walletEM.WithdrawInformation;
+            wallet.WithdrawMethod = walletEM.WithdrawMethod;
+            _unitOfWork.WalletRepository.Update(wallet);
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 }

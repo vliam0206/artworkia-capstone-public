@@ -1,6 +1,6 @@
 ﻿namespace Application.Models.ZaloPayModels;
 
-public class ZaloPayOrderQuery : IBaseFormRequest
+public class ZPQueryOrderRequest : IBaseFormRequest
 {
     public int AppId { set; get; }
     public string AppTransId { set; get; } = default!;

@@ -72,6 +72,7 @@ public class MessagesController : ControllerBase
                             WebSocketMessageType.Text,
                             true,
                             CancellationToken.None);
+                        await Task.Delay(1000);
                     }
                     // close ws connection
                     await ws.CloseAsync(WebSocketCloseStatus.NormalClosure,
@@ -109,9 +110,8 @@ public class MessagesController : ControllerBase
                             new ArraySegment<byte>(buffer),
                             WebSocketMessageType.Text,
                             true,
-                            CancellationToken.None);
-
-                        await Task.Delay(5000);
+                            CancellationToken.None);   
+                        await Task.Delay(1000);
                     }
                     // close ws connection
                     await ws.CloseAsync(WebSocketCloseStatus.NormalClosure,

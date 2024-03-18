@@ -105,7 +105,7 @@ public class MappingProfile : Profile
             .ForMember(model => model.AccountId, opt => opt.MapFrom(src => src.CreatedBy));
         CreateMap<TransactionHistory, TransactionModel>().ReverseMap();
 
-        CreateMap<ZaloPayOrderCreate, OrderCreateModel>().ReverseMap();
+        CreateMap<ZPCreateOrderRequest, OrderCreateModel>().ReverseMap();
 
         CreateMap<Proposal, ProposalModel>().ReverseMap();
         CreateMap<Proposal, ProposalVM>().ReverseMap();

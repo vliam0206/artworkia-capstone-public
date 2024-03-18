@@ -4,9 +4,12 @@ namespace Application.Services.Abstractions;
 
 public interface IZaloPayService
 {
-    public ZaloPayOrderCreate BuildZaloPayOrderCreate(OrderCreateModel orderModel);
-    public Task<ZaloPayOrderResult?> CreateOrder(ZaloPayOrderCreate zaloPayOrder);
-    public Task<ZaloPayOrderQueryResult?> QueryOrder(string appTransId);
-    public bool ValidateCallback(ZaloPayCallbackOrder callbackOrder);
-    public bool ValidateRedirect(ZaloPayRedirectOrder redirectOrder);
+    // deposit money
+    public ZPCreateOrderRequest BuildZaloPayOrderCreate(OrderCreateModel orderModel);
+    public Task<ZPCreateOrderResponse?> CreateOrderAsync(ZPCreateOrderRequest zaloPayOrder);
+    public Task<ZPQueryOrderResponse?> QueryOrderAsync(string appTransId);
+    public bool ValidateCallback(ZPCallbackOrderResponse callbackOrder);
+
+    // withraw money
+    public Task<ZPQueryUserResponse?> QueryZalopayUserAsync(UserQueryModel model);
 }

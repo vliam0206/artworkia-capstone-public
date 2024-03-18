@@ -14,7 +14,9 @@ public class MessageRepository : GenericCreationRepository<Message>, IMessageRep
 
     public async Task<IPagedList<Message>> GetMessageByChatBoxPaginationAsync(Guid chatBoxId, int pageNumber, int pageSize)
     {
-        var messagesList = _dbContext.Messages.Where(x => x.ChatBoxId == chatBoxId);
+        var messagesList = _dbContext.Messages
+                                .Where(x => x.ChatBoxId == chatBoxId)
+                                .OrderByDescending(x => x.CreatedOn);
         var result = await this.ToPaginationAsync(messagesList, pageNumber, pageSize);
         return result;
     }
