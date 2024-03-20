@@ -1,6 +1,4 @@
-﻿using Domain.Entitites;
-using Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using Domain.Enums;
 
 namespace Application.Models;
 
@@ -17,6 +15,8 @@ public class ArtworkVM
     public string Privacy { get; set; } = default!;
     public string State { get; set; } = default!;
     public bool IsLiked { get; set; } = default!;
+    public string Note { get; set; } = default!;
+    public bool IsAIGenerated { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }
@@ -72,9 +72,10 @@ public class ArtworkModerationVM
     public int ViewCount { get; set; } = default!;
     public int LikeCount { get; set; } = default!;
     public int CommentCount { get; set; } = default!;
-
     public string Privacy { get; set; } = default!;
     public string State { get; set; } = default!;
+    public string Note { get; set; } = default!;
+    public bool IsAIGenerated { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }

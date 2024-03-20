@@ -5,6 +5,8 @@ using Moq;
 using WebApi.Controllers;
 using Xunit.Abstractions;
 using Application.Models;
+using Domain.Entitites;
+using Microsoft.AspNetCore.Http;
 
 namespace WepApiTest.Controllers;
 
@@ -22,21 +24,35 @@ public class TagsControllerTest : SetupTest
                                   _mapperConfig);
     }
 
-    //[Fact]
-    //public async Task TagsController_GetAllTags_ShouldReturnCorrectData()
-    //{
-    //    // arrange
-    //    var mockTags = MockTagList(5);
-    //    _tagServiceMock.Setup(x => x.GetAllTagsAsync())
-    //                   .ReturnsAsync(mockTags);
+    [Fact]
+    public async Task TagsController_GetAllTags_ShouldReturnCorrectData()
+    {
+        // Arrange
+        var mockTags = new List<TagVM>
+        {
+            new TagVM { TagName = "Tag1" },
+            new TagVM { TagName = "Tag2" },
+            new TagVM { TagName = "Tag3" }
+        };
+        _tagServiceMock.Setup(service => service.GetAllTagsAsync())
+            .ReturnsAsync(mockTags);
 
-    //    // act
-    //    var result = await _tagsController.GetAllTags();
+        var controller = new TagsController(
+            _tagServiceMock.Object, _mapperConfig);
 
-    //    // assert
-    //    var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
-    //    var tags = okResult.Value.Should().BeAssignableTo<List<TagVM>>().Subject;
-    //    tags.Count.Should().Be(10);
-    //}
+        // Act
+        var result = await _tagsController.GetAllTags();
+        var okResult = result as OkObjectResult;
+
+        // Assert
+        Assert.NotNull(okResult);
+        Assert.Equal(StatusCodes.Status200OK, okResult.StatusCode);
+        var tags = okResult.Value as List<TagVM>;
+        Assert.NotNull(tags);
+        Assert.Equal(mockTags.Count, tags.Count);
+        Assert.Contains(mockTags[0], tags);
+        Assert.Contains(mockTags[1], tags);
+        Assert.Contains(mockTags[2], tags);
+    }
 
 }

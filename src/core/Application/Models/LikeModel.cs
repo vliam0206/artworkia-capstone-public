@@ -1,5 +1,4 @@
-﻿using Application.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models;
 public class LikeModel

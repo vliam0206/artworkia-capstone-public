@@ -1,6 +1,8 @@
-﻿using Application.Models;
+﻿using Application.Commons;
+using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
+using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using System.Text.RegularExpressions;
@@ -21,6 +23,15 @@ public class TagService : ITagService
     {
         var tagList = await _unitOfWork.TagRepository.GetAllAsync();
         var tagVMList = _mapper.Map<List<TagVM>>(tagList);
+        return tagVMList;
+    }
+
+    public async Task<PagedList<TagVM>> GetTagsAsync(BaseCriteria criteria)
+    {
+        var tagList = await _unitOfWork.TagRepository.GetAllTagsAsync(
+            criteria.Keyword, criteria.SortColumn, criteria.SortOrder,
+            criteria.PageNumber, criteria.PageSize);
+        var tagVMList = _mapper.Map<PagedList<TagVM>>(tagList);
         return tagVMList;
     }
 

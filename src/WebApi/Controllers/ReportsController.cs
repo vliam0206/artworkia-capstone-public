@@ -4,9 +4,9 @@ using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels;
 using Application.Filters;
 using WebApi.ViewModels.Commons;
+using Application.Models;
 
 namespace WebApi.Controllers
 {

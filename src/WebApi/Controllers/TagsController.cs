@@ -1,9 +1,11 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
+using Domain.Entities.Commons;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.ViewModels.Commons;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace WebApi.Controllers;
 [Route("api/[controller]")]
@@ -22,15 +24,56 @@ public class TagsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllTags()
     {
-        var result = await _tagService.GetAllTagsAsync();
-        return Ok(result);
+        try
+        {
+            var result = await _tagService.GetAllTagsAsync();
+            return Ok(result);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
     }
 
-    /// <summary>
-    /// Tìm kiếm tag có tên chứa keyword
-    /// </summary>
-    /// <param name="keyword">từ khoá tìm kiếm</param>
-    /// <returns>trả về danh sách tag, tối đa 20 tag</returns>
+    [HttpGet("/api/v2/tags")]
+    public async Task<IActionResult> GetTags([FromQuery] BaseCriteria criteria)
+    {
+        try
+        {
+            var result = await _tagService.GetTagsAsync(criteria);
+            return Ok(result);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    // tra ve danh sach tag theo keyword (toi da 20 tag)
     [HttpGet("search/{keyword}")]
     public async Task<IActionResult> SearchTagsByName(string keyword)
     {
@@ -38,7 +81,16 @@ public class TagsController : ControllerBase
         {
             var result = await _tagService.SearchTagsByNameAsync(keyword);
             return Ok(result);
-        } catch (Exception ex)
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
         {
             return BadRequest(new ApiResponse
             {

@@ -1,5 +1,4 @@
-﻿using Domain.Entitites;
-using Domain.Enums;
+﻿using Domain.Enums;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 

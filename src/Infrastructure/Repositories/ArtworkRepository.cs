@@ -23,6 +23,85 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize,
         Guid? accountId = null, Guid? categoryId = null, Guid? tagId = null, StateEnum? state = null)
     {
+        Guid? loginId = _claimService.GetCurrentUserId;
+
+        var allArtworks = _dbContext.Artworks
+            .Include(a => a.Account)
+            .Include(c => c.CategoryArtworkDetails)
+                .ThenInclude(c => c.Category)
+            .Include(t => t.TagDetails)
+                .ThenInclude(t => t.Tag)
+            .Where(a => a.DeletedOn == null);
+
+        if (loginId == null || loginId != accountId)
+        {
+            allArtworks = allArtworks.Where(a => a.State == StateEnum.Accepted && a.Privacy == PrivacyEnum.Public);
+        }
+
+        if (accountId != null)
+        {
+            allArtworks = allArtworks.Where(a => a.CreatedBy == accountId);
+        }
+
+        if (categoryId != null)
+        {
+            allArtworks = allArtworks
+                .Where(a => a.CategoryArtworkDetails
+                .Any(c => c.CategoryId == categoryId));
+        }
+
+        if (tagId != null)
+        {
+            allArtworks = allArtworks
+                .Where(a => a.TagDetails
+                               .Any(t => t.TagId == tagId));
+        }
+
+        if (state != null)
+        {
+            allArtworks = allArtworks.Where(a => a.State == state);
+        }   
+
+        if (!string.IsNullOrEmpty(keyword))
+        {
+            keyword = keyword.ToLower();
+            allArtworks = allArtworks.Where(a => a.Title.ToLower().Contains(keyword) 
+            || (a.Description != null && a.Description.ToLower().Contains(keyword)));
+        }
+
+        #region sorting
+        Expression<Func<Artwork, object>> orderBy = sortColumn?.ToLower() switch
+        {
+            "view" => a => a.ViewCount,
+            "create" => a => a.CreatedOn,
+            "comment" => a => a.CommentCount,
+            "like" => a => a.LikeCount,
+            _ => a => a.CreatedOn,
+        };
+
+        if (sortOrder?.ToLower() == "asc")
+        {
+            allArtworks = allArtworks.OrderBy(orderBy);
+        }
+        else
+        {
+            allArtworks = allArtworks.OrderByDescending(orderBy);
+        }
+        #endregion
+
+        #region paging
+        var result = await ToPaginationAsync(allArtworks, page, pageSize);
+        #endregion
+
+        return result;
+    }
+
+    public async Task<IPagedList<Artwork>> GetAllArtworksForModerationAsync(
+        string? keyword, string? sortColumn, string? sortOrder, int page, 
+        int pageSize, Guid? accountId = null, Guid? categoryId = null, 
+        Guid? tagId = null, StateEnum? state = null, PrivacyEnum? privacy = null)
+    {
+
         var allArtworks = _dbContext.Artworks
             .Include(a => a.Account)
             .Include(c => c.CategoryArtworkDetails)
@@ -53,12 +132,17 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         if (state != null)
         {
             allArtworks = allArtworks.Where(a => a.State == state);
-        }   
+        }
+
+        if (privacy != null)
+        {
+            allArtworks = allArtworks.Where(a => a.Privacy == privacy);
+        }
 
         if (!string.IsNullOrEmpty(keyword))
         {
             keyword = keyword.ToLower();
-            allArtworks = allArtworks.Where(a => a.Title.ToLower().Contains(keyword) 
+            allArtworks = allArtworks.Where(a => a.Title.ToLower().Contains(keyword)
             || (a.Description != null && a.Description.ToLower().Contains(keyword)));
         }
 

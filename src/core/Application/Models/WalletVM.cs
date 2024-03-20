@@ -1,5 +1,4 @@
 ﻿using Domain.Enums;
-
 namespace Application.Models;
 
 public class WalletVM

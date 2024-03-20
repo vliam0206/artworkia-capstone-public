@@ -1,6 +1,4 @@
-﻿using Domain.Entitites;
-using Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models;
 

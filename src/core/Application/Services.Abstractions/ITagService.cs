@@ -1,11 +1,13 @@
-﻿using Application.Models;
-using Domain.Entitites;
+﻿using Application.Commons;
+using Application.Models;
+using Domain.Entities.Commons;
 
 namespace Application.Services.Abstractions;
 public interface ITagService
 {
     Task<TagVM?> GetTagByIdAsync(Guid tagId);
     Task<List<TagVM>> GetAllTagsAsync();
+    Task<PagedList<TagVM>> GetTagsAsync(BaseCriteria criteria);
     Task<List<TagVM>> SearchTagsByNameAsync(string keyword);
     Task DeleteTagAsync(Guid tagId);
     Task<TagVM> AddTagAsync(TagModel tagModel);

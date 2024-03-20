@@ -85,7 +85,7 @@ public class FollowRepositoryTest : SetupTest
         // arrange        
         var followerId = Guid.NewGuid();
         var mockData = new List<Follow>();
-        for (int i =0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
         {
             var account = MockAccountList(1).FirstOrDefault()!;
             mockData.Add(new Follow

@@ -7,7 +7,6 @@ using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
-using WebApi.ViewModels;
 
 namespace Application.Services;
 public class ReportService : IReportService

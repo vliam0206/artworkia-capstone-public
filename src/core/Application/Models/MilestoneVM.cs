@@ -1,5 +1,4 @@
-﻿using Domain.Entitites;
-
+﻿
 namespace Application.Models;
 
 public class MilestoneVM

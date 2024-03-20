@@ -1,5 +1,4 @@
-﻿using Domain.Entitites;
-using Domain.Enums;
+﻿using Domain.Enums;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
@@ -35,4 +34,12 @@ public class ArtworkModel
     [Required]
     public List<string> Tags { get; set; } = default!;
     public List<Guid> Categories { get; set; } = default!;
+}
+
+public class ArtworkStateEM
+{
+    [Required]
+    public StateEnum State { get; set; } = default!;
+    [MaxLength(500), MinLength(10)]
+    public string? Note { get; set; }
 }

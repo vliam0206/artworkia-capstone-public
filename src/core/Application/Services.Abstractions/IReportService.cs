@@ -1,8 +1,6 @@
 ﻿using Application.Filters;
+using Application.Models;
 using Domain.Entities.Commons;
-using Domain.Entitites;
-using Domain.Enums;
-using WebApi.ViewModels;
 namespace Application.Services.Abstractions;
 
 public interface IReportService

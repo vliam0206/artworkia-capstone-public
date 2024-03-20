@@ -20,6 +20,7 @@ public class SetupTest : IDisposable
     protected readonly Mock<IUnitOfWork> _unitOfWorkMock;
     protected readonly IMapper _mapperConfig;
     protected readonly AppDBContext _dbContext;
+
     #region repository mocks
     protected readonly Mock<IAccountRepository> _accountRepositoryMock;
     protected readonly Mock<IArtworkRepository> _artworkRepositoryMock;
@@ -52,6 +53,7 @@ public class SetupTest : IDisposable
     protected readonly Mock<IWalletRepository> _walletRepositoryMock;
     protected readonly Mock<IMilestoneRepository> _milestoneRepositoryMock;
     #endregion
+
     #region service mocks
     protected readonly Mock<IAccountService> _accountServiceMock;
     protected readonly Mock<ICommentService> _commentServiceMock;
@@ -165,6 +167,13 @@ public class SetupTest : IDisposable
                        .CreateMany(length)
                        .ToList();
     }
+
+    protected List<Artwork> MockArtworkList(int length)
+    {
+        return _fixture.Build<Artwork>()
+                       .CreateMany(length)
+                       .ToList();
+    }
     protected List<Asset> MockAssetList(int length)
     {
         return _fixture.Build<Asset>()
@@ -186,8 +195,8 @@ public class SetupTest : IDisposable
     protected List<Follow> MockFollowList(int length)
     {
         return _fixture.Build<Follow>()
-                       .Without(x => x.Following)
                        .Without(x => x.Followed)
+                       .Without(x => x.Following)
                        .CreateMany(length)
                        .ToList();
     }
@@ -205,6 +214,15 @@ public class SetupTest : IDisposable
     {
            return _fixture.Build<Tag>()
                        .Without(x => x.TagDetails)
+                       .CreateMany(length)
+                       .ToList();
+    }
+
+    protected List<Category> MockCategoryList(int length)
+    {
+        return _fixture.Build<Category>()
+                       .Without(x => x.CategoryArtworkDetails)
+                       .Without(x => x.CategoryServiceDetails)
                        .CreateMany(length)
                        .ToList();
     }

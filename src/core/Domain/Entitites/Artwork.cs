@@ -17,6 +17,9 @@ public class Artwork : BaseEntity, ICreation, IModification, ISoftDelete
     public int CommentCount { get; set; } = default!;
     public PrivacyEnum Privacy { get; set; } = default!;
     public StateEnum State { get; set; }
+    public bool IsAIGenerated { get; set; } = default!;
+    [MaxLength(500)]
+    public string? Note { get; set; } // note for moderator when artwork is reviewed
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }

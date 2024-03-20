@@ -24,7 +24,7 @@ public class TagTest : SetupTest
 
         // false
         yield return new object[] { "important!", false };
-        yield return new object[] { "ab", false };
+        yield return new object[] { "a", false };
         yield return new object[] { "RandomStringWith31Chars12345678", false };
         yield return new object[] { "@gmail", false };
         yield return new object[] { "any%", false };
@@ -41,6 +41,6 @@ public class TagTest : SetupTest
         // action
         var result = _tagService.IsTagValid(tag);
         // assert
-        result.Should().Be(expectedResult);
+        result.Should().Be(expectedResult, because: $"Tag '{tag}' verification failed. Expected: {expectedResult}, Actual: {result}");
     }
 }

@@ -9,13 +9,13 @@ public interface IArtworkService
 {
     Task<ArtworkVM?> GetArtworkByIdAsync(Guid artworkId);
     Task<PagedList<ArtworkPreviewVM>> GetAllArtworksAsync(ArtworkCriteria criteria);
-    Task<PagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkCriteria criteria);
+    Task<PagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkModerationCriteria criteria);
     Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkCriteria criteria);
     Task<PagedList<ArtworkPreviewVM>> GetArtworksOfFollowingsAsync(PagedCriteria criteria);
     Task DeleteArtworkAsync(Guid artworkId);
     Task SoftDeleteArtworkAsync(Guid artworkId);
     Task UpdateArtworkAsync(Guid artworkId, ArtworkEM artworkEM);
-    Task UpdateArtworkStateAsync(Guid artworkId, StateEnum state);
+    Task UpdateArtworkStateAsync(Guid artworkId, ArtworkStateEM model);
     Task<ArtworkVM> AddArtworkAsync(ArtworkModel artwork);
     Task<List<ImageDuplicationVM>> GetArtworksDuplicateAsync(Guid artworkId);
 }

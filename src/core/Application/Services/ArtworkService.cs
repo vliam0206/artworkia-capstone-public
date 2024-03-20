@@ -43,17 +43,17 @@ public class ArtworkService : IArtworkService
         var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
             criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
-            null, criteria.CategoryId, criteria.TagId, criteria.Status);
+            null, criteria.CategoryId, criteria.TagId, criteria.State);
         var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
         return listArtworkPreviewVM;
     }
 
-    public async Task<PagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkCriteria criteria)
+    public async Task<PagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkModerationCriteria criteria)
     {
-        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksForModerationAsync(
             criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
-            null, criteria.CategoryId, criteria.TagId, criteria.Status);
+            null, criteria.CategoryId, criteria.TagId, criteria.State, criteria.Privacy);
         var listArtworkModerationVM = _mapper.Map<PagedList<ArtworkModerationVM>>(listArtwork);
         return listArtworkModerationVM;
     }
@@ -63,7 +63,7 @@ public class ArtworkService : IArtworkService
         var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
             criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
-            accountId, criteria.CategoryId, criteria.TagId, criteria.Status);
+            accountId, criteria.CategoryId, criteria.TagId, criteria.State);
         var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
         return listArtworkPreviewVM;
     }
@@ -254,14 +254,16 @@ public class ArtworkService : IArtworkService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task UpdateArtworkStateAsync(Guid artworkId, StateEnum state)
+    public async Task UpdateArtworkStateAsync(Guid artworkId, ArtworkStateEM model)
     {
         var oldArtwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
         if (oldArtwork == null)
             throw new Exception("Cannot found artwork!");
         if (oldArtwork.State != StateEnum.Waiting)
             throw new Exception($"Report already resolve! (current state is {oldArtwork.State})");
-        oldArtwork.State = state;
+        oldArtwork.State = model.State;
+        oldArtwork.Note = model.Note;
+        _unitOfWork.ArtworkRepository.Update(oldArtwork);
         await _unitOfWork.SaveChangesAsync();
     }
 

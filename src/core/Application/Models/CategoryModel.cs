@@ -1,5 +1,4 @@
-﻿using Domain.Entitites;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models;
 public class CategoryModel

@@ -266,7 +266,7 @@ public class ArtworksController : ControllerBase
 
     [HttpGet, Route("/api/moderation/[controller]")]
     [Authorize(Roles = "Moderator,Admin")]
-    public async Task<IActionResult> GetAllArtworksForModerator([FromQuery] ArtworkCriteria criteria)
+    public async Task<IActionResult> GetAllArtworksForModerator([FromQuery] ArtworkModerationCriteria criteria)
     {
         var result = await _artworkService.GetAllArtworksForModerationAsync(criteria);
         return Ok(result);
@@ -274,11 +274,11 @@ public class ArtworksController : ControllerBase
 
     [HttpPut, Route("/api/moderation/[controller]/{artworkId}/state")]
     [Authorize(Roles = "Moderator,Admin")]
-    public async Task<IActionResult> UpdateArtworkStatusForModerator(Guid artworkId, [FromBody] StateEnum state)
+    public async Task<IActionResult> UpdateArtworkStatusForModerator(Guid artworkId, ArtworkStateEM model)
     {
         try
         {
-            await _artworkService.UpdateArtworkStateAsync(artworkId, state);
+            await _artworkService.UpdateArtworkStateAsync(artworkId, model);
             return NoContent();
         }
         catch (NullReferenceException ex)
