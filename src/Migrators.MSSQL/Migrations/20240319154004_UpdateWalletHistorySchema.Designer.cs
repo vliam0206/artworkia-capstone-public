@@ -4,6 +4,7 @@ using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240319154004_UpdateWalletHistorySchema")]
+    partial class UpdateWalletHistorySchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -423,9 +426,6 @@ namespace Migrators.MSSQL.Migrations
                         .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAIGenerated")
-                        .HasColumnType("bit");
-
                     b.Property<Guid?>("LastModificatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -436,10 +436,6 @@ namespace Migrators.MSSQL.Migrations
 
                     b.Property<int>("LikeCount")
                         .HasColumnType("int");
-
-                    b.Property<string>("Note")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("Privacy")
                         .HasColumnType("int");
@@ -477,7 +473,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 2, 9, 37, 42, 345, DateTimeKind.Local),
                             Description = "Tuyển tập những bức vẽ về hoàng hôn",
-                            IsAIGenerated = false,
                             LikeCount = 8,
                             Privacy = 0,
                             State = 1,
@@ -493,7 +488,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 3, 22, 20, 45, 890, DateTimeKind.Local),
                             Description = "Khám phá sâu hơn về cảm xúc và tâm trạng trong cuộc sống",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
@@ -509,7 +503,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 4, 20, 55, 30, 456, DateTimeKind.Local),
                             Description = "Minh họa những cuộc chiến tiêu biểu của thời đại",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
@@ -525,7 +518,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 5, 15, 30, 3, 678, DateTimeKind.Local),
                             Description = "Tác phẩm thể hiện sự ảnh hưởng của quá khứ đối với hiện tại",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
@@ -541,7 +533,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 6, 7, 30, 15, 567, DateTimeKind.Local),
                             Description = "Minh họa cho hành trình không ngừng của sự sáng tạo",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
@@ -557,7 +548,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 7, 12, 40, 28, 901, DateTimeKind.Local),
                             Description = "Tượng trưng cho sự đồng hành và hỗ trợ của đối tác tâm lý",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
@@ -573,7 +563,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 9, 1, 30, 15, 567, DateTimeKind.Local),
                             Description = "Hình ảnh tượng trưng cho ánh sáng và năng lượng bên trong chúng ta",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
@@ -589,7 +578,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 1, 15, 30, 3, 678, DateTimeKind.Local),
                             Description = "Đây là tuyển tập tâm huyết của mình, nhớ like và comment để ủng hộ mình nha",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
@@ -605,7 +593,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 10, 4, 20, 10, 234, DateTimeKind.Local),
                             Description = "Minh họa cho tâm trạng lạc quan và hy vọng về tương lai",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
@@ -621,7 +608,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 10, 20, 55, 30, 456, DateTimeKind.Local),
                             Description = "Tượng trưng cho nơi gặp gỡ và kết nối tâm hồn con người",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
@@ -637,7 +623,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 11, 15, 30, 3, 678, DateTimeKind.Local),
                             Description = "Tượng trưng cho vũ trụ rộng lớn và không gian của tâm trí con người",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
@@ -653,7 +638,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 11, 9, 37, 42, 345, DateTimeKind.Local),
                             Description = "Bức tranh thể hiện hành trình tìm kiếm và theo đuổi đam mê trong cuộc sống",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
@@ -669,7 +653,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 13, 15, 40, 28, 901, DateTimeKind.Local),
                             Description = "Bộ sưu tập người máy - biểu tượng của tương lai.",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
@@ -685,7 +668,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2023, 11, 14, 15, 20, 45, 890, DateTimeKind.Local),
                             Description = "Cánh cụt cute",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 0,
@@ -701,7 +683,6 @@ namespace Migrators.MSSQL.Migrations
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 14, 17, 55, 30, 456, DateTimeKind.Local),
                             Description = "Tượng trưng cho biển cả tri thức sâu rộng và không ngừng mở rộng",
-                            IsAIGenerated = false,
                             LikeCount = 0,
                             Privacy = 0,
                             State = 0,

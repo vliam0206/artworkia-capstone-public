@@ -9,8 +9,8 @@ public interface IWalletService
     Task<WalletVM?> GetWalletByAccountIdAsync(Guid accountId);
     Task UpdateWalletAsync(Guid walletId, WalletEM walletEM);
     Task UpdateCurrentWalletAsync(WalletEM walletEM);
-    Task<Wallet> AddWalletAsync(Guid acocuntId, WalletEM walletModel);
-    Task DepositCoinsAsync(Guid accountId, double amount);
-    Task AddCoinsToWallet(Guid walletId, double amount);
-    Task SubtrasctCoinsFromWallet(Guid walletId, double amount);
+    Task<Wallet> AddWalletAsync(Guid acocuntId, WalletEM walletModel);    
+    Task AddCoinsToWallet(Guid accountId, double amount);
+    Task SubtrasctCoinsFromWallet(Guid accountId, double amount);
+    Task<bool> CheckWithdrawBalance(Guid accountId, double amount);
 }

@@ -13,6 +13,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
         
         builder.Property(x => x.Id).HasDefaultValueSql("newid()");
         builder.Property(x => x.CreatedOn).HasDefaultValueSql("getutcdate()");
+        builder.HasIndex(x => x.AppTransId).IsUnique();
 
         // relationship
         builder.HasOne(x => x.Account).WithMany(w => w.WalletHistories).HasForeignKey(x => x.CreatedBy);

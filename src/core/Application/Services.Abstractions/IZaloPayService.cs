@@ -12,4 +12,6 @@ public interface IZaloPayService
 
     // withraw money
     public Task<ZPQueryUserResponse?> QueryZalopayUserAsync(UserQueryModel model);
+    public Task<ZPTopupResponse?> ZalopayTopupAsync(TopupModel model, Guid transactionId);
+    public Task<ZPQueryMerchantBalanceResponse?> QueryMerchantBalanceAsync();
 }

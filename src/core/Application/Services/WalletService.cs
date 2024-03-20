@@ -67,7 +67,7 @@ public class WalletService : IWalletService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task DepositCoinsAsync(Guid accountId, double amount)
+    public async Task AddCoinsToWallet(Guid accountId, double amount)
     {
         var wallet = await _unitOfWork.WalletRepository
                                 .GetSingleByConditionAsync(x => x.AccountId == accountId);
@@ -80,28 +80,17 @@ public class WalletService : IWalletService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task AddCoinsToWallet(Guid walletId, double amount)
+    public async Task SubtrasctCoinsFromWallet(Guid accountId, double amount)
     {
-        var wallet = await _unitOfWork.WalletRepository.GetByIdAsync(walletId);
+        var wallet = await _unitOfWork.WalletRepository
+                                .GetSingleByConditionAsync(x => x.AccountId == accountId);
         if (wallet == null)
         {
-            throw new Exception("WalletId does not exist!");
-        }
-        wallet.Balance += amount;
-        _unitOfWork.WalletRepository.Update(wallet);
-        await _unitOfWork.SaveChangesAsync();
-    }
-
-    public async Task SubtrasctCoinsFromWallet(Guid walletId, double amount)
-    {
-        var wallet = await _unitOfWork.WalletRepository.GetByIdAsync(walletId);
-        if (wallet == null)
-        {
-            throw new Exception("WalletId does not exist!");
+            throw new ArgumentException("Account Id has any wallet yet!");
         }
         if (wallet.Balance < amount)
         {
-            throw new ArgumentOutOfRangeException("The remaining balance in the wallet is not enough to make this transaction.");
+            throw new ArgumentOutOfRangeException("The remaining coins balance in the wallet is not enough to make this transaction.");
         }
         wallet.Balance -= amount;
         _unitOfWork.WalletRepository.Update(wallet);
@@ -125,5 +114,16 @@ public class WalletService : IWalletService
             _unitOfWork.WalletRepository.Update(wallet);
             await _unitOfWork.SaveChangesAsync();
         }
+    }
+
+    public async Task<bool> CheckWithdrawBalance(Guid accountId, double amount)
+    {
+        var wallet = await _unitOfWork.WalletRepository
+                                .GetSingleByConditionAsync(x => x.AccountId == accountId);
+        if (wallet == null)
+        {
+            throw new ArgumentException("Account Id has any wallet yet!");
+        }
+        return (wallet.Balance >= amount);
     }
 }

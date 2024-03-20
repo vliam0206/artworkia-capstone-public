@@ -1,4 +1,6 @@
-﻿namespace Application.Models.ZaloPayModels;
+﻿using Newtonsoft.Json;
+
+namespace Application.Models.ZaloPayModels;
 
 public class ZPQueryUserResponse
 {
@@ -12,6 +14,7 @@ public class ZPQueryUserResponse
 public class UserQueryData
 {
     public string? ReferenceId { get; set; }
+    [JsonProperty("m_u_id")]
     public string? MUId { get; set; }
     public string? Name { get; set; }
     public string? Phone { get; set; }

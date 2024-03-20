@@ -32,6 +32,22 @@ public class WalletHistoryService : IWalletHistoryService
         return _mapper.Map<List<WalletHistoryVM>>(result);
     }
 
+    public async Task UpdateWalletHistory(Guid transactionId, WalletHistory walletHistory)
+    {
+        var oldWalletHistory = await _unitOfWork
+                                    .WalletHistoryRepository
+                                    .GetByIdAsync(transactionId);
+        if (oldWalletHistory == null)
+        {
+            throw new Exception("TransactionId not found!");
+        }
+        // update status
+        oldWalletHistory.AppTransId = walletHistory.AppTransId;
+        oldWalletHistory.TransactionStatus = walletHistory.TransactionStatus;
+        _unitOfWork.WalletHistoryRepository.Update(oldWalletHistory);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
     public async Task UpdateWalletHistoryStatus(string appTransId, TransactionStatusEnum status)
     {
         var walletHistory = await _unitOfWork
@@ -40,6 +56,21 @@ public class WalletHistoryService : IWalletHistoryService
         if (walletHistory == null)
         {
             throw new Exception("AppTransIs not found!");
+        }
+        // update status
+        walletHistory.TransactionStatus = status;
+        _unitOfWork.WalletHistoryRepository.Update(walletHistory);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task UpdateWalletHistoryStatus(Guid transactionId, TransactionStatusEnum status)
+    {
+        var walletHistory = await _unitOfWork
+                                    .WalletHistoryRepository
+                                    .GetByIdAsync(transactionId);
+        if (walletHistory == null)
+        {
+            throw new Exception("TransactionId not found!");
         }
         // update status
         walletHistory.TransactionStatus = status;

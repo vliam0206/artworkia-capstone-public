@@ -9,4 +9,6 @@ public interface IWalletHistoryService
     Task<List<WalletHistoryVM>> GetWalletHistoriesOfAccount(Guid accountId);
     Task AddWalletHistory(WalletHistory walletHistory);
     Task UpdateWalletHistoryStatus(string appTransId, TransactionStatusEnum status);
+    Task UpdateWalletHistoryStatus(Guid transactionId, TransactionStatusEnum status);
+    Task UpdateWalletHistory(Guid transactionId, WalletHistory walletHistory);
 }
