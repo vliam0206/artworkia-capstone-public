@@ -133,7 +133,7 @@ public class MessagesController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> PostMessage(MessageModel model)
+    public async Task<IActionResult> PostMessage([FromForm] MessageModel model)
     {
         try
         {

@@ -1,6 +1,7 @@
 ﻿using Application.Commons;
 using Application.Models;
 using Application.Services.Abstractions;
+using Application.Services.Firebase;
 using AutoMapper;
 using Domain.Entities.Commons;
 using Domain.Entitites;
@@ -14,14 +15,19 @@ public class MessageService : IMessageService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IClaimService _claimService;
     private readonly IMapper _mapper;
+    private readonly IFirebaseService _firebaseService;
 
-    public MessageService(IUnitOfWork unitOfWork,
+
+    public MessageService(
+        IUnitOfWork unitOfWork,
         IClaimService claimService,
-        IMapper mapper)
+        IMapper mapper,
+        IFirebaseService firebaseService)
     {
         _unitOfWork = unitOfWork;
         _claimService = claimService;
         _mapper = mapper;
+        _firebaseService = firebaseService;
     }
 
     public async Task<List<MessageVM>> GetAllMessageAsync(Guid chatId)
@@ -42,9 +48,9 @@ public class MessageService : IMessageService
     public async Task<MessageVM> SendMessageAsync(MessageModel model)
     {
         // check if message model is valid
-        if (model.Text.IsNullOrEmpty() && model.FileLocation.IsNullOrEmpty())
+        if (model.Text.IsNullOrEmpty() && model.File == null)
         { // text & file location can not be null at the same time
-            throw new ArgumentException("Text or FileLocation can not be null at the same time.");
+            throw new ArgumentException("Text or File can not be null at the same time.");
         }
         var accountExist = await _unitOfWork.AccountRepository.IsExistedAsync(model.ReceiverId);
         if (!accountExist)
@@ -57,6 +63,22 @@ public class MessageService : IMessageService
             throw new ArgumentException("You can not send message to yourself!");
         }
         var newMessage = _mapper.Map<Message>(model);
+        // dat lai ten file
+        if (model.File is not null)
+        {
+            string newMessageName = $"{Path.GetFileNameWithoutExtension(model.File.FileName)}_{DateTime.Now.Ticks}";
+            string folderName = "Message";
+            string fileExtension = Path.GetExtension(model.File.FileName);
+            // upload file len firebase
+            var url = await _firebaseService.UploadFileToFirebaseStorage(model.File, newMessageName, folderName);
+            if (url == null)
+            {
+                throw new Exception("Upload file failed");
+            }
+            newMessage.FileLocation = url;
+            newMessage.FileName = newMessageName + fileExtension;
+        }
+
         // check if the chatbox is existed
         var senderId = _claimService.GetCurrentUserId ?? default;
         var chatBoxExist = await _unitOfWork.ChatBoxRepository.GetChatBoxAsync(senderId, model.ReceiverId);

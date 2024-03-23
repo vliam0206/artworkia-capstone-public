@@ -52,6 +52,15 @@ public class ProposalAssetService : IProposalAssetService
         proposalAsset.Location = url;
         proposalAsset.ProposalAssetName = newProposalAssetName + fileExtension;
         await _unitOfWork.ProposalAssetRepository.AddAsync(proposalAsset);
+
+        // map asset vao message
+        var newMessage = new Message()
+        {
+            ChatBoxId = proposal.ChatBoxId, 
+            FileLocation = url,
+        };
+        await _unitOfWork.MessageRepository.AddAsync(newMessage);
+
         await _unitOfWork.SaveChangesAsync();
 
         var proposalAssetVM = _mapper.Map<ProposalAssetVM>(proposalAsset);

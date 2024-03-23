@@ -9,6 +9,7 @@ public class Message : BaseEntity, ICreation
     [MaxLength(1000)]
     public string? Text { get; set; }     // text or fileLocation not null at the same time
     public string? FileLocation { get; set; }
+    public string? FileName { get; set; }
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }  
 
