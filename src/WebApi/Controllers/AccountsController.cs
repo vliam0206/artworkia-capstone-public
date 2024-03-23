@@ -291,7 +291,7 @@ public class AccountsController : ControllerBase
 
     // GET: /api/accounts/{account_id}/artworks
     [HttpGet("{accountId}/artworks")]
-    public async Task<IActionResult> GetArtworksByAccount(Guid accountId, [FromQuery] ArtworkCriteria criteria)
+    public async Task<IActionResult> GetArtworksByAccount(Guid accountId, [FromQuery] ArtworkModerationCriteria criteria)
     {
         try
         {

@@ -6,6 +6,7 @@ using Application.Services.Firebase;
 using AutoMapper;
 using Domain.Entities.Commons;
 using Domain.Entitites;
+using Domain.Enums;
 using Domain.Repositories.Abstractions;
 
 namespace Application.Services;
@@ -90,6 +91,14 @@ public class ServiceService : IServiceService
             {
                 throw new Exception("Artwork reference is not inappropriate, you do not own this artwork.");
             }
+            if (artworkExistInDb.Privacy != PrivacyEnum.Public)
+            {
+                throw new Exception("Artwork reference is not public.");
+            }
+            if (artworkExistInDb.State != StateEnum.Accepted)
+            {
+                throw new Exception("Artwork reference is not accepted yet.");
+            }
         }
 
         var newService = _mapper.Map<Service>(serviceModel);
@@ -157,6 +166,14 @@ public class ServiceService : IServiceService
                 if (artworkExistInDb.CreatedBy != creatorId)
                 {
                     throw new Exception("Artwork reference is not suitable, you do not own this artwork.");
+                }
+                if (artworkExistInDb.Privacy != PrivacyEnum.Public)
+                {
+                    throw new Exception("Artwork reference is not public.");
+                }
+                if (artworkExistInDb.State != StateEnum.Accepted)
+                {
+                    throw new Exception("Artwork reference is not accepted yet.");
                 }
             }
         }

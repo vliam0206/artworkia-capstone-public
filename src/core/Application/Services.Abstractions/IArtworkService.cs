@@ -10,7 +10,7 @@ public interface IArtworkService
     Task<ArtworkVM?> GetArtworkByIdAsync(Guid artworkId);
     Task<PagedList<ArtworkPreviewVM>> GetAllArtworksAsync(ArtworkCriteria criteria);
     Task<PagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkModerationCriteria criteria);
-    Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkCriteria criteria);
+    Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkModerationCriteria criteria);
     Task<PagedList<ArtworkPreviewVM>> GetArtworksOfFollowingsAsync(PagedCriteria criteria);
     Task DeleteArtworkAsync(Guid artworkId);
     Task SoftDeleteArtworkAsync(Guid artworkId);

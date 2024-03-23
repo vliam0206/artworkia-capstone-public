@@ -21,9 +21,10 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
 
     public async Task<IPagedList<Artwork>> GetAllArtworksAsync(
         string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize,
-        Guid? accountId = null, Guid? categoryId = null, Guid? tagId = null, StateEnum? state = null)
+        Guid? accountId = null, Guid? categoryId = null, Guid? tagId = null, StateEnum? state = null, PrivacyEnum? privacy = null)
     {
         Guid? loginId = _claimService.GetCurrentUserId;
+        string loginRole = _claimService.GetCurrentRole;
 
         var allArtworks = _dbContext.Artworks
             .Include(a => a.Account)
@@ -33,7 +34,9 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
                 .ThenInclude(t => t.Tag)
             .Where(a => a.DeletedOn == null);
 
-        if (loginId == null || loginId != accountId)
+        // if user is not login, only show public artworks
+        // if user is login, role is common user, and accountId is not owned artworks, only show public artworks
+        if (loginId == null || (loginId != null && loginRole.Equals(RoleEnum.CommonUser) && loginId != accountId))
         {
             allArtworks = allArtworks.Where(a => a.State == StateEnum.Accepted && a.Privacy == PrivacyEnum.Public);
         }
@@ -60,12 +63,17 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         if (state != null)
         {
             allArtworks = allArtworks.Where(a => a.State == state);
-        }   
+        }
+
+        if (privacy != null)
+        {
+            allArtworks = allArtworks.Where(a => a.Privacy == privacy);
+        }
 
         if (!string.IsNullOrEmpty(keyword))
         {
             keyword = keyword.ToLower();
-            allArtworks = allArtworks.Where(a => a.Title.ToLower().Contains(keyword) 
+            allArtworks = allArtworks.Where(a => a.Title.ToLower().Contains(keyword)
             || (a.Description != null && a.Description.ToLower().Contains(keyword)));
         }
 
@@ -97,8 +105,8 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
     }
 
     public async Task<IPagedList<Artwork>> GetAllArtworksForModerationAsync(
-        string? keyword, string? sortColumn, string? sortOrder, int page, 
-        int pageSize, Guid? accountId = null, Guid? categoryId = null, 
+        string? keyword, string? sortColumn, string? sortOrder, int page,
+        int pageSize, Guid? accountId = null, Guid? categoryId = null,
         Guid? tagId = null, StateEnum? state = null, PrivacyEnum? privacy = null)
     {
 
@@ -192,7 +200,7 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         var artwork = await _dbContext.Artworks
             .Include(x => x.Images)
             .Where(x => x.Id == artworkId).FirstOrDefaultAsync();
-        if (artwork == null) 
+        if (artwork == null)
             throw new Exception("Artwork not found");
         var createdByOfArtwork = artwork.CreatedBy;
         //x.Artwork.State == Domain.Enums.StateEnum.Accepted

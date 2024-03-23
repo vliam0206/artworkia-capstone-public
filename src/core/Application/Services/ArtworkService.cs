@@ -43,7 +43,7 @@ public class ArtworkService : IArtworkService
         var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
             criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
-            null, criteria.CategoryId, criteria.TagId, criteria.State);
+            null, criteria.CategoryId, criteria.TagId);
         var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
         return listArtworkPreviewVM;
     }
@@ -58,12 +58,12 @@ public class ArtworkService : IArtworkService
         return listArtworkModerationVM;
     }
 
-    public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkCriteria criteria)
+    public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkModerationCriteria criteria)
     {
         var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
             criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
-            accountId, criteria.CategoryId, criteria.TagId, criteria.State);
+            accountId, criteria.CategoryId, criteria.TagId, criteria.State, criteria.Privacy);
         var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
         return listArtworkPreviewVM;
     }
@@ -133,7 +133,7 @@ public class ArtworkService : IArtworkService
         newArtwork.ThumbnailName = newThumbnailName + extension;
         // them artwork 
         await _unitOfWork.ArtworkRepository.AddAsync(newArtwork);
-        await _unitOfWork.SaveChangesAsync();
+        //await _unitOfWork.SaveChangesAsync();
 
         // them tag 
         TagListArtworkModel tagListArtworkModel = new TagListArtworkModel()
