@@ -17,7 +17,7 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
     private readonly static int MIN_SIMILARITY = 95;
     public ArtworkRepository(AppDBContext dBContext, IClaimService claimService) : base(dBContext, claimService)
     {
-    }
+    }    
 
     public async Task<IPagedList<Artwork>> GetAllArtworksAsync(
         string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize,
@@ -249,5 +249,27 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         var result = await ToPaginationAsync(allArtworks, page, pageSize);
 
         return result;
+    }
+
+    public async Task IncreaseCommentCountAsync(Guid artworkId)
+    {
+        var artWork = await _dbContext.Artworks.FindAsync(artworkId);
+        if (artWork == null)
+        {
+            throw new ArgumentException("ArtworkId not found!");
+        }
+        artWork.CommentCount++;
+        this.Update(artWork);
+    }
+
+    public async Task DecreaseCommentCountAsync(Guid artworkId)
+    {
+        var artWork = await _dbContext.Artworks.FindAsync(artworkId);
+        if (artWork == null)
+        {
+            throw new ArgumentException("ArtworkId not found!");
+        }
+        artWork.CommentCount--;
+        this.Update(artWork);
     }
 }

@@ -183,4 +183,5 @@ public class TokenHandler : ITokenHandler
             throw new Exception($"Error decoding token: {ex.Message}");
         }
     }
+
 }

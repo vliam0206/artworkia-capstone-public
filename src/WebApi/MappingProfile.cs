@@ -123,5 +123,7 @@ public class MappingProfile : Profile
         CreateMap<Review, ReviewModel>().ReverseMap();
         CreateMap<Review, ReviewVM>().ReverseMap();
 
+        CreateMap<Notification, NotificationModel>().ReverseMap();
+        CreateMap<Notification, NotificationVM>().ReverseMap();
     }
 }

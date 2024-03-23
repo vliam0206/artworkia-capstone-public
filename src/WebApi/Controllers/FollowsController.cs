@@ -21,14 +21,17 @@ public class FollowsController : ControllerBase
     private readonly IFollowService _followService;
     private readonly IClaimService _claimService;
     private readonly IMapper _mapper;
+    private readonly INotificationService _notificationService;
 
     public FollowsController(IFollowService followService, 
         IClaimService claimService, 
-        IMapper mapper)
+        IMapper mapper,
+        INotificationService notificationService)
     {
         _followService = followService;
         _claimService = claimService;
         _mapper = mapper;
+        _notificationService = notificationService;
     }
 
     // GET: /api/accounts/6/followings
@@ -96,7 +99,20 @@ public class FollowsController : ControllerBase
     {
         try
         {
+            // add new follow
             await _followService.CreateFollowAsync(model);
+            // add new notification
+            var currentUserId = _claimService.GetCurrentUserId ?? default;
+            var currentUsername = _claimService.GetCurrentUserName ?? default;
+            var notification = new NotificationModel
+            {
+                SentToAccount = model.FollowedId,                
+                Content = $"Người dùng [{currentUsername}] vừa theo dõi bạn.",
+                NotifyType = NotifyTypeEnum.Information,
+                ReferencedAccountId = currentUserId
+            };
+            await _notificationService.AddNotificationAsync(notification);
+
             return Ok();
         }
         catch (NullReferenceException ex)
@@ -175,16 +191,4 @@ public class FollowsController : ControllerBase
         }
     }
 
-    private bool CheckAuthorize(Guid accountId)
-    {
-        // check authorize
-        var currentRole = _claimService.GetCurrentRole;
-        if (currentRole.Equals(RoleEnum.Moderator.ToString())
-             || (currentRole.Equals(RoleEnum.CommonUser.ToString()) 
-                && _claimService.GetCurrentUserId != accountId))
-        {
-            return false;
-        }
-        return true;
-    }
 }

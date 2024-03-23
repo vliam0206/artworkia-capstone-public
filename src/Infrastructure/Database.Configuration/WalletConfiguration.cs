@@ -24,7 +24,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0902287461",
-                Balance = 2000
+                Balance = 200000
             },
             new Wallet // wallet of lamlam
             {
@@ -32,7 +32,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0939959417",
-                Balance = 1000
+                Balance = 100000
             },
             new Wallet // wallet of hoanganh
             {
@@ -40,7 +40,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0902287462",
-                Balance = 1000
+                Balance = 100000
             },
             new Wallet // wallet of thong
             {
@@ -48,7 +48,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0902287463",
-                Balance = 1000
+                Balance = 100000
             },
             new Wallet // wallet of phuhuynh
             {
@@ -56,7 +56,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0902287464",
-                Balance = 1000
+                Balance = 100000
             }
         );
         #endregion

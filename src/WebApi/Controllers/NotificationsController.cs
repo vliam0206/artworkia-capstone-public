@@ -1,7 +1,5 @@
-﻿using Application.Models;
-using Application.Services;
-using Application.Services.Abstractions;
-using Domain.Entitites;
+﻿using Application.Services.Abstractions;
+using Domain.Entities.Commons;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,46 +11,33 @@ namespace WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ChatBoxsController : ControllerBase
+public class NotificationsController : ControllerBase
 {
-    private readonly IChatBoxService _chatBoxService;
+    private readonly INotificationService _notificationService;
     private readonly IClaimService _claimService;
 
-    public ChatBoxsController(IChatBoxService chatBoxService, IClaimService claimService)
+    public NotificationsController(INotificationService notificationService, 
+        IClaimService claimService)
     {
-        _chatBoxService = chatBoxService;
+        _notificationService = notificationService;
         _claimService = claimService;
     }
 
-    [HttpGet("/api/accounts/[controller]")]
+    [HttpGet("ws")]
     [Authorize]
-    public async Task<IActionResult> GetChatBoxByAccountId()
+    public async Task GetNotificationOfCurrentAccountWebSocket([FromQuery] PagedCriteria pagedCriteria)
     {
         try
         {
-            var accountId = _claimService.GetCurrentUserId ?? default;
-            var chats = await _chatBoxService.GetAllChatBoxByAccountIdAsync(accountId);
-            return Ok(chats);
-        } catch (ArgumentException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpGet("/api/accounts/[controller]/ws")]
-    [Authorize]
-    public async Task GetChatBoxByAccountIdWebSocket()
-    {
-        try
-        {
-            var accountId = _claimService.GetCurrentUserId ?? default;
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 using (var ws = await HttpContext.WebSockets.AcceptWebSocketAsync())
-                {
+                {                    
                     while (ws.State == WebSocketState.Open)
                     {
-                        var chats = await _chatBoxService.GetAllChatBoxByAccountIdAsync(accountId);
+                        var currentUser = _claimService.GetCurrentUserId ?? default;
+                        var chats = await _notificationService
+                            .GetNotificationsOfAnAccountAsync(currentUser, pagedCriteria);
                         var jsonString = JsonSerializer.Serialize(chats);
                         var buffer = Encoding.UTF8.GetBytes(jsonString);
                         await ws.SendAsync(
@@ -78,12 +63,5 @@ public class ChatBoxsController : ControllerBase
             HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await HttpContext.Response.WriteAsync(ex.Message);
         }
-    }
-
-    [HttpGet("{chatboxId}")]
-    public async Task<IActionResult> GetChatBoxById(Guid chatboxId)
-    {
-        var chat = await _chatBoxService.GetChatBoxByIdAsync(chatboxId);
-        return Ok(chat);
     }
 }

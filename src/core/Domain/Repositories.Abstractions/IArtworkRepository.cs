@@ -14,4 +14,6 @@ public interface IArtworkRepository : IGenericRepository<Artwork>
     Task<IPagedList<Artwork>> GetArtworksOfFollowingsAsync(Guid followerId, int page, int pageSize);
     Task<Artwork?> GetArtworkDetailByIdAsync(Guid artworkId);
     Task<List<Image>> GetArtworksDuplicateAsync(Guid artworkId);
+    Task IncreaseCommentCountAsync(Guid artworkId);
+    Task DecreaseCommentCountAsync(Guid artworkId);
 }

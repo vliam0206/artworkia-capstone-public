@@ -40,7 +40,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ThumbnailName = "00000000-0000-0000-0000-000000000001_t.jpg",
                 ViewCount = 99,
                 LikeCount = 8,
-                CommentCount = 0,
+                CommentCount = 6,
                 State = StateEnum.Accepted
             },
             new Artwork()

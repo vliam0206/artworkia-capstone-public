@@ -1,4 +1,6 @@
-﻿using Domain.Entitites;
+﻿using Application.Commons;
+using Domain.Entities.Commons;
+using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
 using Infrastructure.Repositories.Commons;
@@ -8,5 +10,20 @@ public class NotificationRepository : GenericRepository<Notification>, INotifica
 {
     public NotificationRepository(AppDBContext dBContext) : base(dBContext)
     {
+    }
+
+    public async Task AddNotificationAsync(Notification notification)
+    {
+        notification.CreatedOn = CurrentTime.GetCurrentTime;
+        await _dbContext.Notifications.AddAsync(notification);
+    }
+
+    public async Task<IPagedList<Notification>> GetNotificationOfAccountAsync(Guid accountId, int pageNumer, int pageSize)
+    {
+        var notifications = _dbContext.Notifications
+            .Where(x => x.SentToAccount == accountId)
+            .OrderByDescending(x => x.CreatedOn);
+        var result = await this.ToPaginationAsync(notifications, pageNumer, pageSize);
+        return result;
     }
 }

@@ -1,16 +1,18 @@
 ﻿using Application.Commons;
 using Application.Models;
 using Application.Models.ZaloPayModels;
+using Application.Services;
 using Application.Services.Abstractions;
+using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Newtonsoft.Json;
 using Serilog;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Net.WebSockets;
+using System.Text;
+using System.Text.Json;
 
 namespace WebApi.Controllers;
 
@@ -107,6 +109,7 @@ public class PaymentsController : ControllerBase
     }
         
     [HttpGet("query-order/{appTransId}")]
+    [Authorize]
     public async Task<IActionResult> QueryOrder(string appTransId)
     {
         try
@@ -119,6 +122,49 @@ public class PaymentsController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpGet("query-order/{appTransId}/ws")]
+    [Authorize]
+    public async Task QueryOrderWebSocket(string appTransId)
+    {
+        try
+        {
+            if (HttpContext.WebSockets.IsWebSocketRequest)
+            {
+                using (var ws = await HttpContext.WebSockets.AcceptWebSocketAsync())
+                {
+                    var result = await _zaloPayService.QueryOrderAsync(appTransId);
+                    while (ws.State == WebSocketState.Open)
+                    {
+                        var jsonString = JsonSerializer.Serialize(result);
+                        var buffer = Encoding.UTF8.GetBytes(jsonString);
+                        await ws.SendAsync(
+                            new ArraySegment<byte>(buffer),
+                            WebSocketMessageType.Text,
+                            true,
+                            CancellationToken.None);
+                        if (!result!.IsProcessing)
+                        {
+                            break;
+                        }
+                    }
+                    // close ws connection
+                    await ws.CloseAsync(WebSocketCloseStatus.NormalClosure,
+                        "WebSocket connection closed by Server.", CancellationToken.None);
+                }
+            }
+            else
+            {
+                HttpContext.Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                await HttpContext.Response.WriteAsync("Only support WebSocket protocol!");
+            }
+        }
+        catch (Exception ex)
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await HttpContext.Response.WriteAsync(ex.Message);
         }
     }
 

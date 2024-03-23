@@ -4,6 +4,7 @@ using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240322035510_UpdateWalletData")]
+    partial class UpdateWalletData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -473,7 +476,7 @@ namespace Migrators.MSSQL.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000001"),
-                            CommentCount = 6,
+                            CommentCount = 0,
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 2, 9, 37, 42, 345, DateTimeKind.Local),
                             Description = "Tuyển tập những bức vẽ về hoàng hôn",
@@ -1095,7 +1098,7 @@ namespace Migrators.MSSQL.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000001"),
-                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-00000000000e"),
                             Content = "Đây là một bức tranh rất đẹp",
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000003"),
                             CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -1103,7 +1106,7 @@ namespace Migrators.MSSQL.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000002"),
-                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-00000000000e"),
                             Content = "Minh hoạ xuất sắc",
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000003"),
                             CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -1111,7 +1114,7 @@ namespace Migrators.MSSQL.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000003"),
-                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-00000000000e"),
                             Content = "10 điểm",
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000003"),
                             CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -1119,7 +1122,7 @@ namespace Migrators.MSSQL.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000004"),
-                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-00000000000f"),
                             Content = "Cute and funny",
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000004"),
                             CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -1127,18 +1130,10 @@ namespace Migrators.MSSQL.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000005"),
-                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-00000000000f"),
                             Content = "Like",
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000004"),
                             CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("00000000-0000-0000-0000-000000000006"),
-                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            Content = "Hoàng hôn lấp lánh quá điiii!",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
-                            CreatedOn = new DateTime(2024, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -1585,14 +1580,11 @@ namespace Migrators.MSSQL.Migrations
                     b.Property<bool>("IsSeen")
                         .HasColumnType("bit");
 
+                    b.Property<Guid>("NotificatedId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("NotifyType")
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("ReferencedAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ReferencedArtworkId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SentToAccount")
                         .HasColumnType("uniqueidentifier");

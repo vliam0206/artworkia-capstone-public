@@ -30,7 +30,7 @@ namespace Infrastructure.Database.Configuration
                 new Comment()
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                    ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
+                    ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     Content = "Đây là một bức tranh rất đẹp",
                     CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                     CreatedOn = DateTime.Parse("2024-1-1"),
@@ -38,7 +38,7 @@ namespace Infrastructure.Database.Configuration
                 new Comment()
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
-                    ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
+                    ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     Content = "Minh hoạ xuất sắc",
                     CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                     CreatedOn = DateTime.Parse("2024-1-1"),
@@ -46,7 +46,7 @@ namespace Infrastructure.Database.Configuration
                 new Comment()
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
-                    ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
+                    ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     Content = "10 điểm",
                     CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                     CreatedOn = DateTime.Parse("2024-1-1"),
@@ -54,7 +54,7 @@ namespace Infrastructure.Database.Configuration
                 new Comment()
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
-                    ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000f"),
+                    ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     Content = "Cute and funny",
                     CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                     CreatedOn = DateTime.Parse("2024-1-1"),
@@ -62,10 +62,18 @@ namespace Infrastructure.Database.Configuration
                 new Comment()
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
-                    ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000f"),
+                    ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     Content = "Like",
                     CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                     CreatedOn = DateTime.Parse("2024-1-1"),
+                },
+                new Comment()
+                {
+                    Id = Guid.Parse("00000000-0000-0000-0000-000000000006"),
+                    ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                    Content = "Hoàng hôn lấp lánh quá điiii!",
+                    CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                    CreatedOn = DateTime.Parse("2024-3-21"),
                 }
             );
             #endregion

@@ -91,8 +91,8 @@ public class MessagesController : ControllerBase
         }
     }
 
-    // for testing only
     [HttpGet("/api/chatbox/{chatBoxId}/[controller]/ws")]
+    [Authorize]
     public async Task GetMessagesByChatIdWebSocket(Guid chatBoxId)
     {
         try

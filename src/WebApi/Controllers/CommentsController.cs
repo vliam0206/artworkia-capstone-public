@@ -8,6 +8,11 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Services;
 using Application.Models;
+using Domain.Entities.Commons;
+using Application.Services;
+using System.Net.WebSockets;
+using System.Text;
+using System.Text.Json;
 namespace WebApi.Controllers;
 
 [ApiController]
@@ -34,6 +39,65 @@ public class CommentsController : ControllerBase
         } catch (Exception ex)
         {
             return BadRequest(new {ErrorMessage = ex.Message});
+        }
+    }
+
+    // api/v2/artworks/5/comments
+    [Route("api/v2/artworks/{artworkId}/comments")]
+    [HttpGet]
+    public async Task<IActionResult> GetCommentsOfArtworkPagination(Guid artworkId, [FromQuery] PagedCriteria pagedCriteria)
+    {
+        try
+        {
+            var comments = await _commentService
+                .GetCommentsByArtworkWithRepliesPaginationAsync(artworkId, pagedCriteria);
+            return Ok(comments);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { ErrorMessage = ex.Message });
+        }
+    }
+
+    // api/v2/artworks/5/comments
+    [Route("api/v2/artworks/{artworkId}/comments/ws")]
+    [HttpGet]
+    public async Task GetCommentsOfArtworkPaginationWebSocket(Guid artworkId, [FromQuery] PagedCriteria pagedCriteria)
+    {
+        try
+        {
+            if (HttpContext.WebSockets.IsWebSocketRequest)
+            {
+                using (var ws = await HttpContext.WebSockets.AcceptWebSocketAsync())
+                {
+                    while (ws.State == WebSocketState.Open)
+                    {
+                        var comments = await _commentService
+                            .GetCommentsByArtworkWithRepliesPaginationAsync(artworkId, pagedCriteria);
+                        var jsonString = JsonSerializer.Serialize(comments);
+                        var buffer = Encoding.UTF8.GetBytes(jsonString);
+                        await ws.SendAsync(
+                            new ArraySegment<byte>(buffer),
+                            WebSocketMessageType.Text,
+                            true,
+                            CancellationToken.None);
+                        await Task.Delay(1000);
+                    }
+                    // close ws connection
+                    await ws.CloseAsync(WebSocketCloseStatus.NormalClosure,
+                        "WebSocket connection closed by Server.", CancellationToken.None);
+                }
+            }
+            else
+            {
+                HttpContext.Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                await HttpContext.Response.WriteAsync("Only support WebSocket protocol!");
+            }
+        }
+        catch (Exception ex)
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await HttpContext.Response.WriteAsync(ex.Message);
         }
     }
 

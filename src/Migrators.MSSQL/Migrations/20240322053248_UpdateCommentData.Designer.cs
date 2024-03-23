@@ -4,6 +4,7 @@ using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240322053248_UpdateCommentData")]
+    partial class UpdateCommentData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1585,14 +1588,11 @@ namespace Migrators.MSSQL.Migrations
                     b.Property<bool>("IsSeen")
                         .HasColumnType("bit");
 
+                    b.Property<Guid>("NotificatedId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("NotifyType")
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("ReferencedAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ReferencedArtworkId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SentToAccount")
                         .HasColumnType("uniqueidentifier");

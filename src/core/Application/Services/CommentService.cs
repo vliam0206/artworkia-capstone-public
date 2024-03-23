@@ -1,6 +1,8 @@
-﻿using Application.Models;
+﻿using Application.Commons;
+using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
+using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
@@ -28,6 +30,9 @@ public class CommentService : ICommentService
             Content = commentText
         };
         await _unitOfWork.CommentRepository.AddAsync(comment);
+        // update artwork comment count
+        await _unitOfWork.ArtworkRepository.IncreaseCommentCountAsync(artworkId);
+
         await _unitOfWork.SaveChangesAsync();
         return (comment);
     }
@@ -47,6 +52,8 @@ public class CommentService : ICommentService
             throw new UnauthorizedAccessException();
         }
         _unitOfWork.CommentRepository.SoftDelete(comment);
+        // update artwork comment count
+        await _unitOfWork.ArtworkRepository.DecreaseCommentCountAsync(comment.ArtworkId);
         _unitOfWork.CommentRepository.SoftDeleteReplies(commentId);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -110,7 +117,18 @@ public class CommentService : ICommentService
             Content = replyCommentText
         };
         await _unitOfWork.CommentRepository.AddAsync(replyComment);
+        // update artwork comment count
+        await _unitOfWork.ArtworkRepository.IncreaseCommentCountAsync(comment.ArtworkId);
         await _unitOfWork.SaveChangesAsync();
         return (replyComment);
+    }
+
+    public async Task<PagedList<CommentVM>> GetCommentsByArtworkWithRepliesPaginationAsync(Guid artworkId, PagedCriteria pagecriteria)
+    {
+        var comments = await _unitOfWork.CommentRepository
+            .GetCommentsWithRepliesPaginationAsync(artworkId, 
+                                            pagecriteria.PageNumber, pagecriteria.PageSize);
+        var commentVMs = _mapper.Map<PagedList<CommentVM>>(comments);
+        return commentVMs;
     }
 }

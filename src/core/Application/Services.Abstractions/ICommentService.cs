@@ -1,4 +1,6 @@
-﻿using Application.Models;
+﻿using Application.Commons;
+using Application.Models;
+using Domain.Entities.Commons;
 using Domain.Entitites;
 
 namespace Application.Services.Abstractions;
@@ -11,6 +13,7 @@ public interface ICommentService
     Task<CommentVM?> GetCommentByIdAsync(Guid commentId);
     Task<List<CommentVM>> GetCommentsByArtworkAsync(Guid artworkId);
     Task<List<CommentVM>> GetCommentsByArtworkWithRepliesAsync(Guid artworkId);
+    Task<PagedList<CommentVM>> GetCommentsByArtworkWithRepliesPaginationAsync(Guid artworkId, PagedCriteria pagecriteria);
     Task<List<Comment>> GetReplyCommentsAsync(Guid commentId);
     Task<Comment> ReplyCommentAsync(Guid commentId, string replyCommentText);
 }

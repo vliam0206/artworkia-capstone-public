@@ -22,18 +22,24 @@ public class AuthController : ControllerBase
     private readonly ITokenHandler _tokenHandler;
     private readonly IMapper _mapper;
     private readonly IThirdAuthenticationService _thirdAuthenticationService;
+    private readonly AppConfiguration _appConfiguration;
+    private readonly IClaimService _claimService;
 
     public AuthController(IAccountService accountService,
         IUserTokenService userTokenService,
         ITokenHandler tokenHandler,
         IMapper mapper,
-        IThirdAuthenticationService thirdAuthenticationService)
+        IThirdAuthenticationService thirdAuthenticationService,
+        AppConfiguration appConfiguration,
+        IClaimService claimService)
     {
         _accountService = accountService;
         _userTokenService = userTokenService;
         _tokenHandler = tokenHandler;
         _mapper = mapper;
         _thirdAuthenticationService = thirdAuthenticationService;
+        _appConfiguration = appConfiguration;
+        _claimService = claimService;
     }
 
     [HttpPost("login")]
@@ -78,7 +84,7 @@ public class AuthController : ControllerBase
             RTid = refreshToken.TokenId,
             RefreshToken = refreshToken.Token,
             IssuedDate = issuedDate,
-            ExpiredDate = issuedDate.AddHours(24*7),
+            ExpiredDate = issuedDate.AddHours(_appConfiguration.JwtConfiguration.RTExpHours),
         };
         await _userTokenService.SaveTokenAsync(token);
 
@@ -200,4 +206,17 @@ public class AuthController : ControllerBase
             Fullname = account.Fullname
         });
     }
+
+    [HttpGet("validate-access-token")]
+    [Authorize]
+    public IActionResult ValidateAccessToken()
+    {
+        return Ok(new
+        {
+            UserId = _claimService.GetCurrentUserId,
+            UserName = _claimService.GetCurrentUserName,
+            Role = _claimService.GetCurrentRole
+        });
+    }
+
 }
