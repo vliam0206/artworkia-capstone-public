@@ -1,6 +1,7 @@
 ﻿using Application.Commons;
 using Application.Filters;
 using Application.Models;
+using Domain.Entities.Commons;
 using Domain.Entitites;
 
 namespace Application.Services.Abstractions;
@@ -18,4 +19,5 @@ public interface IAccountService
     Task<PagedList<AccountVM>> GetAccountsAsync(AccountCriteria criteria);
     Task<List<Account>> GetDeletedAccountsAsync();
     Task UpdateAccountAsync(Account account);
+    Task<PagedList<HiredAccountVM>> GetHiredAccountAsync(PagedCriteria pagedCriteria);
 }

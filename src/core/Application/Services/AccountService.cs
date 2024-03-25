@@ -3,6 +3,7 @@ using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
+using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 
@@ -167,5 +168,13 @@ public class AccountService : IAccountService
                                   criteria.PageNumber, criteria.PageSize);
         var listAccountVM = _mapper.Map<PagedList<AccountVM>>(listAccount);
         return listAccountVM;
+    }
+
+    public async Task<PagedList<HiredAccountVM>> GetHiredAccountAsync(PagedCriteria pagedCriteria)
+    {
+        var hiredAccounts = await _unitOfWork.AccountRepository
+            .GetAllHiredAccountsAsync(pagedCriteria.PageNumber, pagedCriteria.PageSize);
+        var viewmodels = _mapper.Map<PagedList<HiredAccountVM>>(hiredAccounts);
+        return viewmodels;
     }
 }

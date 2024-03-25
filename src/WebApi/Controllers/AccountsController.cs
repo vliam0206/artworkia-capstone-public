@@ -3,6 +3,7 @@ using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
+using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -315,4 +316,20 @@ public class AccountsController : ControllerBase
             });
         }
     }
+
+    // GET: api/accounts/hire
+    [HttpGet("hire")]
+    public async Task<ActionResult<IEnumerable<AccountVM>>> GetHiredAccounts([FromQuery] PagedCriteria pagedCriteria)
+    {
+        try
+        {
+            var accounts = await _accountService.GetHiredAccountAsync(pagedCriteria);
+            return Ok(accounts);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
 }

@@ -69,7 +69,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Avatar = "https://i.pinimg.com/564x/be/85/2f/be852fd4ad1cb76b83ce962f618895bd.jpg",
                 Birthdate = DateTime.Parse("2002-10-4"),
                 Role = RoleEnum.CommonUser,
-                CreatedOn = DateTime.Parse("2023-09-15T10:15:47.890Z")
+                CreatedOn = DateTime.Parse("2023-09-15T10:15:47.890Z"),
+                IsVerified = true
             },
             new Account()
             {
@@ -108,7 +109,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Avatar = "https://i.pinimg.com/736x/81/3c/57/813c57fcb969d58fac1672594da05532.jpg",
                 Birthdate = DateTime.Parse("2002-5-6"),
                 Role = RoleEnum.CommonUser,
-                CreatedOn = DateTime.Parse("2023-09-30T03:21:47.890Z")
+                CreatedOn = DateTime.Parse("2023-09-30T03:21:47.890Z"),
+                IsVerified = true
             },
             // moderators
             new Account()

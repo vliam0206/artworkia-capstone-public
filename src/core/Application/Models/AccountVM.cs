@@ -40,3 +40,14 @@ public class AccountBasicInfoVM
     public string Fullname { get; set; } = default!;
     public string? Avatar { get; set; }
 }
+
+public class HiredAccountVM
+{
+    public Guid Id { get; set; }
+    public string Username { get; set; } = default!;
+    public string Email { get; set; } = default!;
+    public string Fullname { get; set; } = default!;
+    public string? Avatar { get; set; }
+    public bool IsVerified { get; set; }
+    public int ProjectCompleted { get; set; } = 0;
+}

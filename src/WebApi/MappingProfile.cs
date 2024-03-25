@@ -3,6 +3,7 @@ using Application.Models;
 using Application.Models.ZaloPayModels;
 using AutoMapper;
 using Domain.Entitites;
+using Domain.Enums;
 using WebApi.ViewModels;
 namespace WebApi;
 
@@ -16,6 +17,12 @@ public class MappingProfile : Profile
         CreateMap<Account, AccountVM>().ReverseMap();
         CreateMap<Account, RegisterModel>().ReverseMap();
         CreateMap<Account, AccountModel>().ReverseMap();
+        CreateMap<Account, HiredAccountVM>()
+            .ForMember(model => model.ProjectCompleted,
+                opt => opt.MapFrom(x => x.Proposals
+                .Where(p => p.ProposalStatus == ProposalStateEnum.Completed
+                    || p.ProposalStatus == ProposalStateEnum.CompletePayment)
+                .Count()));
 
         CreateMap<Tag, TagModel>().ReverseMap();
         CreateMap<Tag, TagVM>().ReverseMap();

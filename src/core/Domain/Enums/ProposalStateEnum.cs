@@ -2,10 +2,11 @@
 
 public enum ProposalStateEnum
 {
-    Waiting,
-    Accepted,
-    Declined,
-    InitPayment,
-    CompletePayment,
-    Cancelled
+    Waiting = 0,
+    Accepted = 1,
+    Declined = 2,
+    InitPayment = 3,
+    CompletePayment = 4,
+    Cancelled = 5,
+    Completed = 6
 }

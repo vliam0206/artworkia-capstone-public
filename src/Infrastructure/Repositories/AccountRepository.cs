@@ -4,6 +4,7 @@ using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
 using Infrastructure.Repositories.Commons;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
@@ -47,6 +48,15 @@ public class AccountRepository : GenericAuditableRepository<Account>, IAccountRe
         var result = await ToPaginationAsync(allAccounts, page, pageSize);
         #endregion
 
+        return result;
+    }
+
+    public async Task<IPagedList<Account>> GetAllHiredAccountsAsync(int pageNumber, int pageSize)
+    {
+        var accounts = _dbContext.Accounts
+            .Where(x => x.DeletedOn == null)
+            .Include(x => x.Proposals);
+        var result = await this.ToPaginationAsync(accounts, pageNumber, pageSize);
         return result;
     }
 }
