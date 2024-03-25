@@ -11,6 +11,7 @@ public class ArtworkEM
     [MaxLength(5000)]
     public string? Description { get; set; } 
     public PrivacyEnum Privacy { get; set; } = default!;
+    public bool IsAIGenerated { get; set; } = default!;
     public IFormFile? Thumbnail { get; set; }
     public List<IFormFile>? ImageFiles { get; set; }
     public List<string>? Tags { get; set; }
@@ -28,6 +29,7 @@ public class ArtworkModel
     public IFormFile Thumbnail { get; set; } = default!;
     [Required]
     public PrivacyEnum Privacy { get; set; } = default!;
+    public bool IsAIGenerated { get; set; } = default!;
     [Required]
     public List<IFormFile> ImageFiles { get; set; } = default!;
     public List<SingleAssetModel>? AssetFiles { get; set; }

@@ -21,7 +21,8 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
 
     public async Task<IPagedList<Artwork>> GetAllArtworksAsync(
         string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize,
-        Guid? accountId = null, Guid? categoryId = null, Guid? tagId = null, StateEnum? state = null, PrivacyEnum? privacy = null)
+        Guid? accountId = null, Guid? categoryId = null, Guid? tagId = null, 
+        StateEnum? state = null, PrivacyEnum? privacy = null)
     {
         Guid? loginId = _claimService.GetCurrentUserId;
         string loginRole = _claimService.GetCurrentRole;
@@ -36,7 +37,7 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
 
         // if user is not login, only show public artworks
         // if user is login, role is common user, and accountId is not owned artworks, only show public artworks
-        if (loginId == null || (loginId != null && loginRole.Equals(RoleEnum.CommonUser) && loginId != accountId))
+        if (loginId == null || (loginId != null && loginRole.Equals(RoleEnum.CommonUser.ToString()) && loginId != accountId))
         {
             allArtworks = allArtworks.Where(a => a.State == StateEnum.Accepted && a.Privacy == PrivacyEnum.Public);
         }

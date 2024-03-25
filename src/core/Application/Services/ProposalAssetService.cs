@@ -58,6 +58,7 @@ public class ProposalAssetService : IProposalAssetService
         {
             ChatBoxId = proposal.ChatBoxId, 
             FileLocation = url,
+            FileName = proposalAsset.ProposalAssetName
         };
         await _unitOfWork.MessageRepository.AddAsync(newMessage);
 

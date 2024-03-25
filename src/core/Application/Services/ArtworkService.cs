@@ -40,11 +40,24 @@ public class ArtworkService : IArtworkService
 
     public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksAsync(ArtworkCriteria criteria)
     {
+        Guid? loginId = _claimService.GetCurrentUserId;
+
         var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
             criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
             null, criteria.CategoryId, criteria.TagId);
         var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
+
+        // check if user login liked artworks
+        if (loginId != null)
+        {
+            foreach (var artworkPreviewVM in listArtworkPreviewVM.Items)
+            {
+                var isLiked = await _unitOfWork.LikeRepository.GetByIdAsync(loginId.Value, artworkPreviewVM.Id);
+                artworkPreviewVM.IsLiked = isLiked != null;
+            }
+        }
+
         return listArtworkPreviewVM;
     }
 
@@ -60,20 +73,42 @@ public class ArtworkService : IArtworkService
 
     public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkModerationCriteria criteria)
     {
+        Guid? loginId = _claimService.GetCurrentUserId;
+
         var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
             criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
             accountId, criteria.CategoryId, criteria.TagId, criteria.State, criteria.Privacy);
         var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
+
+        // check if user login liked artworks
+        if (loginId != null)
+        {
+            foreach (var artworkPreviewVM in listArtworkPreviewVM.Items)
+            {
+                var isLiked = await _unitOfWork.LikeRepository.GetByIdAsync(loginId.Value, artworkPreviewVM.Id);
+                artworkPreviewVM.IsLiked = isLiked != null;
+            }
+        }
         return listArtworkPreviewVM;
     }
+
     public async Task<PagedList<ArtworkPreviewVM>> GetArtworksOfFollowingsAsync(PagedCriteria criteria)
     {
         Guid followerId = _claimService.GetCurrentUserId ?? default;
         var listArtwork = await _unitOfWork.ArtworkRepository.GetArtworksOfFollowingsAsync(
             followerId, criteria.PageNumber, criteria.PageSize);
         var listArtworkPreviewVM = _mapper.Map<PagedList<ArtworkPreviewVM>>(listArtwork);
+
+        // check if user liked artworks
+        foreach (var artworkPreviewVM in listArtworkPreviewVM.Items)
+        {
+            var isLiked = await _unitOfWork.LikeRepository.GetByIdAsync(followerId, artworkPreviewVM.Id);
+            artworkPreviewVM.IsLiked = isLiked != null;
+        }
+
         return listArtworkPreviewVM;
+
     }
 
     public async Task<List<ImageDuplicationVM>> GetArtworksDuplicateAsync(Guid artworkId)
@@ -173,7 +208,7 @@ public class ArtworkService : IArtworkService
                 Guid artworkId = newArtwork.Id;
                 string newAssetName = artworkId + "_a" + singleAsset.index;
                 string assetFolderName = $"{PARENT_FOLDER}/Asset";
-                string imageExtension = Path.GetExtension(singleAsset.file.File.FileName); 
+                string imageExtension = Path.GetExtension(singleAsset.file.File.FileName);
 
                 // upload asset len firebase, lay url
                 uploadAssetsTask.Add(Task.Run(async () =>
@@ -197,9 +232,9 @@ public class ArtworkService : IArtworkService
             await Task.WhenAll(uploadAssetsTask);
         }
 
-        if (flagPrice) 
+        if (flagPrice)
             newArtwork.State = StateEnum.Waiting;
-        else 
+        else
             newArtwork.State = StateEnum.Accepted;
 
         await _unitOfWork.SaveChangesAsync();
@@ -219,7 +254,7 @@ public class ArtworkService : IArtworkService
             artwork.CreatedBy != _claimService.GetCurrentUserId)
         {
             throw new UnauthorizedAccessException("You are not allow to access this function.");
-        }   
+        }
         _unitOfWork.ArtworkRepository.Delete(artwork);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -249,7 +284,7 @@ public class ArtworkService : IArtworkService
         oldArtwork.Title = artworkEM.Title;
         oldArtwork.Description = artworkEM.Description;
         oldArtwork.Privacy = artworkEM.Privacy;
-
+        // chua update AI, thumbnail, imagefiles, tags, categories
         _unitOfWork.ArtworkRepository.Update(oldArtwork);
         await _unitOfWork.SaveChangesAsync();
     }
