@@ -92,7 +92,6 @@ public class MessagesController : ControllerBase
     }
 
     [HttpGet("/api/chatbox/{chatBoxId}/[controller]/ws")]
-    [Authorize]
     public async Task GetMessagesByChatIdWebSocket(Guid chatBoxId)
     {
         try

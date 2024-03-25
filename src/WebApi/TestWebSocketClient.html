@@ -7,7 +7,8 @@
 </head>
 <body>
     <h1>Test WebSocket client</h1>
-    <span name="chat-session"></span>
+    <p id="debugg"></p>
+    <span id="chat-session"></span>
 </body>
 </html>
 <script>
@@ -18,8 +19,10 @@
 
     socket.onmessage = (event) => {        
         const messages = JSON.parse(event.data);
-        console.log(`Received data from server: ${messages}`);
-        debugger
+        console.log(`Received data from server:`);
+        console.log(messages);
+        document.getElementById('debugg').textContent = `Received data from server: ${JSON.stringify(messages)}`;
+        // debugger
         // Check if messages is an array
         if (Array.isArray(messages)) {
             // Iterate over each message object in the array
@@ -31,7 +34,7 @@
                 messageElement.textContent = messageText;
 
                 // Append the message element to the chat session
-                const chatSession = document.querySelector('[name="chat-session"]');
+                const chatSession = document.getElementById('chat-session');
                 chatSession.appendChild(messageElement);
             });
         } else {
