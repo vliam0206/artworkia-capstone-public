@@ -21,6 +21,7 @@ public static class DependencyInjection
         services.AddScoped<ICollectionRepository, CollectionRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<IImageRepository, ImageRepository>();
+        services.AddScoped<ILicenseTypeRepository, LicenseTypeRepository>();
         services.AddScoped<ILikeRepository, LikeRepository>();
         services.AddScoped<IMessageRepository, MessageRepository>();
         services.AddScoped<INotificationRepository, NotificationRepository>();
@@ -31,6 +32,8 @@ public static class DependencyInjection
         services.AddScoped<IReviewRepository, ReviewRepository>();
         services.AddScoped<IServiceRepository, ServiceRepository>();
         services.AddScoped<IServiceDetailRepository, ServiceDetailRepository>();
+        services.AddScoped<ISoftwareDetailRepository, SoftwareDetailRepository>();
+        services.AddScoped<ISoftwareUsedRepository, SoftwareUsedRepository>();
         services.AddScoped<ITagDetailRepository, TagDetailRepository>();
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<ITransactionHistoryRepository, TransactionHistoryRepository>();

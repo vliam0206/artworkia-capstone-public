@@ -20,5 +20,5 @@ public class CategoryListArtworkModel
     [Required]
     public Guid ArtworkId { get; set; }
     [Required]
-    public List<Guid> CategoryList { get; set; } = default!;
+    public HashSet<Guid> CategoryList { get; set; } = default!;
 }

@@ -24,8 +24,10 @@ public class ArtworkVM
     public Guid? DeletedBy { get; set; }
     public DateTime? DeletedOn { get; set; }
     public AccountBasicInfoVM Account { get; set; } = default!;
+    public LicenseTypeVM LicenseType { get; set; } = default!;
     public List<CategoryVM> CategoryList { get; set; } = default!;
     public List<TagVM> TagList { get; set; } = default!;
+    public List<SoftwareUsedVM> SoftwareUseds { get; set; } = default!;
     public List<AssetVM>? Assets { get; set; }
     public List<ImageVM> Images { get; set; } = default!;
     public List<CommentVM>? Comments { get; set; }
@@ -83,6 +85,8 @@ public class ArtworkModerationVM
     public Guid? DeletedBy { get; set; }
     public DateTime? DeletedOn { get; set; }
     public AccountBasicInfoVM Account { get; set; } = default!;
+    public LicenseTypeVM LicenseType { get; set; } = default!;
     public List<CategoryVM> CategoryList { get; set; } = default!;
     public List<TagVM> TagList { get; set; } = default!;
+    public List<SoftwareUsedVM> SoftwareUseds { get; set; } = default!;
 }

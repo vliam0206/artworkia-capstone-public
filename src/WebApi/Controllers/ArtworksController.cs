@@ -5,6 +5,7 @@ using Application.Services;
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entities.Commons;
+using Domain.Entitites;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,16 +36,54 @@ public class ArtworksController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllArtworks([FromQuery] ArtworkCriteria criteria)
     {
-        var result = await _artworkService.GetAllArtworksAsync(criteria);
-        return Ok(result);
+        try
+        {
+            var result = await _artworkService.GetAllArtworksAsync(criteria);
+            return Ok(result);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
     }
 
     [HttpGet("followings")]
     [Authorize]
     public async Task<IActionResult> GetArtworksOfFollowings([FromQuery] PagedCriteria criteria)
     {
-        var result = await _artworkService.GetArtworksOfFollowingsAsync(criteria);
-        return Ok(result);
+        try
+        {
+            var result = await _artworkService.GetArtworksOfFollowingsAsync(criteria);
+            return Ok(result);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
     }
 
     [HttpGet("privacy-enum")]
@@ -348,7 +387,7 @@ public class ArtworksController : ControllerBase
 
         return new ApiResponse { IsSuccess = true };
     }
-    private ApiResponse ValidateCategory(List<Guid> Categories)
+    private ApiResponse ValidateCategory(HashSet<Guid> Categories)
     {
         if (Categories.Count > 3)
         {

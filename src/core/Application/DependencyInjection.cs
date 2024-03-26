@@ -22,9 +22,12 @@ public static class DependencyInjection
         services.AddScoped<IFollowService, FollowService>();
         services.AddScoped<IImageService, ImageService>();        
         services.AddScoped<ILikeService, LikeService>();
+        services.AddScoped<ILicenseTypeService, LicenseTypeService>();
         services.AddScoped<IReportService, ReportService>();
         services.AddScoped<IRequestService, RequestService>();
         services.AddScoped<IServiceService, ServiceService>();
+        services.AddScoped<ISoftwareUsedService, SoftwareUsedService>();
+        services.AddScoped<ISoftwareDetailService, SoftwareDetailService>();
         services.AddScoped<ITagService, TagService>();        
         services.AddScoped<ITagDetailService, TagDetailService>();
         services.AddScoped<IWalletService, WalletService>();

@@ -41,7 +41,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 99,
                 LikeCount = 8,
                 CommentCount = 6,
-                State = StateEnum.Accepted
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
             },
             new Artwork()
             {
@@ -56,7 +57,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 327,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Accepted
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
             new Artwork()
             {
@@ -71,7 +73,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 638,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Accepted
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
             new Artwork()
             {
@@ -86,7 +89,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 23,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Accepted
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
             new Artwork()
             {
@@ -101,7 +105,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 779,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Accepted
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
             new Artwork()
             {
@@ -116,7 +121,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 245,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Accepted
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
             new Artwork()
             {
@@ -131,7 +137,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 356,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Accepted
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
             new Artwork()
             {
@@ -146,7 +153,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 342,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Accepted
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
             new Artwork()
             {
@@ -161,7 +169,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 86,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Accepted
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
             new Artwork()
             {
@@ -176,7 +185,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 145,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Accepted
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
             new Artwork()
             {
@@ -191,7 +201,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 65,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Accepted
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
             new Artwork()
             {
@@ -206,7 +217,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 234,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Accepted
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
 
             new Artwork()
@@ -222,7 +234,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 123,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Accepted
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
             new Artwork()
             {
@@ -237,7 +250,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 0,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Waiting
+                State = StateEnum.Waiting,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
             new Artwork()
             {
@@ -252,7 +266,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 ViewCount = 0,
                 LikeCount = 0,
                 CommentCount = 0,
-                State = StateEnum.Waiting
+                State = StateEnum.Waiting,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             }
         );
         #endregion

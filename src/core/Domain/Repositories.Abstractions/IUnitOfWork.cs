@@ -13,6 +13,7 @@ public interface IUnitOfWork
     public ICollectionRepository CollectionRepository { get; }
     public ICommentRepository CommentRepository { get; }
     public ILikeRepository LikeRepository { get; }  
+    public ILicenseTypeRepository LicenseTypeRepository { get; }  
     public IMessageRepository MessageRepository { get; }
     public IFollowRepository FollowRepository { get; }
     public INotificationRepository NotificationRepository { get; }
@@ -23,6 +24,8 @@ public interface IUnitOfWork
     public IReviewRepository ReviewRepository { get; }
     public IServiceRepository ServiceRepository { get; }
     public IServiceDetailRepository ServiceDetailRepository { get; }
+    public ISoftwareDetailRepository SoftwareDetailRepository { get; }
+    public ISoftwareUsedRepository SoftwareUsedRepository { get; }
     public ITagDetailRepository TagDetailRepository { get; }
     public ITagRepository TagRepository { get; }
     public ITransactionHistoryRepository TransactionHistoryRepository { get; }

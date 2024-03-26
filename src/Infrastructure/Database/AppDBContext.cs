@@ -27,6 +27,8 @@ public class AppDBContext : DbContext
     public DbSet<ChatBox> ChatBoxes { get; set; }
     public DbSet<Collection> Collections { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    public DbSet<Image> Images { get; set; }
+    public DbSet<LicenseType> LicenseTypes { get; set; }
     public DbSet<Like> Likes { get; set; }
     public DbSet<Message> Messages { get; set; }
     public DbSet<Notification> Notifications { get; set; }
@@ -36,6 +38,8 @@ public class AppDBContext : DbContext
     public DbSet<Request> Requests { get; set; }
     public DbSet<Review> Reviews { get; set; }
     public DbSet<Service> Services { get; set; }
+    public DbSet<SoftwareUsed> SoftwareUseds { get; set; }
+    public DbSet<SoftwareDetail> SoftwareDetails { get; set; }
     public DbSet<ServiceDetail> ServiceDetails { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<TagDetail> TagDetails { get; set; }
@@ -44,7 +48,6 @@ public class AppDBContext : DbContext
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<WalletHistory> WalletHistories { get; set; }
     public DbSet<Follow> Follows { get; set; }
-    public DbSet<Image> Images { get; set; }
     public DbSet<Block> Blocks { get; set; }
     public DbSet<Milestone> Milestones { get; set; }
 

@@ -15,7 +15,7 @@ public class ArtworkEM
     public IFormFile? Thumbnail { get; set; }
     public List<IFormFile>? ImageFiles { get; set; }
     public List<string>? Tags { get; set; }
-    public List<Guid>? Categories { get; set; } 
+    public HashSet<Guid>? Categories { get; set; } 
 }
 
 public class ArtworkModel
@@ -30,12 +30,14 @@ public class ArtworkModel
     [Required]
     public PrivacyEnum Privacy { get; set; } = default!;
     public bool IsAIGenerated { get; set; } = default!;
+    public Guid? LicenseTypeId { get; set; } = default!;
     [Required]
     public List<IFormFile> ImageFiles { get; set; } = default!;
     public List<SingleAssetModel>? AssetFiles { get; set; }
     [Required]
-    public List<string> Tags { get; set; } = default!;
-    public List<Guid> Categories { get; set; } = default!;
+    public List<string> Tags { get; set; } = default!; // dung hashset de tranh trung lap
+    public HashSet<Guid> Categories { get; set; } = default!;
+    public HashSet<Guid>? SoftwareUseds { get; set; }
 }
 
 public class ArtworkStateEM

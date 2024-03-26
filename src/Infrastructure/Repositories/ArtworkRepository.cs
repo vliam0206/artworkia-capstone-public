@@ -29,10 +29,13 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
 
         var allArtworks = _dbContext.Artworks
             .Include(a => a.Account)
+            .Include(l => l.LicenseType)
             .Include(c => c.CategoryArtworkDetails)
                 .ThenInclude(c => c.Category)
             .Include(t => t.TagDetails)
                 .ThenInclude(t => t.Tag)
+            .Include(s => s.SoftwareDetails)
+                .ThenInclude(s => s.SoftwareUsed)
             .Where(a => a.DeletedOn == null);
 
         // if user is not login, only show public artworks
@@ -113,10 +116,13 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
 
         var allArtworks = _dbContext.Artworks
             .Include(a => a.Account)
+            .Include(l => l.LicenseType)
             .Include(c => c.CategoryArtworkDetails)
                 .ThenInclude(c => c.Category)
             .Include(t => t.TagDetails)
                 .ThenInclude(t => t.Tag)
+            .Include(s => s.SoftwareDetails)
+                .ThenInclude(s => s.SoftwareUsed)
             .Where(a => a.DeletedOn == null);
 
         if (accountId != null)
@@ -186,6 +192,7 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
     {
         return await _dbContext.Artworks
             .Include(a => a.Account)
+            .Include(l => l.LicenseType)
             .Include(i => i.Images)
             .Include(a => a.Assets)
             .Include(c => c.Comments)
@@ -193,6 +200,8 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
                 .ThenInclude(t => t.Tag)
             .Include(a => a.CategoryArtworkDetails)
                 .ThenInclude(c => c.Category)
+            .Include(s => s.SoftwareDetails)
+                .ThenInclude(s => s.SoftwareUsed)
             .FirstOrDefaultAsync(a => a.Id == artworkId);
     }
 

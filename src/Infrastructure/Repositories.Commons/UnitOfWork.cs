@@ -19,6 +19,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly ICollectionRepository _collectionRepository;
     private readonly ICommentRepository _commentRepository;
     private readonly ILikeRepository _likeRepository;
+    private readonly ILicenseTypeRepository _licenseTypeRepository;
     private readonly IMessageRepository _messageRepository;
     private readonly INotificationRepository _notificationRepository;
     private readonly IProposalAssetRepository _proposalAssetRepository;
@@ -28,6 +29,8 @@ public class UnitOfWork : IUnitOfWork
     private readonly IReviewRepository _reviewRepository;
     private readonly IServiceRepository _serviceRepository;
     private readonly IServiceDetailRepository _serviceDetailRepository;
+    private readonly ISoftwareDetailRepository _softwareDetailRepository;
+    private readonly ISoftwareUsedRepository _softwareUsedRepository;
     private readonly ITagDetailRepository _tagDetailRepository;
     private readonly ITagRepository _tagRepository;
     private readonly ITransactionHistoryRepository _transactionHistoryRepository;
@@ -51,6 +54,7 @@ public class UnitOfWork : IUnitOfWork
                       ICollectionRepository collectionRepository,
                       ICommentRepository commentRepository,
                       ILikeRepository likeRepository,
+                      ILicenseTypeRepository licenseTypeRepository,
                       IMessageRepository messageRepository,
                       INotificationRepository notificationRepository,
                       IProposalAssetRepository proposalAssetRepository,
@@ -60,6 +64,8 @@ public class UnitOfWork : IUnitOfWork
                       IReviewRepository reviewRepository,
                       IServiceRepository serviceRepository,
                       IServiceDetailRepository serviceDetailRepository,
+                      ISoftwareDetailRepository softwareDetailRepository,
+                      ISoftwareUsedRepository softwareUsedRepository,
                       ITagDetailRepository tagDetailRepository,
                       ITagRepository tagRepository,
                       ITransactionHistoryRepository transactionHistoryRepository,
@@ -83,6 +89,7 @@ public class UnitOfWork : IUnitOfWork
         _collectionRepository = collectionRepository;
         _commentRepository = commentRepository;
         _likeRepository = likeRepository;
+        _licenseTypeRepository = licenseTypeRepository;
         _messageRepository = messageRepository;
         _notificationRepository = notificationRepository;
         _proposalAssetRepository = proposalAssetRepository;
@@ -92,6 +99,8 @@ public class UnitOfWork : IUnitOfWork
         _reviewRepository = reviewRepository;
         _serviceRepository = serviceRepository;
         _serviceDetailRepository = serviceDetailRepository;
+        _softwareDetailRepository = softwareDetailRepository;
+        _softwareUsedRepository = softwareUsedRepository;
         _tagDetailRepository = tagDetailRepository;
         _tagRepository = tagRepository;
         _transactionHistoryRepository = transactionHistoryRepository;
@@ -125,6 +134,7 @@ public class UnitOfWork : IUnitOfWork
 
     public ILikeRepository LikeRepository => _likeRepository;
 
+    public ILicenseTypeRepository LicenseTypeRepository => _licenseTypeRepository;
     public IMessageRepository MessageRepository => _messageRepository;
 
     public INotificationRepository NotificationRepository => _notificationRepository;
@@ -140,6 +150,10 @@ public class UnitOfWork : IUnitOfWork
     public IReviewRepository ReviewRepository => _reviewRepository;
 
     public IServiceRepository ServiceRepository => _serviceRepository;
+
+    public ISoftwareDetailRepository SoftwareDetailRepository => _softwareDetailRepository;
+
+    public ISoftwareUsedRepository SoftwareUsedRepository => _softwareUsedRepository;
 
     public ITagDetailRepository TagDetailRepository => _tagDetailRepository;
 

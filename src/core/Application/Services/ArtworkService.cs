@@ -16,6 +16,7 @@ public class ArtworkService : IArtworkService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IImageService _imageService;
     private readonly ITagDetailService _tagDetailService;
+    private readonly ISoftwareDetailService _softwareDetailService;
     private readonly ICategoryArtworkDetailService _categoryArtworkDetailService;
     private readonly IFirebaseService _firebaseService;
     private readonly IClaimService _claimService;
@@ -24,6 +25,7 @@ public class ArtworkService : IArtworkService
         IUnitOfWork unitOfWork,
         IImageService imageService,
         ITagDetailService tagDetailService,
+        ISoftwareDetailService softwareDetailService,
         ICategoryArtworkDetailService catworkDetailService,
         IFirebaseService firebaseService,
         IClaimService claimService,
@@ -32,6 +34,7 @@ public class ArtworkService : IArtworkService
         _unitOfWork = unitOfWork;
         _imageService = imageService;
         _tagDetailService = tagDetailService;
+        _softwareDetailService = softwareDetailService;
         _categoryArtworkDetailService = catworkDetailService;
         _firebaseService = firebaseService;
         _claimService = claimService;
@@ -168,7 +171,17 @@ public class ArtworkService : IArtworkService
         newArtwork.ThumbnailName = newThumbnailName + extension;
         // them artwork 
         await _unitOfWork.ArtworkRepository.AddAsync(newArtwork);
-        //await _unitOfWork.SaveChangesAsync();
+
+        // them software used
+        if (artworkModel.SoftwareUseds != null)
+        {
+            SoftwareListArtworkModel softwareListArtworkModel = new SoftwareListArtworkModel()
+            {
+                ArtworkId = newArtwork.Id,
+                SoftwareList = artworkModel.SoftwareUseds
+            };
+            await _softwareDetailService.AddSoftwareListArtworkAsync(softwareListArtworkModel, false);
+        }
 
         // them tag 
         TagListArtworkModel tagListArtworkModel = new TagListArtworkModel()

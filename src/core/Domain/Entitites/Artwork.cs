@@ -28,6 +28,8 @@ public class Artwork : BaseEntity, ICreation, IModification, ISoftDelete
     public DateTime? DeletedOn { get; set; }
 
     public virtual Account Account { get; set; } = default!;
+    public virtual LicenseType? LicenseType { get; set; } = default!;
+    public Guid? LicenseTypeId { get; set; } = default!;
     public virtual ICollection<CategoryArtworkDetail> CategoryArtworkDetails { get; set; } = new List<CategoryArtworkDetail>();
     public virtual ICollection<Asset> Assets { get; set; } = new List<Asset>();
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();
@@ -36,5 +38,5 @@ public class Artwork : BaseEntity, ICreation, IModification, ISoftDelete
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     public virtual ICollection<Bookmark> Bookmarks { get; set; } = new List<Bookmark>();
     public virtual ICollection<ServiceDetail> ServiceDetails { get; set; } = new List<ServiceDetail>();
-
+    public virtual ICollection<SoftwareDetail> SoftwareDetails { get; set; } = new List<SoftwareDetail>();
 }
