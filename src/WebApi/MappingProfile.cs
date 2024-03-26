@@ -101,6 +101,7 @@ public class MappingProfile : Profile
 
         CreateMap<Wallet, WalletModel>().ReverseMap();
         CreateMap<Wallet, WalletVM>().ReverseMap();
+        CreateMap<Wallet, WalletEM>().ReverseMap();
         
         CreateMap<TransactionHistory, AssetTransactionModel>().ReverseMap();
         CreateMap<TransactionHistory, AssetTransactionVM>().ReverseMap();

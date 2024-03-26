@@ -25,6 +25,7 @@ public class WalletService : IWalletService
     public async Task<Wallet> AddWalletAsync(Guid acocuntId, WalletEM walletModel)
     {
         Wallet newWallet = _mapper.Map<Wallet>(walletModel);
+        newWallet.AccountId = acocuntId;
         await _unitOfWork.WalletRepository.AddAsync(newWallet);
         await _unitOfWork.SaveChangesAsync();
 
