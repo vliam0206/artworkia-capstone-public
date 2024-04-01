@@ -9,7 +9,13 @@ public interface IFirebaseService
     /// </summary>
     /// <returns>tra ve url file</returns>
     Task<string?> UploadFileToFirebaseStorage(IFormFile files, string fileName, string folderName);
-    
+    /// <summary>
+    /// Upload file len firebase storage, cung co the thay the file cung duong dan va ten
+    /// ten file upload khong co duoi file
+    /// </summary>
+    /// <returns>tra ve url file</returns>
+    Task<string?> UploadFileToFirebaseStorageNoExtension(IFormFile files, string fileName, string folderName);
+
     /// <summary>
     /// Xoa file tren firebase
     /// </summary>

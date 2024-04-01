@@ -3,6 +3,7 @@ using Application.Filters;
 using Application.Models;
 using Domain.Entities.Commons;
 using Domain.Entitites;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services.Abstractions;
 
@@ -20,4 +21,5 @@ public interface IAccountService
     Task<List<Account>> GetDeletedAccountsAsync();
     Task UpdateAccountAsync(Account account);
     Task<PagedList<HiredAccountVM>> GetHiredAccountAsync(PagedCriteria pagedCriteria);
+    Task EditAvatarAsync(Guid accountId, IFormFile avatar);
 }

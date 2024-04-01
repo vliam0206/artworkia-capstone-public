@@ -60,6 +60,29 @@ public class FirebaseService : IFirebaseService
         return null;
     }
 
+    public async Task<string?> UploadFileToFirebaseStorageNoExtension(IFormFile files, string fileName, string folderName)
+    {
+        if (files.Length > 0)
+        {
+            var task = new FirebaseStorage(
+                _firebaseConfiguration.Bucket
+                )
+                .Child(folderName)
+                .Child($"{fileName}")
+                .PutAsync(files.OpenReadStream());
+            try
+            {
+                string? urlFile = await task;
+                return urlFile;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        return null;
+    }
+
     public async Task DeleteFileInFirebaseStorage(string fileName, string folderName)
     {
         var task = new FirebaseStorage(
@@ -121,6 +144,4 @@ public class FirebaseService : IFirebaseService
             throw new Exception(ex.Message);
         }
     }
-
-
 }

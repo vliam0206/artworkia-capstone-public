@@ -217,7 +217,31 @@ public class AccountsController : ControllerBase
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
-    
+
+    // PUT: api/accounts/avatar
+    [HttpPut("{id}/avatar")]
+    [Authorize]
+    public async Task<IActionResult> ChangeAvatar(Guid id, [FromForm] IFormFile avatar)
+    {
+        try
+        {
+            if (!CheckAuthorize(id))
+            {
+                return Forbid();
+            }
+            await _accountService.EditAvatarAsync(id, avatar);
+            return NoContent();
+        }
+        catch (ArgumentException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
+
     private bool CheckAuthorize(Guid accountId)
     {
         // check authorize

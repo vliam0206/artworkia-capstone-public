@@ -2,26 +2,32 @@
 using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
+using Application.Services.Firebase;
 using AutoMapper;
 using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services;
 
 public class AccountService : IAccountService
 {
+    private static readonly string PARENT_FOLDER = "Account";
     private readonly IUnitOfWork _unitOfWork;
     private readonly IClaimService _claimService;
+    private readonly IFirebaseService _firebaseService;
     private readonly IMapper _mapper;
 
     public AccountService(
         IUnitOfWork unitOfWork, 
         IClaimService claimService,
+        IFirebaseService firebaseService,
         IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _claimService = claimService;
+        _firebaseService = firebaseService;
         _mapper = mapper;
     }    
 
@@ -176,5 +182,26 @@ public class AccountService : IAccountService
             .GetAllHiredAccountsAsync(pagedCriteria.PageNumber, pagedCriteria.PageSize);
         var viewmodels = _mapper.Map<PagedList<HiredAccountVM>>(hiredAccounts);
         return viewmodels;
+    }
+
+    public async Task EditAvatarAsync(Guid accountId, IFormFile avatar)
+    {
+        var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId);
+        if (account == null)
+        {
+            throw new ArgumentException("Account id not found.");
+        }
+
+        // change avatar
+        string newAvatarName = accountId + "_ava";
+        string folderName = $"{PARENT_FOLDER}/Avatar";
+        //upload hinh anh len firebase, lay url
+        var url = await _firebaseService.UploadFileToFirebaseStorageNoExtension(avatar, newAvatarName, folderName);
+        if (url == null)
+            throw new Exception("Error when uploading avatar to firebase");
+
+        account.Avatar = url;
+        _unitOfWork.AccountRepository.Update(account);
+        await _unitOfWork.SaveChangesAsync();
     }
 }
