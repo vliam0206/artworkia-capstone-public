@@ -260,11 +260,11 @@ public class AccountsController : ControllerBase
 
     // GET: /api/accounts/{account_id}/assets
     [HttpGet("{accountId}/assets")]
-    public async Task<IActionResult> GetAssetsOfAccount(Guid accountId, [FromQuery] AssetCriteria criteria)
+    public async Task<IActionResult> GetAssetsOfAccount(Guid accountId, [FromQuery] PagedCriteria criteria)
     {
         try
         {
-            var results = await _assetService.GetAssetsOfAccountAsync(accountId, criteria);
+            var results = await _artworkService.GetArtworksContainAssetsAsync(accountId, criteria);
             if (results == null)
                 return NotFound();
             return Ok(results);
@@ -353,6 +353,38 @@ public class AccountsController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500, ex.Message);
+        }
+    }
+
+    // GET: api/accounts/{id}/assets-bought
+    [HttpGet("{accountId}/assets-bought")]
+    public async Task<IActionResult> GetAssetsBoughtOfAccount(Guid accountId, [FromQuery] PagedCriteria pagedCriteria)
+    {
+        try
+        {
+            // check authorize
+            if (!CheckAuthorize(accountId))
+            {
+                return Forbid();
+            }
+            var assetsBought = await _assetService.GetAssetsBoughtOfAccountAsync(accountId, pagedCriteria);
+            return Ok(assetsBought);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
         }
     }
 

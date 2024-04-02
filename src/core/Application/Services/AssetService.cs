@@ -31,9 +31,21 @@ public class AssetService : IAssetService
 
     public async Task<IPagedList<AssetVM>> GetAllAssetsAsync(AssetCriteria criteria)
     {
+        Guid? accountId = _claimService.GetCurrentUserId;
+
         var listAsset = await _unitOfWork.AssetRepository.GetAllAssetsAsync(
             null, criteria.MinPrice, criteria.MaxPrice, criteria.Keyword, criteria.SortColumn, criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
         var listAssetVM = _mapper.Map<PagedList<AssetVM>>(listAsset);
+
+        // check if user is logged in
+        if (accountId != null)
+        {
+            foreach (var asset in listAssetVM.Items)
+            {
+                var isBought = await _unitOfWork.TransactionHistoryRepository.GetAssetTransactionAsync(accountId.Value, asset.Id);
+                asset.IsBought = isBought != null;
+            }
+        }
         return listAssetVM;
     }
 
@@ -47,16 +59,35 @@ public class AssetService : IAssetService
 
     public async Task<AssetVM?> GetAssetByIdAsync(Guid assetId)
     {
+        Guid? accountId = _claimService.GetCurrentUserId;
+
         var asset = await _unitOfWork.AssetRepository.GetByIdAsync(assetId);
         if (asset == null)
             throw new NullReferenceException("Asset does not exist!");
         if (asset.DeletedOn != null)
             throw new Exception("Asset already deleted!");
         var assetVM = _mapper.Map<AssetVM>(asset);
-        var fileMetaData = await _firebaseService.GetMetadataFileFromFirebaseStorage(assetVM.AssetName, $"{PARENT_FOLDER}/Asset");
-        if (fileMetaData == null)
-            throw new Exception("Cannot get metadata of asset! Maybe file was deleted on cloud storage");
-        assetVM.FileMetaData = fileMetaData;
+
+        // check if user is logged in
+        if (accountId != null)
+        {
+            var isBought = await _unitOfWork.TransactionHistoryRepository.GetAssetTransactionAsync(accountId.Value, assetId);
+            assetVM.IsBought = isBought != null;
+        }
+
+        // get metadata of asset
+        try
+        {
+            var fileMetaData = await _firebaseService.GetMetadataFileFromFirebaseStorage(assetVM.AssetName, $"{PARENT_FOLDER}/Asset");
+            if (fileMetaData != null)
+            {
+                assetVM.FileMetaData = fileMetaData;
+            }
+        }
+        catch (Exception ex)
+        {
+            //throw new Exception("Cannot get metadata of asset! Maybe file was deleted on cloud storage: " + ex);
+        }
         return assetVM;
     }
 
@@ -254,5 +285,19 @@ public class AssetService : IAssetService
             throw new NullReferenceException("This artwork does not have any asset!");
         var listAssetVMOfArtwork = _mapper.Map<List<AssetVM>>(listAssetOfArtwork);
         return listAssetVMOfArtwork;
+    }
+
+    public async Task<IPagedList<AssetVM>> GetAssetsBoughtOfAccountAsync(Guid accountId, PagedCriteria criteria)
+    {
+        var transactionAssets = await _unitOfWork.TransactionHistoryRepository.GetAssetsBoughtOfAccountAsync(accountId, criteria.PageNumber, criteria.PageSize);
+        List<AssetVM> listAssetVM = new();
+        foreach (var transaction in transactionAssets.Items)
+        {
+            var assetVM = _mapper.Map<AssetVM>(transaction.Asset);
+            assetVM.IsBought = true;
+            listAssetVM.Add(assetVM);
+        }
+        PagedList<AssetVM> pagedList = new(listAssetVM, transactionAssets.TotalCount, transactionAssets.CurrentPage, transactionAssets.PageSize);
+        return pagedList;
     }
 }

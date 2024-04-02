@@ -60,6 +60,7 @@ public class MappingProfile : Profile
         CreateMap<Account, AccountBasicInfoVM>().ReverseMap();
         CreateMap<Artwork, ArtworkModel>().ReverseMap();
         CreateMap<Artwork, ArtworkPreviewVM>().ReverseMap();
+        CreateMap<Artwork, ArtworkContainAssetVM>();
         CreateMap<Artwork, ArtworkDisplayModel>()
             .ForMember(model => model.Author, opt => opt.MapFrom(src => src.Account));
 

@@ -1,4 +1,5 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Models;
+using Application.Services.Abstractions;
 using CoenM.ImageHash;
 using Domain.Entities.Commons;
 using Domain.Entitites;
@@ -8,6 +9,8 @@ using Infrastructure.Database;
 using Infrastructure.Repositories.Commons;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
@@ -100,6 +103,21 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
             allArtworks = allArtworks.OrderByDescending(orderBy);
         }
         #endregion
+
+        #region paging
+        var result = await ToPaginationAsync(allArtworks, page, pageSize);
+        #endregion
+
+        return result;
+    }
+
+    public async Task<IPagedList<Artwork>> GetArtworksContainAssetsAsync(Guid creatorId, int page, int pageSize)
+    {
+        var allArtworks = _dbContext.Artworks
+            .Include(a => a.Assets)
+            .Where(a => a.CreatedBy == creatorId && a.DeletedOn == null && a.Assets.Any());
+
+        allArtworks = allArtworks.OrderByDescending(x => x.CreatedOn);
 
         #region paging
         var result = await ToPaginationAsync(allArtworks, page, pageSize);

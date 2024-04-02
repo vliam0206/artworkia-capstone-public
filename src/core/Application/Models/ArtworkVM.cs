@@ -51,6 +51,22 @@ public class ArtworkPreviewVM
     public AccountBasicInfoVM Account { get; set; } = default!;
 }
 
+public class ArtworkContainAssetVM
+{
+    public Guid Id { get; set; }
+    public string Title { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public string Thumbnail { get; set; } = default!;
+    public int ViewCount { get; set; } = default!;
+    public int LikeCount { get; set; } = default!;
+    public int CommentCount { get; set; } = default!;
+    public string Privacy { get; set; } = default!;
+    public string State { get; set; } = default!;
+    public Guid? CreatedBy { get; set; }
+    public DateTime CreatedOn { get; set; }
+    public List<AssetVM>? Assets { get; set; }
+}
+
 public class ArtworkDisplayModel
 {
     public Guid Id { get; set; }
