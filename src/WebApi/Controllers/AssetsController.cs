@@ -81,13 +81,13 @@ public class AssetsController : ControllerBase
         }
     }
 
-    [HttpGet("download-alt/{assetId}")]
-    [Authorize]
-    public async Task<IActionResult> GetAssetDownloadAlternativeAById(Guid assetId)
+    [HttpGet("moderation/download/{assetId}")]
+    [Authorize(Roles = "Moderator,Admin")]
+    public async Task<IActionResult> GetAssetDownloadForModeration(Guid assetId)
     {
         try
         {
-            var link = await _assetService.GetDownloadUriAssetAlternativeAsync(assetId);
+            var link = await _assetService.GetDownloadUriAssetForModerationAsync(assetId);
             return Ok(new { link });
         }
         catch (NullReferenceException ex)
@@ -107,6 +107,33 @@ public class AssetsController : ControllerBase
             });
         }
     }
+
+    //[HttpGet("download-alt/{assetId}")]
+    //[Authorize]
+    //public async Task<IActionResult> GetAssetDownloadAlternativeAById(Guid assetId)
+    //{
+    //    try
+    //    {
+    //        var link = await _assetService.GetDownloadUriAssetAlternativeAsync(assetId);
+    //        return Ok(new { link });
+    //    }
+    //    catch (NullReferenceException ex)
+    //    {
+    //        return BadRequest(new ApiResponse
+    //        {
+    //            IsSuccess = false,
+    //            ErrorMessage = ex.Message
+    //        });
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return BadRequest(new ApiResponse
+    //        {
+    //            IsSuccess = false,
+    //            ErrorMessage = ex.Message
+    //        });
+    //    }
+    //}
 
     [HttpPost]
     [Authorize]

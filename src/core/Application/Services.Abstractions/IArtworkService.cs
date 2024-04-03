@@ -11,7 +11,7 @@ public interface IArtworkService
     Task<PagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkModerationCriteria criteria);
     Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkModerationCriteria criteria);
     Task<PagedList<ArtworkPreviewVM>> GetArtworksOfFollowingsAsync(PagedCriteria criteria);
-    Task<IPagedList<ArtworkContainAssetVM>> GetArtworksContainAssetsAsync(Guid accountId, PagedCriteria criteria);
+    Task<IPagedList<ArtworkContainAssetVM>> GetArtworksContainAssetsOfAccountAsync(Guid accountId, PagedCriteria criteria);
     Task DeleteArtworkAsync(Guid artworkId);
     Task SoftDeleteArtworkAsync(Guid artworkId);
     Task UpdateArtworkAsync(Guid artworkId, ArtworkEM artworkEM);

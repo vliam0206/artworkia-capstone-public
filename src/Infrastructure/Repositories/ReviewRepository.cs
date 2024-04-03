@@ -14,6 +14,14 @@ public class ReviewRepository : GenericCreationRepository<Review>, IReviewReposi
     {
     }
 
+    public async Task<Review?> GetReviewByProposalIdAsync(Guid proposalId)
+    {
+        return await _dbContext.Reviews
+            .Include(r => r.Proposal)
+            .Include(r => r.Account)
+            .FirstOrDefaultAsync(x => x.ProposalId == proposalId);
+    }
+
     public async Task<Review?> GetReviewDetailAsync(Guid reviewId)
     {
         return await _dbContext.Reviews
@@ -59,6 +67,25 @@ public class ReviewRepository : GenericCreationRepository<Review>, IReviewReposi
 
         var result = await ToPaginationAsync(allReviews, page, pageSize);
         return result;
+    }
 
+    public async Task<IPagedList<Review>> GetReviewsByAccountIdAsync(Guid accountId, int page, int pageSize)
+    {
+        var allReviews = _dbContext.Reviews
+            .Include(r => r.Proposal).AsQueryable();
+        allReviews = allReviews.OrderByDescending(x => x.CreatedOn);
+        var result = await ToPaginationAsync(allReviews, page, pageSize);
+        return result;
+    }
+
+    public async Task<IPagedList<Review>> GetReviewsByServiceIdAsync(Guid serviceId, int page, int pageSize)
+    {
+        var allReviews = _dbContext.Reviews
+            .Include(r => r.Proposal)
+            .Include(r => r.Account)
+            .Where(x => x.Proposal.ServiceId == serviceId);
+        allReviews = allReviews.OrderByDescending(x => x.CreatedOn);
+        var result = await ToPaginationAsync(allReviews, page, pageSize);
+        return result;
     }
 }

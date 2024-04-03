@@ -21,6 +21,7 @@ public class AccountsController : ControllerBase
     private readonly IAssetService _assetService;
     private readonly IServiceService _serviceService;
     private readonly IArtworkService _artworkService;
+    private readonly IReviewService _reviewService; 
     private readonly IMapper _mapper;
     private readonly IClaimService _claimService;
 
@@ -30,7 +31,8 @@ public class AccountsController : ControllerBase
         IClaimService claimService,
         IAssetService assetService,
         IServiceService serviceService,
-        IArtworkService artworkService
+        IArtworkService artworkService,
+        IReviewService reviewService
         )
     {
         _accountService = accountService;
@@ -39,6 +41,7 @@ public class AccountsController : ControllerBase
         _assetService = assetService;   
         _serviceService = serviceService;
         _artworkService = artworkService;
+        _reviewService = reviewService;
     }
 
     // GET: api/accounts
@@ -264,7 +267,7 @@ public class AccountsController : ControllerBase
     {
         try
         {
-            var results = await _artworkService.GetArtworksContainAssetsAsync(accountId, criteria);
+            var results = await _artworkService.GetArtworksContainAssetsOfAccountAsync(accountId, criteria);
             if (results == null)
                 return NotFound();
             return Ok(results);
@@ -368,6 +371,33 @@ public class AccountsController : ControllerBase
                 return Forbid();
             }
             var assetsBought = await _assetService.GetAssetsBoughtOfAccountAsync(accountId, pagedCriteria);
+            return Ok(assetsBought);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    // GET: api/accounts/{id}/reviews
+    [HttpGet("{accountId}/reviews")]
+    public async Task<IActionResult> GetReviewsByAccountId(Guid accountId, [FromQuery] PagedCriteria pagedCriteria)
+    {
+        try
+        {
+            var assetsBought = await _reviewService.GetReviewsByAccountIdAsync(accountId, pagedCriteria);
             return Ok(assetsBought);
         }
         catch (NullReferenceException ex)

@@ -3,6 +3,7 @@ using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
+using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
@@ -33,14 +34,37 @@ public class ReviewService : IReviewService
         return _mapper.Map<PagedList<ReviewVM>>(listReview);
     }
 
-    public Task<PagedList<ReviewVM>> GetReviewsByAccountIdAsync(Guid accountId)
+    public async Task<PagedList<ReviewVM>> GetReviewsByAccountIdAsync(Guid accountId, PagedCriteria criteria)
     {
-        throw new NotImplementedException();
+        bool isAccountExisted = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
+        if (!isAccountExisted) {
+            throw new NullReferenceException("Account does not existed.");
+        }
+        var reviews = await _unitOfWork.ReviewRepository.GetReviewsByAccountIdAsync(accountId, criteria.PageNumber, criteria.PageSize);
+        return _mapper.Map<PagedList<ReviewVM>>(reviews);
     }
 
-    public Task<PagedList<ReviewVM>> GetReviewsByProposalIdAsync(Guid proposalId)
+    public async Task<PagedList<ReviewVM>> GetReviewsByServiceIdAsync(Guid serviceId, PagedCriteria criteria)
     {
-        throw new NotImplementedException();
+        bool isServiceExisted = await _unitOfWork.ServiceRepository.IsExistedAsync(serviceId);
+        if (!isServiceExisted)
+        {
+            throw new NullReferenceException("Service does not existed.");
+        }
+        var reviews = await _unitOfWork.ReviewRepository.GetReviewsByServiceIdAsync(serviceId, criteria.PageNumber, criteria.PageSize);
+        return _mapper.Map<PagedList<ReviewVM>>(reviews);
+    }
+
+    public async Task<ReviewVM> GetReviewByProposalIdAsync(Guid proposalId)
+    {
+        bool isProposalExisted = await _unitOfWork.ProposalRepository.IsExistedAsync(proposalId);
+        if (!isProposalExisted)
+        {
+            throw new NullReferenceException("Proposal does not existed.");
+        }
+        var review = await _unitOfWork.ReviewRepository.GetReviewByProposalIdAsync(proposalId);
+        var reviewVM = _mapper.Map<ReviewVM>(review);   
+        return reviewVM;
     }
 
     public async Task<ReviewVM> GetReviewAsync(Guid id)
@@ -123,4 +147,5 @@ public class ReviewService : IReviewService
         _unitOfWork.ReviewRepository.Delete(review);
         await _unitOfWork.SaveChangesAsync();
     }
+
 }

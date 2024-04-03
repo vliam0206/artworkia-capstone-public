@@ -36,8 +36,6 @@ public class AssetRepository : GenericRepository<Asset>, IAssetRepository
         return await _dbContext.Assets.Where(a => a.DeletedOn == null).ToListAsync();
     }
 
-    
-
     public async Task<Asset?> GetAssetAndItsCreatorAsync(Guid assetId)
     {
         return await _dbContext.Assets

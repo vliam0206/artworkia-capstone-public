@@ -116,6 +116,14 @@ public class AssetService : IAssetService
         return asset.Location;
     }
 
+    public async Task<string?> GetDownloadUriAssetForModerationAsync(Guid assetId)
+    {
+        var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId);
+        if (asset == null)
+            throw new NullReferenceException("Asset does not exist!");
+        return asset.Location;
+    }
+
     public async Task<string?> GetDownloadUriAssetAlternativeAsync(Guid assetId)
     {
         var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId);

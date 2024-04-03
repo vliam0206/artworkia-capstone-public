@@ -14,7 +14,7 @@ public static class FileValidationHelper
     private static readonly long MAX_AVATAR_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
     private static readonly long MAX_IMAGE_FILE_SIZE = 16 * 1024 * 1024; // 16 MB
     private static readonly long MAX_ASSET_FILE_SIZE = 500 * 1024 * 1024; // 500 MB
-
+        
     public static bool IsImageFormatValid(string fileName)
     {
         var fileExtension = Path.GetExtension(fileName).ToLower();

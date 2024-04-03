@@ -111,7 +111,24 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         return result;
     }
 
-    public async Task<IPagedList<Artwork>> GetArtworksContainAssetsAsync(Guid creatorId, int page, int pageSize)
+    public async Task<IPagedList<Artwork>> GetArtworksContainAssetsAsync(Guid? accountId, int? minPrice, int? maxPrice, 
+        string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize)
+    {
+        var allArtworks = _dbContext.Artworks
+            .Include(a => a.Assets)
+            .Include(a => a.Account)
+            .Where(a => a.DeletedOn == null && a.Assets.Any());
+
+        allArtworks = allArtworks.OrderByDescending(x => x.CreatedOn);
+
+        #region paging
+        var result = await ToPaginationAsync(allArtworks, page, pageSize);
+        #endregion
+
+        return result;
+    }
+
+    public async Task<IPagedList<Artwork>> GetArtworksContainAssetsOfAccountAsync(Guid creatorId, int page, int pageSize)
     {
         var allArtworks = _dbContext.Artworks
             .Include(a => a.Assets)

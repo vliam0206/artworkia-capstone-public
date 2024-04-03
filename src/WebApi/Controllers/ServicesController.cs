@@ -1,6 +1,7 @@
 ﻿using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
+using Domain.Entities.Commons;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,14 @@ namespace WebApi.Controllers;
 public class ServicesController : ControllerBase
 {
     private readonly IServiceService _serviceService;
+    private readonly IReviewService _reviewService;
 
-    public ServicesController(IServiceService serviceService)
+    public ServicesController(
+        IServiceService serviceService
+        , IReviewService reviewService)
     {
         _serviceService = serviceService;
+        _reviewService = reviewService;
     }
 
     [HttpGet]
@@ -40,6 +45,32 @@ public class ServicesController : ControllerBase
                 ErrorMessage = ex.Message
             });
         } catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    [HttpGet("{serviceId}/reviews")]
+    public async Task<IActionResult> GetReviewsByServiceId(Guid serviceId, [FromQuery] PagedCriteria criteria)
+    {
+        try
+        {
+            var serviceVM = await _reviewService.GetReviewsByServiceIdAsync(serviceId, criteria);
+            return Ok(serviceVM);
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
         {
             return BadRequest(new ApiResponse
             {

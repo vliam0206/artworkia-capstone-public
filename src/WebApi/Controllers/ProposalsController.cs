@@ -13,12 +13,16 @@ public class ProposalsController : ControllerBase
 {
     private readonly IProposalService _proposalService;
     private readonly IMilestoneService _milestoneService;
+    private readonly IReviewService _reviewService;
 
-    public ProposalsController(IProposalService proposalService, 
-                IMilestoneService milestoneService)
+    public ProposalsController(
+        IProposalService proposalService, 
+        IMilestoneService milestoneService,
+        IReviewService reviewService)
     {
         _proposalService = proposalService;
         _milestoneService = milestoneService;
+        _reviewService = reviewService;
     }
 
     [HttpGet]
@@ -38,6 +42,20 @@ public class ProposalsController : ControllerBase
             var proposal = await _proposalService.GetProposalByIdAsync(id);
             return Ok(proposal);
         } catch (NullReferenceException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+
+    [HttpGet("{id}/review")]
+    public async Task<IActionResult> GetReviewByProposalId(Guid id)
+    {
+        try
+        {
+            var proposal = await _reviewService.GetReviewByProposalIdAsync(id);
+            return Ok(proposal);
+        }
+        catch (NullReferenceException ex)
         {
             return NotFound(ex.Message);
         }

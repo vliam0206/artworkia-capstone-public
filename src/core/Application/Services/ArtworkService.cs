@@ -113,9 +113,9 @@ public class ArtworkService : IArtworkService
         return listArtworkPreviewVM;
     }
 
-    public async Task<IPagedList<ArtworkContainAssetVM>> GetArtworksContainAssetsAsync(Guid accountId, PagedCriteria criteria)
+    public async Task<IPagedList<ArtworkContainAssetVM>> GetArtworksContainAssetsOfAccountAsync(Guid accountId, PagedCriteria criteria)
     {
-        var listArtwork = await _unitOfWork.ArtworkRepository.GetArtworksContainAssetsAsync(
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetArtworksContainAssetsOfAccountAsync(
             accountId, criteria.PageNumber, criteria.PageSize);
         var listArtworkVM = _mapper.Map<PagedList<ArtworkContainAssetVM>>(listArtwork);
         return listArtworkVM;
