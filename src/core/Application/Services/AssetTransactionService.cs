@@ -33,7 +33,7 @@ public class AssetTransactionService : IAssetTransactionService
             throw new Exception("You already have this asset in your library");
 
         // Check if asset is not found or deleted
-        var asset = await _unitOfWork.AssetRepository.GetByIdAsync(assetTransactionModel.AssetId);
+        var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetTransactionModel.AssetId);
         if (asset is null)
             throw new NullReferenceException("Asset not found");
         if (asset.DeletedOn != null)
