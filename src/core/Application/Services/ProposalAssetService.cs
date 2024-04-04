@@ -48,22 +48,22 @@ public class ProposalAssetService : IProposalAssetService
         }
 
         // user phai gui tuan tu concept -> final -> revision
-        var proposalAssets = await _unitOfWork.ProposalAssetRepository.GetProposalAssetsOfProposalAsync(proposalAssetModel.ProposalId);
-        switch (proposalAssetModel.Type)
-        {
-            case ProposalAssetEnum.Final:
-                if (!proposalAssets.Any(x => x.Type == ProposalAssetEnum.Concept))
-                {
-                    throw new Exception("Must send concept before sending final.");
-                }
-                break;
-            case ProposalAssetEnum.Revision:
-                if (!proposalAssets.Any(x => x.Type == ProposalAssetEnum.Final))
-                {
-                    throw new Exception("Must send final before sending revision.");
-                }
-                break;
-        }
+        //var proposalAssets = await _unitOfWork.ProposalAssetRepository.GetProposalAssetsOfProposalAsync(proposalAssetModel.ProposalId);
+        //switch (proposalAssetModel.Type)
+        //{
+        //    case ProposalAssetEnum.Final:
+        //        if (!proposalAssets.Any(x => x.Type == ProposalAssetEnum.Concept))
+        //        {
+        //            throw new Exception("Must send concept before sending final.");
+        //        }
+        //        break;
+        //    case ProposalAssetEnum.Revision:
+        //        if (!proposalAssets.Any(x => x.Type == ProposalAssetEnum.Final))
+        //        {
+        //            throw new Exception("Must send final before sending revision.");
+        //        }
+        //        break;
+        //}
 
         // dat lai ten file
         string newProposalAssetName = $"{Path.GetFileNameWithoutExtension(proposalAssetModel.File.FileName)}_{DateTime.Now.Ticks}";
