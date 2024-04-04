@@ -30,4 +30,9 @@ public class TagDetailRepository : ITagDetailRepository
             .Include(x => x.Tag)
             .ToListAsync();
     }
+
+    public async Task<TagDetail?> GetTagDetailAsync(Guid artworkId, Guid tagId)
+    {
+        return await _dbContext.TagDetails.FirstOrDefaultAsync(x => x.ArtworkId == artworkId && x.TagId == tagId);
+    }
 }

@@ -43,14 +43,14 @@ public class ProposalService : IProposalService
 
         Guid audienceId = model.OrdererId;
         Guid creatorId = _claimService.GetCurrentUserId ?? default;
-        if (creatorId != service.CreatedBy)
-        {
-            throw new ArgumentException("Invalid ServiceId! You can only create proposal your own Service.");
-        }
-        if (audienceId == creatorId)
-        {
-            throw new ArgumentException("Invalid OrdererId! You can not create proposal your own proposal.");
-        }        
+        //if (creatorId != service.CreatedBy)
+        //{
+        //    throw new ArgumentException("Invalid ServiceId! You can only create proposal your own Service.");
+        //}
+        //if (audienceId == creatorId)
+        //{
+        //    throw new ArgumentException("Invalid OrdererId! You can not create proposal your own proposal.");
+        //}        
 
         Proposal newProposal = _mapper.Map<Proposal>(model);
 

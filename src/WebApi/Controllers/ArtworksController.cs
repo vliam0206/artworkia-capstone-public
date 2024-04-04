@@ -20,25 +20,28 @@ public class ArtworksController : ControllerBase
 {
     private readonly IArtworkService _artworkService;
     private readonly ITagService _tagService;
+    private readonly ITagDetailService _tagDetailService;
     private readonly IMapper _mapper;
 
     public ArtworksController(
-        IArtworkService artworkService, 
+        IArtworkService artworkService,
         ITagService tagService,
+        ITagDetailService tagDetailService,
         IMapper mapper
         )
     {
         _artworkService = artworkService;
         _tagService = tagService;
+        _tagDetailService = tagDetailService;
         _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllArtworks([FromQuery] ArtworkCriteria criteria)
+    public async Task<IActionResult> GetArtworks([FromQuery] ArtworkCriteria criteria)
     {
         try
         {
-            var result = await _artworkService.GetAllArtworksAsync(criteria);
+            var result = await _artworkService.GetArtworksAsync(criteria);
             return Ok(result);
         }
         catch (NullReferenceException ex)
@@ -103,14 +106,16 @@ public class ArtworksController : ControllerBase
             var result = await _artworkService.GetArtworkByIdAsync(artworkId);
             var resultModel = _mapper.Map<ArtworkVM>(result);
             return Ok(resultModel);
-        } catch (NullReferenceException ex)
+        }
+        catch (NullReferenceException ex)
         {
             return NotFound(new ApiResponse
             {
                 IsSuccess = false,
                 ErrorMessage = ex.Message
             });
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return BadRequest(new ApiResponse
             {
@@ -190,7 +195,8 @@ public class ArtworksController : ControllerBase
             var result = await _artworkService.AddArtworkAsync(artworkModel);
             return CreatedAtAction(nameof(GetArtworkById),
                 new { artworkId = result.Id }, result);
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return BadRequest(new ApiResponse
             {
@@ -247,14 +253,16 @@ public class ArtworksController : ControllerBase
         {
             await _artworkService.UpdateArtworkAsync(artworkId, artworkEM);
             return NoContent();
-        } catch (NullReferenceException ex)
+        }
+        catch (NullReferenceException ex)
         {
             return NotFound(new ApiResponse
             {
                 IsSuccess = false,
                 ErrorMessage = ex.Message
             });
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return BadRequest(new ApiResponse
             {
@@ -272,8 +280,51 @@ public class ArtworksController : ControllerBase
         {
             await _artworkService.DeleteArtworkAsync(artworkId);
             return NoContent();
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
 
-        } catch (Exception ex)
+    [HttpDelete("{artworkId}/tags/{tagId}")]
+    [Authorize]
+    public async Task<IActionResult> DeleteTagOfArtwork(Guid artworkId, Guid tagId)
+    {
+        try
+        {
+            await _tagDetailService.DeleteTagDetailAsync(artworkId, tagId);
+            return NoContent();
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound(new ApiResponse
+            {
+                IsSuccess = false,
+                ErrorMessage = ex.Message
+            });
+        }
+        catch (Exception ex)
         {
             return BadRequest(new ApiResponse
             {

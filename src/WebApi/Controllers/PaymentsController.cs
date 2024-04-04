@@ -78,7 +78,7 @@ public class PaymentsController : ControllerBase
                 // invalid callback
                 result["return_code"] = -1;
                 result["return_message"] = "mac not equal";
-                Log.Error("*****Mac not equal*****");
+                //Log.Error("*****Mac not equal*****");
             } else
             {   // payment success
                 // update order status

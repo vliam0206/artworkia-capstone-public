@@ -5,10 +5,10 @@ namespace Domain.Repositories.Abstractions;
 
 public interface IArtworkRepository : IGenericRepository<Artwork>
 {
-    Task<IPagedList<Artwork>> GetAllArtworksAsync(
+    Task<IPagedList<Artwork>> GetArtworksAsync(
         string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize,
         Guid? accountId = null, Guid? categoryId = null, Guid? tagId = null, StateEnum? state = null, PrivacyEnum? privacy = null);
-    Task<IPagedList<Artwork>> GetAllArtworksForModerationAsync(
+    Task<IPagedList<Artwork>> GetArtworksForModerationAsync(
         string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize,
         Guid? accountId = null, Guid? categoryId = null, Guid? tagId = null, StateEnum? state = null, PrivacyEnum? privacy = null);
     Task<IPagedList<Artwork>> GetArtworksOfFollowingsAsync(Guid followerId, int page, int pageSize);

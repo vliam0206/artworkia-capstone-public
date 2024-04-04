@@ -22,7 +22,7 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
     {
     }    
 
-    public async Task<IPagedList<Artwork>> GetAllArtworksAsync(
+    public async Task<IPagedList<Artwork>> GetArtworksAsync(
         string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize,
         Guid? accountId = null, Guid? categoryId = null, Guid? tagId = null, 
         StateEnum? state = null, PrivacyEnum? privacy = null)
@@ -143,7 +143,7 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         return result;
     }
 
-    public async Task<IPagedList<Artwork>> GetAllArtworksForModerationAsync(
+    public async Task<IPagedList<Artwork>> GetArtworksForModerationAsync(
         string? keyword, string? sortColumn, string? sortOrder, int page,
         int pageSize, Guid? accountId = null, Guid? categoryId = null,
         Guid? tagId = null, StateEnum? state = null, PrivacyEnum? privacy = null)

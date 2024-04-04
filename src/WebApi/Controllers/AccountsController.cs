@@ -21,7 +21,7 @@ public class AccountsController : ControllerBase
     private readonly IAssetService _assetService;
     private readonly IServiceService _serviceService;
     private readonly IArtworkService _artworkService;
-    private readonly IReviewService _reviewService; 
+    private readonly IReviewService _reviewService;
     private readonly IMapper _mapper;
     private readonly IClaimService _claimService;
 
@@ -38,7 +38,7 @@ public class AccountsController : ControllerBase
         _accountService = accountService;
         _mapper = mapper;
         _claimService = claimService;
-        _assetService = assetService;   
+        _assetService = assetService;
         _serviceService = serviceService;
         _artworkService = artworkService;
         _reviewService = reviewService;
@@ -215,7 +215,8 @@ public class AccountsController : ControllerBase
         catch (ArgumentException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        }catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
@@ -323,7 +324,7 @@ public class AccountsController : ControllerBase
     {
         try
         {
-            PagedList<ArtworkPreviewVM> result = await _artworkService.GetAllArtworksByAccountIdAsync(accountId, criteria);
+            var result = await _artworkService.GetAllArtworksByAccountIdAsync(accountId, criteria);
             return Ok(result);
         }
         catch (NullReferenceException ex)

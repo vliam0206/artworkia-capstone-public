@@ -1,4 +1,5 @@
 ﻿using Application.Services.Abstractions;
+using Domain.Enums;
 using System.Security.Claims;
 
 namespace WebApi.Services;
@@ -47,5 +48,20 @@ public class ClaimService : IClaimService
             return string.IsNullOrEmpty(userRoleClaim) ?
                             string.Empty : userRoleClaim;
         }
-    }    
+    }
+
+    // authorize only the user who is the owner of the account, the admin or the moderator
+    public bool IsAuthorized(Guid accountId)
+    {
+        var currentRole = GetCurrentRole;
+        if (!currentRole.Equals(RoleEnum.Moderator.ToString())
+            && !currentRole.Equals(RoleEnum.Admin.ToString()))
+        {
+            if (GetCurrentUserId != accountId)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

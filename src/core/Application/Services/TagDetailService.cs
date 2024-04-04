@@ -1,5 +1,6 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
+using AutoMapper;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 
@@ -8,10 +9,17 @@ namespace Application.Services;
 public class TagDetailService : ITagDetailService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IClaimService _claimService;
+    private readonly IMapper _mapper;
 
-    public TagDetailService(IUnitOfWork unitOfWork)
+    public TagDetailService(
+        IUnitOfWork unitOfWork,
+        IClaimService claimService,
+        IMapper mapper)
     {
         _unitOfWork = unitOfWork;
+        _claimService = claimService;
+        _mapper = mapper;
     }
 
     public async Task<TagListArtworkVM> GetTagListOfArtworkAsync(Guid artworkId)
@@ -52,9 +60,25 @@ public class TagDetailService : ITagDetailService
         
     }
 
-    public Task DeleteTagDetailAsync(Guid tagDetailId)
+    public async Task DeleteTagDetailAsync(Guid artworkId, Guid tagId)
     {
-        throw new NotImplementedException();
+        var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
+        if (artwork == null)
+        {
+            throw new NullReferenceException("This artwork not existed");
+        }
+        bool isAuthorized = _claimService.IsAuthorized(artwork.CreatedBy!.Value);
+        if (!isAuthorized)
+        {
+            throw new UnauthorizedAccessException("You are not authorized to delete this tag. (only mod, admin or owner of this artwork)");
+        }
+        var oldTagDetail = await _unitOfWork.TagDetailRepository.GetTagDetailAsync(artworkId, tagId);
+        if (oldTagDetail == null)
+        {
+            throw new NullReferenceException("This artwork never had this tag, or it did not exist.");
+        }
+        _unitOfWork.TagDetailRepository.DeleteTagDetail(oldTagDetail);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task AddTagDetailAsync(TagDetailModel tagDetailModel)

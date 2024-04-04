@@ -84,14 +84,16 @@ public class ReviewsController : ControllerBase
         {
             var result = await _reviewService.AddReviewAsync(model);
             return Ok(result);
-        } catch (NullReferenceException ex)
+        }
+        catch (NullReferenceException ex)
         {
             return NotFound(new ApiResponse
             {
                 IsSuccess = false,
                 ErrorMessage = ex.Message
             });
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return BadRequest(new ApiResponse
             {
@@ -109,14 +111,16 @@ public class ReviewsController : ControllerBase
         {
             var result = await _reviewService.UpdateReviewAsync(reviewId, model);
             return Ok(result);
-        } catch (NullReferenceException ex)
+        }
+        catch (NullReferenceException ex)
         {
             return NotFound(new ApiResponse
             {
                 IsSuccess = false,
                 ErrorMessage = ex.Message
             });
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return BadRequest(new ApiResponse
             {
@@ -134,14 +138,16 @@ public class ReviewsController : ControllerBase
         {
             await _reviewService.DeleteReviewAsync(id);
             return NoContent();
-        } catch (NullReferenceException ex)
+        }
+        catch (NullReferenceException ex)
         {
             return NotFound(new ApiResponse
             {
                 IsSuccess = false,
                 ErrorMessage = ex.Message
             });
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return BadRequest(new ApiResponse
             {

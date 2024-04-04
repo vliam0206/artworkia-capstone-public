@@ -42,7 +42,9 @@ public class AssetTransactionService : IAssetTransactionService
         // Check if user has enough money to buy this asset
         Guid accountId = _claimService.GetCurrentUserId ?? default;
         Wallet? wallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x => x.AccountId == accountId);
-        if (wallet is null)
+        Wallet? sellerWallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x => x.AccountId == asset.Artwork.CreatedBy);
+
+        if (wallet is null || sellerWallet is null)
         {
             throw new NullReferenceException("Wallet not found");
         }
@@ -50,6 +52,8 @@ public class AssetTransactionService : IAssetTransactionService
             throw new Exception("You don't have enough money to buy this asset");
 
         wallet.Balance -= asset.Price;
+        sellerWallet.Balance += asset.Price;
+
         TransactionHistory newAssetTransaction = new TransactionHistory()
         {
             CreatedBy = accountId,
@@ -61,6 +65,7 @@ public class AssetTransactionService : IAssetTransactionService
 
         await _unitOfWork.TransactionHistoryRepository.AddAsync(newAssetTransaction);
         _unitOfWork.WalletRepository.Update(wallet);
+        _unitOfWork.WalletRepository.Update(sellerWallet);
         await _unitOfWork.SaveChangesAsync();
         var result = _mapper.Map<AssetTransactionVM>(newAssetTransaction);
         return result;

@@ -8,8 +8,8 @@ using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
-using System.Security.Principal;
 namespace Application.Services;
+
 public class ArtworkService : IArtworkService
 {
     private static readonly string PARENT_FOLDER = "Artwork";
@@ -41,11 +41,11 @@ public class ArtworkService : IArtworkService
         _mapper = mapper;
     }
 
-    public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksAsync(ArtworkCriteria criteria)
+    public async Task<IPagedList<ArtworkPreviewVM>> GetArtworksAsync(ArtworkCriteria criteria)
     {
         Guid? loginId = _claimService.GetCurrentUserId;
 
-        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetArtworksAsync(
             criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
             null, criteria.CategoryId, criteria.TagId);
@@ -64,9 +64,9 @@ public class ArtworkService : IArtworkService
         return listArtworkPreviewVM;
     }
 
-    public async Task<PagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkModerationCriteria criteria)
+    public async Task<IPagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkModerationCriteria criteria)
     {
-        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksForModerationAsync(
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetArtworksForModerationAsync(
             criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
             null, criteria.CategoryId, criteria.TagId, criteria.State, criteria.Privacy);
@@ -74,11 +74,11 @@ public class ArtworkService : IArtworkService
         return listArtworkModerationVM;
     }
 
-    public async Task<PagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkModerationCriteria criteria)
+    public async Task<IPagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkModerationCriteria criteria)
     {
         Guid? loginId = _claimService.GetCurrentUserId;
 
-        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworksAsync(
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetArtworksAsync(
             criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
             accountId, criteria.CategoryId, criteria.TagId, criteria.State, criteria.Privacy);
@@ -96,7 +96,7 @@ public class ArtworkService : IArtworkService
         return listArtworkPreviewVM;
     }
 
-    public async Task<PagedList<ArtworkPreviewVM>> GetArtworksOfFollowingsAsync(PagedCriteria criteria)
+    public async Task<IPagedList<ArtworkPreviewVM>> GetArtworksOfFollowingsAsync(PagedCriteria criteria)
     {
         Guid followerId = _claimService.GetCurrentUserId ?? default;
         var listArtwork = await _unitOfWork.ArtworkRepository.GetArtworksOfFollowingsAsync(

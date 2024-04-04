@@ -84,13 +84,13 @@ public class ProposalAssetService : IProposalAssetService
         await _unitOfWork.ProposalAssetRepository.AddAsync(proposalAsset);
 
         // map asset vao message
-        var newMessage = new Message()
-        {
-            ChatBoxId = proposal.ChatBoxId,
-            FileLocation = url,
-            FileName = proposalAsset.ProposalAssetName
-        };
-        await _unitOfWork.MessageRepository.AddAsync(newMessage);
+        //var newMessage = new Message()
+        //{
+        //    ChatBoxId = proposal.ChatBoxId,
+        //    FileLocation = url,
+        //    FileName = proposalAsset.ProposalAssetName
+        //};
+        //await _unitOfWork.MessageRepository.AddAsync(newMessage);
 
         if (proposalAssetModel.Type == ProposalAssetEnum.Final)
         {

@@ -44,15 +44,15 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddCorsPolicy();
 
 // Serilog configuration
-Log.Logger = new LoggerConfiguration()
-      .ReadFrom.Configuration(builder.Configuration).CreateLogger();
+//Log.Logger = new LoggerConfiguration()
+//      .ReadFrom.Configuration(builder.Configuration).CreateLogger();
 
-builder.Host.UseSerilog();
+//builder.Host.UseSerilog();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.UseSerilogRequestLogging();
+//app.UseSerilogRequestLogging();
 
 app.UseOpenApi(); // use swagger
 

@@ -8,6 +8,7 @@ public class TagDetailModel
     [MaxLength(30)]
     public string TagName { get; set; } = default!;
 }
+
 public class TagListArtworkModel
 {
     public Guid ArtworkId { get; set; }

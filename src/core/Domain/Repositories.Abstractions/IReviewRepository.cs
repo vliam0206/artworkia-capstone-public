@@ -1,6 +1,5 @@
 ﻿using Domain.Entities.Commons;
 using Domain.Entitites;
-using Domain.Enums;
 
 namespace Domain.Repositories.Abstractions;
 public interface IReviewRepository : IGenericRepository<Review>
