@@ -51,7 +51,7 @@ public class AuthController : ControllerBase
             return BadRequest(new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = "User is not exist!"
+                ErrorMessage = "Thông tin không hợp lệ!"
             });
         }
         // check whether account exist in db
@@ -61,7 +61,7 @@ public class AuthController : ControllerBase
             return Unauthorized(new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = "Wrong username/password."
+                ErrorMessage = "Tên đăng nhập hoặc mật khẩu không đúng."
             });
         }
         if (account.DeletedOn != null)
@@ -69,7 +69,7 @@ public class AuthController : ControllerBase
             return Unauthorized(new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = "Account has been invalid."
+                ErrorMessage = "Tài khoản của bạn đã bị vô hiệu hóa."
             });
         }
         // login success - issue (access token, refresh token) pair
