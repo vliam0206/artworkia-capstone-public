@@ -194,13 +194,15 @@ public class ProposalService : IProposalService
         }
         // payment (coins)
         var amount = proposal.InitialPrice * proposal.Total;        
-        var wallet = await _unitOfWork.WalletRepository
-                        .GetSingleByConditionAsync(x => x.AccountId == currentId);
-        if (wallet == null)
-        {
-            throw new ArgumentException("WalletId not found!");
-        }        
-        await _walletService.SubtrasctCoinsFromWallet(wallet.Id, amount);
+        //var wallet = await _unitOfWork.WalletRepository
+        //                .GetSingleByConditionAsync(x => x.AccountId == currentId);
+        //if (wallet == null)
+        //{
+        //    throw new ArgumentException("WalletId not found!");
+        //}        
+        await _walletService.SubtrasctCoinsFromWallet(currentId, amount);
+        // check unit of work later
+        await _walletService.AddCoinsToWallet(proposal.CreatedBy ?? default, amount);
         // payment successfully -> add new payment history
         var transactionHistory = new TransactionModel
         {
@@ -210,6 +212,9 @@ public class ProposalService : IProposalService
             TransactionStatus = TransactionStatusEnum.Success
         };
         await _transactionHistoryService.CreateTransactionHistory(transactionHistory);
+        // payment successfully -> add new miletone
+        await _milstoneService.AddMilestoneToProposalAsync(proposalId, $"Đặt cọc thành công {amount} xu");
+
         // update the proposal status
         proposal.ProposalStatus = ProposalStateEnum.InitPayment;
         _unitOfWork.ProposalRepository.Update(proposal);
@@ -239,13 +244,15 @@ public class ProposalService : IProposalService
 
         // payment (coins)
         var amount = proposal.Total - (proposal.InitialPrice * proposal.Total);        
-        var wallet = await _unitOfWork.WalletRepository
-                        .GetSingleByConditionAsync(x => x.AccountId == currentId);
-        if (wallet == null)
-        {
-            throw new ArgumentException("WalletId not found!");
-        }
-        await _walletService.SubtrasctCoinsFromWallet(wallet.Id, amount);
+        //var wallet = await _unitOfWork.WalletRepository
+        //                .GetSingleByConditionAsync(x => x.AccountId == currentId);
+        //if (wallet == null)
+        //{
+        //    throw new ArgumentException("WalletId not found!");
+        //}
+        await _walletService.SubtrasctCoinsFromWallet(currentId, amount);
+        // check unit of work later
+        await _walletService.AddCoinsToWallet(proposal.CreatedBy ?? default, amount);
         // payment successfully -> add new payment history
         var transactionHistory = new TransactionModel
         {
@@ -255,6 +262,9 @@ public class ProposalService : IProposalService
             TransactionStatus = TransactionStatusEnum.Success
         };
         await _transactionHistoryService.CreateTransactionHistory(transactionHistory);
+        // payment successfully -> add new miletone
+        await _milstoneService.AddMilestoneToProposalAsync(proposalId, $"Hoàn tất thanh toán {amount} xu");
+
         // update the proposal status
         proposal.ProposalStatus = ProposalStateEnum.CompletePayment;
         _unitOfWork.ProposalRepository.Update(proposal);

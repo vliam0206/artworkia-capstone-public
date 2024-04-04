@@ -39,13 +39,11 @@ public class ChatBoxsController : ControllerBase
         }
     }
 
-    [HttpGet("/api/accounts/[controller]/ws")]
-    [Authorize]
-    public async Task GetChatBoxByAccountIdWebSocket()
+    [HttpGet("/api/accounts/{accountId}/[controller]/ws")]
+    public async Task GetChatBoxByAccountIdWebSocket(Guid accountId)
     {
         try
-        {
-            var accountId = _claimService.GetCurrentUserId ?? default;
+        {            
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 using (var ws = await HttpContext.WebSockets.AcceptWebSocketAsync())
