@@ -1,4 +1,5 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Models;
+using Application.Services.Abstractions;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
@@ -30,5 +31,14 @@ public class ProposalRepository : GenericCreationRepository<Proposal>, IProposal
         return await _dbContext.Proposals
             .Include(x => x.Review)
             .FirstOrDefaultAsync(x => x.Id == proposalId);
+    }
+
+    public async Task<List<Proposal>> GetProposalsByChatIdAsync(Guid ChatId)
+    {
+        return await _dbContext.Proposals
+            .Include(x => x.Review)
+            .Where(x => x.ChatBoxId == ChatId)
+            .ToListAsync();
+
     }
 }

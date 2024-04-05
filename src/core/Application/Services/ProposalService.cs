@@ -106,7 +106,7 @@ public class ProposalService : IProposalService
             throw new ArgumentException("Chat Session does not exist!");
         }
         var listProposal = await _unitOfWork.ProposalRepository
-                                .GetListByConditionAsync(x => x.ChatBoxId == chatId);
+                                .GetProposalsByChatIdAsync(chatId);
         var listProposalVM = _mapper.Map<List<ProposalVM>>(listProposal);
         return listProposalVM;
     }
