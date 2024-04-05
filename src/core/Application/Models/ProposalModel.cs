@@ -46,6 +46,7 @@ public class ProposalVM
     public string ProposalStatus { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
+    public bool IsReviewed { get; set; } = false;
 }
 
 public class ProposalUpdateStatusModel

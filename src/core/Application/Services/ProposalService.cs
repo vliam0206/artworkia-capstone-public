@@ -87,7 +87,7 @@ public class ProposalService : IProposalService
 
     public async Task<ProposalVM?> GetProposalByIdAsync(Guid proposalId)
     {
-        var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalId);
+        var proposal = await _unitOfWork.ProposalRepository.GetProposalDetailWithReviewAsync(proposalId);
         if (proposal == null)
         {
             throw new ArgumentException("Proposal does not exist");
@@ -136,7 +136,7 @@ public class ProposalService : IProposalService
 
     public async Task<ProposalVM> UpdateProposalStatusAsync(Guid id, ProposalUpdateStatusModel model)
     {
-        var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(id);
+        var proposal = await _unitOfWork.ProposalRepository.GetProposalDetailWithReviewAsync(id);
         if (proposal == null)
         {
             throw new ArgumentException("Proposal does not exist");

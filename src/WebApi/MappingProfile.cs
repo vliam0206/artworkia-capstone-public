@@ -125,7 +125,8 @@ public class MappingProfile : Profile
         CreateMap<ZPCreateOrderRequest, OrderCreateModel>().ReverseMap();
 
         CreateMap<Proposal, ProposalModel>().ReverseMap();
-        CreateMap<Proposal, ProposalVM>().ReverseMap();
+        CreateMap<Proposal, ProposalVM>()
+            .ForMember(model => model.IsReviewed, opt => opt.MapFrom(src => src.Review != null));
 
         CreateMap<ProposalAsset, ProposalAssetModel>().ReverseMap();
         CreateMap<ProposalAsset, ProposalAssetVM>().ReverseMap();

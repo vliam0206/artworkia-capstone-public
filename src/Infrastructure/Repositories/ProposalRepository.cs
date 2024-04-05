@@ -24,4 +24,11 @@ public class ProposalRepository : GenericCreationRepository<Proposal>, IProposal
             .Include(x => x.Milestones)
             .FirstOrDefaultAsync(x => x.Id == proposalId);
     }
+
+    public async Task<Proposal?> GetProposalDetailWithReviewAsync(Guid proposalId)
+    {
+        return await _dbContext.Proposals
+            .Include(x => x.Review)
+            .FirstOrDefaultAsync(x => x.Id == proposalId);
+    }
 }
