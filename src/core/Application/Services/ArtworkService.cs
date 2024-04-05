@@ -125,7 +125,7 @@ public class ArtworkService : IArtworkService
     {
         var isExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(artworkId);
         if (!isExisted)
-            throw new NullReferenceException("Cannot found artwork!");
+            throw new NullReferenceException("Không tìm thấy tác phẩm.");
         var listArtwork = await _unitOfWork.ArtworkRepository.GetArtworksDuplicateAsync(artworkId);
         var listArtworkVM = _mapper.Map<List<ImageDuplicationVM>>(listArtwork);
         return listArtworkVM;
@@ -137,9 +137,9 @@ public class ArtworkService : IArtworkService
 
         var artwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId);
         if (artwork == null)
-            throw new NullReferenceException("Artwork not found.");
+            throw new NullReferenceException("Không tìm thấy tác phẩm.");
         if (artwork.DeletedOn != null)
-            throw new Exception("Artwork deleted.");
+            throw new Exception("Tác phẩm đã bị xóa.");
 
         var artworkVM = _mapper.Map<ArtworkVM>(artwork);
 
@@ -149,7 +149,7 @@ public class ArtworkService : IArtworkService
             // check if account is blocking or blocked
             if (await _unitOfWork.BlockRepository.IsBlockedOrBlockingAsync(accountId.Value, artworkVM.CreatedBy!.Value))
             {
-                throw new Exception("Can not view artwork because of blocking!");
+                throw new Exception("Không tìm thấy tác phẩm vì chặn hoặc bị chặn.");
             }
             // check if user liked this artwork
             var isLiked = await _unitOfWork.LikeRepository.GetByIdAsync(accountId.Value, artworkId);
@@ -173,7 +173,7 @@ public class ArtworkService : IArtworkService
         // them thumbnail image vao firebase
         var url = await _firebaseService.UploadFileToFirebaseStorage(artworkModel.Thumbnail, newThumbnailName, folderName);
         if (url == null)
-            throw new Exception("Cannot upload thumbnail image to firebase!");
+            throw new Exception("Không thể tải ảnh đại diện (thumbnail) lên Firebase.");
         newArtwork.Thumbnail = url;
         newArtwork.ThumbnailName = newThumbnailName + extension;
         // them artwork 
@@ -235,7 +235,7 @@ public class ArtworkService : IArtworkService
                 {
                     var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.file.File, newAssetName, assetFolderName);
                     if (url == null)
-                        throw new Exception("Cannot upload asset to firebase!");
+                        throw new Exception("Không thể tải tài nguyên lên Firebase.");
 
                     Asset newAsset = new()
                     {
@@ -267,13 +267,13 @@ public class ArtworkService : IArtworkService
         // check if artwork exist
         var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
         if (artwork == null)
-            throw new Exception("Cannot found artwork!");
+            throw new Exception("Không tìm thấy tác phẩm.");
 
         // check authorized
         if (_claimService.GetCurrentRole.Equals(RoleEnum.CommonUser.ToString()) &&
             artwork.CreatedBy != _claimService.GetCurrentUserId)
         {
-            throw new UnauthorizedAccessException("You are not allow to access this function.");
+            throw new UnauthorizedAccessException("Bạn không có quyền xóa tác phẩm.");
         }
         _unitOfWork.ArtworkRepository.Delete(artwork);
         await _unitOfWork.SaveChangesAsync();
@@ -283,13 +283,13 @@ public class ArtworkService : IArtworkService
     {
         var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
         if (artwork == null)
-            throw new Exception("Cannot found artwork!");
+            throw new Exception("Không tìm thấy tác phẩm.");
 
         // check authorized
         if (_claimService.GetCurrentRole.Equals(RoleEnum.CommonUser.ToString()) &&
             artwork.CreatedBy != _claimService.GetCurrentUserId)
         {
-            throw new UnauthorizedAccessException("You are not allow to access this function.");
+            throw new UnauthorizedAccessException("Bạn không có quyền xóa tác phẩm.");
         }
         _unitOfWork.ArtworkRepository.SoftDelete(artwork);
         await _unitOfWork.SaveChangesAsync();
@@ -299,7 +299,7 @@ public class ArtworkService : IArtworkService
     {
         var oldArtwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
         if (oldArtwork == null)
-            throw new Exception("Cannot found artwork!");
+            throw new Exception("Không tìm thấy tác phẩm.");
 
         oldArtwork.Title = artworkEM.Title;
         oldArtwork.Description = artworkEM.Description;
@@ -313,9 +313,9 @@ public class ArtworkService : IArtworkService
     {
         var oldArtwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
         if (oldArtwork == null)
-            throw new Exception("Cannot found artwork!");
+            throw new Exception("Không tìm thấy tác phẩm.");
         if (oldArtwork.State != StateEnum.Waiting)
-            throw new Exception($"Report already resolve! (current state is {oldArtwork.State})");
+            throw new Exception($"Báo cáo đã được giải quyết (trạng thái hiện tại là {oldArtwork.State})");
         oldArtwork.State = model.State;
         oldArtwork.Note = model.Note;
         _unitOfWork.ArtworkRepository.Update(oldArtwork);

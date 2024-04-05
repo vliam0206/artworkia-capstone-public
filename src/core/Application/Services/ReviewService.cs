@@ -38,7 +38,7 @@ public class ReviewService : IReviewService
     {
         bool isAccountExisted = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
         if (!isAccountExisted) {
-            throw new NullReferenceException("Account does not existed.");
+            throw new NullReferenceException("Không tìm thấy tài khoản.");
         }
         var reviews = await _unitOfWork.ReviewRepository.GetReviewsByAccountIdAsync(accountId, criteria.PageNumber, criteria.PageSize);
         return _mapper.Map<PagedList<ReviewVM>>(reviews);
@@ -49,7 +49,7 @@ public class ReviewService : IReviewService
         bool isServiceExisted = await _unitOfWork.ServiceRepository.IsExistedAsync(serviceId);
         if (!isServiceExisted)
         {
-            throw new NullReferenceException("Service does not existed.");
+            throw new NullReferenceException("Không tìm thấy dịch vụ.");
         }
         var reviews = await _unitOfWork.ReviewRepository.GetReviewsByServiceIdAsync(serviceId, criteria.PageNumber, criteria.PageSize);
         return _mapper.Map<PagedList<ReviewVM>>(reviews);
@@ -60,7 +60,7 @@ public class ReviewService : IReviewService
         bool isProposalExisted = await _unitOfWork.ProposalRepository.IsExistedAsync(proposalId);
         if (!isProposalExisted)
         {
-            throw new NullReferenceException("Proposal does not existed.");
+            throw new NullReferenceException("Không tìm thấy thỏa thuận.");
         }
         var review = await _unitOfWork.ReviewRepository.GetReviewByProposalIdAsync(proposalId);
         var reviewVM = _mapper.Map<ReviewVM>(review);   
@@ -72,7 +72,7 @@ public class ReviewService : IReviewService
         var review = await _unitOfWork.ReviewRepository.GetReviewDetailAsync(id);
         if (review == null)
         {
-            throw new NullReferenceException("Review does not exist or already deleted!");
+            throw new NullReferenceException("Không tìm thấy đánh giá.");
         }
         return _mapper.Map<ReviewVM>(review);
     }
@@ -83,23 +83,23 @@ public class ReviewService : IReviewService
         var proposal = await _unitOfWork.ProposalRepository.GetProposalDetailAsync(model.ProposalId);
         if (proposal == null)
         {
-            throw new NullReferenceException("Proposal does not exist or already deleted!");
+            throw new NullReferenceException("Không tìm thấy thỏa thuận.");
         }
 
         if (proposal.Review != null)
         {
-            throw new Exception("Can not review, proposal is already reviewed!");
+            throw new Exception("Không thể đánh giá, thỏa thuận đã được đánh giá.");
         }
 
         if (proposal.ProposalStatus != ProposalStateEnum.CompletePayment)
         {
-            throw new Exception("Can not review, proposal is not completed yet!");
+            throw new Exception($"Can not review, proposal is not completed yet! Không thể đánh giá, thỏa thuận chưa hoàn thành (trạng thái hiện tại là {proposal.ProposalStatus})");
         }
 
         Guid accountId = _claimService.GetCurrentUserId ?? default;
         if (proposal.OrdererId != accountId)
         {
-            throw new Exception("Can not review, you are not the orderer of this proposal.");
+            throw new Exception("Không thể đánh giá, bạn không phải là khách hàng của thỏa thuận.");
         }
 
         Review newReview = _mapper.Map<Review>(model);  
@@ -115,11 +115,11 @@ public class ReviewService : IReviewService
         var oldReview = await _unitOfWork.ReviewRepository.GetByIdAsync(reviewId);
         if (oldReview == null)
         {
-            throw new NullReferenceException("Review does not exist or already deleted!");
+            throw new NullReferenceException("Không tìm thấy thỏa thuận.");
         }
         if (oldReview.CreatedBy != accountId)
         {
-            throw new Exception("You are not the owner of this review!");
+            throw new Exception("Bạn không phải người viết đánh giá này.");
         }
 
         oldReview.Vote = model.Vote;
@@ -134,7 +134,7 @@ public class ReviewService : IReviewService
         var review = await _unitOfWork.ReviewRepository.GetByIdAsync(id);
         if (review == null)
         {
-            throw new NullReferenceException("Review does not exist or already deleted!");
+            throw new NullReferenceException("Không tìm thấy đánh giá.");
         }
 
         var currentRole = _claimService.GetCurrentRole;
@@ -142,7 +142,7 @@ public class ReviewService : IReviewService
                 || (currentRole.Equals(RoleEnum.CommonUser.ToString())
                 && _claimService.GetCurrentUserId != review.CreatedBy))
         {
-            throw new Exception("You are not authorized to delete this review!");
+            throw new UnauthorizedAccessException("Bạn không có quyền xóa đánh giá này.");
         }
         _unitOfWork.ReviewRepository.Delete(review);
         await _unitOfWork.SaveChangesAsync();
