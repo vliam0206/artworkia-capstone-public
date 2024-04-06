@@ -42,7 +42,7 @@ public class TagDetailService : ITagDetailService
         var artwork = _unitOfWork.ArtworkRepository.GetByIdAsync(tagListArtworkModel.ArtworkId);
         if (artwork == null)
         {
-            throw new Exception("Artwork not found");
+            throw new Exception("Không tìm thấy tác phẩm.");
         }
 
         var tagList = tagListArtworkModel.TagList;
@@ -65,17 +65,17 @@ public class TagDetailService : ITagDetailService
         var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
         if (artwork == null)
         {
-            throw new NullReferenceException("This artwork not existed");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         }
         bool isAuthorized = _claimService.IsAuthorized(artwork.CreatedBy!.Value);
         if (!isAuthorized)
         {
-            throw new UnauthorizedAccessException("You are not authorized to delete this tag. (only mod, admin or owner of this artwork)");
+            throw new UnauthorizedAccessException("Bạn không có quyền xóa thẻ của tác phẩm này.");
         }
         var oldTagDetail = await _unitOfWork.TagDetailRepository.GetTagDetailAsync(artworkId, tagId);
         if (oldTagDetail == null)
         {
-            throw new NullReferenceException("This artwork never had this tag, or it did not exist.");
+            throw new KeyNotFoundException("Tác phẩm không có thẻ này, hoặc thẻ này không tồn tại.");
         }
         _unitOfWork.TagDetailRepository.DeleteTagDetail(oldTagDetail);
         await _unitOfWork.SaveChangesAsync();

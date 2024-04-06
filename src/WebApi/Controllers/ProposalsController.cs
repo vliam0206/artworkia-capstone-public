@@ -4,6 +4,7 @@ using Domain.Entitites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.ViewModels.Commons;
 
 namespace WebApi.Controllers;
 
@@ -41,9 +42,14 @@ public class ProposalsController : ControllerBase
         {
             var proposal = await _proposalService.GetProposalByIdAsync(id);
             return Ok(proposal);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -55,9 +61,13 @@ public class ProposalsController : ControllerBase
             var proposal = await _reviewService.GetReviewByProposalIdAsync(id);
             return Ok(proposal);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -70,9 +80,13 @@ public class ProposalsController : ControllerBase
             var proposal = await _proposalService.GetProposalsByChatIdAsync(chatId);
             return Ok(proposal);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -85,9 +99,13 @@ public class ProposalsController : ControllerBase
             var proposal = await _proposalService.GetProposalsByAccountIdAsync(accountId);
             return Ok(proposal);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -100,9 +118,13 @@ public class ProposalsController : ControllerBase
             var proposal = await _proposalService.GetProposalsByServiceIdAsync(serviceId);
             return Ok(proposal);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -114,12 +136,14 @@ public class ProposalsController : ControllerBase
         {
             var proposal = await _proposalService.CreateProposalAsync(model);
             return CreatedAtAction("GetProposalById", new { id = proposal.Id}, proposal);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
-        } catch (ArgumentException ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -131,12 +155,14 @@ public class ProposalsController : ControllerBase
         {
             var proposal = await _proposalService.UpdateProposalStatusAsync(id, model);
             return Ok(proposal);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
-        } catch(BadHttpRequestException ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -144,8 +170,19 @@ public class ProposalsController : ControllerBase
     [Authorize]
     public async Task<IActionResult> GetAllMilestinesOfProposal(Guid proposalId)
     {
-        var milestones = await _milestoneService.GetMilestonesAsync(proposalId);
-        return Ok(milestones);        
+        try
+        {
+            var milestones = await _milestoneService.GetMilestonesAsync(proposalId);
+            return Ok(milestones);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }     
     }
 
     [HttpDelete("{id}")]
@@ -156,9 +193,14 @@ public class ProposalsController : ControllerBase
         {
             await _proposalService.DeleteProposalAsync(id);
             return NoContent();
-        } catch( ArgumentException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -170,10 +212,15 @@ public class ProposalsController : ControllerBase
         {
             var transaction = await _proposalService.InitPaymentProposalAsync(id);
             return Ok(transaction);
-        } catch (ArgumentException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return BadRequest(ex.Message);
-        }         
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
     }
 
     [HttpPost("complete-payment/{id}")]
@@ -185,9 +232,13 @@ public class ProposalsController : ControllerBase
             var transaction = await _proposalService.CompletePaymentProposalAsync(id);
             return Ok(transaction);
         }
-        catch (ArgumentException ex)
+        catch (KeyNotFoundException ex)
         {
-            return BadRequest(ex.Message);
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

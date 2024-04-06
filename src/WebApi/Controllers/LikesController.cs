@@ -35,21 +35,13 @@ public class LikesController : ControllerBase
             var result = await _likeService.GetAllLikesOfArtworkAsync(artworkId);
             return Ok(result);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -63,21 +55,13 @@ public class LikesController : ControllerBase
             var result = await _likeService.GetAllLikesOfAccountAsync(accountId);
             return Ok(result);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -92,21 +76,13 @@ public class LikesController : ControllerBase
             var result = await _likeService.GetIsLikedArtworkAsync(accountId, artworkId);
             return Ok(result);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -121,21 +97,13 @@ public class LikesController : ControllerBase
             var result = await _likeService.GetListIsLikedArtworkAsync(accountId, artworkIds);
             return Ok(result);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -149,21 +117,13 @@ public class LikesController : ControllerBase
             await _likeService.CreateLikeAsync(model);
             return Ok();
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -179,34 +139,13 @@ public class LikesController : ControllerBase
             return NoContent();
 
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
-    }
-
-    private bool CheckAuthorize(Guid accountId)
-    {
-        // check authorize
-        var currentRole = _claimService.GetCurrentRole;
-        if (currentRole.Equals(RoleEnum.Moderator.ToString())
-             || (currentRole.Equals(RoleEnum.CommonUser.ToString())
-                && _claimService.GetCurrentUserId != accountId))
-        {
-            return false;
-        }
-        return true;
     }
 }

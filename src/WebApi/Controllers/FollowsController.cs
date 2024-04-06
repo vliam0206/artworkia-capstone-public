@@ -44,21 +44,13 @@ public class FollowsController : ControllerBase
             var follows = await _followService.GetAllFollowingsAsync(followerId);
             return Ok(follows);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -74,21 +66,13 @@ public class FollowsController : ControllerBase
             var follows = await _followService.GetAllFollowersAsync(followingId);
             return Ok(follows);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -115,21 +99,13 @@ public class FollowsController : ControllerBase
 
             return Ok();
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
 
     }
@@ -144,21 +120,13 @@ public class FollowsController : ControllerBase
             await _followService.DeleteFollowAsync(model);
             return NoContent();
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
 
     }
@@ -173,21 +141,13 @@ public class FollowsController : ControllerBase
             var isExisted = await _followService.IsFollowedAsync(accountId);
             return Ok(isExisted);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 

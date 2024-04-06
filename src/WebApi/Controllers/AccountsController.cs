@@ -54,21 +54,13 @@ public class AccountsController : ControllerBase
             var accounts = await _accountService.GetAccountsAsync(criteria);
             return Ok(accounts);
         }
-        catch (NullReferenceException ex)
+        catch (ArgumentException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -76,13 +68,19 @@ public class AccountsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<AccountVM>> GetAccount(Guid id)
     {
-        // get account
-        var account = await _accountService.GetAccountByIdAsync(id);
-        if (account == null || account.DeletedOn != null)
+        try
         {
-            return NotFound(new ApiResponse { ErrorMessage = "Account id not found!" });
+            var account = await _accountService.GetAccountByIdAsync(id);
+            return Ok(account);
         }
-        return Ok(_mapper.Map<AccountVM>(account));
+        catch (ArgumentException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
     }
 
     [HttpGet("role-enum")]
@@ -98,20 +96,15 @@ public class AccountsController : ControllerBase
     [Authorize]
     public async Task<IActionResult> PutAccount(Guid id, AccountModel model)
     {
-        // check authorize
-        if (!CheckAuthorize(id))
-        {
-            return Forbid();
-        }
         try
         {
-            var oldAcc = await _accountService.GetAccountByIdAsync(id);
-            if (oldAcc == null || oldAcc.DeletedOn != null)
+            // check authorize
+            if (!CheckAuthorize(id))
             {
-                return NotFound(new ApiResponse { ErrorMessage = "Account id not found." });
+                return Forbid();
             }
-            var account = _mapper.Map<AccountModel, Account>(model, oldAcc);
-            await _accountService.UpdateAccountAsync(account);
+            await _accountService.UpdateAccountAsync(id, model);
+            return NoContent();
         }
         catch (ArgumentException ex)
         {
@@ -121,8 +114,6 @@ public class AccountsController : ControllerBase
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
-
-        return NoContent();
     }
 
     // POST: api/accounts    
@@ -273,7 +264,7 @@ public class AccountsController : ControllerBase
                 return NotFound();
             return Ok(results);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse
             {
@@ -300,7 +291,7 @@ public class AccountsController : ControllerBase
             var listServiceVM = await _serviceService.GetServicesOfAccountAsync(accountId, criteria);
             return Ok(listServiceVM);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse
             {
@@ -327,7 +318,7 @@ public class AccountsController : ControllerBase
             var result = await _artworkService.GetAllArtworksByAccountIdAsync(accountId, criteria);
             return Ok(result);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse
             {
@@ -374,7 +365,7 @@ public class AccountsController : ControllerBase
             var assetsBought = await _assetService.GetAssetsBoughtOfAccountAsync(accountId, pagedCriteria);
             return Ok(assetsBought);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse
             {
@@ -401,7 +392,7 @@ public class AccountsController : ControllerBase
             var assetsBought = await _reviewService.GetReviewsByAccountIdAsync(accountId, pagedCriteria);
             return Ok(assetsBought);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse
             {

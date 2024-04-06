@@ -20,14 +20,14 @@ public class TransactionHistoryService : ITransactionHistoryService
     {
         if (model.AssetId == null && model.ProposalId == null)
         {
-            throw new ArgumentNullException("AssetId and proposalId can not be null at the same time.");
+            throw new ArgumentNullException("AssetId và proposalId không thể null cùng lúc.");
         }
         if (model.AssetId != null)
         {
             var assetExist = await _unitOfWork.AssetRepository.IsExistedAsync(model.AssetId.Value);
             if (!assetExist)
             {
-                throw new ArgumentException("AssetId not found!");
+                throw new ArgumentException("Không tìm thấy tài nguyên.");
             }
         }
         if (model.ProposalId != null)

@@ -24,21 +24,13 @@ public class SoftwareUsedsController : ControllerBase
             var softwareUseds = await _softwareUsedService.GetAllSoftwareUsedAsync();
             return Ok(softwareUseds);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -50,21 +42,13 @@ public class SoftwareUsedsController : ControllerBase
             var softwareUsed = await _softwareUsedService.GetSoftwareUsedByIdAsync(softwareUsedId);
             return Ok(softwareUsed);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

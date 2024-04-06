@@ -23,13 +23,10 @@ namespace WebApi.Controllers
             {
                 var assetTransactions = await _assetTransactionService.GetAllAssetTransactionsAsync();
                 return Ok(assetTransactions);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
+                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -40,20 +37,14 @@ namespace WebApi.Controllers
             {
                 var assetTransaction = await _assetTransactionService.GetAssetTransactionByIdAsync(assetTransactionId);
                 return Ok(assetTransaction);
-            } catch (NullReferenceException ex)
+            }
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
-            } catch (Exception ex)
+                return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+            }
+            catch (Exception ex)
             {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
+                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -67,20 +58,14 @@ namespace WebApi.Controllers
                 return CreatedAtAction(
                     nameof(GetAssetTransactionById), new { assetTransactionId = assetTransaction.Id }
                     , assetTransaction);
-            } catch (NullReferenceException ex)
+            }
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
-            } catch (Exception ex)
+                return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+            }
+            catch (Exception ex)
             {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
+                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
             }
         }
     }

@@ -27,21 +27,13 @@ public class ProposalAssetsController : ControllerBase
             var result = await _proposalAssetService.GetProposalAssetsOfProposalAsync(proposalId);
             return Ok(result);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -54,21 +46,13 @@ public class ProposalAssetsController : ControllerBase
             var result = await _proposalAssetService.AddProposalAssetAsync(model);
             return Ok(result);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

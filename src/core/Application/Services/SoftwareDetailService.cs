@@ -22,7 +22,7 @@ public class SoftwareDetailService : ISoftwareDetailService
         bool IsSoftwareExist = await _unitOfWork.SoftwareUsedRepository.IsExistedAsync(model.SoftwareUsedId);
         if (!IsSoftwareExist)
         {
-            throw new NullReferenceException("Software does not exist");
+            throw new KeyNotFoundException("Không tìm thấy phần mềm.");
         }
         SoftwareDetail softwareDetail = _mapper.Map<SoftwareDetail>(model);
         await _unitOfWork.SoftwareDetailRepository.AddSoftwareDetailAsync(softwareDetail);
@@ -43,7 +43,7 @@ public class SoftwareDetailService : ISoftwareDetailService
                 IsExistedAsync(softwareUsed);
             if (!IsSoftwareExist)
             {
-                throw new NullReferenceException("Software does not exist");
+                throw new KeyNotFoundException("Không tìm thấy phần mềm.");
             }
             SoftwareDetail softwareDetail = new SoftwareDetail
             {

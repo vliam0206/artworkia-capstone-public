@@ -27,7 +27,7 @@ public class CategoryService : ICategoryService
     {
         var cate = await _unitOfWork.CategoryRepository.GetCategoryByIdAsync(categoryId);
         if (cate == null)
-            throw new NullReferenceException("Cannot found category!");
+            throw new KeyNotFoundException("Không tìm thấy thể loại.");
         var cateVM = _mapper.Map<CategoryVM>(cate);
         return cateVM;
     }
@@ -39,7 +39,7 @@ public class CategoryService : ICategoryService
             .Equals(categoryModel.CategoryName.ToLower()));
         if (category != null)
         {
-            throw new Exception("This category already exist");
+            throw new Exception("Thể loại này đã tồn tại.");
         }
 
         // neu co category cha, dam bao rang category co ton tai
@@ -51,12 +51,12 @@ public class CategoryService : ICategoryService
 
             if (parentCategory == null)
             {
-                throw new NullReferenceException("Parent category not exist");
+                throw new KeyNotFoundException("Thể loại cha không tồn tại.");
             }
 
             if (parentCategory.ParentCategory != null)
             {
-                throw new Exception("Cannot add this category to sub category");
+                throw new Exception("Không thể thêm thể loại này vào thể loại con.");
             }
         }
 
@@ -70,7 +70,7 @@ public class CategoryService : ICategoryService
     {
         var result = await _unitOfWork.CategoryRepository.GetByIdAsync(categoryId);
         if (result == null)
-            throw new NullReferenceException("Cannot found category!");
+            throw new KeyNotFoundException("Không tìm thấy thể loại.");
         _unitOfWork.CategoryRepository.Delete(result);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -79,7 +79,7 @@ public class CategoryService : ICategoryService
     {
         var oldCategory = await _unitOfWork.CategoryRepository.GetByIdAsync(categoryId);
         if (oldCategory == null)
-            throw new NullReferenceException("Cannot found category!");
+            throw new KeyNotFoundException("Không tìm thấy thể loại.");
 
         // category ko dc trung ten, ko phan biet hoa thuong
         // loai tru trung ten voi ten cu
@@ -88,7 +88,7 @@ public class CategoryService : ICategoryService
             .Equals(categoryEM.CategoryName.ToLower()));
         if (category != null && !oldCategory.CategoryName.ToLower().Equals(categoryEM.CategoryName.ToLower()))
         {
-            throw new Exception("This category already exist");
+            throw new Exception("Thể loại này đã tồn tại.");
         }
 
         oldCategory.CategoryName = categoryEM.CategoryName;

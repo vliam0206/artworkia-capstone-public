@@ -6,7 +6,7 @@ using Domain.Entitites;
 namespace Application.Services.Abstractions;
 public interface IAssetService
 {
-    Task<AssetVM?> GetAssetByIdAsync(Guid assetId);
+    Task<AssetVM> GetAssetByIdAsync(Guid assetId);
     Task<string?> GetDownloadUriAssetAsync(Guid assetId);
     Task<string?> GetDownloadUriAssetForModerationAsync(Guid assetId);
     Task<string?> GetDownloadUriAssetAlternativeAsync(Guid assetId);

@@ -28,15 +28,19 @@ public class RequestService : IRequestService
     {
         // kiem tra service co ton tai khong
         var service = await _unitOfWork.ServiceRepository.GetByIdAsync(requestModel.ServiceId);
-        if (service == null || service.DeletedOn != null)
+        if (service == null)
         {
-            throw new NullReferenceException("Service does not exist or already deleted!");
+            throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
+        }
+        if (service.DeletedOn != null)
+        {
+            throw new Exception("Dịch vụ này đã bị xóa.");
         }
 
         // kiem tra budget co >= statingPrice cua service khong
         if (requestModel.Budget < service.StartingPrice)
         {
-            throw new Exception("Budget must be greater than or equal to the starting price of the service!");
+            throw new Exception("Ngân sách không được nhỏ hơn giá khởi điểm của dịch vụ.");
         }
 
         // kiem tra xem nguoi dung co the request service cua chinh minh khong
@@ -44,7 +48,7 @@ public class RequestService : IRequestService
         Guid creatorId = service.CreatedBy ?? default;
         if (audienceId == creatorId)
         {
-            throw new Exception("You can not request your own service!");
+            throw new Exception("Bạn không thể tạo yêu cầu cho chính dịch vụ của bạn.");
         }
 
         Request newRequest = _mapper.Map<Request>(requestModel);
@@ -81,7 +85,7 @@ public class RequestService : IRequestService
         var request = await _unitOfWork.RequestRepository.GetByIdAsync(requestId);
         if (request == null)
         {
-            throw new NullReferenceException("Request does not exist");
+            throw new KeyNotFoundException("Không tìm thấy yêu cầu.");
         }
 
         var requestVM = _mapper.Map<RequestVM>(request);
@@ -121,7 +125,7 @@ public class RequestService : IRequestService
         var oldRequest = await _unitOfWork.RequestRepository.GetByIdAsync(requestId);
         if (oldRequest == null)
         {
-            throw new NullReferenceException("Request does not exist");
+            throw new KeyNotFoundException("Không tìm thấy yêu cầu.");
         }
 
         oldRequest.RequestStatus = requestStatus;

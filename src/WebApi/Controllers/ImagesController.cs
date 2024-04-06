@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.ViewModels;
+using WebApi.ViewModels.Commons;
 
 namespace WebApi.Controllers
 {
@@ -39,13 +40,13 @@ namespace WebApi.Controllers
                 var result = await _imageService.GetImagesDuplicateAsync(imageId);
                 return Ok(result);
             }
-            catch (NullReferenceException ex)
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new ApiResponse { ErrorMessage = ex.Message });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -59,13 +60,13 @@ namespace WebApi.Controllers
                     return NotFound();
                 return Ok(result);
             }
-            catch (NullReferenceException ex)
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new ApiResponse { ErrorMessage = ex.Message });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -81,9 +82,10 @@ namespace WebApi.Controllers
                 await _imageService.AddImageAsync(imageModel);
                 return Ok();
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -98,9 +100,10 @@ namespace WebApi.Controllers
             {
                 await _imageService.AddRangeImageAsync(multiImageModel);
                 return Ok();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -112,13 +115,14 @@ namespace WebApi.Controllers
             {
                 await _imageService.DeleteImageAsync(imageId);
                 return NoContent();
-            } catch (NullReferenceException ex)
+            }
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new ApiResponse { ErrorMessage = ex.Message });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
             }
         }
     }

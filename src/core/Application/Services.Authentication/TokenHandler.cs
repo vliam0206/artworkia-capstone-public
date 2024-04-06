@@ -2,6 +2,7 @@
 using Application.Services.Abstractions;
 using Domain.Entitites;
 using Domain.Models;
+using Domain.Repositories.Abstractions;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -15,15 +16,15 @@ namespace Application.Services.Authentication;
 public class TokenHandler : ITokenHandler
 {
     private readonly AppConfiguration _appConfig;
-    private readonly IAccountService _accountService;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IUserTokenService _userTokenService;
 
     public TokenHandler(AppConfiguration appConfig,
-        IAccountService accountService,
+        IUnitOfWork unitOfWork,
         IUserTokenService userTokenService)
     {
         _appConfig = appConfig;
-        _accountService = accountService;
+        _unitOfWork = unitOfWork;
         _userTokenService = userTokenService;
     }
 
@@ -141,7 +142,7 @@ public class TokenHandler : ITokenHandler
             {
                 // todo check in usual isUsed refresh token been used
 
-                var account = await _accountService.GetAccountByIdAsync(userToken.UserId);
+                var account = await _unitOfWork.AccountRepository.GetByIdAsync(userToken.UserId);
                 if (account == null) return null;
                 // validate success, issue new (accessToken, refreshToken)
                 userToken.IsUsed = true;

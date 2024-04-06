@@ -1,4 +1,4 @@
-using Application.Models;
+﻿using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
@@ -51,12 +51,12 @@ public class CollectionService : ICollectionService
         var oldCollection = await _unitOfWork.CollectionRepository.GetByIdAsync(collectionId);
         if (oldCollection == null)
         {
-            throw new ArgumentException("Collection Id not found!");
+            throw new ArgumentException("Không tìm thấy bộ sưu tập.");
         }
         var currentUserId = _claimService.GetCurrentUserId;
         if (currentUserId == null || oldCollection.CreatedBy != currentUserId)
         {
-            throw new UnauthorizedAccessException("You can not do this!");
+            throw new UnauthorizedAccessException("Bạn không có quyền cập nhật bộ sưu tập.");
         }
         var newCollection = _mapper.Map<CollectionModificationModel, Collection>(
                                         updateModel, oldCollection);
@@ -69,7 +69,7 @@ public class CollectionService : ICollectionService
         var collection = await _unitOfWork.CollectionRepository.GetByIdAsync(collectionId);
         if (collection == null)
         {
-            throw new ArgumentException("Collection Id not found!");
+            throw new ArgumentException("Không tìm thấy bộ sưu tập.");
         }
         _unitOfWork.CollectionRepository.Delete(collection);
         await _unitOfWork.SaveChangesAsync();
@@ -80,18 +80,18 @@ public class CollectionService : ICollectionService
         // check if bookmark already exist
         if (await _unitOfWork.BookmarkRepository.IsExistAsync(bookmark))
         {
-            throw new BadHttpRequestException("Failed! You have save this artwork to this collection already.");
+            throw new BadHttpRequestException("Bạn đã lưu tác phẩm này vào bộ sưu tập này.");
         }
         var collection = await _unitOfWork.CollectionRepository.GetByIdAsync(bookmark.CollectionId);        
         // check if Ids valid
         var errMsg = "";
         if (collection == null)
         {
-            errMsg = "Collection Id does not exist! ";
+            errMsg = "Bộ sưu tập không tồn tại.";
         }
         if (!await _unitOfWork.ArtworkRepository.IsExistedAsync(bookmark.ArtworkId))
         {
-            errMsg += "Artwork Id does not exist!";
+            errMsg += "Tác phẩm không tồn tại.";
         }
         if (!errMsg.IsNullOrEmpty())
         {
@@ -101,7 +101,7 @@ public class CollectionService : ICollectionService
         if (_claimService.GetCurrentUserId == null 
             || collection!.CreatedBy !=  _claimService.GetCurrentUserId)
         {
-            throw new UnauthorizedAccessException("You can not do this!");
+            throw new UnauthorizedAccessException("Bạn không có quyền thực hiện chức năng này.");
         }
 
         // add artwork to collection (add new bookmark)
@@ -116,14 +116,14 @@ public class CollectionService : ICollectionService
         if (_claimService.GetCurrentUserId == null
             || collection!.CreatedBy != _claimService.GetCurrentUserId)
         {
-            throw new UnauthorizedAccessException("You can not do this!");
+            throw new UnauthorizedAccessException("Bạn không có quyền thực hiện chức năng này.");
         }
         // check if bookmark exist
         var deletedBookmark = await _unitOfWork.BookmarkRepository
                 .GetByIdAsync(bookmark.CollectionId, bookmark.ArtworkId);
         if (deletedBookmark == null)
         {
-            throw new ArgumentException("The key (collectionId, artworkId) does not exist in bookmark.");
+            throw new ArgumentException("Bạn chưa lưu tác phẩm này vào bộ sưu tập này.");
         }        
 
         // remove artwork to collection (delete bookmark)

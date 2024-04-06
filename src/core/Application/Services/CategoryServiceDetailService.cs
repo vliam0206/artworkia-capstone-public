@@ -22,7 +22,7 @@ public class CategoryServiceDetailService : ICategoryServiceDetailService
         bool IsCategoryExist = await _unitOfWork.CategoryRepository.IsExistedAsync(categoryServiceModel.CategoryId);
         if (!IsCategoryExist)
         {
-            throw new NullReferenceException("Category does not exist");
+            throw new KeyNotFoundException("Không tìm thấy thể loại.");
         }
         CategoryServiceDetail categoryServiceDetail = _mapper.Map<CategoryServiceDetail>(categoryServiceModel);
         await _unitOfWork.CategoryServiceDetailRepository.AddCategoryServiceAsync(categoryServiceDetail);
@@ -34,7 +34,7 @@ public class CategoryServiceDetailService : ICategoryServiceDetailService
         var artwork = _unitOfWork.ServiceRepository.GetByIdAsync(categoryListServiceModel.ServiceId);
         if (artwork == null)
         {
-            throw new Exception("Service not found");
+            throw new Exception("Không tìm thấy dịch vụ.");
         }
 
         var categoryList = categoryListServiceModel.CategoryList;

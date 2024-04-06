@@ -33,20 +33,14 @@ public class RequestsController : ControllerBase
         {
             var requestVM = await _requestService.GetRequestByIdAsync(requestId);
             return Ok(requestVM);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -58,20 +52,14 @@ public class RequestsController : ControllerBase
         {
             var requestVM = await _requestService.GetRequestsByCreatorIdAsync();
             return Ok(requestVM);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -83,20 +71,14 @@ public class RequestsController : ControllerBase
         {
             var requestVM = await _requestService.GetRequestsByServiceIdAsync(serviceId);
             return Ok(requestVM);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -109,21 +91,13 @@ public class RequestsController : ControllerBase
             var requestVM = await _requestService.GetRequestsByChatboxIdIdAsync(chatboxId);
             return Ok(requestVM);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -135,20 +109,14 @@ public class RequestsController : ControllerBase
         {
             var requestVM = await _requestService.AddRequestAsync(requestModel);
             return Ok(requestVM);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -161,20 +129,14 @@ public class RequestsController : ControllerBase
         {
             var requestVM = await _requestService.GetRequestsByAudienceIdAsync();
             return Ok(requestVM);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -187,20 +149,14 @@ public class RequestsController : ControllerBase
         {
             var requestVM = await _requestService.UpdateRequestStatusAsync(requestId, requestStatus);
             return Ok(requestVM);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

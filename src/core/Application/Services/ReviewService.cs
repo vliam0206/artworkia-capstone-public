@@ -38,7 +38,7 @@ public class ReviewService : IReviewService
     {
         bool isAccountExisted = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
         if (!isAccountExisted) {
-            throw new NullReferenceException("Không tìm thấy tài khoản.");
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
         }
         var reviews = await _unitOfWork.ReviewRepository.GetReviewsByAccountIdAsync(accountId, criteria.PageNumber, criteria.PageSize);
         return _mapper.Map<PagedList<ReviewVM>>(reviews);
@@ -49,7 +49,7 @@ public class ReviewService : IReviewService
         bool isServiceExisted = await _unitOfWork.ServiceRepository.IsExistedAsync(serviceId);
         if (!isServiceExisted)
         {
-            throw new NullReferenceException("Không tìm thấy dịch vụ.");
+            throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
         }
         var reviews = await _unitOfWork.ReviewRepository.GetReviewsByServiceIdAsync(serviceId, criteria.PageNumber, criteria.PageSize);
         return _mapper.Map<PagedList<ReviewVM>>(reviews);
@@ -60,7 +60,7 @@ public class ReviewService : IReviewService
         bool isProposalExisted = await _unitOfWork.ProposalRepository.IsExistedAsync(proposalId);
         if (!isProposalExisted)
         {
-            throw new NullReferenceException("Không tìm thấy thỏa thuận.");
+            throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
         }
         var review = await _unitOfWork.ReviewRepository.GetReviewByProposalIdAsync(proposalId);
         var reviewVM = _mapper.Map<ReviewVM>(review);   
@@ -72,7 +72,7 @@ public class ReviewService : IReviewService
         var review = await _unitOfWork.ReviewRepository.GetReviewDetailAsync(id);
         if (review == null)
         {
-            throw new NullReferenceException("Không tìm thấy đánh giá.");
+            throw new KeyNotFoundException("Không tìm thấy đánh giá.");
         }
         return _mapper.Map<ReviewVM>(review);
     }
@@ -83,7 +83,7 @@ public class ReviewService : IReviewService
         var proposal = await _unitOfWork.ProposalRepository.GetProposalDetailAsync(model.ProposalId);
         if (proposal == null)
         {
-            throw new NullReferenceException("Không tìm thấy thỏa thuận.");
+            throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
         }
 
         if (proposal.Review != null)
@@ -115,7 +115,7 @@ public class ReviewService : IReviewService
         var oldReview = await _unitOfWork.ReviewRepository.GetByIdAsync(reviewId);
         if (oldReview == null)
         {
-            throw new NullReferenceException("Không tìm thấy thỏa thuận.");
+            throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
         }
         if (oldReview.CreatedBy != accountId)
         {
@@ -134,7 +134,7 @@ public class ReviewService : IReviewService
         var review = await _unitOfWork.ReviewRepository.GetByIdAsync(id);
         if (review == null)
         {
-            throw new NullReferenceException("Không tìm thấy đánh giá.");
+            throw new KeyNotFoundException("Không tìm thấy đánh giá.");
         }
 
         var currentRole = _claimService.GetCurrentRole;

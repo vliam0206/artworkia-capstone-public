@@ -125,7 +125,7 @@ public class ArtworkService : IArtworkService
     {
         var isExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(artworkId);
         if (!isExisted)
-            throw new NullReferenceException("Không tìm thấy tác phẩm.");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         var listArtwork = await _unitOfWork.ArtworkRepository.GetArtworksDuplicateAsync(artworkId);
         var listArtworkVM = _mapper.Map<List<ImageDuplicationVM>>(listArtwork);
         return listArtworkVM;
@@ -137,7 +137,7 @@ public class ArtworkService : IArtworkService
 
         var artwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId);
         if (artwork == null)
-            throw new NullReferenceException("Không tìm thấy tác phẩm.");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         if (artwork.DeletedOn != null)
             throw new Exception("Tác phẩm đã bị xóa.");
 
@@ -173,7 +173,7 @@ public class ArtworkService : IArtworkService
         // them thumbnail image vao firebase
         var url = await _firebaseService.UploadFileToFirebaseStorage(artworkModel.Thumbnail, newThumbnailName, folderName);
         if (url == null)
-            throw new Exception("Không thể tải ảnh đại diện (thumbnail) lên Firebase.");
+            throw new Exception("Không thể tải ảnh đại diện (thumbnail) lên đám mây.");
         newArtwork.Thumbnail = url;
         newArtwork.ThumbnailName = newThumbnailName + extension;
         // them artwork 
@@ -235,7 +235,7 @@ public class ArtworkService : IArtworkService
                 {
                     var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.file.File, newAssetName, assetFolderName);
                     if (url == null)
-                        throw new Exception("Không thể tải tài nguyên lên Firebase.");
+                        throw new Exception("Không thể tải tài nguyên lên đám mây.");
 
                     Asset newAsset = new()
                     {

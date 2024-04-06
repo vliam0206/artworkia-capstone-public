@@ -22,7 +22,7 @@ public class CategoryArtworkDetailService : ICategoryArtworkDetailService
         bool IsCategoryExist = await _unitOfWork.CategoryRepository.IsExistedAsync(categoryArtworkModel.CategoryId);
         if (!IsCategoryExist)
         {
-            throw new NullReferenceException("Category does not exist");
+            throw new KeyNotFoundException("Không tìm thấy thể loại.");
         }
         CategoryArtworkDetail categoryArtworkDetail = _mapper.Map<CategoryArtworkDetail>(categoryArtworkModel);
         await _unitOfWork.CategoryArtworkDetailRepository.AddCategoryArtworkAsync(categoryArtworkDetail);
@@ -34,7 +34,7 @@ public class CategoryArtworkDetailService : ICategoryArtworkDetailService
         var artwork = _unitOfWork.ArtworkRepository.GetByIdAsync(categoryListArtworkModel.ArtworkId);
         if (artwork == null)
         {
-            throw new Exception("Artwork not found");
+            throw new Exception("Không tìm thấy tác phẩm.");
         }
 
         var categoryList = categoryListArtworkModel.CategoryList;

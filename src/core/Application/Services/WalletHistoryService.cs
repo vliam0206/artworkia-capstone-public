@@ -39,7 +39,7 @@ public class WalletHistoryService : IWalletHistoryService
                                     .GetByIdAsync(transactionId);
         if (oldWalletHistory == null)
         {
-            throw new Exception("TransactionId not found!");
+            throw new Exception("Không tìm thấy giao dịch của ví.");
         }
         // update status
         oldWalletHistory.AppTransId = walletHistory.AppTransId;
@@ -55,7 +55,7 @@ public class WalletHistoryService : IWalletHistoryService
                                     .GetSingleByConditionAsync(x => x.AppTransId.Equals(appTransId));
         if (walletHistory == null)
         {
-            throw new Exception("AppTransIs not found!");
+            throw new Exception("Không tìm thấy giao dịch của ví.");
         }
         // update status
         walletHistory.TransactionStatus = status;
@@ -70,7 +70,7 @@ public class WalletHistoryService : IWalletHistoryService
                                     .GetByIdAsync(transactionId);
         if (walletHistory == null)
         {
-            throw new Exception("TransactionId not found!");
+            throw new Exception("Không tìm thấy giao dịch của ví.");
         }
         // update status
         walletHistory.TransactionStatus = status;

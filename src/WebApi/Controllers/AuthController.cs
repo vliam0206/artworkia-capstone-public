@@ -109,7 +109,7 @@ public class AuthController : ControllerBase
             var tokenModel = await _tokenHandler.ValidateRefreshTokenAsync(model.RefreshToken);
             if (tokenModel == null)
             {
-                return BadRequest(new ApiResponse { ErrorMessage = "Invalid refresh token." });
+                return BadRequest(new ApiResponse { ErrorMessage = "Refresh token không hợp lệ." });
             }
             return Ok(tokenModel);
         }
@@ -126,12 +126,12 @@ public class AuthController : ControllerBase
         var ATid = User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti);
         if (ATid == null)
         {
-            return Unauthorized(new ApiResponse { ErrorMessage = "Invalid token." });
+            return Unauthorized(new ApiResponse { ErrorMessage = "Token không hợp lệ." });
         }
         var userToken = await _userTokenService.GetTokenByATidAsync(Guid.Parse(ATid.Value));
         if (userToken == null)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = "Access token Id not found!" });
+            return BadRequest(new ApiResponse { ErrorMessage = "Không tìm thấy Access token" });
         }
         // token valid -> update in db
         userToken.IsRevoked = true;
@@ -146,7 +146,7 @@ public class AuthController : ControllerBase
     {
         if (model == null)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = "Invalid input." });
+            return BadRequest(new ApiResponse { ErrorMessage = "Thông tin không hợp lệ." });
         }
         try
         {
@@ -165,7 +165,7 @@ public class AuthController : ControllerBase
         var payload = await _thirdAuthenticationService.VerifyGoogleToken(externalAuthDto);
         if (payload == null)
         {
-            return BadRequest("Invalid external authentication!");
+            return BadRequest("Xác thực bên ngoài không hợp lệ.");
         }
         var account = await _accountService.GetAccountByEmailAsync(payload.Email);
         if (account == null)

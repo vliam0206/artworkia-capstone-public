@@ -37,20 +37,14 @@ public class ServicesController : ControllerBase
         {
             var serviceVM = await _serviceService.GetServiceByIdAsync(serviceId);
             return Ok(serviceVM);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -62,21 +56,13 @@ public class ServicesController : ControllerBase
             var serviceVM = await _reviewService.GetReviewsByServiceIdAsync(serviceId, criteria);
             return Ok(serviceVM);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -89,20 +75,14 @@ public class ServicesController : ControllerBase
             var serviceVM = await _serviceService.AddServiceAsync(serviceModel);
             return CreatedAtAction(nameof(GetServiceById), 
                 new { serviceId = serviceVM.Id }, serviceVM);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message,
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -114,20 +94,14 @@ public class ServicesController : ControllerBase
         {
             await _serviceService.DeleteServiceAsync(serviceId);
             return NoContent();
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message,
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -139,20 +113,14 @@ public class ServicesController : ControllerBase
         {
             await _serviceService.UpdateServiceAsync(serviceId, serviceEM);
             return NoContent();
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message,
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

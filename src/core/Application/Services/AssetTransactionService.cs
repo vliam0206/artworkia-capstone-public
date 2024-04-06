@@ -35,7 +35,7 @@ public class AssetTransactionService : IAssetTransactionService
         // Check if asset is not found or deleted
         var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetTransactionModel.AssetId);
         if (asset is null)
-            throw new NullReferenceException("Tài nguyên không tìm thấy.");
+            throw new KeyNotFoundException("Tài nguyên không tìm thấy.");
         if (asset.DeletedOn != null)
             throw new Exception("Tài nguyên đã bị xóa");
 
@@ -46,11 +46,11 @@ public class AssetTransactionService : IAssetTransactionService
 
         if (wallet is null)
         {
-            throw new NullReferenceException("Không tìm thấy ví của người mua.");
+            throw new KeyNotFoundException("Không tìm thấy ví của người mua.");
         }
         if (sellerWallet is null)
         {
-            throw new NullReferenceException("Không tìm thấy ví của người bán.");
+            throw new KeyNotFoundException("Không tìm thấy ví của người bán.");
         }
         if (wallet.Balance < asset.Price)
             throw new Exception("Bạn không đủ tiền để mua tài nguyên này");
@@ -105,7 +105,7 @@ public class AssetTransactionService : IAssetTransactionService
     {
         var assetTransaction = await _unitOfWork.TransactionHistoryRepository.GetByIdAsync(assetTransactionId);
         if (assetTransaction is null)
-            throw new NullReferenceException("Giao dịch tài nguyên không tìm thấy.");
+            throw new KeyNotFoundException("Giao dịch tài nguyên không tìm thấy.");
         var result = _mapper.Map<AssetTransactionVM>(assetTransaction);
         return result;
     }

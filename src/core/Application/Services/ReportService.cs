@@ -51,7 +51,7 @@ public class ReportService : IReportService
     {
         var result = await _unitOfWork.ReportRepository.GetByIdAsync(reportId);
         if (result == null)
-            throw new NullReferenceException("Cannot found report!");
+            throw new KeyNotFoundException("Không tìm thấy báo cáo.");
         var resultVM = _mapper.Map<ReportVM>(result);
         return resultVM;
     }
@@ -62,22 +62,22 @@ public class ReportService : IReportService
         {
             var isExist = await _unitOfWork.CommentRepository.IsExistedAsync(reportModel.TargetId);
             if (!isExist)
-                throw new NullReferenceException("Cannot found comment!");
+                throw new KeyNotFoundException("Không tìm thấy bình luận.");
         }
         else if (reportModel.ReportEntity == ReportEntityEnum.Account)
         {
             var isExist = await _unitOfWork.AccountRepository.IsExistedAsync(reportModel.TargetId);
             if (!isExist)
-                throw new NullReferenceException("Cannot found account!");
+                throw new KeyNotFoundException("Không tìm thấy tài khoản.");
         }
         else if (reportModel.ReportEntity == ReportEntityEnum.Artwork)
         {
             var isExist = await _unitOfWork.ArtworkRepository.IsExistedAsync(reportModel.TargetId);
             if (!isExist)
-                throw new NullReferenceException("Cannot found artwork!");
+                throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         }
         else
-            throw new Exception("Report entity not found!");
+            throw new Exception("Không tìm thấy đối tượng báo cáo.");
 
         var report = _mapper.Map<Report>(reportModel);
         report.State = StateEnum.Waiting;
@@ -92,7 +92,7 @@ public class ReportService : IReportService
     {
         var result = await _unitOfWork.ReportRepository.GetByIdAsync(reportId);
         if (result == null)
-            throw new NullReferenceException("Cannot found report!");
+            throw new KeyNotFoundException("Không tìm thấy báo cáo.");
         _unitOfWork.ReportRepository.Delete(result);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -101,9 +101,9 @@ public class ReportService : IReportService
     {
         var oldReport = await _unitOfWork.ReportRepository.GetByIdAsync(reportId);    
         if (oldReport == null)
-            throw new NullReferenceException("Cannot found report!");
+            throw new KeyNotFoundException("Không tìm thấy báo cáo.");
         if (oldReport.State != StateEnum.Waiting)
-            throw new Exception($"Report already resolve! (current state is {oldReport.State})");
+            throw new Exception($"Báo cáo này đã được giải quyết (trạng thái hiện tại là {oldReport.State})");
         oldReport.State = reportStateEM.State;
         oldReport.Note = reportStateEM.Note;
         _unitOfWork.ReportRepository.Update(oldReport);

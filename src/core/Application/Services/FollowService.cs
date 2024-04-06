@@ -33,25 +33,25 @@ public class FollowService : IFollowService
 
         if (follow.FollowedId == follow.FollowingId)
         {
-            throw new ArgumentException("You can not follow yourself.");
+            throw new ArgumentException("Bạn không thể theo dõi chính bạn.");
         }
 
         var accountExist = await _unitOfWork.AccountRepository.IsExistedAsync(follow.FollowedId);
         if (!accountExist)
         {
-            throw new NullReferenceException("Followed account not found.");
+            throw new KeyNotFoundException("Không tìm thấy tài khoản muốn theo dõi.");
         }
 
         var tmpFollow = await _unitOfWork.FollowRepository.GetByIdAsync(follow.FollowingId, follow.FollowedId);
         if (tmpFollow != null)
         {
-            throw new Exception("Followed already!");
+            throw new Exception("Đã theo dõi.");
         }
 
         // check if account is blocking or blocked
         if (await _unitOfWork.BlockRepository.IsBlockedOrBlockingAsync(follow.FollowingId, follow.FollowedId))
         {
-            throw new Exception("Can not follow because of blocking!");
+            throw new Exception("Không thể theo dõi vì chặn hoặc bị chặn.");
         }
 
         await _unitOfWork.FollowRepository.AddFollowAsync(follow);
@@ -64,7 +64,7 @@ public class FollowService : IFollowService
         var follow = await _unitOfWork.FollowRepository.GetByIdAsync(followingId, model.FollowedId);
         if (follow == null)
         {
-            throw new ArgumentException("Already unfollowed.");
+            throw new ArgumentException("Chưa theo dõi tài khoản này.");
         }
         // hard delete follow in db
         _unitOfWork.FollowRepository.DeleteFollow(follow);
@@ -76,7 +76,7 @@ public class FollowService : IFollowService
         var accountExist = await _unitOfWork.AccountRepository.IsExistedAsync(followerId);
         if (!accountExist)
         {
-            throw new NullReferenceException("follower account not found.");
+            throw new KeyNotFoundException("Không tìm thấy tài khoản theo dõi.");
         }
 
         var listFollow = await _unitOfWork.FollowRepository.GetAllFollowingsAsync(followerId);
@@ -98,7 +98,7 @@ public class FollowService : IFollowService
         var accountExist = await _unitOfWork.AccountRepository.IsExistedAsync(followingId);
         if (!accountExist)
         {
-            throw new NullReferenceException("following account not found.");
+            throw new KeyNotFoundException("Không tìm thấy tài khoản bị theo dõi.");
         }
 
         var listFollow = await _unitOfWork.FollowRepository.GetAllFollowersAsync(followingId);  

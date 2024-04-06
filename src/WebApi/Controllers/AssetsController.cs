@@ -16,7 +16,7 @@ public class AssetsController : ControllerBase
     private readonly IMapper _mapper;
 
     public AssetsController(
-        IAssetService assetService, 
+        IAssetService assetService,
         IMapper mapper)
     {
         _assetService = assetService;
@@ -36,23 +36,15 @@ public class AssetsController : ControllerBase
         try
         {
             var result = await _assetService.GetAssetByIdAsync(assetId);
-            if (result == null)
-                return NotFound();
             return Ok(result);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -64,20 +56,14 @@ public class AssetsController : ControllerBase
         {
             var link = await _assetService.GetDownloadUriAssetAsync(assetId);
             return Ok(new { link });
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -90,21 +76,13 @@ public class AssetsController : ControllerBase
             var link = await _assetService.GetDownloadUriAssetForModerationAsync(assetId);
             return Ok(new { link });
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -117,7 +95,7 @@ public class AssetsController : ControllerBase
     //        var link = await _assetService.GetDownloadUriAssetAlternativeAsync(assetId);
     //        return Ok(new { link });
     //    }
-    //    catch (NullReferenceException ex)
+    //    catch (KeyNotFoundException ex)
     //    {
     //        return BadRequest(new ApiResponse
     //        {
@@ -143,20 +121,14 @@ public class AssetsController : ControllerBase
         {
             var asset = await _assetService.AddAssetAsync(assetModel);
             return CreatedAtAction(nameof(GetAssetById), new { assetId = asset.Id }, asset);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -168,21 +140,14 @@ public class AssetsController : ControllerBase
         {
             await _assetService.UpdateAssetAsync(assetId, assetEM);
             return NoContent();
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -194,20 +159,14 @@ public class AssetsController : ControllerBase
         {
             await _assetService.DeleteAssetAsync(assetId);
             return NoContent();
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

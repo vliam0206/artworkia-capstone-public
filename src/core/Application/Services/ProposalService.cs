@@ -36,20 +36,25 @@ public class ProposalService : IProposalService
     {
         // check whether service exist
         var service = await _unitOfWork.ServiceRepository.GetByIdAsync(model.ServiceId);
-        if (service == null || service.DeletedOn != null)
+        if (service == null)
         {
-            throw new ArgumentException("Service does not exist or already deleted!");
+            throw new ArgumentException("Không tìm thấy dịch vụ.");
         }
+        if (service.DeletedOn != null)
+        {
+            throw new Exception("Dịch vụ đã bị xóa.");
+        }
+
 
         Guid audienceId = model.OrdererId;
         Guid creatorId = _claimService.GetCurrentUserId ?? default;
         if (creatorId != service.CreatedBy)
         {
-            throw new ArgumentException("Invalid ServiceId! You can only create proposal your own Service.");
+            throw new ArgumentException("Chỉ người sở hữu dịch vụ mới có quyền tạo thỏa thuận.");
         }
         if (audienceId == creatorId)
         {
-            throw new ArgumentException("Invalid OrdererId! You can not create proposal your own proposal.");
+            throw new ArgumentException("Bạn không thể tạo thỏa thuận cho chính bạn.");
         }
 
         Proposal newProposal = _mapper.Map<Proposal>(model);
@@ -90,7 +95,7 @@ public class ProposalService : IProposalService
         var proposal = await _unitOfWork.ProposalRepository.GetProposalDetailWithReviewAsync(proposalId);
         if (proposal == null)
         {
-            throw new ArgumentException("Proposal does not exist");
+            throw new ArgumentException("Không tìm thấy thỏa thuận.");
         }
 
         var proposalVM = _mapper.Map<ProposalVM>(proposal);
@@ -103,7 +108,7 @@ public class ProposalService : IProposalService
         var chatExist = await _unitOfWork.ChatBoxRepository.GetByIdAsync(chatId);
         if (chatExist == null)
         {
-            throw new ArgumentException("Chat Session does not exist!");
+            throw new ArgumentException("Không tìm thấy phiên chat.");
         }
         var listProposal = await _unitOfWork.ProposalRepository
                                 .GetProposalsByChatIdAsync(chatId);
@@ -124,9 +129,13 @@ public class ProposalService : IProposalService
     {
         // check whether service exist
         var service = await _unitOfWork.ServiceRepository.GetByIdAsync(serviceId);
-        if (service == null || service.DeletedOn != null)
+        if (service == null)
         {
-            throw new ArgumentException("Service does not existor been deleted!");
+            throw new ArgumentException("Không tìm thấy dịch vụ.");
+        }
+        if (service.DeletedOn != null)
+        {
+            throw new Exception("Dịch vụ đã bị xóa.");
         }
         var listProposal = await _unitOfWork.ProposalRepository
                                 .GetListByConditionAsync(x => x.ServiceId == serviceId);
@@ -139,14 +148,14 @@ public class ProposalService : IProposalService
         var proposal = await _unitOfWork.ProposalRepository.GetProposalDetailWithReviewAsync(id);
         if (proposal == null)
         {
-            throw new ArgumentException("Proposal does not exist");
+            throw new ArgumentException("Không tìm thấy thỏa thuận.");
         }
         Guid currenUser = _claimService.GetCurrentUserId ?? default;
         if ((currenUser != proposal.CreatedBy && currenUser != proposal.OrdererId)
             || (currenUser == proposal.CreatedBy && model.Status != ProposalStateEnum.Cancelled)
             || (currenUser == proposal.OrdererId && model.Status == ProposalStateEnum.Cancelled))
         {
-            throw new BadHttpRequestException("You can not do this action!");
+            throw new BadHttpRequestException("Bạn không có quyền cập nhật trạng thái thỏa thuận.");
         }
         proposal.ProposalStatus = model.Status;
         _unitOfWork.ProposalRepository.Update(proposal);
@@ -163,7 +172,7 @@ public class ProposalService : IProposalService
         var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalId);
         if (proposal == null)
         {
-            throw new ArgumentException("Proposal does not exist");
+            throw new ArgumentException("Không tìm thấy thỏa thuận.");
         }
 
         _unitOfWork.ProposalRepository.Delete(proposal);
@@ -175,22 +184,22 @@ public class ProposalService : IProposalService
         var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalId);
         if (proposal == null)
         {
-            throw new ArgumentException("ProposalId not found!");
+            throw new ArgumentException("Không tìm thấy thỏa thuận.");
         }
         if (proposal.InitialPrice == 0)
         {
-            throw new ArgumentException("This proposal has no init payment need to pay.");
+            throw new ArgumentException("Thỏa thuận này không cần đặt cọc.");
         }
         // if (isInitPayment) throw Exception...
         if (proposal.ProposalStatus == ProposalStateEnum.InitPayment
             || proposal.ProposalStatus == ProposalStateEnum.CompletePayment)
         {
-            throw new ArgumentException("This proposal has been paid.");
+            throw new ArgumentException("Thỏa thuận này đã được thanh toán.");
         }
         var currentId = _claimService.GetCurrentUserId ?? default;
         if (currentId != proposal.OrdererId)
         {
-            throw new ArgumentException("You are not authorized to pay for this proposal.");
+            throw new ArgumentException("Bạn không có quyền thanh toán cho thỏa thuận này.");
         }
         // payment (coins)
         var amount = proposal.InitialPrice * proposal.Total;        
@@ -229,17 +238,17 @@ public class ProposalService : IProposalService
         var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalId);
         if (proposal == null)
         {
-            throw new ArgumentException("ProposalId not found!");
+            throw new ArgumentException("Không tìm thấy thỏa thuận.");
         }
         // if (IsCompletePayment) throw Exception...
         if (proposal.ProposalStatus == ProposalStateEnum.CompletePayment)
         {
-            throw new ArgumentException("This proposal has been paid.");
+            throw new ArgumentException("Thỏa thuận này đã được thanh toán.");
         }
         var currentId = _claimService.GetCurrentUserId ?? default;
         if (currentId != proposal.OrdererId)
         {
-            throw new ArgumentException("You are not authorized to pay for this proposal.");
+            throw new ArgumentException("Bạn không có quyền thanh toán cho thỏa thuận này.");
         }
 
         // payment (coins)

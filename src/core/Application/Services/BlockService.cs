@@ -30,13 +30,18 @@ public class BlockService : IBlockService
         var blockedAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockModel.BlockedId);
         if (!blockedAccountExist)
         {
-            throw new NullReferenceException("Blocked Account not found.");
+            throw new KeyNotFoundException("Không tìm thấy tài khoản muốn chặn.");
+        }
+
+        if (blockingId == blockModel.BlockedId)
+        {
+            throw new Exception("Không thể chặn chính mình.");
         }
 
         var tempBlock = await _unitOfWork.BlockRepository.GetByIdAsync(blockingId, blockModel.BlockedId);
         if (tempBlock != null)
         {
-            throw new Exception("Blocked already!");
+            throw new Exception("Bạn đã chặn tài khoản này.");
         }
 
         // delete follow if exist and vice versa
@@ -49,7 +54,7 @@ public class BlockService : IBlockService
         if (followed != null)
         {
             _unitOfWork.FollowRepository.DeleteFollow(followed);
-        } 
+        }
 
         Block block = new()
         {
@@ -62,21 +67,17 @@ public class BlockService : IBlockService
 
     public async Task DeleteBlockAsync(Guid blockedId)
     {
-        Guid? blockingId = _claimService.GetCurrentUserId;
-        if (blockingId == null)
-        {
-            throw new NullReferenceException("Blocking Account not found.");
-        }
+        Guid blockingId = _claimService.GetCurrentUserId ?? default;
         var blockedAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockedId);
         if (!blockedAccountExist)
         {
-            throw new NullReferenceException("Blocked Account not found.");
+            throw new KeyNotFoundException("Không tìm thấy tài khoản bị chặn.");
         }
 
-        var block = await _unitOfWork.BlockRepository.GetByIdAsync(blockingId.Value, blockedId);
+        var block = await _unitOfWork.BlockRepository.GetByIdAsync(blockingId, blockedId);
         if (block == null)
         {
-            throw new NullReferenceException("Unblock already!");
+            throw new KeyNotFoundException("Bạn đã gỡ chặn.");
         }
         // hard delete block in db
         _unitOfWork.BlockRepository.DeleteBlock(block);
@@ -88,7 +89,7 @@ public class BlockService : IBlockService
         var accountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockerId);
         if (!accountExist)
         {
-            throw new NullReferenceException("blocker Account not found.");
+            throw new KeyNotFoundException("Không tìm thấy tài khoản người chặn.");
         }
 
         var listBlocks = await _unitOfWork.BlockRepository.GetAllBlockOfBlockingAsync(blockerId);
@@ -110,7 +111,7 @@ public class BlockService : IBlockService
         var accountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockingId);
         if (!accountExist)
         {
-            throw new NullReferenceException("Blocking Account not found.");
+            throw new KeyNotFoundException("Không tìm thấy tài khoản người chặn.");
         }
         var listBlocks = await _unitOfWork.BlockRepository.GetAllBlockOfBlockedAsync(blockingId);
         var listBlocker = new List<AccountBasicInfoVM>();

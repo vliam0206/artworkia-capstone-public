@@ -57,13 +57,13 @@ public class AssetService : IAssetService
         return listAssetVM;
     }
 
-    public async Task<AssetVM?> GetAssetByIdAsync(Guid assetId)
+    public async Task<AssetVM> GetAssetByIdAsync(Guid assetId)
     {
         Guid? accountId = _claimService.GetCurrentUserId;
 
         var asset = await _unitOfWork.AssetRepository.GetByIdAsync(assetId);
         if (asset == null)
-            throw new NullReferenceException("Không tìm thấy tài nguyên.");
+            throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
         if (asset.DeletedOn != null)
             throw new Exception("Tài nguyên đã bị xóa.");
         var assetVM = _mapper.Map<AssetVM>(asset);
@@ -95,7 +95,7 @@ public class AssetService : IAssetService
     {
         var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId);
         if (asset == null)
-            throw new NullReferenceException("Không tìm thấy tài nguyên.");
+            throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
 
         // kiem tra xem user da mua asset chua
         var accountId = _claimService.GetCurrentUserId ?? default;
@@ -120,7 +120,7 @@ public class AssetService : IAssetService
     {
         var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId);
         if (asset == null)
-            throw new NullReferenceException("Không tìm thấy tài nguyên.");
+            throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
         return asset.Location;
     }
 
@@ -128,7 +128,7 @@ public class AssetService : IAssetService
     {
         var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId);
         if (asset == null)
-            throw new NullReferenceException("Không tìm thấy tài nguyên.");
+            throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
 
         var link = await _firebaseService.DownloadFileFromFirebaseStorage(asset.AssetName, $"{PARENT_FOLDER}/Asset");
 
@@ -163,7 +163,7 @@ public class AssetService : IAssetService
         // kiem tra artwork co ton tai khong
         var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(assetModel.ArtworkId);
         if (artwork == null)
-            throw new NullReferenceException("Không tìm thấy tác phẩm.");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         if (artwork.DeletedOn != null)
             throw new Exception("Tác phẩm đã bị xóa.");
 
@@ -177,7 +177,7 @@ public class AssetService : IAssetService
         // upload asset len firebase, lay url
         var url = await _firebaseService.UploadFileToFirebaseStorage(assetModel.File, newAssetName, folderName);
         if (url == null)
-            throw new Exception("Không thể tải tài nguyên lên Firebase.");
+            throw new Exception("Không thể tải tài nguyên lên đám mây.");
 
         // map assetModel sang asset
         Asset newAsset = _mapper.Map<Asset>(assetModel);
@@ -196,7 +196,7 @@ public class AssetService : IAssetService
         // kiem tra artwork co ton tai khong
         bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(multiAssetModel.ArtworkId);
         if (!IsArtworkExisted)
-            throw new NullReferenceException("Không tìm thấy tác phẩm.");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         var allAssetsOfArtwork = await _unitOfWork.AssetRepository.GetListByConditionAsync(x => x.ArtworkId == multiAssetModel.ArtworkId);
         if (allAssetsOfArtwork.Count > 0)
             throw new Exception("Tác phẩm đã có tài nguyên.");
@@ -244,7 +244,7 @@ public class AssetService : IAssetService
             // upload asset len firebase, lay url
             var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.File, newAssetName, folderName);
             if (url == null)
-                throw new Exception("Không thể tải tài nguyên lên Firebase.!");
+                throw new Exception("Không thể tải tài nguyên lên đám mây.!");
 
             Asset newAsset = new Asset()
             {
@@ -277,7 +277,7 @@ public class AssetService : IAssetService
     {
         var oldAsset = await _unitOfWork.AssetRepository.GetByIdAsync(assetId);
         if (oldAsset == null)
-            throw new NullReferenceException("Không tìm thấy tài nguyên.");
+            throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
         oldAsset.AssetTitle = assetEM.AssetTitle;
         oldAsset.Description = assetEM.Description;
         oldAsset.Price = assetEM.Price;
@@ -290,7 +290,7 @@ public class AssetService : IAssetService
     {
         var listAssetOfArtwork = await _unitOfWork.AssetRepository.GetListByConditionAsync(x => x.ArtworkId == artworkId);
         if (listAssetOfArtwork == null)
-            throw new NullReferenceException("Tác phẩm này không có tài nguyên nào.");
+            throw new KeyNotFoundException("Tác phẩm này không có tài nguyên nào.");
         var listAssetVMOfArtwork = _mapper.Map<List<AssetVM>>(listAssetOfArtwork);
         return listAssetVMOfArtwork;
     }

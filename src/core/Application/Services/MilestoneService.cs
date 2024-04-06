@@ -24,7 +24,7 @@ public class MilestoneService : IMilestoneService
         var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalId);
         if (proposal == null)
         {
-            throw new ArgumentException("Proposal does not exist!");
+            throw new ArgumentException("Không tìm thấy thỏa thuận.");
         }
         var milestone = new Milestone { ProposalId = proposalId };
         if (state != null) // udpate state case
@@ -52,7 +52,7 @@ public class MilestoneService : IMilestoneService
         var proposalExist = await _unitOfWork.ProposalRepository.IsExistedAsync(proposalId);
         if (!proposalExist)
         {
-            throw new ArgumentException("Proposal does not exist!");
+            throw new ArgumentException("Không tìm thấy thỏa thuận.");
         }
         var milestones = await _unitOfWork.MilestoneRepository.GetAllMilstoneOfProposalAsync(proposalId);
         return _mapper.Map<List<MilestoneVM>>(milestones);

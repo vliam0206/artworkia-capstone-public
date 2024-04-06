@@ -43,7 +43,7 @@ public class CommentService : ICommentService
         var comment = await _unitOfWork.CommentRepository.GetByIdAsync(commentId);
         if (comment == null || comment.DeletedOn != null)
         {
-            throw new ArgumentException("Comment Id not found!");
+            throw new ArgumentException("Không tìm thấy bình luận.");
         }
         // check authorize
         if (_claimService.GetCurrentRole.Equals(RoleEnum.CommonUser.ToString())
@@ -63,7 +63,7 @@ public class CommentService : ICommentService
         var comment = await _unitOfWork.CommentRepository.GetByIdAsync(commentId);
         if (comment == null || comment.DeletedOn != null)
         {
-            throw new ArgumentException("Comment Id not found!");
+            throw new ArgumentException("Không tìm thấy bình luận.");
         }
         // edit comment
         comment.Content = newCommentText;
@@ -91,7 +91,7 @@ public class CommentService : ICommentService
         var comment = await _unitOfWork.CommentRepository.GetByIdAsync(commentId);
         if (comment == null || comment.DeletedOn != null)
         {
-            throw new ArgumentException("Comment Id not found!");
+            throw new ArgumentException("Không tìm thấy bình luận.");
         }
         return await _unitOfWork.CommentRepository.GetReplyCommentsAsync(commentId);
     }
@@ -107,7 +107,7 @@ public class CommentService : ICommentService
         var comment = await _unitOfWork.CommentRepository.GetByIdAsync(commentId);
         if (comment == null || comment.DeletedOn != null)
         {
-            throw new ArgumentException("Comment Id not found!");
+            throw new ArgumentException("Không tìm thấy bình luận.");
         }
         // reply comment
         var replyComment = new Comment

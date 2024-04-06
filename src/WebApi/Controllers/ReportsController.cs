@@ -29,8 +29,15 @@ namespace WebApi.Controllers
         [Authorize(Roles = "Moderator,Admin")]
         public async Task<IActionResult> GetAllReports([FromQuery] ReportCriteria criteria)
         {
-            var result = await _reportService.GetAllReportsAsync(criteria);
-            return Ok(result);
+            try
+            {
+                var result = await _reportService.GetAllReportsAsync(criteria);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            }
         }
 
         [HttpGet("report-entity-enum")]
@@ -61,10 +68,21 @@ namespace WebApi.Controllers
         [Authorize(Roles = "Moderator,Admin")]
         public async Task<IActionResult> GetReportById(Guid reportId)
         {
-            var result = await _reportService.GetReportByIdAsync(reportId);
-            if (result == null)
-                return NotFound();
-            return Ok(result);
+            try
+            {
+                var result = await _reportService.GetReportByIdAsync(reportId);
+                if (result == null)
+                    return NotFound();
+                return Ok(result);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            }
         }
 
         [HttpPost]
@@ -76,21 +94,13 @@ namespace WebApi.Controllers
                 return CreatedAtAction(nameof(GetReportById),
                 new { reportId = result.Id }, result);
             }
-            catch (NullReferenceException ex)
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
+                return NotFound(new ApiResponse { ErrorMessage = ex.Message });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
+                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -103,21 +113,13 @@ namespace WebApi.Controllers
                 await _reportService.UpdateReportState(reportId, reportStateEM);
                 return NoContent();
             }
-            catch (NullReferenceException ex)
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
+                return NotFound(new ApiResponse { ErrorMessage = ex.Message });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
+                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -130,21 +132,13 @@ namespace WebApi.Controllers
                 await _reportService.DeleteReportAsync(reportId);
                 return NoContent();
             }
-            catch (NullReferenceException ex)
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
+                return NotFound(new ApiResponse { ErrorMessage = ex.Message });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = ex.Message
-                });
+                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
             }
         }
     }

@@ -52,7 +52,7 @@ public class ImageService : IImageService
         // kiem tra artwork co ton tai khong
         bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(imageModel.ArtworkId);
         if (!IsArtworkExisted)
-            throw new NullReferenceException("Artwork that contains this image does not exist!");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
 
         // lay stt cua hinh anh, dat ten lai hinh anh
         int latestOrder = await GetLatestOrderOfImageInArtwork(imageModel.ArtworkId);
@@ -63,7 +63,7 @@ public class ImageService : IImageService
         //upload hinh anh len firebase, lay url
         var url = await _firebaseService.UploadFileToFirebaseStorage(imageModel.Image, newImageName, folderName);
         if (url == null)
-            throw new Exception("Cannot upload image to firebase");
+            throw new Exception("Không thể tải hình ảnh lên đám mây.");
 
         // hashing image de kiem tra trung anh
         var hashAlgorithm = new PerceptualHash();
@@ -83,7 +83,7 @@ public class ImageService : IImageService
     {
         var isExisted = await _unitOfWork.ImageRepository.IsExistedAsync(imageId);
         if (!isExisted)
-            throw new NullReferenceException("Cannot found image!");
+            throw new KeyNotFoundException("Không tìm thấy hình ảnh.");
 
         var result = await _unitOfWork.ImageRepository.GetImagesDuplicateAsync(imageId);
         return _mapper.Map<List<ImageDuplicationVM>>(result);
@@ -95,12 +95,12 @@ public class ImageService : IImageService
         // kiem tra artwork co ton tai khong
         bool IsArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(multiImageModel.ArtworkId);
         if (!IsArtworkExisted)
-            throw new NullReferenceException("Artwork that contains this image does not exist!");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
 
         // chi cho phep upload nhieu hinh anh cho artwork moi tao
         var listImage = await _unitOfWork.ImageRepository.GetListByConditionAsync(x => x.ArtworkId == multiImageModel.ArtworkId);
         if (listImage.Count > 0)
-            throw new Exception("Artwork already has images, cannot add multiple images again! (This API only allows adding for the first time)");
+            throw new Exception("Tác phẩm đã có bộ hình ảnh, không thể thêm ảnh lần nữa (chỉ cho phép thêm hình ảnh trong lần đầu tiên)");
         #endregion
 
         #region upload range image (optimize)
@@ -118,7 +118,7 @@ public class ImageService : IImageService
             {
                 var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName);
                 if (url == null)
-                    throw new Exception("Error when uploading images to firebase");
+                    throw new Exception("Lỗi khi tải bộ hình ảnh lên đám mây.");
 
                 // hashing image de kiem tra trung anh
                 var hashAlgorithm = new PerceptualHash();
@@ -189,7 +189,7 @@ public class ImageService : IImageService
             //upload hinh anh len firebase, lay url
             var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName);
             if (url == null)
-                throw new Exception("Error when uploading images to firebase");
+                throw new Exception("Lỗi khi tải bộ hình ảnh lên đám mây.");
 
             // luu thong tin hinh anh vao database
             Image image = new Image()
@@ -208,7 +208,7 @@ public class ImageService : IImageService
     {
         var result = await _unitOfWork.ImageRepository.GetByIdAsync(imageId);
         if (result == null)
-            throw new NullReferenceException("Cannot found image!");
+            throw new KeyNotFoundException("Không tìm thấy hình ảnh.");
 
         await _firebaseService.DeleteFileInFirebaseStorage(result.ImageName, "Image");
         _unitOfWork.ImageRepository.Delete(result);
@@ -220,6 +220,4 @@ public class ImageService : IImageService
         _unitOfWork.ImageRepository.Update(image);
         await _unitOfWork.SaveChangesAsync();
     }
-
-    
 }

@@ -44,7 +44,7 @@ public class ProposalAssetService : IProposalAssetService
         var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalAssetModel.ProposalId);
         if (proposal == null)
         {
-            throw new NullReferenceException("Proposal not found");
+            throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
         }
 
         // user phai gui tuan tu concept -> final -> revision
@@ -74,7 +74,7 @@ public class ProposalAssetService : IProposalAssetService
         var url = await _firebaseService.UploadFileToFirebaseStorage(proposalAssetModel.File, newProposalAssetName, folderName);
         if (url == null)
         {
-            throw new Exception("Upload file failed");
+            throw new Exception("Không thể tải tệp tin lên đám mây.");
         }
 
         // map assetModel sang proposalAsset

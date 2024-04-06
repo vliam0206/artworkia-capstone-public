@@ -37,7 +37,7 @@ public class WalletService : IWalletService
         var wallet = await _unitOfWork.WalletRepository.GetByIdAsync(walletId);
         if (wallet is null)
         {
-            throw new NullReferenceException("Wallet is not exist");
+            throw new KeyNotFoundException("Không tìm thấy ví.");
         }
         var walletVM = _mapper.Map<WalletVM>(wallet);
         return walletVM;
@@ -49,7 +49,7 @@ public class WalletService : IWalletService
                                     => x.AccountId == accountId);
         if (wallet is null)
         {
-            throw new NullReferenceException("Wallet is not exist");
+            throw new KeyNotFoundException("Không tìm thấy ví.");
         }
         var walletVM = _mapper.Map<WalletVM>(wallet);
         return walletVM;
@@ -60,7 +60,7 @@ public class WalletService : IWalletService
         var oldWallet = await _unitOfWork.WalletRepository.GetByIdAsync(walletId);
         if (oldWallet is null)
         {
-            throw new Exception("Wallet is not exist");
+            throw new Exception("Không tìm thấy ví.");
         }
         oldWallet.WithdrawMethod = walletEM.WithdrawMethod;
         oldWallet.WithdrawInformation = walletEM.WithdrawInformation;
@@ -74,7 +74,7 @@ public class WalletService : IWalletService
                                 .GetSingleByConditionAsync(x => x.AccountId == accountId);
         if (wallet == null)
         {
-            throw new Exception("Account Id has any wallet yet!");
+            throw new Exception("Tài khoản này chưa có ví.");
         }
         wallet.Balance += amount;
         _unitOfWork.WalletRepository.Update(wallet);
@@ -87,11 +87,11 @@ public class WalletService : IWalletService
                                 .GetSingleByConditionAsync(x => x.AccountId == accountId);
         if (wallet == null)
         {
-            throw new ArgumentException("Account Id has any wallet yet!");
+            throw new ArgumentException("Tài khoản này chưa có ví.");
         }
         if (wallet.Balance < amount)
         {
-            throw new ArgumentOutOfRangeException("The remaining coins balance in the wallet is not enough to make this transaction.");
+            throw new ArgumentOutOfRangeException("Số dư xu hiện có trong ví không đủ để thực hiện giao dịch.");
         }
         wallet.Balance -= amount;
         _unitOfWork.WalletRepository.Update(wallet);
@@ -123,7 +123,7 @@ public class WalletService : IWalletService
                                 .GetSingleByConditionAsync(x => x.AccountId == accountId);
         if (wallet == null)
         {
-            throw new ArgumentException("Account Id has any wallet yet!");
+            throw new ArgumentException("Tài khoản này chưa có ví.");
         }
         return (wallet.Balance >= amount);
     }

@@ -32,21 +32,13 @@ public class BlocksController : ControllerBase
             var blocks = await _blockService.GetBlockingsOfBlockerAsync(blockerId);
             return Ok(blocks);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -60,22 +52,13 @@ public class BlocksController : ControllerBase
             var blocks = await _blockService.GetBlockersOfBlockingAsync(blockingId);
             return Ok(blocks);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -86,32 +69,16 @@ public class BlocksController : ControllerBase
     {
         try
         {
-            if (_claimService.GetCurrentUserId == model.BlockedId)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = "You can not block yourself."
-                });
-            }
             await _blockService.CreateBlockAsync(model);
             return Ok();
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -125,34 +92,13 @@ public class BlocksController : ControllerBase
             await _blockService.DeleteBlockAsync(model.BlockedId);
             return NoContent();
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
-    }
-
-    private bool CheckAuthorize(Guid accountId)
-    {
-        // check authorize
-        var currentRole = _claimService.GetCurrentRole;
-        if (currentRole.Equals(RoleEnum.Moderator.ToString())
-             || (currentRole.Equals(RoleEnum.CommonUser.ToString())
-                && _claimService.GetCurrentUserId != accountId))
-        {
-            return false;
-        }
-        return true;
     }
 }

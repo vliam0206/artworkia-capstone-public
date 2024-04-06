@@ -25,7 +25,7 @@ public class WalletsController : ControllerBase
         {
             var result = await _walletService.GetWalletByIdAsync(walletId);
             return Ok(result);
-        } catch (NullReferenceException ex)
+        } catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         } catch (Exception ex)
@@ -44,7 +44,7 @@ public class WalletsController : ControllerBase
             var result = await _walletService.GetWalletByAccountIdAsync(userId);
             return Ok(result);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
@@ -63,7 +63,7 @@ public class WalletsController : ControllerBase
         {
             await _walletService.UpdateWalletAsync(walletId, walletEM);
             return NoContent();
-        } catch (NullReferenceException ex)
+        } catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         } catch (Exception ex)

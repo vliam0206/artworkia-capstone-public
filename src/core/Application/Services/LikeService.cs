@@ -28,7 +28,7 @@ public class LikeService : ILikeService
         var tmpLike = await _unitOfWork.LikeRepository.GetByIdAsync(accountId, likeModel.ArtworkId);
         if (tmpLike != null)
         {
-            throw new Exception("Liked already!");
+            throw new Exception("Bạn đã thích tác phẩm này.");
         }
 
         Like like = new()
@@ -39,7 +39,7 @@ public class LikeService : ILikeService
         await _unitOfWork.LikeRepository.AddLikeAsync(like);
         var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(like.ArtworkId);
         if (artwork == null) 
-            throw new ArgumentException("Artwork not found.");
+            throw new ArgumentException("Không tìm thấy tác phẩm.");
         artwork.LikeCount++;
         _unitOfWork.ArtworkRepository.Update(artwork);
         await _unitOfWork.SaveChangesAsync();
@@ -49,17 +49,18 @@ public class LikeService : ILikeService
     {
         Guid accountId = _claimService.GetCurrentUserId ?? default;
 
+        var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
+        if (artwork == null)
+            throw new ArgumentException("Không tìm thấy tác phẩm.");
+
         var tmpLike = await _unitOfWork.LikeRepository.GetByIdAsync(accountId, artworkId);
         if (tmpLike == null)
         {
-            throw new ArgumentException("AccountId or artworkId not found.");
+            throw new ArgumentException("Bạn chưa thích tác phẩm này.");
         }
 
         // hard delete like in db
         _unitOfWork.LikeRepository.DeleteLike(tmpLike);
-        var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
-        if (artwork == null)
-            throw new ArgumentException("Artwork not found.");
         artwork.LikeCount--;
         _unitOfWork.ArtworkRepository.Update(artwork);
         await _unitOfWork.SaveChangesAsync();
@@ -103,7 +104,7 @@ public class LikeService : ILikeService
     {
         bool isArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(artworkId);  
         if (!isArtworkExisted)
-            throw new NullReferenceException("Artwork not found.");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         var likeObj = await _unitOfWork.LikeRepository.GetByIdAsync(accountId, artworkId);
         return new IsLikedVM
         {
@@ -119,7 +120,7 @@ public class LikeService : ILikeService
         {
             bool isArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(artworkId);
             if (!isArtworkExisted)
-                throw new NullReferenceException("Artwork not found.");
+                throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
             var likeObj = await _unitOfWork.LikeRepository.GetByIdAsync(accountId, artworkId);
             listIsLiked.Add(new IsLikedVM
             {

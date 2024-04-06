@@ -15,11 +15,11 @@ public interface IAccountService
     Task UndeleteAccountAsync(Guid id);
     Task EditPasswordAsync(Guid accountId, string oldPassword, string newPassword);
     Task<Account?> GetAccountByEmailAsync(string email);
-    Task<Account?> GetAccountByIdAsync(Guid accountId);
+    Task<AccountVM> GetAccountByIdAsync(Guid accountId);
     Task<Account?> GetAccountByUsernameAsync(string username);
     Task<PagedList<AccountVM>> GetAccountsAsync(AccountCriteria criteria);
     Task<List<Account>> GetDeletedAccountsAsync();
-    Task UpdateAccountAsync(Account account);
+    Task UpdateAccountAsync(Guid id, AccountModel model);
     Task<PagedList<HiredAccountVM>> GetHiredAccountAsync(PagedCriteria pagedCriteria);
     Task EditAvatarAsync(Guid accountId, IFormFile avatar);
 }

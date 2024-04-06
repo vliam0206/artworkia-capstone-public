@@ -33,21 +33,15 @@ public class CategoriesController : ControllerBase
         {
             var result = await _categoryService.GetCategoryByIdAsync(categoryId);
             return Ok(result);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        }   
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
     }
 
     [HttpPost]
@@ -59,13 +53,10 @@ public class CategoriesController : ControllerBase
             var category = await _categoryService.AddCategoryAsync(categoryModel);
             return CreatedAtAction(nameof(GetCategoryById), 
                 new { categoryId = category.Id }, category);
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -77,20 +68,14 @@ public class CategoriesController : ControllerBase
         {
             await _categoryService.UpdateCategoryAsync(categoryId, categoryEM);
             return NoContent();
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message   
-            });
-          } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -102,21 +87,15 @@ public class CategoriesController : ControllerBase
         {
             await _categoryService.DeleteCategoryAsync(categoryId);
             return NoContent();
-        } catch (NullReferenceException ex)
+        } 
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess= false,
-                ErrorMessage = ex.Message
-            });
-        } catch 
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = "Error when deleting! If you are deleting the main category, " +
-                "please make sure to delete all subcategories first."
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = "Lỗi khi xóa! Nếu bạn đang xóa thể loại chính, " +
+                "hãy đảm bảo xóa tất cả các thể loại con trước." });
         }
     }
 }

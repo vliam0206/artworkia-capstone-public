@@ -27,7 +27,7 @@ public class LicenseTypeService : ILicenseTypeService
     {
         var licenseType = await _unitOfWork.LicenseTypeRepository.GetByIdAsync(licenseTypeId);
         if (licenseType == null)
-            throw new NullReferenceException("Cannot found license type!");
+            throw new KeyNotFoundException("Không tìm thấy giấy phép.");
         var licenseTypeVM = _mapper.Map<LicenseTypeVM>(licenseType);
         return licenseTypeVM;
     }

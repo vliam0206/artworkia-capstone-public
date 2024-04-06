@@ -29,21 +29,13 @@ public class TagsController : ControllerBase
             var result = await _tagService.GetAllTagsAsync();
             return Ok(result);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -55,21 +47,13 @@ public class TagsController : ControllerBase
             var result = await _tagService.GetTagsAsync(criteria);
             return Ok(result);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -82,21 +66,13 @@ public class TagsController : ControllerBase
             var result = await _tagService.SearchTagsByNameAsync(keyword);
             return Ok(result);
         }
-        catch (NullReferenceException ex)
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -107,20 +83,14 @@ public class TagsController : ControllerBase
         {
             var result = await _tagService.GetTagByIdAsync(tagId);
             return Ok(result);
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -132,20 +102,14 @@ public class TagsController : ControllerBase
         {
             await _tagService.DeleteTagAsync(tagId);
             return NoContent();
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -158,19 +122,20 @@ public class TagsController : ControllerBase
             return BadRequest(new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = $"Tag name '{tagModel.TagName}' is invalid (only contains uppercase, lowercase, digits, space, 2-30 characters)"
+                ErrorMessage = $"Tên thẻ '{tagModel.TagName}' không phù hợp (chỉ bao gồm chữ in thường, in hoa, chữ số, khoảng cách, 2-30 kí tự)."
             });
         try
         {
             TagVM tagVM = await _tagService.AddTagAsync(tagModel);
             return CreatedAtAction(nameof(GetTagById), new { tagId = tagVM.Id }, tagVM);
-        } catch (Exception ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            }); ;
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -183,27 +148,21 @@ public class TagsController : ControllerBase
             return BadRequest(new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = $"Tag name '{tagModel.TagName}' is invalid (only contains uppercase, lowercase, digits, space, 2-30 characters)."
+                ErrorMessage = $"Tên thẻ '{tagModel.TagName}' không phù hợp (chỉ bao gồm chữ in thường, in hoa, chữ số, khoảng cách, 2-30 kí tự)."
             });
 
         try
         {
             await _tagService.EditTagAsync(tagId, tagModel);
             return NoContent();
-        } catch (NullReferenceException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
-        } catch (Exception ex)
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

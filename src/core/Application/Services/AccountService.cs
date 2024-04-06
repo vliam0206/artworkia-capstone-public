@@ -8,6 +8,7 @@ using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Http;
+using System.Security.Principal;
 
 namespace Application.Services;
 
@@ -42,8 +43,33 @@ public class AccountService : IAccountService
         return null;
     }
 
-    public async Task<Account?> GetAccountByIdAsync(Guid accountId)
-        => await _unitOfWork.AccountRepository.GetByIdAsync(accountId);
+    public async Task<AccountVM> GetAccountByIdAsync(Guid accountId)
+    {
+        Guid? loginId = _claimService.GetCurrentUserId;
+
+        var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId);
+        if (account == null)
+        {
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
+        }
+        if (account.DeletedOn != null)
+        {
+            throw new Exception("Tài khoản này đã bị xóa.");
+        }
+
+        // check if user is logged in
+        if (loginId != null)
+        {
+            // check if account is blocking or blocked
+            if (await _unitOfWork.BlockRepository.IsBlockedOrBlockingAsync(loginId.Value, accountId))
+            {
+                throw new Exception("Không tìm thấy tài khoản vì chặn hoặc bị chặn.");
+            }
+        }
+
+        var accountVM = _mapper.Map<AccountVM>(account);
+        return accountVM;
+    }
 
     public async Task<Account?> GetAccountByUsernameAsync(string username)
         => await _unitOfWork.AccountRepository
@@ -73,8 +99,15 @@ public class AccountService : IAccountService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task UpdateAccountAsync(Account account)
+    public async Task UpdateAccountAsync(Guid id, AccountModel model)
     {
+        var oldAcc = await _unitOfWork.AccountRepository.GetByIdAsync(id);
+        if (oldAcc == null)
+        {
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
+        }
+        var account = _mapper.Map<AccountModel, Account>(model, oldAcc);
+
         var errMsg = await ValidateAccountAsync(account);
         if (!string.IsNullOrEmpty(errMsg))
         {
@@ -90,11 +123,11 @@ public class AccountService : IAccountService
         var account = await _unitOfWork.AccountRepository.GetByIdAsync(id);
         if (account == null)
         {
-            throw new ArgumentException("Account id not found.");
+            throw new ArgumentException("Không tìm thấy tài khoản.");
         }
         if (account.DeletedOn != null)
         {
-            throw new Exception("This account has been deleted already.");
+            throw new Exception("Tài khoản này đã bị xóa.");
         }
         // soft delete account in db
         _unitOfWork.AccountRepository.SoftDelete(account);
@@ -106,12 +139,12 @@ public class AccountService : IAccountService
         var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId);
         if (account == null)
         {
-            throw new ArgumentException("Account id not found.");
+            throw new ArgumentException("Không tìm thấy tài khoản.");
         }
         // check authorized
         if (account.Id != _claimService.GetCurrentUserId)
         {
-            throw new UnauthorizedAccessException("You are not allow to access this function.");
+            throw new UnauthorizedAccessException("Bạn không có quyền sử dụng chức năng này.");
         }
         // check old password
         if (oldPassword.Verify(account.Password!))
@@ -122,7 +155,7 @@ public class AccountService : IAccountService
             await _unitOfWork.SaveChangesAsync();
         } else
         {
-            throw new Exception("Old password is not correct.");
+            throw new Exception("Mật khẩu cũ không đúng.");
         }
     }
 
@@ -134,14 +167,14 @@ public class AccountService : IAccountService
             .GetSingleByConditionAsync(x => x.Username.Equals(account.Username));
         if (tmpAcc != null && tmpAcc.Id != account.Id)
         {
-            errMsg = "Invalid! Username is duplicated.\n";
+            errMsg = "Username đã tồn tại\n";
             tmpAcc = null;
         }
         tmpAcc = await _unitOfWork.AccountRepository
             .GetSingleByConditionAsync(x => x.Email.Equals(account.Email));
         if (tmpAcc != null && tmpAcc.Id != account.Id)
         {
-            errMsg += "Invalid! Email is duplicated.";
+            errMsg += "Email đã tồn tại.";
         }
         return errMsg;
     }
@@ -155,11 +188,11 @@ public class AccountService : IAccountService
         var account = await _unitOfWork.AccountRepository.GetByIdAsync(id);
         if (account == null)
         {
-            throw new ArgumentException("Account id not found.");
+            throw new ArgumentException("Không tìm thấy tài khoản.");
         }
         if (account.DeletedOn == null)
         {
-            throw new Exception("This account has not been deleted.");
+            throw new Exception("Tài khoản này đã bị xóa.");
         }
         account.DeletedOn = null;
         account.DeletedBy = null;
@@ -189,7 +222,7 @@ public class AccountService : IAccountService
         var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId);
         if (account == null)
         {
-            throw new ArgumentException("Account id not found.");
+            throw new ArgumentException("Không tìm thấy tài khoản.");
         }
 
         // change avatar
@@ -198,7 +231,7 @@ public class AccountService : IAccountService
         //upload hinh anh len firebase, lay url
         var url = await _firebaseService.UploadFileToFirebaseStorageNoExtension(avatar, newAvatarName, folderName);
         if (url == null)
-            throw new Exception("Error when uploading avatar to firebase");
+            throw new Exception("Lỗi khi tải ảnh đại diện lên đám mây.");
 
         account.Avatar = url;
         _unitOfWork.AccountRepository.Update(account);
