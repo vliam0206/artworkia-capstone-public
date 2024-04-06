@@ -1,4 +1,10 @@
 # Artworkia Web Api - Capstone Project
+## Project Information
+- Front-end Github: ![https://github.com/thongnt0208/artworks-sharing-platform]
+- Front-end Github (Admin): ![https://github.com/thongnt0208/artworks-sharing-platform-admin]
+- Front-end deployed: ![https://artworkia-4f397.web.app/]
+- Front-end deployed (Admin): ![https://artworkia-admin.web.app/]
+
 PLEASE READ THIS FILE CAREFULLY!
 ## EF migration code first
 - To apply the latest migrations to your physical database, run this command(run the command from <strong>artworkia-web-api\src folder</strong>)
