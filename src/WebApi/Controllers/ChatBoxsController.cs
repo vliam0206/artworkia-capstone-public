@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
+using WebApi.ViewModels.Commons;
 
 namespace WebApi.Controllers;
 
@@ -35,7 +36,7 @@ public class ChatBoxsController : ControllerBase
             return Ok(chats);
         } catch (ArgumentException ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 

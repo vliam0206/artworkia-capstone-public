@@ -1,4 +1,5 @@
 ﻿using Application.Services.Abstractions;
+using Domain.Entities.Commons;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,10 @@ public class TransactionHistoriesController : ControllerBase
             var walletHistories = await _transactionHistoryService
                 .GetTransactionHistoriesOfAccount(accountId);
             return Ok(walletHistories);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message});
         }
         catch (Exception ex)
         {

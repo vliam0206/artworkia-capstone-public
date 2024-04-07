@@ -119,7 +119,7 @@ public class MappingProfile : Profile
             .ForMember(model => model.AccountId, opt => opt.MapFrom(src => src.CreatedBy));
 
         CreateMap<TransactionHistory, TransactionHistoryVM>()
-            .ForMember(model => model.AccountId, opt => opt.MapFrom(src => src.CreatedBy));
+            .ForMember(model => model.FromAccount, opt => opt.MapFrom(src => src.Account));
         CreateMap<TransactionHistory, TransactionModel>().ReverseMap();
 
         CreateMap<ZPCreateOrderRequest, OrderCreateModel>().ReverseMap();

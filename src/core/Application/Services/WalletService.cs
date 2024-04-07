@@ -68,7 +68,7 @@ public class WalletService : IWalletService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task AddCoinsToWallet(Guid accountId, double amount)
+    public async Task AddCoinsToWallet(Guid accountId, double amount, bool isSaveChange = true)
     {
         var wallet = await _unitOfWork.WalletRepository
                                 .GetSingleByConditionAsync(x => x.AccountId == accountId);
@@ -78,10 +78,13 @@ public class WalletService : IWalletService
         }
         wallet.Balance += amount;
         _unitOfWork.WalletRepository.Update(wallet);
-        await _unitOfWork.SaveChangesAsync();
+        if (isSaveChange)
+        {
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 
-    public async Task SubtrasctCoinsFromWallet(Guid accountId, double amount)
+    public async Task SubtrasctCoinsFromWallet(Guid accountId, double amount, bool isSaveChange = true)
     {
         var wallet = await _unitOfWork.WalletRepository
                                 .GetSingleByConditionAsync(x => x.AccountId == accountId);
@@ -95,7 +98,10 @@ public class WalletService : IWalletService
         }
         wallet.Balance -= amount;
         _unitOfWork.WalletRepository.Update(wallet);
-        await _unitOfWork.SaveChangesAsync();
+        if (isSaveChange)
+        {
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 
     public async Task UpdateCurrentWalletAsync(WalletEM walletEM)

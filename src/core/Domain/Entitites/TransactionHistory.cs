@@ -7,6 +7,7 @@ namespace Domain.Entitites;
 public class TransactionHistory : BaseEntity, ICreation
 {
     public Guid? CreatedBy { get; set; }
+    public Guid? ToAccountId { get; set; } // the id of creator account (when received coins from audience)
     public Guid? AssetId { get; set; }
     public Guid? ProposalId { get; set; }
     [MaxLength(150)]
@@ -16,6 +17,7 @@ public class TransactionHistory : BaseEntity, ICreation
     public DateTime CreatedOn { get; set; }
 
     public virtual Account Account { get; set; } = default!;
+    public virtual Account? ToAccount { get; set; }
     public virtual Asset? Asset { get; set; }
     public virtual Proposal? Proposal { get; set; }    
 }

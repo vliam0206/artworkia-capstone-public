@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Repositories;
 public class TransactionHistoryRepository : GenericCreationRepository<TransactionHistory>, ITransactionHistoryRepository
+
 {
     public TransactionHistoryRepository(AppDBContext dBContext, IClaimService claimService) : base(dBContext, claimService)
     {
@@ -42,5 +43,17 @@ public class TransactionHistoryRepository : GenericCreationRepository<Transactio
         #endregion
 
         return result;
+    }
+
+    public async Task<List<TransactionHistory>> GetTransactionHistoriesOfAccountAsync(Guid accountId)
+    {
+        var transactionsList = await _dbContext.TransactionHistories
+            .Where(x => x.CreatedBy == accountId || x.ToAccountId == accountId)
+            .Include(x => x.Account)
+            .Include(x => x.ToAccount)
+            .OrderByDescending(x => x.CreatedOn)
+            .ToListAsync();
+
+        return transactionsList;
     }
 }

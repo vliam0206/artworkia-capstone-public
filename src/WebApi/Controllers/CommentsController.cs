@@ -13,6 +13,7 @@ using Application.Services;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
+using WebApi.ViewModels.Commons;
 namespace WebApi.Controllers;
 
 [ApiController]
@@ -38,7 +39,7 @@ public class CommentsController : ControllerBase
             return Ok(comments);
         } catch (Exception ex)
         {
-            return BadRequest(new {ErrorMessage = ex.Message});
+            return BadRequest(new ApiResponse {ErrorMessage = ex.Message});
         }
     }
 

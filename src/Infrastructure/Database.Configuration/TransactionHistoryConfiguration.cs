@@ -16,6 +16,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
 
         // relationship
         builder.HasOne(x => x.Account).WithMany(a => a.TransactionHistories).HasForeignKey(x => x.CreatedBy);
+        builder.HasOne(x => x.ToAccount).WithMany(a => a.TransactionHistoriesReceivedCoins).HasForeignKey(x => x.ToAccountId);
         builder.HasOne(x => x.Asset).WithMany(a => a.TransactionHistories).HasForeignKey(x => x.AssetId);
         builder.HasOne(x => x.Proposal).WithMany(p => p.TransactionHistories).HasForeignKey(x => x.ProposalId);
 
@@ -30,7 +31,8 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 Detail = "Mở khóa tài nguyên \"Cánh cụt ZIP\"",
                 Price = 12,
                 TransactionStatus = TransactionStatusEnum.Success,
-                CreatedOn = DateTime.Parse("2024-01-13T15:30:03.678Z")
+                CreatedOn = DateTime.Parse("2024-01-13T15:30:03.678Z"),
+                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000005")
             },
             new TransactionHistory
             {
@@ -40,7 +42,8 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 Detail = "Mở khóa tài nguyên \"File PTS tuyển tập minh hoạ sách tâm lý\"",
                 Price = 10,
                 TransactionStatus = TransactionStatusEnum.Success,
-                CreatedOn = DateTime.Parse("2024-01-15T02:59:59.000Z")
+                CreatedOn = DateTime.Parse("2024-01-15T02:59:59.000Z"),
+                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000002")
             },
             new TransactionHistory
             {
@@ -50,7 +53,8 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 Detail = "Mở khóa tài nguyên \"Cánh cụt ZIP\"",
                 Price = 12,
                 TransactionStatus = TransactionStatusEnum.Success,
-                CreatedOn = DateTime.Parse("2024-01-14T15:30:03.678Z")
+                CreatedOn = DateTime.Parse("2024-01-14T15:30:03.678Z"),
+                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000005")
             }
         );
         #endregion

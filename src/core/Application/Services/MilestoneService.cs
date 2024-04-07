@@ -43,8 +43,7 @@ public class MilestoneService : IMilestoneService
             }
         }
         milestone.MilestoneName = details!;
-        await _unitOfWork.MilestoneRepository.AddAsync(milestone);
-        await _unitOfWork.SaveChangesAsync();
+        await _unitOfWork.MilestoneRepository.AddAsync(milestone);       
     }
 
     public async Task<List<MilestoneVM>> GetMilestonesAsync(Guid proposalId)

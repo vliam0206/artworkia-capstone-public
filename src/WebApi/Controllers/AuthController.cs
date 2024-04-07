@@ -165,7 +165,7 @@ public class AuthController : ControllerBase
         var payload = await _thirdAuthenticationService.VerifyGoogleToken(externalAuthDto);
         if (payload == null)
         {
-            return BadRequest("Xác thực bên ngoài không hợp lệ.");
+            return BadRequest(new ApiResponse { ErrorMessage = "Xác thực bên ngoài (payload) không hợp lệ." });
         }
         var account = await _accountService.GetAccountByEmailAsync(payload.Email);
         if (account == null)

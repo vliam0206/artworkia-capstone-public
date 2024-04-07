@@ -96,12 +96,12 @@ public class ProposalAssetService : IProposalAssetService
         {
             proposal.ProposalStatus = ProposalStateEnum.Completed;
             _unitOfWork.ProposalRepository.Update(proposal);
-        }
-
-        await _unitOfWork.SaveChangesAsync();
+        }        
 
         // create proposal successfully -> add Init milestone
         await _milstoneService.AddMilestoneToProposalAsync(proposalAsset.ProposalId, $"Gửi tài nguyên thỏa thuận ({PROPOSALASSET_ENUM_VN[proposalAsset.Type]})");
+
+        await _unitOfWork.SaveChangesAsync();
 
         var proposalAssetVM = _mapper.Map<ProposalAssetVM>(proposalAsset);
         return proposalAssetVM;

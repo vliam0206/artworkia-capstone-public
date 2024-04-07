@@ -11,7 +11,6 @@ using Application.Models;
 
 namespace WebApi.Controllers;
 
-//[Route("api/[controller]")]
 [ApiController]
 public class CollectionsController : ControllerBase
 {

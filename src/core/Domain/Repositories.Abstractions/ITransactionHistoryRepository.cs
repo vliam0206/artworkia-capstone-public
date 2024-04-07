@@ -11,4 +11,5 @@ public interface ITransactionHistoryRepository : IGenericRepository<TransactionH
     Task<TransactionHistory?> GetAssetTransactionAsync(Guid accountId, Guid assetId);
     Task<TransactionHistory?> GetProposalTransactionAsync(Guid accountId, Guid proposalId);
     Task<IPagedList<TransactionHistory>> GetAssetsBoughtOfAccountAsync(Guid accountId, int page, int pageSize);
+    Task<List<TransactionHistory>> GetTransactionHistoriesOfAccountAsync(Guid accountId);
 }
