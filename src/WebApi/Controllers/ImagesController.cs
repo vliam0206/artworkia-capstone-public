@@ -2,7 +2,6 @@
 using Application.Services.Abstractions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
 

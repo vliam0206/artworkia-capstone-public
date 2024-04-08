@@ -1,8 +1,6 @@
-﻿using Application.Commons;
-using Application.Models;
+﻿using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
-using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
@@ -45,7 +43,7 @@ public class TransactionHistoryService : ITransactionHistoryService
         }
         var transaction = _mapper.Map<TransactionHistory>(model);
         await _unitOfWork.TransactionHistoryRepository.AddAsync(transaction);
-       
+
         return _mapper.Map<TransactionHistoryVM>(transaction);
     }
 
@@ -62,9 +60,9 @@ public class TransactionHistoryService : ITransactionHistoryService
         }
         var result = await _unitOfWork.TransactionHistoryRepository
             .GetTransactionHistoriesOfAccountAsync(accountId);
-        
-        var viewModels =  _mapper.Map<List<TransactionHistoryVM>>(result);        
-        foreach(var model in viewModels)
+
+        var viewModels = _mapper.Map<List<TransactionHistoryVM>>(result);
+        foreach (var model in viewModels)
         {
             if (model.ToAccount.Id == currentAccountId)
             {

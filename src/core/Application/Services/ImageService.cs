@@ -6,7 +6,6 @@ using CoenM.ImageHash;
 using CoenM.ImageHash.HashAlgorithms;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Application.Services;
 public class ImageService : IImageService
@@ -132,7 +131,7 @@ public class ImageService : IImageService
                     ImageName = newImageName + imageExtension,
                     Order = singleImage.index,
                     ImageHash = imageHash
-            };
+                };
                 await _unitOfWork.ImageRepository.AddAsync(image);
             }));
         }
@@ -192,7 +191,7 @@ public class ImageService : IImageService
                 throw new Exception("Lỗi khi tải bộ hình ảnh lên đám mây.");
 
             // luu thong tin hinh anh vao database
-            Image image = new Image()
+            Image image = new()
             {
                 ArtworkId = multiImageModel.ArtworkId,
                 Location = url,

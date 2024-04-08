@@ -3,7 +3,6 @@ using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
-using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
@@ -39,7 +38,8 @@ public class ReviewService : IReviewService
     public async Task<PagedList<ReviewVM>> GetReviewsByAccountIdAsync(Guid accountId, PagedCriteria criteria)
     {
         bool isAccountExisted = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
-        if (!isAccountExisted) {
+        if (!isAccountExisted)
+        {
             throw new KeyNotFoundException("Không tìm thấy tài khoản.");
         }
         var reviews = await _unitOfWork.ReviewRepository.GetReviewsByAccountIdAsync(accountId, criteria.PageNumber, criteria.PageSize);
@@ -66,7 +66,7 @@ public class ReviewService : IReviewService
             throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
         }
         var review = await _unitOfWork.ReviewRepository.GetReviewByProposalIdAsync(proposalId);
-        var reviewVM = _mapper.Map<ReviewVM>(review);   
+        var reviewVM = _mapper.Map<ReviewVM>(review);
         return reviewVM;
     }
 
@@ -83,7 +83,7 @@ public class ReviewService : IReviewService
     public async Task<ReviewVM> AddReviewAsync(ReviewModel model)
     {
         // kiem tra proposal co ton tai khong
-        var proposal = await _unitOfWork.ProposalRepository.GetProposalDetailAsync(model.ProposalId) 
+        var proposal = await _unitOfWork.ProposalRepository.GetProposalDetailAsync(model.ProposalId)
             ?? throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
         if (proposal.Review != null)
         {
@@ -103,7 +103,7 @@ public class ReviewService : IReviewService
                 "Không thể đánh giá, bạn không phải là khách hàng của thỏa thuận.");
         }
 
-        Review newReview = _mapper.Map<Review>(model);  
+        Review newReview = _mapper.Map<Review>(model);
         await _unitOfWork.ReviewRepository.AddAsync(newReview);
         await _unitOfWork.SaveChangesAsync();
         var result = await _unitOfWork.ReviewRepository.GetByIdAsync(newReview.Id);

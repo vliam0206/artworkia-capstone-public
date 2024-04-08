@@ -27,8 +27,8 @@ public class BlockService : IBlockService
     public async Task CreateBlockAsync(BlockModel blockModel)
     {
         Guid blockingId = _claimService.GetCurrentUserId ?? default;
-        
-        Account blockedAccountExist = await _unitOfWork.AccountRepository.GetByIdAsync(blockModel.BlockedId) 
+
+        Account blockedAccountExist = await _unitOfWork.AccountRepository.GetByIdAsync(blockModel.BlockedId)
             ?? throw new KeyNotFoundException("Không tìm thấy tài khoản muốn chặn.");
         if (blockedAccountExist.Role != Domain.Enums.RoleEnum.CommonUser)
         {

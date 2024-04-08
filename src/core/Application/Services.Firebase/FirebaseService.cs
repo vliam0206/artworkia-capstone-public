@@ -1,7 +1,5 @@
 ﻿using Application.AppConfigurations;
 using Application.Commons;
-using Firebase.Auth;
-using Firebase.Auth.Providers;
 using Firebase.Storage;
 using Microsoft.AspNetCore.Http;
 
@@ -52,7 +50,8 @@ public class FirebaseService : IFirebaseService
             {
                 string? urlFile = await task;
                 return urlFile;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -97,7 +96,8 @@ public class FirebaseService : IFirebaseService
         try
         {
             await task;
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             throw new Exception(ex.Message);
         }
@@ -118,7 +118,8 @@ public class FirebaseService : IFirebaseService
         {
             var downloadUrl = await task;
             return downloadUrl;
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             throw new Exception(ex.Message);
         }
@@ -139,7 +140,8 @@ public class FirebaseService : IFirebaseService
         {
             var metadata = await task;
             return metadata;
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             throw new Exception(ex.Message);
         }

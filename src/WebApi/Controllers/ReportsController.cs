@@ -1,12 +1,11 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Filters;
+using Application.Models;
+using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Application.Filters;
 using WebApi.Utils;
-using Application.Models;
 
 namespace WebApi.Controllers
 {

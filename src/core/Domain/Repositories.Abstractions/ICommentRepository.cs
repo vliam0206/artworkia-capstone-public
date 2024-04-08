@@ -8,7 +8,7 @@ public interface ICommentRepository : IGenericRepository<Comment>
     Task<IPagedList<Comment>> GetCommentsWithRepliesPaginationAsync(Guid artworkId, int pageNumber, int pageSize);
     Task<List<Comment>> GetReplyCommentsAsync(Guid commentId);
     Task<Comment?> GetCommentById(Guid commentId);
-    
+
     int SoftDeleteReplies(Guid commentId);
 
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models;
 
-public class ServiceModel 
+public class ServiceModel
 {
     [MaxLength(150)]
     public string ServiceName { get; set; } = default!;

@@ -1,6 +1,4 @@
-﻿using Domain.Entitites;
-
-namespace Application.Models;
+﻿namespace Application.Models;
 
 public class ServiceVM
 {

@@ -11,7 +11,7 @@ namespace Infrastructure.Repositories;
 
 public class AccountRepository : GenericAuditableRepository<Account>, IAccountRepository
 {
-    public AccountRepository(AppDBContext dBContext, IClaimService claimService) 
+    public AccountRepository(AppDBContext dBContext, IClaimService claimService)
         : base(dBContext, claimService)
     {
     }
@@ -38,7 +38,8 @@ public class AccountRepository : GenericAuditableRepository<Account>, IAccountRe
         if (sortOrder?.ToLower() == "asc")
         {
             allAccounts = allAccounts.OrderBy(orderBy);
-        } else
+        }
+        else
         {
             allAccounts = allAccounts.OrderByDescending(orderBy);
         }

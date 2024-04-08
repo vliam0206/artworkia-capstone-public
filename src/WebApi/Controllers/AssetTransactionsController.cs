@@ -1,8 +1,8 @@
-﻿using Application.Services.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using Application.Models;
-using WebApi.Utils;
+﻿using Application.Models;
+using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using WebApi.Utils;
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]

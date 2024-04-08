@@ -1,8 +1,8 @@
 ﻿using Application.Commons;
+using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
-using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
@@ -126,7 +126,7 @@ public class CommentService : ICommentService
     public async Task<PagedList<CommentVM>> GetCommentsByArtworkWithRepliesPaginationAsync(Guid artworkId, PagedCriteria pagecriteria)
     {
         var comments = await _unitOfWork.CommentRepository
-            .GetCommentsWithRepliesPaginationAsync(artworkId, 
+            .GetCommentsWithRepliesPaginationAsync(artworkId,
                                             pagecriteria.PageNumber, pagecriteria.PageSize);
         var commentVMs = _mapper.Map<PagedList<CommentVM>>(comments);
         return commentVMs;

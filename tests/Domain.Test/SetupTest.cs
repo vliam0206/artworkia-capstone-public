@@ -15,7 +15,7 @@ namespace Domain.Test;
 public class SetupTest : IDisposable
 {
     protected readonly Fixture _fixture;
-    protected readonly Mock<AppConfiguration> _appConfigMock;            
+    protected readonly Mock<AppConfiguration> _appConfigMock;
     protected readonly Mock<IClaimService> _claimsServiceMock;
     protected readonly Mock<IUnitOfWork> _unitOfWorkMock;
     protected readonly IMapper _mapperConfig;
@@ -68,7 +68,7 @@ public class SetupTest : IDisposable
     #endregion
 
     public SetupTest()
-    {               
+    {
         _appConfigMock = new Mock<AppConfiguration>();
         _claimsServiceMock = new Mock<IClaimService>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
@@ -106,10 +106,10 @@ public class SetupTest : IDisposable
         _followRepositoryMock = new Mock<IFollowRepository>();
         _imageRepositoryMock = new Mock<IImageRepository>();
         _licenseTypeRepositoryMock = new Mock<ILicenseTypeRepository>();
-        _likeRepositoryMock = new Mock<ILikeRepository> ();
+        _likeRepositoryMock = new Mock<ILikeRepository>();
         _messageRepositoryMock = new Mock<IMessageRepository>();
         _notificationRepositoryMock = new Mock<INotificationRepository>();
-        _proposalAsseRepositoryMock = new Mock<IProposalAssetRepository> ();
+        _proposalAsseRepositoryMock = new Mock<IProposalAssetRepository>();
         _proposalRepositoryMock = new Mock<IProposalRepository>();
         _reportRepositoryMock = new Mock<IReportRepository>();
         _requestRepositoryMock = new Mock<IRequestRepository>();
@@ -218,10 +218,10 @@ public class SetupTest : IDisposable
 
     protected List<Tag> MockTagList(int length)
     {
-           return _fixture.Build<Tag>()
-                       .Without(x => x.TagDetails)
-                       .CreateMany(length)
-                       .ToList();
+        return _fixture.Build<Tag>()
+                    .Without(x => x.TagDetails)
+                    .CreateMany(length)
+                    .ToList();
     }
 
     protected List<Category> MockCategoryList(int length)

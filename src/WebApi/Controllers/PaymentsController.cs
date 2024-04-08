@@ -5,7 +5,6 @@ using Application.Services.Abstractions;
 using Domain.Entitites;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using System.Net.WebSockets;
@@ -58,7 +57,8 @@ public class PaymentsController : ControllerBase
             // return result
             result.AppTransId = zaloPayOrderCreate.AppTransId;
             return Ok(result);
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return StatusCode(500, ex.Message);
         }
@@ -69,7 +69,7 @@ public class PaymentsController : ControllerBase
     {
         var result = new Dictionary<string, object>();
         try
-        {            
+        {
             // check valid callback (from ZaloPay server)
             if (!_zaloPayService.ValidateCallback(callbackOrder))
             {
@@ -77,7 +77,8 @@ public class PaymentsController : ControllerBase
                 result["return_code"] = -1;
                 result["return_message"] = "mac not equal";
                 //Log.Error("*****Mac not equal*****");
-            } else
+            }
+            else
             {   // payment success
                 // update order status
                 var callbackData = callbackOrder.ToCallbackOrderData();
@@ -85,7 +86,7 @@ public class PaymentsController : ControllerBase
                 {
                     throw new ArgumentException("Callback Data is invalid json format.");
                 }
-                await _walletHistoryService.UpdateWalletHistoryStatus(callbackData.AppTransId, 
+                await _walletHistoryService.UpdateWalletHistoryStatus(callbackData.AppTransId,
                                                                       TransactionStatusEnum.Success);
                 // update coins in db
                 var accountId = Guid.Parse(callbackData.AppUser);
@@ -105,7 +106,7 @@ public class PaymentsController : ControllerBase
         }
         return Ok(result);
     }
-        
+
     [HttpGet("query-order/{appTransId}")]
     [Authorize]
     public async Task<IActionResult> QueryOrder(string appTransId)
@@ -179,7 +180,7 @@ public class PaymentsController : ControllerBase
     public async Task<IActionResult> QueryPaymentAccount([FromBody] UserQueryModel model)
     {
         try
-        {          
+        {
             var result = await _zaloPayService.QueryZalopayUserAsync(model);
             if (result == null || result.ReturnCode != 1)
             {
@@ -215,13 +216,13 @@ public class PaymentsController : ControllerBase
                 Type = WalletHistoryTypeEnum.Withdraw
             };
             await _walletHistoryService.AddWalletHistory(transaction);
-            
+
             var result = await _zaloPayService.ZalopayTopupAsync(model, transaction.Id);
             if (result == null || result.ReturnCode != 1)
             {
                 //update transaction status & refunds coins
                 await _walletHistoryService.UpdateWalletHistoryStatus(
-                                                    transaction.Id, TransactionStatusEnum.Failed);                
+                                                    transaction.Id, TransactionStatusEnum.Failed);
                 return BadRequest(result);
             }
             // verify successfully -> update transaction status
@@ -257,7 +258,7 @@ public class PaymentsController : ControllerBase
             if (result == null || result.ReturnCode != 1)
             {
                 return BadRequest(result);
-            }                        
+            }
             return Ok(result);
         }
         catch (Exception ex)

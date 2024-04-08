@@ -1,10 +1,6 @@
 using Application;
 using Application.Commons;
 using Infrastructure;
-using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Serilog;
 using System.Text.Json.Serialization;
 using WebApi;
 using WebApi.Extensions;
@@ -12,7 +8,7 @@ using WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers().AddJsonOptions(opt 
+builder.Services.AddControllers().AddJsonOptions(opt
     => opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddEndpointsApiExplorer();
 

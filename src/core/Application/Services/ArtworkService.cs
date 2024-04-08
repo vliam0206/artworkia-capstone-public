@@ -189,7 +189,7 @@ public class ArtworkService : IArtworkService
         // them software used
         if (artworkModel.SoftwareUseds != null)
         {
-            SoftwareListArtworkModel softwareListArtworkModel = new SoftwareListArtworkModel()
+            SoftwareListArtworkModel softwareListArtworkModel = new()
             {
                 ArtworkId = newArtwork.Id,
                 SoftwareList = artworkModel.SoftwareUseds
@@ -198,7 +198,7 @@ public class ArtworkService : IArtworkService
         }
 
         // them tag 
-        TagListArtworkModel tagListArtworkModel = new TagListArtworkModel()
+        TagListArtworkModel tagListArtworkModel = new()
         {
             ArtworkId = newArtwork.Id,
             TagList = artworkModel.Tags
@@ -206,7 +206,7 @@ public class ArtworkService : IArtworkService
         await _tagDetailService.AddTagListArtworkAsync(tagListArtworkModel, false);
 
         // them cate
-        CategoryListArtworkModel categoryList = new CategoryListArtworkModel()
+        CategoryListArtworkModel categoryList = new()
         {
             ArtworkId = newArtwork.Id,
             CategoryList = artworkModel.Categories
@@ -214,7 +214,7 @@ public class ArtworkService : IArtworkService
         await _categoryArtworkDetailService.AddCategoryListArtworkAsync(categoryList, false);
 
         // them hinh anh
-        MultiImageModel multiImageModel = new MultiImageModel()
+        MultiImageModel multiImageModel = new()
         {
             ArtworkId = newArtwork.Id,
             Images = artworkModel.ImageFiles
@@ -232,8 +232,8 @@ public class ArtworkService : IArtworkService
                 {
                     flagPrice = true;
                 }
-                Guid artworkId = newArtwork.Id;
-                string newAssetName = artworkId + "_a" + singleAsset.index;
+
+                string newAssetName = $"{Path.GetFileNameWithoutExtension(singleAsset.file.File.FileName)}_{DateTime.Now.Ticks}";
                 string assetFolderName = $"{PARENT_FOLDER}/Asset";
                 string imageExtension = Path.GetExtension(singleAsset.file.File.FileName);
 
@@ -246,13 +246,15 @@ public class ArtworkService : IArtworkService
 
                     Asset newAsset = new()
                     {
-                        ArtworkId = artworkId,
+                        ArtworkId = newArtwork.Id,
                         Location = url,
                         AssetName = newAssetName + imageExtension,
                         AssetTitle = singleAsset.file.AssetTitle,
                         Description = singleAsset.file.Description,
                         Price = singleAsset.file.Price,
-                    };
+                        ContentType = imageExtension.Replace(".", ""),
+                        Size = (ulong) singleAsset.file.File.Length
+                };
                     await _unitOfWork.AssetRepository.AddAsync(newAsset);
                 }));
             }

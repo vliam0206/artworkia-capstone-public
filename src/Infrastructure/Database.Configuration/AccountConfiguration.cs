@@ -1,10 +1,7 @@
 ﻿using Domain.Entitites;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
-using Application.Commons;
 using Domain.Enums;
-using MassTransit;
-using static System.Net.WebRequestMethods;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Database.Configuration;
 

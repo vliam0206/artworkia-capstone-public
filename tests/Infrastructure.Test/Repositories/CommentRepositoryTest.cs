@@ -13,7 +13,7 @@ public class CommentRepositoryTest : SetupTest
 
     public CommentRepositoryTest()
     {
-        _commentRepository = new CommentRepository(_dbContext, 
+        _commentRepository = new CommentRepository(_dbContext,
                         _claimsServiceMock.Object);
     }
 
@@ -55,5 +55,5 @@ public class CommentRepositoryTest : SetupTest
         mockReplies.Last().DeletedBy.Should().Be(currentUserId);
         mockReplies.Last().DeletedOn.Should().NotBeNull();
     }
- 
+
 }

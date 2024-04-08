@@ -19,5 +19,5 @@ public class TransactionHistory : BaseEntity, ICreation
     public virtual Account Account { get; set; } = default!;
     public virtual Account? ToAccount { get; set; }
     public virtual Asset? Asset { get; set; }
-    public virtual Proposal? Proposal { get; set; }    
+    public virtual Proposal? Proposal { get; set; }
 }

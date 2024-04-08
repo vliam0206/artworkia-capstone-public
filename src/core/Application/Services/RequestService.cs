@@ -56,9 +56,10 @@ public class RequestService : IRequestService
         if (chatBoxExist is not null)
         {
             newRequest.ChatBoxId = chatBoxExist.Id;
-        } else
+        }
+        else
         {
-            ChatBox newChatBox = new ChatBox()
+            ChatBox newChatBox = new()
             {
                 AccountId_1 = _claimService.GetCurrentUserId ?? default,
                 AccountId_2 = service.CreatedBy ?? default,
@@ -128,7 +129,7 @@ public class RequestService : IRequestService
 
     public async Task<RequestVM> UpdateRequestStatusAsync(Guid requestId, StateEnum requestStatus)
     {
-        var oldRequest = await _unitOfWork.RequestRepository.GetByIdAsync(requestId) 
+        var oldRequest = await _unitOfWork.RequestRepository.GetByIdAsync(requestId)
             ?? throw new KeyNotFoundException("Không tìm thấy yêu cầu.");
 
         oldRequest.RequestStatus = requestStatus;

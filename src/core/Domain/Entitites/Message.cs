@@ -11,7 +11,7 @@ public class Message : BaseEntity, ICreation
     public string? FileLocation { get; set; }
     public string? FileName { get; set; }
     public Guid? CreatedBy { get; set; }
-    public DateTime CreatedOn { get; set; }  
+    public DateTime CreatedOn { get; set; }
 
     public virtual Account Account { get; set; } = default!;
     public virtual ChatBox ChatBox { get; set; } = default!;

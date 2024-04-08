@@ -86,7 +86,7 @@ public class ArtworkModerationVM
     public string Title { get; set; } = default!;
     public string Description { get; set; } = default!;
     public string Thumbnail { get; set; } = default!;
-    public string ThumbnailName { get; set; } = default!; 
+    public string ThumbnailName { get; set; } = default!;
     public int ViewCount { get; set; } = default!;
     public int LikeCount { get; set; } = default!;
     public int CommentCount { get; set; } = default!;

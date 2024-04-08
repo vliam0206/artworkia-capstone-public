@@ -14,7 +14,7 @@ public class FollowService : IFollowService
     private readonly IMapper _mapper;
 
     public FollowService(
-        IUnitOfWork unitOfWork, 
+        IUnitOfWork unitOfWork,
         IClaimService claimService,
         IMapper mapper)
     {
@@ -102,7 +102,7 @@ public class FollowService : IFollowService
             throw new KeyNotFoundException("Không tìm thấy tài khoản bị theo dõi.");
         }
 
-        var listFollow = await _unitOfWork.FollowRepository.GetAllFollowersAsync(followingId);  
+        var listFollow = await _unitOfWork.FollowRepository.GetAllFollowersAsync(followingId);
         var listFollower = new List<AccountBasicInfoVM>();
         foreach (var follow in listFollow)
         {

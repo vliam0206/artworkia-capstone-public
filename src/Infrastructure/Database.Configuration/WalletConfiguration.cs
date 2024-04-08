@@ -10,11 +10,11 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
     public void Configure(EntityTypeBuilder<Wallet> builder)
     {
         builder.ToTable(nameof(Wallet));
-        
+
         builder.Property(x => x.Id).HasDefaultValueSql("newid()");
 
         // relationship
-        builder.HasOne(x => x.Account).WithOne(a => a.Wallet).HasForeignKey<Wallet>(x => x.AccountId);        
+        builder.HasOne(x => x.Account).WithOne(a => a.Wallet).HasForeignKey<Wallet>(x => x.AccountId);
 
         #region init data
         builder.HasData(
@@ -24,7 +24,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0902287461",
-                Balance = 200000
+                Balance = 2000000
             },
             new Wallet // wallet of lamlam
             {
@@ -32,7 +32,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0939959417",
-                Balance = 100000
+                Balance = 1000000
             },
             new Wallet // wallet of hoanganh
             {
@@ -40,7 +40,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0902287462",
-                Balance = 100000
+                Balance = 1000000
             },
             new Wallet // wallet of thong
             {
@@ -48,15 +48,15 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0902287463",
-                Balance = 100000
+                Balance = 1000000
             },
             new Wallet // wallet of phuhuynh
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
-                WithdrawInformation = "0902287464",
-                Balance = 100000
+                WithdrawInformation = "0398550944",
+                Balance = 1000000
             }
         );
         #endregion

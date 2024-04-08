@@ -24,30 +24,34 @@ public class LicenseTypeConfiguration : IEntityTypeConfiguration<LicenseType>
                 LicenseDescription = "Tất cả các quyền đều được bảo lưu. Không ai được sao chép, " +
                 "phân phối hoặc sử dụng tác phẩm mà không có sự cho phép của tác giả"
             },
-            new LicenseType() { 
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000002"), 
+            new LicenseType()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 LicenseName = "Attribution (CC BY)",
                 LicenseDescription = "Cho phép người dùng chia sẻ, sao chép, phân phối và trình " +
                 "bày tác phẩm, cũng như tạo ra các tác phẩm phái sinh từ tác phẩm ban đầu, miễn " +
                 "là họ ghi công tác phẩm của bạn một cách đúng cách"
             },
-            new LicenseType() { 
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000003"), 
+            new LicenseType()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                 LicenseName = "Attribution ShareAlike (CC BY-SA)",
                 LicenseDescription = "Cho phép người dùng chia sẻ, sao chép, phân phối và trình " +
                 "bày tác phẩm, cũng như tạo ra các tác phẩm phái sinh từ tác phẩm ban đầu, miễn " +
                 "là họ ghi công tác phẩm của bạn một cách đúng cách. Tất cả các tác phẩm phái " +
                 "sinh phải được phân phối dưới cùng một giấy phép như tác phẩm ban đầu"
             },
-            new LicenseType() { 
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000004"), 
+            new LicenseType()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                 LicenseName = "Attribution NoDerivs (CC BY-ND)",
                 LicenseDescription = "Cho phép người dùng chia sẻ, sao chép, phân phối và trình " +
                 "bày tác phẩm, miễn là họ ghi công tác phẩm của bạn một cách đúng cách. Tác phẩm " +
                 "không được thay đổi hoặc tạo ra các tác phẩm phái sinh từ tác phẩm ban đầu"
             },
-            new LicenseType() { 
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000005"), 
+            new LicenseType()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 LicenseName = "Attribution-NonCommercial (CC BY-NC)",
                 LicenseDescription = "Cho phép người dùng chia sẻ, sao chép, phân phối và trình " +
                 "bày tác phẩm, cũng như tạo ra các tác phẩm phái sinh từ tác phẩm ban đầu, miễn " +

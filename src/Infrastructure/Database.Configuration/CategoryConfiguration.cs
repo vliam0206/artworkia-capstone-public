@@ -1,7 +1,4 @@
-﻿using Application.Commons;
-using Domain.Entitites;
-using Domain.Enums;
-using MassTransit;
+﻿using Domain.Entitites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

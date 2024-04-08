@@ -2,7 +2,6 @@
 using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
-using Domain.Entities.Commons;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

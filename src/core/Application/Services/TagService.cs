@@ -1,8 +1,8 @@
 ﻿using Application.Commons;
+using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
-using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Http;
@@ -66,7 +66,7 @@ public class TagService : ITagService
 
     public async Task DeleteTagAsync(Guid tagId)
     {
-        var result = await _unitOfWork.TagRepository.GetByIdAsync(tagId) 
+        var result = await _unitOfWork.TagRepository.GetByIdAsync(tagId)
             ?? throw new KeyNotFoundException("Không tìm thấy thẻ.");
 
         _unitOfWork.TagRepository.Delete(result);
@@ -80,7 +80,7 @@ public class TagService : ITagService
         if (tagExist?.Id != tagId)
             throw new BadHttpRequestException($"Tên thẻ '{tagExist?.TagName}' đã tồn tại.");
 
-        var oldTag = await _unitOfWork.TagRepository.GetByIdAsync(tagId) 
+        var oldTag = await _unitOfWork.TagRepository.GetByIdAsync(tagId)
             ?? throw new KeyNotFoundException("Không tìm thấy thẻ.");
 
         oldTag.TagName = tagModel.TagName;

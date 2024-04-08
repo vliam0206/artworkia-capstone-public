@@ -9,7 +9,7 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
     public void Configure(EntityTypeBuilder<Review> builder)
     {
         builder.ToTable(nameof(Review));
-        
+
         builder.Property(x => x.Id).HasDefaultValueSql("newid()");
         builder.Property(x => x.CreatedOn).HasDefaultValueSql("getutcdate()");
 

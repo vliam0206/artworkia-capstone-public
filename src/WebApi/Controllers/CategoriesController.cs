@@ -1,9 +1,8 @@
-﻿using Application.Services.Abstractions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Application.Models;
-using WebApi.Utils;
+﻿using Application.Models;
+using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 [Route("api/[controller]")]
@@ -56,7 +55,7 @@ public class CategoriesController : ControllerBase
         try
         {
             var category = await _categoryService.AddCategoryAsync(categoryModel);
-            return CreatedAtAction(nameof(GetCategoryById), 
+            return CreatedAtAction(nameof(GetCategoryById),
                 new { categoryId = category.Id }, category);
         }
         catch (KeyNotFoundException ex)
@@ -104,15 +103,18 @@ public class CategoriesController : ControllerBase
         {
             await _categoryService.DeleteCategoryAsync(categoryId);
             return NoContent();
-        } 
+        }
         catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = "Lỗi khi xóa! Nếu bạn đang xóa thể loại chính, " +
-                "hãy đảm bảo xóa tất cả các thể loại con trước." });
+            return BadRequest(new ApiResponse
+            {
+                ErrorMessage = "Lỗi khi xóa! Nếu bạn đang xóa thể loại chính, " +
+                "hãy đảm bảo xóa tất cả các thể loại con trước."
+            });
         }
     }
 }

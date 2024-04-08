@@ -11,11 +11,11 @@ public class UserTokenService : IUserTokenService
     public UserTokenService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-    } 
+    }
 
     public async Task<UserToken?> GetTokenByATidAsync(Guid ATid)
         => await _unitOfWork.UserTokenRepository.GetSingleByConditionAsync(x => x.ATid == ATid);
-    
+
     public async Task<UserToken?> GetTokenByRTidAsync(Guid RTid)
         => await _unitOfWork.UserTokenRepository.GetSingleByConditionAsync(x => x.RTid == RTid);
 

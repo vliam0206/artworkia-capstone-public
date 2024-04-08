@@ -1,11 +1,11 @@
-﻿using static Application.Commons.VietnameseEnum;
-using Application.Models;
+﻿using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
+using static Application.Commons.VietnameseEnum;
 
 namespace Application.Services;
 
@@ -91,10 +91,10 @@ public class ProposalAssetService : IProposalAssetService
         {
             proposal.ProposalStatus = ProposalStateEnum.Completed;
             _unitOfWork.ProposalRepository.Update(proposal);
-        }        
+        }
 
         // create proposal successfully -> add Init milestone
-        await _milstoneService.AddMilestoneToProposalAsync(proposalAsset.ProposalId, 
+        await _milstoneService.AddMilestoneToProposalAsync(proposalAsset.ProposalId,
             $"Gửi tài nguyên thỏa thuận ({PROPOSALASSET_ENUM_VN[proposalAsset.Type]})");
 
         await _unitOfWork.SaveChangesAsync();

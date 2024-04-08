@@ -4,11 +4,9 @@ using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
-using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Http;
-using System.Security.Principal;
 
 namespace Application.Services;
 
@@ -21,7 +19,7 @@ public class AccountService : IAccountService
     private readonly IMapper _mapper;
 
     public AccountService(
-        IUnitOfWork unitOfWork, 
+        IUnitOfWork unitOfWork,
         IClaimService claimService,
         IFirebaseService firebaseService,
         IMapper mapper)
@@ -30,11 +28,11 @@ public class AccountService : IAccountService
         _claimService = claimService;
         _firebaseService = firebaseService;
         _mapper = mapper;
-    }    
+    }
 
     public async Task<Account?> CheckLoginAsync(string username, string password)
-    {        
-        var account =  await _unitOfWork.AccountRepository
+    {
+        var account = await _unitOfWork.AccountRepository
             .GetSingleByConditionAsync(x => x.Username.Equals(username));
         if (account != null && password.Verify(account.Password!))
         {
@@ -143,8 +141,8 @@ public class AccountService : IAccountService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task EditPasswordAsync(Guid accountId , string oldPassword, string newPassword)
-    {        
+    public async Task EditPasswordAsync(Guid accountId, string oldPassword, string newPassword)
+    {
         var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId);
         if (account == null)
         {
@@ -162,7 +160,8 @@ public class AccountService : IAccountService
             account.Password = newPassword.Hash();
             _unitOfWork.AccountRepository.Update(account);
             await _unitOfWork.SaveChangesAsync();
-        } else
+        }
+        else
         {
             throw new Exception("Mật khẩu cũ không đúng.");
         }

@@ -1,7 +1,3 @@
-using Application.Models;
-using Domain.Entitites;
-using Domain.Enums;
-
 namespace Application.Models;
 
 public class CollectionDetailVM

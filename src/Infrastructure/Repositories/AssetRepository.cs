@@ -62,12 +62,12 @@ public class AssetRepository : GenericRepository<Asset>, IAssetRepository
         }
         if (maxPrice != null)
         {
-               allAssets = allAssets.Where(a => a.Price <= maxPrice);
+            allAssets = allAssets.Where(a => a.Price <= maxPrice);
         }
         if (!string.IsNullOrEmpty(keyword))
         {
             keyword = keyword.ToLower();
-            allAssets = allAssets.Where(a => a.AssetTitle.ToLower().Contains(keyword) 
+            allAssets = allAssets.Where(a => a.AssetTitle.ToLower().Contains(keyword)
                        || (a.Description != null && a.Description.ToLower().Contains(keyword)));
         }
 
@@ -82,7 +82,8 @@ public class AssetRepository : GenericRepository<Asset>, IAssetRepository
         if (sortOrder?.ToLower() == "asc")
         {
             allAssets = allAssets.OrderBy(orderBy);
-        } else
+        }
+        else
         {
             allAssets = allAssets.OrderByDescending(orderBy);
         }

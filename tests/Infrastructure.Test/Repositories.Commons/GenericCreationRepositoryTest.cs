@@ -3,7 +3,6 @@ using Domain.Repositories.Abstractions;
 using Domain.Test;
 using FluentAssertions;
 using Infrastructure.Repositories.Commons;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Test.Repositories.Commons;
 

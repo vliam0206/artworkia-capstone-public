@@ -1,6 +1,5 @@
 ﻿using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.WebSockets;
 using System.Text;
@@ -31,10 +30,12 @@ public class ChatBoxsController : ControllerBase
             var accountId = _claimService.GetCurrentUserId ?? default;
             var chats = await _chatBoxService.GetAllChatBoxByAccountIdAsync(accountId);
             return Ok(chats);
-        } catch (KeyNotFoundException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
@@ -44,7 +45,7 @@ public class ChatBoxsController : ControllerBase
     public async Task GetChatBoxByAccountIdWebSocket(Guid accountId)
     {
         try
-        {            
+        {
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 using (var ws = await HttpContext.WebSockets.AcceptWebSocketAsync())

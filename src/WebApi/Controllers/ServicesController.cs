@@ -1,9 +1,7 @@
 ﻿using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
-using Domain.Entities.Commons;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
 namespace WebApi.Controllers;
@@ -84,7 +82,7 @@ public class ServicesController : ControllerBase
         try
         {
             var serviceVM = await _serviceService.AddServiceAsync(serviceModel);
-            return CreatedAtAction(nameof(GetServiceById), 
+            return CreatedAtAction(nameof(GetServiceById),
                 new { serviceId = serviceVM.Id }, serviceVM);
         }
         catch (KeyNotFoundException ex)

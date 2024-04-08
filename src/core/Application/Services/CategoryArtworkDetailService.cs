@@ -40,7 +40,7 @@ public class CategoryArtworkDetailService : ICategoryArtworkDetailService
         var categoryList = categoryListArtworkModel.CategoryList;
         foreach (var category in categoryList)
         {
-            CategoryArtworkModel categoryArtworkModel = new CategoryArtworkModel
+            CategoryArtworkModel categoryArtworkModel = new()
             {
                 ArtworkId = categoryListArtworkModel.ArtworkId,
                 CategoryId = category

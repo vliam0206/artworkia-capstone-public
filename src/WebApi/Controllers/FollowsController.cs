@@ -1,13 +1,11 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Models;
+using Application.Services.Abstractions;
+using AutoMapper;
 using Domain.Entitites;
+using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
-using Domain.Enums;
-using AutoMapper;
-using Microsoft.Identity.Client;
-using Application.Models;
 
 namespace WebApi.Controllers;
 
@@ -20,8 +18,8 @@ public class FollowsController : ControllerBase
     private readonly IMapper _mapper;
     private readonly INotificationService _notificationService;
 
-    public FollowsController(IFollowService followService, 
-        IClaimService claimService, 
+    public FollowsController(IFollowService followService,
+        IClaimService claimService,
         IMapper mapper,
         INotificationService notificationService)
     {
@@ -87,7 +85,7 @@ public class FollowsController : ControllerBase
             var currentUsername = _claimService.GetCurrentUserName ?? default;
             var notification = new NotificationModel
             {
-                SentToAccount = model.FollowedId,                
+                SentToAccount = model.FollowedId,
                 Content = $"Người dùng [{currentUsername}] vừa theo dõi bạn.",
                 NotifyType = NotifyTypeEnum.Information,
                 ReferencedAccountId = currentUserId

@@ -34,9 +34,9 @@ public class MappingProfile : Profile
         CreateMap<Asset, AssetModel>().ReverseMap();
         CreateMap<Asset, AssetVM>().ReverseMap();
 
-        CreateMap<Image, ImageModel>().ReverseMap(); 
-        CreateMap<Image, ImageVM>().ReverseMap(); 
-        CreateMap<Image, ImageDuplicationVM>().ReverseMap(); 
+        CreateMap<Image, ImageModel>().ReverseMap();
+        CreateMap<Image, ImageVM>().ReverseMap();
+        CreateMap<Image, ImageDuplicationVM>().ReverseMap();
 
         CreateMap<Category, CategoryModel>().ReverseMap();
         CreateMap<Category, CategoryVM>().ReverseMap();
@@ -96,21 +96,21 @@ public class MappingProfile : Profile
 
         CreateMap<Bookmark, BookmarkVM>().ReverseMap();
         CreateMap<Bookmark, BookmarkModel>().ReverseMap();
-        
+
         CreateMap<Collection, CollectionDetailVM>()
             .ForMember(model => model.CreatedBy, opt => opt.MapFrom(src => src.Account))
             .ForMember(model => model.Artworks, opt => opt.MapFrom(src => src.Bookmarks));
         CreateMap<Collection, CollectionVM>()
-            .ForMember(model => model.CreatedBy, opt => opt.MapFrom(src => src.Account))        
-            .ForMember(model => model.Items, opt => opt.MapFrom(src => src.Bookmarks.Count()))        
-            .ForMember(model => model.Thumbnail, opt => opt.MapFrom(src => src.Bookmarks.FirstOrDefault()!.Artwork.Thumbnail));        
+            .ForMember(model => model.CreatedBy, opt => opt.MapFrom(src => src.Account))
+            .ForMember(model => model.Items, opt => opt.MapFrom(src => src.Bookmarks.Count()))
+            .ForMember(model => model.Thumbnail, opt => opt.MapFrom(src => src.Bookmarks.FirstOrDefault()!.Artwork.Thumbnail));
         CreateMap<Collection, CollectionModificationModel>().ReverseMap();
         CreateMap<CollectionCreationModel, Collection>().ReverseMap();
 
         CreateMap<Wallet, WalletModel>().ReverseMap();
         CreateMap<Wallet, WalletVM>().ReverseMap();
         CreateMap<Wallet, WalletEM>().ReverseMap();
-        
+
         CreateMap<TransactionHistory, AssetTransactionModel>().ReverseMap();
         CreateMap<TransactionHistory, AssetTransactionVM>().ReverseMap();
 
@@ -129,7 +129,7 @@ public class MappingProfile : Profile
 
         CreateMap<ProposalAsset, ProposalAssetModel>().ReverseMap();
         CreateMap<ProposalAsset, ProposalAssetVM>().ReverseMap();
-        
+
         CreateMap<Milestone, MilestoneVM>().ReverseMap();
 
         CreateMap<Message, MessageModel>().ReverseMap();

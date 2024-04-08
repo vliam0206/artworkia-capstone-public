@@ -25,10 +25,12 @@ public class WalletsController : ControllerBase
         {
             var result = await _walletService.GetWalletByIdAsync(walletId);
             return Ok(result);
-        } catch (KeyNotFoundException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
@@ -63,10 +65,12 @@ public class WalletsController : ControllerBase
         {
             await _walletService.UpdateWalletAsync(walletId, walletEM);
             return NoContent();
-        } catch (KeyNotFoundException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }

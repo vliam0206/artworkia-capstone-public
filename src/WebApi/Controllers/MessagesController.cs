@@ -1,14 +1,11 @@
-﻿using Application.Models;
+﻿using Application.Filters;
+using Application.Models;
 using Application.Services.Abstractions;
-using Domain.Entities.Commons;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.WebSockets;
 using System.Text;
-using System;
 using System.Text.Json;
-using SixLabors.ImageSharp.Memory;
 using WebApi.Utils;
 
 namespace WebApi.Controllers;
@@ -32,11 +29,12 @@ public class MessagesController : ControllerBase
         {
             var messages = await _messageService.GetAllMessageAsync(chatBoxId);
             return Ok(messages);
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
-    }    
+    }
 
     [HttpGet("/api/v2/chatbox/{chatBoxId}/[controller]")]
     [Authorize] // not check authorized yet
@@ -62,7 +60,7 @@ public class MessagesController : ControllerBase
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 using (var ws = await HttpContext.WebSockets.AcceptWebSocketAsync())
-                {                    
+                {
                     while (ws.State == WebSocketState.Open)
                     {
                         var messages = await _messageService.GetAllMessagePaginationAsync(chatBoxId, pagedCriteria);
@@ -78,8 +76,9 @@ public class MessagesController : ControllerBase
                     // close ws connection
                     await ws.CloseAsync(WebSocketCloseStatus.NormalClosure,
                         "WebSocket connection closed by Server.", CancellationToken.None);
-                }               
-            } else
+                }
+            }
+            else
             {
                 HttpContext.Response.StatusCode = StatusCodes.Status406NotAcceptable;
                 await HttpContext.Response.WriteAsync("Only support WebSocket protocol!");
@@ -110,7 +109,7 @@ public class MessagesController : ControllerBase
                             new ArraySegment<byte>(buffer),
                             WebSocketMessageType.Text,
                             true,
-                            CancellationToken.None);   
+                            CancellationToken.None);
                         await Task.Delay(1000);
                     }
                     // close ws connection

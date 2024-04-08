@@ -39,9 +39,9 @@ public class ServiceService : IServiceService
     public async Task<IPagedList<ServiceVM>> GetAllServicesAsync(ServiceCriteria criteria)
     {
         var listService = await _unitOfWork.ServiceRepository.GetAllServicesAsync(
-            null, criteria.MinPrice, criteria.MaxPrice, criteria.Keyword, criteria.SortColumn, 
+            null, criteria.MinPrice, criteria.MaxPrice, criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
-        var listServiceVM = _mapper.Map<PagedList<ServiceVM>>(listService);    
+        var listServiceVM = _mapper.Map<PagedList<ServiceVM>>(listService);
         return listServiceVM;
     }
 
@@ -64,7 +64,7 @@ public class ServiceService : IServiceService
     {
         Guid? accountId = _claimService.GetCurrentUserId;
 
-        var service = await _unitOfWork.ServiceRepository.GetServiceByIdAsync(serviceId) 
+        var service = await _unitOfWork.ServiceRepository.GetServiceByIdAsync(serviceId)
             ?? throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
 
         if (service.DeletedOn != null)
@@ -89,7 +89,7 @@ public class ServiceService : IServiceService
         Guid creatorId = _claimService.GetCurrentUserId ?? default;
         foreach (var artworkId in serviceModel.ArtworkReference)
         {
-            var artworkExistInDb = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId) 
+            var artworkExistInDb = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId)
                 ?? throw new KeyNotFoundException($"Không tìm thấy tác phẩm. (ID: {artworkId})");
             if (artworkExistInDb.DeletedOn != null)
             {
@@ -136,7 +136,7 @@ public class ServiceService : IServiceService
         // them cate
         if (serviceModel.Categories != null)
         {
-            CategoryListServiceModel categoryList = new CategoryListServiceModel()
+            CategoryListServiceModel categoryList = new()
             {
                 ServiceId = newService.Id,
                 CategoryList = serviceModel.Categories
@@ -164,7 +164,7 @@ public class ServiceService : IServiceService
     {
         Guid creatorId = _claimService.GetCurrentUserId ?? default;
 
-        var oldService = await _unitOfWork.ServiceRepository.GetByIdAsync(serviceId) 
+        var oldService = await _unitOfWork.ServiceRepository.GetByIdAsync(serviceId)
             ?? throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
 
         if (serviceEM.ArtworkReference != null)

@@ -44,7 +44,7 @@ public class BlockRepository : IBlockRepository
     public async Task<bool> IsBlockedOrBlockingAsync(Guid accountId1, Guid accountId2)
     {
         return await _dbContext.Blocks
-            .AnyAsync(x => (x.BlockingId == accountId1 && x.BlockedId == accountId2) || 
+            .AnyAsync(x => (x.BlockingId == accountId1 && x.BlockedId == accountId2) ||
             (x.BlockingId == accountId2 && x.BlockedId == accountId1));
     }
 }

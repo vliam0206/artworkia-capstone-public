@@ -1,12 +1,10 @@
 ﻿using Application.AppConfigurations;
 using Application.Commons;
-using Application.Models;
 using Application.Models.ZaloPayModels;
 using Application.Services.Abstractions;
 using AutoMapper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Net.Http;
 
 namespace Application.Services;
 
@@ -43,12 +41,12 @@ public class ZaloPayService : IZaloPayService
         var appUser = _claimService.GetCurrentUserId.ToString();
         appUser = appUser != null ? appUser : "AnonymousUser";
         var rnd = new Random();
-        var appTransId = CurrentTime.GetCurrentTime.ToString("yyMMdd") + "_" + rnd.Next(1000000);                
-        var data = $"{_zaloPayConfig.AppId}|{appTransId}|{appUser}|{model.Amount}|{appTime}|{model.EmbedData}|{model.Item}";        
-        
+        var appTransId = CurrentTime.GetCurrentTime.ToString("yyMMdd") + "_" + rnd.Next(1000000);
+        var data = $"{_zaloPayConfig.AppId}|{appTransId}|{appUser}|{model.Amount}|{appTime}|{model.EmbedData}|{model.Item}";
+
         var zalopayOrder = _mapper.Map<ZPCreateOrderRequest>(model);
         zalopayOrder.AppId = _zaloPayConfig.AppId;
-        zalopayOrder.AppUser= appUser;
+        zalopayOrder.AppUser = appUser;
         zalopayOrder.AppTransId = appTransId;
         zalopayOrder.AppTime = appTime;
         zalopayOrder.Description = "Nap xu nen tang Artworkia.";
@@ -69,15 +67,15 @@ public class ZaloPayService : IZaloPayService
     {
         var data = $"{_zaloPayConfig.AppId}|{appTransId}|{_zaloPayConfig.Key1}";
         var mac = CryptoHelper.HMacCompute(_zaloPayConfig.Key1, data);
-        var orderQuery = new ZPQueryOrderRequest{ AppId = _zaloPayConfig.AppId, AppTransId = appTransId, Mac = mac };
+        var orderQuery = new ZPQueryOrderRequest { AppId = _zaloPayConfig.AppId, AppTransId = appTransId, Mac = mac };
         return await PostMethodAsync<ZPQueryOrderResponse>(ZalopayBaseUrl + QueryOrderUrl, orderQuery);
     }
 
     public bool ValidateCallback(ZPCallbackOrderResponse callbackOrder)
     {
         var mac = CryptoHelper.HMacCompute(_zaloPayConfig.Key2, callbackOrder.Data);
-        return mac.Equals(callbackOrder.Mac);        
-    }    
+        return mac.Equals(callbackOrder.Mac);
+    }
 
     private async Task<T?> PostMethodAsync<T>(string url, IBaseFormRequest form)
     {
@@ -90,7 +88,7 @@ public class ZaloPayService : IZaloPayService
         {
             NamingStrategy = new SnakeCaseNamingStrategy()
         };
-        var result =  JsonConvert.DeserializeObject<T>(responseString, new JsonSerializerSettings
+        var result = JsonConvert.DeserializeObject<T>(responseString, new JsonSerializerSettings
         {
             ContractResolver = contractResolver,
             Formatting = Formatting.Indented
@@ -130,12 +128,12 @@ public class ZaloPayService : IZaloPayService
 
         var data = $"{appId}|{paymentId}|{partnerOrderId}|{model.MUId}|{model.Amount}" +
                     $"|{description}|{partnerEmbedData}|{extraInfo}|{appTime}";
-        var hmacoutput = CryptoHelper.HMacCompute(_zaloPayConfig.Dibursement.Key1, data);        
-        var signed = CryptoHelper.RSASign(_zaloPayConfig.Dibursement.PrivateKey, hmacoutput);        
+        var hmacoutput = CryptoHelper.HMacCompute(_zaloPayConfig.Dibursement.Key1, data);
+        var signed = CryptoHelper.RSASign(_zaloPayConfig.Dibursement.PrivateKey, hmacoutput);
 
         var requestModel = new ZPTopupRequest
         {
-            AppId =appId,
+            AppId = appId,
             PaymentId = paymentId,
             Amount = model.Amount,
             Description = description,
@@ -153,7 +151,7 @@ public class ZaloPayService : IZaloPayService
     }
 
     public async Task<ZPQueryMerchantBalanceResponse?> QueryMerchantBalanceAsync()
-    {        
+    {
         var appTime = CurrentTime.GetTimeStamp();
         var appId = _zaloPayConfig.Dibursement.AppId;
         var paymentId = _zaloPayConfig.Dibursement.PaymentId;
@@ -162,11 +160,11 @@ public class ZaloPayService : IZaloPayService
 
         var requestModel = new ZPQueryMerchantBalanceRequest
         {
-          RequestId = Guid.NewGuid().ToString(),
-          AppId = appId,
-          PaymentId = paymentId,
-          Time = appTime,
-          Mac = mac
+            RequestId = Guid.NewGuid().ToString(),
+            AppId = appId,
+            PaymentId = paymentId,
+            Time = appTime,
+            Mac = mac
         };
         var url = ZalopayBaseUrl + QueryMerchantBalanceUrl;
         var result = await PostMethodAsync<ZPQueryMerchantBalanceResponse>(url, requestModel);

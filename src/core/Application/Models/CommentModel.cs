@@ -14,7 +14,7 @@ public class CommentVM
     public Guid? ReplyId { get; set; }
     public Guid ArtworkId { get; set; }
     public string Content { get; set; } = default!;
-    public AccountDisplayModel CreatedBy { get; set; } = default!;    
+    public AccountDisplayModel CreatedBy { get; set; } = default!;
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }
     public DateTime? LastModificatedOn { get; set; }

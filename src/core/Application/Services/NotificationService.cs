@@ -1,8 +1,8 @@
 ﻿using Application.Commons;
+using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
-using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 
@@ -69,7 +69,8 @@ public class NotificationService : INotificationService
         if (!notification.IsSeen)
         {
             notification.IsSeen = true;
-        } else
+        }
+        else
         {
             notification.IsSeen = false;
         }

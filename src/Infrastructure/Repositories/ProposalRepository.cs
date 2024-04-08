@@ -1,5 +1,4 @@
-﻿using Application.Models;
-using Application.Services.Abstractions;
+﻿using Application.Services.Abstractions;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;

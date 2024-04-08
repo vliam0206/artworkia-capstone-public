@@ -9,7 +9,7 @@ public interface IWalletService
     Task<WalletVM?> GetWalletByAccountIdAsync(Guid accountId);
     Task UpdateWalletAsync(Guid walletId, WalletEM walletEM);
     Task UpdateCurrentWalletAsync(WalletEM walletEM);
-    Task<Wallet> AddWalletAsync(Guid acocuntId, WalletEM walletModel);    
+    Task<Wallet> AddWalletAsync(Guid acocuntId, WalletEM walletModel);
     Task AddCoinsToWallet(Guid accountId, double amount, bool isSaveChange = true);
     Task SubtrasctCoinsFromWallet(Guid accountId, double amount, bool isSaveChange = true);
     Task<bool> CheckWithdrawBalance(Guid accountId, double amount);

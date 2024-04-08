@@ -1,14 +1,13 @@
 ﻿using Application.Commons;
+using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Authentication;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Models;
-using Firebase.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
-using Application.Models;
 using WebApi.Utils;
 
 namespace WebApi.Controllers;
@@ -152,11 +151,12 @@ public class AuthController : ControllerBase
         {
             await _accountService.CreateAccountAsync(_mapper.Map<Account>(model));
             return Ok(new ApiResponse { IsSuccess = true });
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
-        
+
     }
 
     [HttpPost("login-google")]

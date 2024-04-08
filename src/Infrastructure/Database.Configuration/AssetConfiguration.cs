@@ -1,7 +1,4 @@
-﻿using Application.Commons;
-using Domain.Entitites;
-using Domain.Enums;
-using MassTransit;
+﻿using Domain.Entitites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -33,6 +30,8 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetName = "PTS_1.zip",
                 Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
                 Price = 10000,
+                ContentType = "zip",
+                Size = 1476992
             },
             new Asset()
             {
@@ -43,6 +42,8 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetName = "PTS_1.zip",
                 Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
                 Price = 0,
+                ContentType = "zip",
+                Size = 3243243
             },
             new Asset()
             {
@@ -53,6 +54,8 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetName = "PTS_1.zip",
                 Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
                 Price = 12000,
+                ContentType = "zip",
+                Size = 2568643
             }
         );
         #endregion

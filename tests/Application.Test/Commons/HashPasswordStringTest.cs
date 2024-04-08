@@ -1,5 +1,4 @@
 ﻿using Application.Commons;
-using Domain.Test;
 using FluentAssertions;
 
 namespace Application.Test.Commons;

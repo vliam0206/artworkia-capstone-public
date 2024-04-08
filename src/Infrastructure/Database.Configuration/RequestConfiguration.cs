@@ -10,7 +10,7 @@ public class RequestConfiguration : IEntityTypeConfiguration<Request>
     public void Configure(EntityTypeBuilder<Request> builder)
     {
         builder.ToTable(nameof(Request));
-        
+
         builder.Property(x => x.Id).HasDefaultValueSql("newid()");
         builder.Property(x => x.CreatedOn).HasDefaultValueSql("getutcdate()");
 
@@ -32,7 +32,7 @@ public class RequestConfiguration : IEntityTypeConfiguration<Request>
                 RequestStatus = StateEnum.Waiting,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 CreatedOn = DateTime.Parse("2024-1-2"),
-            }   
+            }
         );
     }
 }

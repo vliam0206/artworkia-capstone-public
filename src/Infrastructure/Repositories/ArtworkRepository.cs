@@ -1,5 +1,4 @@
-﻿using Application.Models;
-using Application.Services.Abstractions;
+﻿using Application.Services.Abstractions;
 using CoenM.ImageHash;
 using Domain.Entities.Commons;
 using Domain.Entitites;
@@ -7,12 +6,8 @@ using Domain.Enums;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
 using Infrastructure.Repositories.Commons;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace Infrastructure.Repositories;
 public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRepository
@@ -20,11 +15,11 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
     private readonly static int MIN_SIMILARITY = 95;
     public ArtworkRepository(AppDBContext dBContext, IClaimService claimService) : base(dBContext, claimService)
     {
-    }    
+    }
 
     public async Task<IPagedList<Artwork>> GetArtworksAsync(
         string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize,
-        Guid? accountId = null, Guid? categoryId = null, Guid? tagId = null, 
+        Guid? accountId = null, Guid? categoryId = null, Guid? tagId = null,
         StateEnum? state = null, PrivacyEnum? privacy = null)
     {
         Guid? loginId = _claimService.GetCurrentUserId;
@@ -111,7 +106,7 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         return result;
     }
 
-    public async Task<IPagedList<Artwork>> GetArtworksContainAssetsAsync(Guid? accountId, int? minPrice, int? maxPrice, 
+    public async Task<IPagedList<Artwork>> GetArtworksContainAssetsAsync(Guid? accountId, int? minPrice, int? maxPrice,
         string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize)
     {
         var allArtworks = _dbContext.Artworks
@@ -252,7 +247,7 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         var listImage = await _dbContext.Images
             .Include(x => x.Artwork)
             .Where(x => x.Artwork.CreatedBy != createdByOfArtwork).ToListAsync();
-        List<Image> result2 = new List<Image>();
+        List<Image> result2 = new();
         foreach (Image item in listImage)
         {
             foreach (Image image in artwork.Images)

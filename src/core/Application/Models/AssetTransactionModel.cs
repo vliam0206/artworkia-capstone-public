@@ -4,6 +4,6 @@ namespace Application.Models;
 
 public class AssetTransactionModel
 {
-    [Required]  
+    [Required]
     public Guid AssetId { get; set; }
 }

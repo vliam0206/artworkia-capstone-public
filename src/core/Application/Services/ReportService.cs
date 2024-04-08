@@ -18,7 +18,7 @@ public class ReportService : IReportService
     private readonly IMapper _mapper;
 
     public ReportService(
-        IUnitOfWork unitOfWork, 
+        IUnitOfWork unitOfWork,
         IClaimService claimService,
         IMapper mapper
         )
@@ -31,19 +31,19 @@ public class ReportService : IReportService
     public async Task<IPagedList<ReportVM>> GetAllReportsAsync(ReportCriteria criteria)
     {
         var result = await _unitOfWork.ReportRepository.GetAllReportsAsync(
-                       criteria.ReportEntity, criteria.State, criteria.Keyword, criteria.SortColumn, 
+                       criteria.ReportEntity, criteria.State, criteria.Keyword, criteria.SortColumn,
                                   criteria.SortColumn, criteria.PageNumber, criteria.PageSize);
 
         result.Items.ForEach(r =>
         {
             r.Target = r.ReportEntity switch
-                {
-                    ReportEntityEnum.Account => _mapper.Map<AccountBasicInfoVM>(r.Target),
-                    ReportEntityEnum.Comment => _mapper.Map<CommentVM>(r.Target),
-                    ReportEntityEnum.Artwork => _mapper.Map<ArtworkPreviewVM>(r.Target),
-                    _ => null
-                };
-            }
+            {
+                ReportEntityEnum.Account => _mapper.Map<AccountBasicInfoVM>(r.Target),
+                ReportEntityEnum.Comment => _mapper.Map<CommentVM>(r.Target),
+                ReportEntityEnum.Artwork => _mapper.Map<ArtworkPreviewVM>(r.Target),
+                _ => null
+            };
+        }
         );
         var resultVM = _mapper.Map<PagedList<ReportVM>>(result);
         return resultVM;
@@ -51,7 +51,7 @@ public class ReportService : IReportService
 
     public async Task<ReportVM?> GetReportByIdAsync(Guid reportId)
     {
-        var result = await _unitOfWork.ReportRepository.GetByIdAsync(reportId) 
+        var result = await _unitOfWork.ReportRepository.GetByIdAsync(reportId)
             ?? throw new KeyNotFoundException("Không tìm thấy báo cáo.");
         var resultVM = _mapper.Map<ReportVM>(result);
         return resultVM;
@@ -91,7 +91,7 @@ public class ReportService : IReportService
 
     public async Task DeleteReportAsync(Guid reportId)
     {
-        var result = await _unitOfWork.ReportRepository.GetByIdAsync(reportId) 
+        var result = await _unitOfWork.ReportRepository.GetByIdAsync(reportId)
             ?? throw new KeyNotFoundException("Không tìm thấy báo cáo.");
         _unitOfWork.ReportRepository.Delete(result);
         await _unitOfWork.SaveChangesAsync();
@@ -99,7 +99,7 @@ public class ReportService : IReportService
 
     public async Task UpdateReportState(Guid reportId, ReportStateEM reportStateEM)
     {
-        var oldReport = await _unitOfWork.ReportRepository.GetByIdAsync(reportId);    
+        var oldReport = await _unitOfWork.ReportRepository.GetByIdAsync(reportId);
         if (oldReport == null)
             throw new KeyNotFoundException("Không tìm thấy báo cáo.");
         if (oldReport.State != StateEnum.Waiting)

@@ -15,7 +15,7 @@ public class Request : BaseEntity, ICreation
     public double Budget { get; set; } = default!;
     public StateEnum RequestStatus { get; set; }
     public Guid? CreatedBy { get; set; }
-    public DateTime CreatedOn { get; set; }    
+    public DateTime CreatedOn { get; set; }
 
     public virtual Account Account { get; set; } = default!;
     public virtual Service Service { get; set; } = default!;

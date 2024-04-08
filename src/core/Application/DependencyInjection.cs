@@ -10,17 +10,17 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddScoped<IAccountService, AccountService>();        
-        services.AddScoped<IArtworkService, ArtworkService>();        
-        services.AddScoped<IAssetService, AssetService>();        
+        services.AddScoped<IAccountService, AccountService>();
+        services.AddScoped<IArtworkService, ArtworkService>();
+        services.AddScoped<IAssetService, AssetService>();
         services.AddScoped<IBlockService, BlockService>();
         services.AddScoped<ICategoryArtworkDetailService, CategoryArtworkDetailService>();
         services.AddScoped<ICategoryServiceDetailService, CategoryServiceDetailService>();
-        services.AddScoped<ICategoryService, CategoryService>();        
+        services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<ICollectionService, CollectionService>();
         services.AddScoped<IFollowService, FollowService>();
-        services.AddScoped<IImageService, ImageService>();        
+        services.AddScoped<IImageService, ImageService>();
         services.AddScoped<ILikeService, LikeService>();
         services.AddScoped<ILicenseTypeService, LicenseTypeService>();
         services.AddScoped<IReportService, ReportService>();
@@ -28,7 +28,7 @@ public static class DependencyInjection
         services.AddScoped<IServiceService, ServiceService>();
         services.AddScoped<ISoftwareUsedService, SoftwareUsedService>();
         services.AddScoped<ISoftwareDetailService, SoftwareDetailService>();
-        services.AddScoped<ITagService, TagService>();        
+        services.AddScoped<ITagService, TagService>();
         services.AddScoped<ITagDetailService, TagDetailService>();
         services.AddScoped<IWalletService, WalletService>();
         services.AddScoped<IAssetTransactionService, AssetTransactionService>();

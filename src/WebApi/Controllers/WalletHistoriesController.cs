@@ -1,6 +1,5 @@
 ﻿using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
 
@@ -26,7 +25,8 @@ public class WalletHistoriesController : ControllerBase
         {
             var walletHistories = await _walletHistoryService.GetWalletHistoriesOfAccount(accountId);
             return Ok(walletHistories);
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }

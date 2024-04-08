@@ -1,7 +1,6 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
 
@@ -16,7 +15,7 @@ public class ProposalsController : ControllerBase
     private readonly IReviewService _reviewService;
 
     public ProposalsController(
-        IProposalService proposalService, 
+        IProposalService proposalService,
         IMilestoneService milestoneService,
         IReviewService reviewService)
     {
@@ -141,7 +140,7 @@ public class ProposalsController : ControllerBase
         try
         {
             var proposal = await _proposalService.CreateProposalAsync(model);
-            return CreatedAtAction("GetProposalById", new { id = proposal.Id}, proposal);
+            return CreatedAtAction("GetProposalById", new { id = proposal.Id }, proposal);
         }
         catch (KeyNotFoundException ex)
         {
@@ -196,7 +195,7 @@ public class ProposalsController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
-        }     
+        }
     }
 
     [HttpDelete("{id}")]

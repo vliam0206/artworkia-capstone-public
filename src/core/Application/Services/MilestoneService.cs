@@ -4,7 +4,6 @@ using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services;
 
@@ -43,7 +42,7 @@ public class MilestoneService : IMilestoneService
             }
         }
         milestone.MilestoneName = details!;
-        await _unitOfWork.MilestoneRepository.AddAsync(milestone);       
+        await _unitOfWork.MilestoneRepository.AddAsync(milestone);
     }
 
     public async Task<List<MilestoneVM>> GetMilestonesAsync(Guid proposalId)

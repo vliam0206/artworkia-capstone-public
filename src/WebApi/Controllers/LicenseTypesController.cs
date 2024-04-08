@@ -1,7 +1,5 @@
 ﻿using Application.Models;
-using Application.Services;
 using Application.Services.Abstractions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
 

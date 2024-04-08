@@ -20,7 +20,7 @@ public class CollectionService : ICollectionService
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _claimService = claimService;
-    }           
+    }
 
     public async Task<List<Collection>> GetAllCollectionsOfAccountAsync(Guid accountId)
     {
@@ -47,7 +47,7 @@ public class CollectionService : ICollectionService
     }
 
     public async Task UpdateCollectionAsync(Guid collectionId, CollectionModificationModel updateModel)
-    {        
+    {
         var oldCollection = await _unitOfWork.CollectionRepository.GetByIdAsync(collectionId);
         if (oldCollection == null)
         {
@@ -82,7 +82,7 @@ public class CollectionService : ICollectionService
         {
             throw new BadHttpRequestException("Bạn đã lưu tác phẩm này vào bộ sưu tập này.");
         }
-        var collection = await _unitOfWork.CollectionRepository.GetByIdAsync(bookmark.CollectionId);        
+        var collection = await _unitOfWork.CollectionRepository.GetByIdAsync(bookmark.CollectionId);
         // check if Ids valid
         var errMsg = "";
         if (collection == null)
@@ -98,8 +98,8 @@ public class CollectionService : ICollectionService
             throw new KeyNotFoundException(errMsg);
         }
         // check authorization
-        if (_claimService.GetCurrentUserId == null 
-            || collection!.CreatedBy !=  _claimService.GetCurrentUserId)
+        if (_claimService.GetCurrentUserId == null
+            || collection!.CreatedBy != _claimService.GetCurrentUserId)
         {
             throw new UnauthorizedAccessException("Bạn không có quyền thực hiện chức năng này.");
         }
@@ -124,10 +124,10 @@ public class CollectionService : ICollectionService
         if (deletedBookmark == null)
         {
             throw new BadHttpRequestException("Bạn chưa lưu tác phẩm này vào bộ sưu tập này.");
-        }        
+        }
 
         // remove artwork to collection (delete bookmark)
         _unitOfWork.BookmarkRepository.DeleteBookmark(deletedBookmark);
         await _unitOfWork.SaveChangesAsync();
-    }    
+    }
 }

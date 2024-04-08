@@ -1,7 +1,7 @@
-﻿using Application.Models;
+﻿using Application.Filters;
+using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
-using Domain.Entities.Commons;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
@@ -147,7 +147,7 @@ public class TagsController : ControllerBase
         }
         catch (BadHttpRequestException ex)
         {
-               return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {

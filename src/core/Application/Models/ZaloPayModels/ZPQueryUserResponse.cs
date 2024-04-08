@@ -4,9 +4,9 @@ namespace Application.Models.ZaloPayModels;
 
 public class ZPQueryUserResponse
 {
-    public int ReturnCode {  get; set; }
+    public int ReturnCode { get; set; }
     public string ReturnMessage { get; set; } = default!;
-    public int SubReturnCode {  get; set; }
+    public int SubReturnCode { get; set; }
     public string SubReturnMessage { get; set; } = default!;
     public UserQueryData? Data { get; set; }
 }

@@ -9,7 +9,7 @@ namespace Infrastructure.Repositories;
 
 public class MilestoneRepository : GenericCreationRepository<Milestone>, IMilestoneRepository
 {
-    public MilestoneRepository(AppDBContext dBContext, IClaimService claimService) 
+    public MilestoneRepository(AppDBContext dBContext, IClaimService claimService)
         : base(dBContext, claimService)
     {
     }

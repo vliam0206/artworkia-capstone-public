@@ -4,7 +4,7 @@ using Google.Apis.Auth;
 
 namespace Application.Services.Authentication;
 
-public class ThirdAuthenticationService : IThirdAuthenticationService    
+public class ThirdAuthenticationService : IThirdAuthenticationService
 {
     private readonly AppConfiguration _appConfig;
 

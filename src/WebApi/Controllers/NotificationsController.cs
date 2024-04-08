@@ -1,7 +1,6 @@
-﻿using Application.Services.Abstractions;
-using Domain.Entities.Commons;
+﻿using Application.Filters;
+using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.WebSockets;
 using System.Text;
@@ -16,7 +15,7 @@ public class NotificationsController : ControllerBase
     private readonly INotificationService _notificationService;
     private readonly IClaimService _claimService;
 
-    public NotificationsController(INotificationService notificationService, 
+    public NotificationsController(INotificationService notificationService,
         IClaimService claimService)
     {
         _notificationService = notificationService;
@@ -32,7 +31,7 @@ public class NotificationsController : ControllerBase
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 using (var ws = await HttpContext.WebSockets.AcceptWebSocketAsync())
-                {                    
+                {
                     while (ws.State == WebSocketState.Open)
                     {
                         var currentUser = _claimService.GetCurrentUserId ?? default;

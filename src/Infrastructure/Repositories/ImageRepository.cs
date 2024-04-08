@@ -24,7 +24,7 @@ public class ImageRepository : GenericRepository<Image>, IImageRepository
         //x.Artwork.State == Domain.Enums.StateEnum.Accepted
         var result = await _dbContext.Images.Where(x => x.Artwork.CreatedBy != createdByOfArtwork
         ).ToListAsync();
-        List<Image> result2 = new List<Image>();
+        List<Image> result2 = new();
         foreach (Image item in result)
         {
             var similarity = CompareHash.Similarity(item.ImageHash.GetValueOrDefault(), image.ImageHash.GetValueOrDefault());

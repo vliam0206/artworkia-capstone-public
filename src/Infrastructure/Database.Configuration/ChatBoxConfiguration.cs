@@ -1,5 +1,4 @@
 ﻿using Domain.Entitites;
-using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,7 +16,7 @@ public class ChatBoxConfiguration : IEntityTypeConfiguration<ChatBox>
         builder.HasOne(x => x.Account_1).WithMany(a => a.ChatBoxes_1)
                                         .HasForeignKey(x => x.AccountId_1)
                                         .OnDelete(DeleteBehavior.NoAction);
-        builder.HasOne(x => x.Account_2).WithMany(a => a.ChatBoxes_2)            
+        builder.HasOne(x => x.Account_2).WithMany(a => a.ChatBoxes_2)
                                         .HasForeignKey(x => x.AccountId_2)
                                         .OnDelete(DeleteBehavior.NoAction);
         builder.HasMany(x => x.Messages).WithOne(p => p.ChatBox).HasForeignKey(p => p.ChatBoxId);

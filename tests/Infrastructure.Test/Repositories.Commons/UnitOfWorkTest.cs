@@ -1,6 +1,4 @@
-﻿using AutoFixture;
-using Domain.Entitites;
-using Domain.Repositories.Abstractions;
+﻿using Domain.Repositories.Abstractions;
 using Domain.Test;
 using FluentAssertions;
 using Infrastructure.Repositories.Commons;

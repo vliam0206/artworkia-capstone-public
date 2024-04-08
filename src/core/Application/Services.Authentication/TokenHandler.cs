@@ -6,7 +6,6 @@ using Domain.Repositories.Abstractions;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -90,7 +89,7 @@ public class TokenHandler : ITokenHandler
     {
         var identity = context.Principal?.Identity as ClaimsIdentity;
         var jtiClaim = identity?.FindFirst(JwtRegisteredClaimNames.Jti);
-        
+
         // check if token existed in db
         Guid jti;
         if (!Guid.TryParse(jtiClaim!.Value, out jti))
@@ -149,9 +148,9 @@ public class TokenHandler : ITokenHandler
                 await _userTokenService.UpdateTokenAsync(userToken);
 
                 var issuedDate = CurrentTime.GetCurrentTime;
-                var accessToken= this.CreateAccessToken(account, issuedDate);
+                var accessToken = this.CreateAccessToken(account, issuedDate);
                 var newRefreshToken = this.CreateRefreshToken(account, issuedDate);
-                
+
                 await _userTokenService.SaveTokenAsync(new UserToken
                 {
                     UserId = account.Id,

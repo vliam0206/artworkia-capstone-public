@@ -1,9 +1,8 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Models;
+using Application.Services.Abstractions;
 using Domain.Entitites;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Application.Models;
 using WebApi.Utils;
 
 namespace WebApi.Controllers;
@@ -63,7 +62,7 @@ public class BlocksController : ControllerBase
 
     // POST: api/blocks
     [HttpPost]
-    [Authorize] 
+    [Authorize]
     public async Task<ActionResult<Block>> PostBlock(BlockModel model)
     {
         try
@@ -91,7 +90,7 @@ public class BlocksController : ControllerBase
 
     // DELETE: api/blocks/5
     [HttpDelete]
-    [Authorize] 
+    [Authorize]
     public async Task<IActionResult> DeleteBlock(BlockModel model)
     {
         try

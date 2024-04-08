@@ -1,9 +1,7 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
-using Domain.Entitites;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
 
@@ -16,8 +14,8 @@ public class LikesController : ControllerBase
     private readonly IClaimService _claimService;
     private readonly IMapper _mapper;
 
-    public LikesController(ILikeService likeService, 
-        IClaimService claimService, 
+    public LikesController(ILikeService likeService,
+        IClaimService claimService,
         IMapper mapper)
     {
         _likeService = likeService;
@@ -66,12 +64,12 @@ public class LikesController : ControllerBase
 
     // GET: api/likes/artworks/1
     [HttpGet("artworks/{artworkId}")]
-    [Authorize] 
+    [Authorize]
     public async Task<IActionResult> GetIsLikedOfArtwork(Guid artworkId)
     {
         try
         {
-            Guid accountId = _claimService.GetCurrentUserId ?? default;   
+            Guid accountId = _claimService.GetCurrentUserId ?? default;
             var result = await _likeService.GetIsLikedArtworkAsync(accountId, artworkId);
             return Ok(result);
         }

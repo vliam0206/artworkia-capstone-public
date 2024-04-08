@@ -4,8 +4,6 @@ using Domain.Repositories.Abstractions;
 using Domain.Test;
 using FluentAssertions;
 using Infrastructure.Repositories.Commons;
-using MassTransit;
-using Moq;
 
 namespace Infrastructure.Test.Repositories.Commons;
 
@@ -161,7 +159,7 @@ public class GenericRepositoryTest : SetupTest
 
         // act
         var result = await _genericRepository
-                            .GetSingleByConditionAsync(x 
+                            .GetSingleByConditionAsync(x
                                 => x.Content == mockData.Content);
 
         // assert

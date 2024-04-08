@@ -5,8 +5,6 @@ using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Services;
 
@@ -19,9 +17,9 @@ public class ProposalService : IProposalService
     private readonly ITransactionHistoryService _transactionHistoryService;
     private readonly IWalletService _walletService;
 
-    public ProposalService(IUnitOfWork unitOfWork, IMapper mapper, 
+    public ProposalService(IUnitOfWork unitOfWork, IMapper mapper,
         IClaimService claimService, IMilestoneService milstoneService,
-        ITransactionHistoryService transactionHistoryService, 
+        ITransactionHistoryService transactionHistoryService,
         IWalletService walletService)
     {
         _unitOfWork = unitOfWork;
@@ -66,7 +64,7 @@ public class ProposalService : IProposalService
         }
         else
         {
-            ChatBox newChatBox = new ChatBox()
+            ChatBox newChatBox = new()
             {
                 AccountId_1 = audienceId,
                 AccountId_2 = creatorId,
@@ -74,7 +72,7 @@ public class ProposalService : IProposalService
             await _unitOfWork.ChatBoxRepository.AddAsync(newChatBox);
             newProposal.ChatBoxId = newChatBox.Id;
         }
-        await _unitOfWork.ProposalRepository.AddAsync(newProposal);        
+        await _unitOfWork.ProposalRepository.AddAsync(newProposal);
 
         // create proposal successfully -> add Init milestone
         await _milstoneService.AddMilestoneToProposalAsync(newProposal.Id, "Thỏa thuận đã được tạo");
@@ -103,7 +101,7 @@ public class ProposalService : IProposalService
         return proposalVM;
     }
 
-    public  async Task<List<ProposalVM>> GetProposalsByChatIdAsync(Guid chatId)
+    public async Task<List<ProposalVM>> GetProposalsByChatIdAsync(Guid chatId)
     {
         // check whether chatSession exist
         var chatExist = await _unitOfWork.ChatBoxRepository.GetByIdAsync(chatId);
@@ -165,7 +163,7 @@ public class ProposalService : IProposalService
             throw new BadHttpRequestException("Bạn không có quyền cập nhật trạng thái thỏa thuận.");
         }
         proposal.ProposalStatus = model.Status;
-        _unitOfWork.ProposalRepository.Update(proposal);        
+        _unitOfWork.ProposalRepository.Update(proposal);
 
         // create proposal successfully -> add new milestone
         await _milstoneService.AddMilestoneToProposalAsync(id, "", model.Status);
@@ -229,10 +227,10 @@ public class ProposalService : IProposalService
             TransactionStatus = TransactionStatusEnum.Success,
             ToAccountId = creatorId
         };
-        var transactionVM  = await _transactionHistoryService.CreateTransactionHistory(transactionHistory);        
-        
+        var transactionVM = await _transactionHistoryService.CreateTransactionHistory(transactionHistory);
+
         // 2. payment successfully -> add new miletone
-        await _milstoneService.AddMilestoneToProposalAsync(proposalId, $"Đặt cọc thành công {amount} xu ({proposal.InitialPrice*100}%)");
+        await _milstoneService.AddMilestoneToProposalAsync(proposalId, $"Đặt cọc thành công {amount} xu ({proposal.InitialPrice * 100}%)");
 
         // 3. update the proposal status
         proposal.ProposalStatus = ProposalStateEnum.InitPayment;
@@ -283,22 +281,22 @@ public class ProposalService : IProposalService
         var transactionHistory = new TransactionModel
         {
             ProposalId = proposalId,
-            Detail = $"Hoàn tất thanh toán thỏa thuận \"{proposal.ProjectTitle}\" ({(1-proposal.InitialPrice) * 100}%)",
+            Detail = $"Hoàn tất thanh toán thỏa thuận \"{proposal.ProjectTitle}\" ({(1 - proposal.InitialPrice) * 100}%)",
             Price = amount,
             TransactionStatus = TransactionStatusEnum.Success,
             ToAccountId = creatorId
         };
-        var transactionVM = await _transactionHistoryService.CreateTransactionHistory(transactionHistory);       
-        
+        var transactionVM = await _transactionHistoryService.CreateTransactionHistory(transactionHistory);
+
         // 2. add new miletone
         await _milstoneService.AddMilestoneToProposalAsync(proposalId, $"Hoàn tất thanh toán {amount} xu ({(1 - proposal.InitialPrice) * 100}%)");
 
         // 3. update the proposal status
         proposal.ProposalStatus = ProposalStateEnum.CompletePayment;
         _unitOfWork.ProposalRepository.Update(proposal);
-        
+
         await _unitOfWork.SaveChangesAsync();
-       
+
         return transactionVM;
     }
 }

@@ -40,7 +40,7 @@ public class CategoryServiceDetailService : ICategoryServiceDetailService
         var categoryList = categoryListServiceModel.CategoryList;
         foreach (var category in categoryList)
         {
-            CategoryServiceModel categoryServiceModel = new CategoryServiceModel
+            CategoryServiceModel categoryServiceModel = new()
             {
                 ServiceId = categoryListServiceModel.ServiceId,
                 CategoryId = category

@@ -1,11 +1,9 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Filters;
+using Application.Models;
+using Application.Services.Abstractions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Application.Models;
-using Domain.Entities.Commons;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;

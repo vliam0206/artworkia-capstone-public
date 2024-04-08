@@ -25,7 +25,7 @@ public class TagDetailService : ITagDetailService
     public async Task<TagListArtworkVM> GetTagListOfArtworkAsync(Guid artworkId)
     {
         var taglist = await _unitOfWork.TagDetailRepository.GetAllTagDetailsOfArtworkAsync(artworkId);
-        TagListArtworkVM tagListArtworkVM = new TagListArtworkVM()
+        TagListArtworkVM tagListArtworkVM = new()
         {
             ArtworkId = artworkId,
             TagList = taglist.Select(x => new TagVM()
@@ -39,12 +39,12 @@ public class TagDetailService : ITagDetailService
 
     public async Task AddTagListArtworkAsync(TagListArtworkModel tagListArtworkModel, bool isSaveChanges = true)
     {
-        var artwork = _unitOfWork.ArtworkRepository.GetByIdAsync(tagListArtworkModel.ArtworkId) 
+        var artwork = _unitOfWork.ArtworkRepository.GetByIdAsync(tagListArtworkModel.ArtworkId)
             ?? throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         var tagList = tagListArtworkModel.TagList;
         foreach (string tag in tagList)
         {
-            TagDetailModel tagDetailModel = new TagDetailModel()
+            TagDetailModel tagDetailModel = new()
             {
                 ArtworkId = tagListArtworkModel.ArtworkId,
                 TagName = tag
@@ -53,7 +53,7 @@ public class TagDetailService : ITagDetailService
         }
         if (isSaveChanges)
             await _unitOfWork.SaveChangesAsync();
-        
+
     }
 
     public async Task DeleteTagDetailAsync(Guid artworkId, Guid tagId)

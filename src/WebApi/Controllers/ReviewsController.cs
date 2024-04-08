@@ -1,9 +1,7 @@
 ﻿using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
-using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
 

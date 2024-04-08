@@ -1,5 +1,4 @@
 ﻿using Application.Models;
-using Domain.Entitites;
 
 namespace Application.Services.Abstractions;
 public interface ITagDetailService

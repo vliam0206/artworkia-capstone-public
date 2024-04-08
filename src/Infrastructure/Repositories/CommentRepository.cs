@@ -12,7 +12,7 @@ public class CommentRepository : GenericAuditableRepository<Comment>, ICommentRe
 {
     public CommentRepository(AppDBContext dBContext, IClaimService claimService) : base(dBContext, claimService)
     {
-    }    
+    }
     public async Task<List<Comment>> GetReplyCommentsAsync(Guid commentId)
     {
         return await _dbContext.Comments

@@ -1,9 +1,9 @@
 ﻿using Application.Commons;
+using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
-using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using Microsoft.IdentityModel.Tokens;
@@ -88,7 +88,7 @@ public class MessageService : IMessageService
         }
         else
         {
-            ChatBox newChatBox = new ChatBox()
+            ChatBox newChatBox = new()
             {
                 AccountId_1 = senderId,
                 AccountId_2 = model.ReceiverId,

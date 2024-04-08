@@ -25,7 +25,7 @@ public class SoftwareUsedService : ISoftwareUsedService
 
     public async Task<SoftwareUsedVM?> GetSoftwareUsedByIdAsync(Guid softwareUsedId)
     {
-        var softwareUsed = await _unitOfWork.SoftwareUsedRepository.GetByIdAsync(softwareUsedId) 
+        var softwareUsed = await _unitOfWork.SoftwareUsedRepository.GetByIdAsync(softwareUsedId)
             ?? throw new KeyNotFoundException("Không tìm thấy phần mềm sử dụng.");
         var softwareUsedVM = _mapper.Map<SoftwareUsedVM>(softwareUsed);
         return softwareUsedVM;

@@ -20,13 +20,13 @@ public interface IFirebaseService
     /// Xoa file tren firebase
     /// </summary>
     Task DeleteFileInFirebaseStorage(string fileName, string folderName);
-    
+
     /// <summary>
     /// lay url download file tu firebase
     /// </summary>
     /// <returns>lay url download file tu firebase</returns>
     Task<string?> DownloadFileFromFirebaseStorage(string fileName, string folderName);
-    
+
     /// <summary>
     /// lay thong tin file tu firebase
     /// </summary>

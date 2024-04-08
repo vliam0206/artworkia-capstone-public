@@ -9,13 +9,13 @@ public class ArtworkEM
     [MaxLength(150)]
     public string Title { get; set; } = default!;
     [MaxLength(5000)]
-    public string? Description { get; set; } 
+    public string? Description { get; set; }
     public PrivacyEnum Privacy { get; set; } = default!;
     public bool IsAIGenerated { get; set; } = default!;
     public IFormFile? Thumbnail { get; set; }
     public List<IFormFile>? ImageFiles { get; set; }
     public List<string>? Tags { get; set; }
-    public HashSet<Guid>? Categories { get; set; } 
+    public HashSet<Guid>? Categories { get; set; }
 }
 
 public class ArtworkModel

@@ -22,21 +22,21 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             new Message()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),                
+                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 Text = "Hellooooo bạn"
             },
             new Message()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
-                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),                
+                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 Text = "Hellooooo 2"
             },
             new Message()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
-                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),                
+                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 Text = "Hellooooo 3"
             },
@@ -44,13 +44,13 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),                
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 Text = "Hellooooo 4"
             },
             new Message()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
-                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),                
+                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 Text = "Hellooooo 5"
             },
@@ -58,13 +58,13 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000006"),
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),                
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 Text = "Hellooooo 6"
             },
             new Message()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000007"),
-                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),                
+                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 Text = "Hellooooo 7"
             },
@@ -72,13 +72,13 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000008"),
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),                
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 Text = "Hellooooo 8"
             },
             new Message()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000009"),
-                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),                
+                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 Text = "Hellooooo 9"
             },
@@ -86,13 +86,13 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000010"),
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),                
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 Text = "Hellooooo 10"
             },
             new Message()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000011"),
-                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),                
+                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 Text = "Hello from the sea."
             }

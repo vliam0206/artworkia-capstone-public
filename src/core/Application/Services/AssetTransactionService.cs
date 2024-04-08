@@ -5,7 +5,6 @@ using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Application.Services;
 
@@ -77,7 +76,7 @@ public class AssetTransactionService : IAssetTransactionService
         //};
 
         // Add new payment history for audience(createdBy) and creator(ToAccountId)
-        TransactionHistory newAssetTransaction = new TransactionHistory()
+        TransactionHistory newAssetTransaction = new()
         {
             CreatedBy = accountId,
             AssetId = assetTransactionModel.AssetId,
@@ -100,7 +99,7 @@ public class AssetTransactionService : IAssetTransactionService
 
     public async Task<IEnumerable<AssetTransactionVM>> GetAllAssetTransactionsAsync()
     {
-        var allAssetTransactions = await _unitOfWork.TransactionHistoryRepository.GetListByConditionAsync(x => x.AssetId != null); 
+        var allAssetTransactions = await _unitOfWork.TransactionHistoryRepository.GetListByConditionAsync(x => x.AssetId != null);
         var result = _mapper.Map<IEnumerable<AssetTransactionVM>>(allAssetTransactions);
         return result;
     }

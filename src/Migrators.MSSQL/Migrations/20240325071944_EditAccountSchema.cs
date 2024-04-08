@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -10,7 +9,7 @@ namespace Migrators.MSSQL.Migrations
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
-        {            
+        {
             migrationBuilder.AddColumn<bool>(
                 name: "IsVerified",
                 table: "Account",
@@ -177,7 +176,7 @@ namespace Migrators.MSSQL.Migrations
                 keyColumn: "Id",
                 keyValue: new Guid("00000000-0000-0000-0000-000000000017"),
                 column: "IsVerified",
-                value: false);        
+                value: false);
 
             migrationBuilder.UpdateData(
                 table: "Wallet",

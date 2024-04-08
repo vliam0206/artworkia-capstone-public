@@ -10,7 +10,7 @@ public class ProposalConfiguration : IEntityTypeConfiguration<Proposal>
     public void Configure(EntityTypeBuilder<Proposal> builder)
     {
         builder.ToTable(nameof(Proposal));
-        
+
         builder.Property(x => x.Id).HasDefaultValueSql("newid()");
         builder.Property(x => x.CreatedOn).HasDefaultValueSql("getutcdate()");
 

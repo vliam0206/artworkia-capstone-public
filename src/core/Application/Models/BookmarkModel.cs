@@ -5,5 +5,5 @@ namespace Application.Models;
 public class BookmarkModel
 {
     [Required]
-    public Guid ArtworkId { get; set; }    
+    public Guid ArtworkId { get; set; }
 }

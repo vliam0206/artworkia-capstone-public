@@ -1,7 +1,6 @@
 ﻿using Application.Commons;
 using Application.Filters;
 using Application.Models;
-using Domain.Entities.Commons;
 using Domain.Entitites;
 using Microsoft.AspNetCore.Http;
 

@@ -1,7 +1,4 @@
-﻿using Application.Commons;
-using Application.Models;
-using Domain.Entities.Commons;
-using Domain.Entitites;
+﻿using Application.Models;
 
 namespace Application.Services.Abstractions;
 

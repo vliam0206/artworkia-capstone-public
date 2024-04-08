@@ -1,12 +1,12 @@
-﻿using Domain.Entitites;
-using Infrastructure.Repositories.Commons;
+﻿using Application.Services.Abstractions;
+using Domain.Entities.Commons;
+using Domain.Entitites;
+using Domain.Enums;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
-using Application.Services.Abstractions;
-using Domain.Entities.Commons;
-using Domain.Enums;
-using System.Linq.Expressions;
+using Infrastructure.Repositories.Commons;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
 public class ReportRepository : GenericCreationRepository<Report>, IReportRepository

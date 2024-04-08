@@ -12,8 +12,8 @@ public interface IUnitOfWork
     public IChatBoxRepository ChatBoxRepository { get; }
     public ICollectionRepository CollectionRepository { get; }
     public ICommentRepository CommentRepository { get; }
-    public ILikeRepository LikeRepository { get; }  
-    public ILicenseTypeRepository LicenseTypeRepository { get; }  
+    public ILikeRepository LikeRepository { get; }
+    public ILicenseTypeRepository LicenseTypeRepository { get; }
     public IMessageRepository MessageRepository { get; }
     public IFollowRepository FollowRepository { get; }
     public INotificationRepository NotificationRepository { get; }

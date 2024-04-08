@@ -32,7 +32,7 @@ public class Account : BaseEntity, ICreation, IModification, ISoftDelete
 
     public virtual Wallet? Wallet { get; set; }
     public virtual ICollection<ChatBox> ChatBoxes_1 { get; set; } = new List<ChatBox>();
-    public virtual ICollection<ChatBox> ChatBoxes_2 { get; set; } = new List<ChatBox>();    
+    public virtual ICollection<ChatBox> ChatBoxes_2 { get; set; } = new List<ChatBox>();
     public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
     public virtual ICollection<Proposal> Proposals { get; set; } = new List<Proposal>();
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();

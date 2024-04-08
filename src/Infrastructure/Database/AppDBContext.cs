@@ -1,8 +1,6 @@
 ﻿using Application.Commons;
 using Domain.Entitites;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage;
 using System.Reflection;
 
 namespace Infrastructure.Database;
@@ -15,7 +13,7 @@ public class AppDBContext : DbContext
     public AppDBContext(DbContextOptions options, AppConfiguration config) : base(options)
     {
         _config = config;
-    }    
+    }
 
     public DbSet<Account> Accounts { get; set; }
     public DbSet<Artwork> Artworks { get; set; }

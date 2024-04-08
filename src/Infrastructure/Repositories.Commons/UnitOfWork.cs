@@ -145,7 +145,7 @@ public class UnitOfWork : IUnitOfWork
     public IUserTokenRepository UserTokenRepository => _userTokenRepository;
     public IWalletHistoryRepository WalletHistoryRepository => _walletHistoryRepository;
     public IWalletRepository WalletRepository => _walletRepository;
-    
+
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         => await _dbContext.SaveChangesAsync(cancellationToken);
 }

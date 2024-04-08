@@ -1,5 +1,4 @@
-﻿using Domain.Entities.Commons;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Application.Filters;
 

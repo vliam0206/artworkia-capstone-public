@@ -1,6 +1,5 @@
 ﻿using Domain.Entities.Commons;
 using Domain.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entitites;
 

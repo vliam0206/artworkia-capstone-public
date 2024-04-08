@@ -1,6 +1,5 @@
 ﻿using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
 
@@ -30,7 +29,7 @@ public class TransactionHistoriesController : ControllerBase
         }
         catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse { ErrorMessage = ex.Message});
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {

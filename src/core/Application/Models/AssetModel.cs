@@ -27,7 +27,7 @@ public class MultiAssetModel
 {
     [Required]
     public Guid ArtworkId { get; set; }
-    public List<SingleAssetModel> Assets { get; set; } = default!; 
+    public List<SingleAssetModel> Assets { get; set; } = default!;
 }
 
 public class SingleAssetModel

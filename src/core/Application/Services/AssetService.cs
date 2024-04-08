@@ -79,19 +79,6 @@ public class AssetService : IAssetService
             assetVM.IsBought = isBought != null;
         }
 
-        // get metadata of asset
-        try
-        {
-            var fileMetaData = await _firebaseService.GetMetadataFileFromFirebaseStorage(assetVM.AssetName, $"{PARENT_FOLDER}/Asset");
-            if (fileMetaData != null)
-            {
-                assetVM.FileMetaData = fileMetaData;
-            }
-        }
-        catch (Exception ex)
-        {
-            //throw new Exception("Cannot get metadata of asset! Maybe file was deleted on cloud storage: " + ex);
-        }
         return assetVM;
     }
 
@@ -171,12 +158,10 @@ public class AssetService : IAssetService
         if (artwork.DeletedOn != null)
             throw new KeyNotFoundException("Tác phẩm đã bị xóa.");
 
-        // lay stt cua hinh anh, dat ten lai hinh anh
-        int latestOrder = await GetLatestOrderOfAssetInArtwork(assetModel.ArtworkId);
-        string newAssetName = assetModel.ArtworkId + "_a" + latestOrder;
+        // dat ten lai hinh anh
+        string newAssetName = $"{Path.GetFileNameWithoutExtension(assetModel.File.FileName)}_{DateTime.Now.Ticks}";
         string folderName = $"{PARENT_FOLDER}/Asset";
         string imageExtension = Path.GetExtension(assetModel.File.FileName); // lay duoi file (.zip, .rar, ...)
-
 
         // upload asset len firebase, lay url
         var url = await _firebaseService.UploadFileToFirebaseStorage(assetModel.File, newAssetName, folderName);
@@ -187,6 +172,9 @@ public class AssetService : IAssetService
         Asset newAsset = _mapper.Map<Asset>(assetModel);
         newAsset.Location = url;
         newAsset.AssetName = newAssetName + imageExtension;
+        newAsset.ContentType = imageExtension.Replace(".", "");
+        newAsset.Size = (ulong) assetModel.File.Length;
+
         await _unitOfWork.AssetRepository.AddAsync(newAsset);
         await _unitOfWork.SaveChangesAsync();
 
@@ -250,7 +238,7 @@ public class AssetService : IAssetService
             if (url == null)
                 throw new Exception("Không thể tải tài nguyên lên đám mây.!");
 
-            Asset newAsset = new Asset()
+            Asset newAsset = new()
             {
                 ArtworkId = multiAssetModel.ArtworkId,
                 AssetTitle = singleAsset.AssetTitle,
@@ -258,7 +246,9 @@ public class AssetService : IAssetService
                 Price = singleAsset.Price,
                 Location = url,
                 AssetName = newAssetName + imageExtension,
-            };
+                ContentType = imageExtension.Replace(".", ""),
+                Size = (ulong) singleAsset.File.Length,
+        };
             await _unitOfWork.AssetRepository.AddAsync(newAsset);
             index++;
         }

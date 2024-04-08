@@ -1,11 +1,10 @@
+using Application.Models;
 using Application.Services.Abstractions;
+using AutoMapper;
 using Domain.Entitites;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
-using AutoMapper;
-using Application.Models;
 
 namespace WebApi.Controllers;
 
@@ -27,7 +26,7 @@ public class CollectionsController : ControllerBase
 
     // GET: api/account/5/collections
     [Route("api/account/{accountId}/[controller]")]
-    [HttpGet]    
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<CollectionVM>>> GetAllCollections(Guid accountId)
     {
         try
@@ -60,12 +59,12 @@ public class CollectionsController : ControllerBase
         catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        }   
+        }
         catch (Exception ex)
         {
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
-    }    
+    }
 
     // POST: api/collections
     [Route("api/[controller]")]
@@ -77,8 +76,8 @@ public class CollectionsController : ControllerBase
         //...
         // add collection
         try
-        {            
-            var collection = _mapper.Map<Collection>(model);        
+        {
+            var collection = _mapper.Map<Collection>(model);
             await _collectionService.CreateCollectionAsync(collection, model.ArtworkId);
             collection = await _collectionService.GetCollectionDetailAsync(collection.Id);
             if (collection == null)
@@ -151,7 +150,7 @@ public class CollectionsController : ControllerBase
     [HttpPost]
     [Authorize]
     public async Task<ActionResult<CollectionVM>> AddArtworkToCollection(Guid id, BookmarkModel model)
-    {        
+    {
         try
         {
             await _collectionService.AddArtworkToCollectionAsync(new Bookmark

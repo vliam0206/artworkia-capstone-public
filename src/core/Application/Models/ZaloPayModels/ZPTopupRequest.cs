@@ -17,7 +17,7 @@ public class TopupModel
 
 public class ZPTopupRequest : IBaseFormRequest
 {
-    public int AppId {  get; set; }
+    public int AppId { get; set; }
     public string PaymentId { get; set; } = default!;
     public string PartnerOrderId { get; set; } = default!;
     public string MUId { get; set; } = default!;

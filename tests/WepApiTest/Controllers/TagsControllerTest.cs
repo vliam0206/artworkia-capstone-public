@@ -1,12 +1,10 @@
-﻿using Domain.Test;
-using FluentAssertions;
+﻿using Application.Models;
+using Domain.Test;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebApi.Controllers;
 using Xunit.Abstractions;
-using Application.Models;
-using Domain.Entitites;
-using Microsoft.AspNetCore.Http;
 
 namespace WepApiTest.Controllers;
 
@@ -30,9 +28,9 @@ public class TagsControllerTest : SetupTest
         // Arrange
         var mockTags = new List<TagVM>
         {
-            new TagVM { TagName = "Tag1" },
-            new TagVM { TagName = "Tag2" },
-            new TagVM { TagName = "Tag3" }
+            new() { TagName = "Tag1" },
+            new() { TagName = "Tag2" },
+            new() { TagName = "Tag3" }
         };
         _tagServiceMock.Setup(service => service.GetAllTagsAsync())
             .ReturnsAsync(mockTags);

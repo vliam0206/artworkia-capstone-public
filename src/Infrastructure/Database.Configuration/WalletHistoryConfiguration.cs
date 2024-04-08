@@ -10,7 +10,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
     public void Configure(EntityTypeBuilder<WalletHistory> builder)
     {
         builder.ToTable(nameof(WalletHistory));
-        
+
         builder.Property(x => x.Id).HasDefaultValueSql("newid()");
         builder.Property(x => x.CreatedOn).HasDefaultValueSql("getutcdate()");
         builder.HasIndex(x => x.AppTransId).IsUnique();
@@ -27,8 +27,8 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
-                Type = WalletHistoryTypeEnum.Deposit,                
-                Amount = 200,
+                Type = WalletHistoryTypeEnum.Deposit,
+                Amount = 20000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-07T08:30:03.678Z"),
                 AppTransId = "240128_7635981"
@@ -39,7 +39,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
-                Amount = 2500,
+                Amount = 25000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-10T14:20:10.234Z"),
                 AppTransId = "180623_2054176"
@@ -50,7 +50,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Withdraw,
-                Amount = 2000,
+                Amount = 20000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-13T19:59:59.000Z"),
                 AppTransId = "210430_6849203"
@@ -61,7 +61,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
-                Amount = 300,
+                Amount = 30000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-12-10T05:40:28.901Z"),
                 AppTransId = "190815_3095728"
@@ -74,7 +74,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
-                Amount = 200,
+                Amount = 20000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-16T02:37:42.345Z"),
                 AppTransId = "220506_1478963"
@@ -85,7 +85,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
-                Amount = 2500,
+                Amount = 250000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-28T18:30:15.567Z"),
                 AppTransId = "231112_8023456"
@@ -96,7 +96,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Withdraw,
-                Amount = 1700,
+                Amount = 170000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-30T23:59:59.999Z"),
                 AppTransId = "200925_6193840"
@@ -109,7 +109,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000004"), // thong
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
-                Amount = 200,
+                Amount = 20000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-19T05:40:28.901Z"),
                 AppTransId = "171212_4357692"
@@ -120,7 +120,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000004"), // thong
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
-                Amount = 2500,
+                Amount = 250000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-28T18:30:15.567Z"),
                 AppTransId = "160509_9270134"
@@ -131,7 +131,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000004"), // thong
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Withdraw,
-                Amount = 1700,
+                Amount = 170000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-12-10T05:40:28.901Z"),
                 AppTransId = "250321_4685027"
@@ -144,7 +144,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
-                Amount = 200,
+                Amount = 20000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-22T05:37:42.345Z"),
                 AppTransId = "231205_7890123"
@@ -155,7 +155,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
-                Amount = 2500,
+                Amount = 250000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-15T03:45:20.123Z"),
                 AppTransId = "200703_4567890"
@@ -166,7 +166,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Withdraw,
-                Amount = 1700,
+                Amount = 170000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-12-05T02:37:42.345Z"),
                 AppTransId = "180924_1234567"
@@ -179,7 +179,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000001"), //user
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
-                Amount = 3000,
+                Amount = 300000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-03T10:45:20.123Z"),
                 AppTransId = "210817_8901234"
@@ -190,7 +190,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000001"), //user
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Withdraw,
-                Amount = 1500,
+                Amount = 150000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-17T02:59:59.000Z"),
                 AppTransId = "220129_5678901"
@@ -201,7 +201,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000001"), //user
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
-                Amount = 500,
+                Amount = 50000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-05T18:20:45.890Z"),
                 AppTransId = "160827_3456789"

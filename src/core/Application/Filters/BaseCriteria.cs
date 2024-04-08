@@ -1,18 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities.Commons;
+namespace Application.Filters;
 
-public class PagedCriteria 
+public class PagedCriteria
 {
     const int maxPageSize = 50;
-    [Range(1, Double.PositiveInfinity, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
+    [Range(1, double.PositiveInfinity, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
     public int PageNumber { get; set; } = 1;
     private int _pageSize = 10;
     [Range(1, 50, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
     public int PageSize
     {
         get => _pageSize;
-        set => _pageSize = (value > maxPageSize) ? maxPageSize : value;
+        set => _pageSize = value > maxPageSize ? maxPageSize : value;
     }
 }
 public class BaseCriteria : PagedCriteria

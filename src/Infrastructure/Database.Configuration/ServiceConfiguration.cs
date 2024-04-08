@@ -9,7 +9,7 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
     public void Configure(EntityTypeBuilder<Service> builder)
     {
         builder.ToTable(nameof(Service));
-        
+
         builder.Property(x => x.Id).HasDefaultValueSql("newid()");
         builder.Property(x => x.CreatedOn).HasDefaultValueSql("getutcdate()");
         builder.Property(x => x.LastModificatedOn).HasDefaultValueSql("getutcdate()");

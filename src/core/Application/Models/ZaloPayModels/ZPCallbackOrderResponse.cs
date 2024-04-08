@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
-using Application.Commons;
+﻿using Application.Commons;
 
 namespace Application.Models.ZaloPayModels;
 
@@ -11,7 +9,7 @@ public class ZPCallbackOrderResponse
     public string Data { get; set; } = default!;
     public CallbackOrderData? ToCallbackOrderData()
     {
-        var result = JsonConvertHelper<CallbackOrderData>.ConvertSnakeJsonToObject(Data);        
+        var result = JsonConvertHelper<CallbackOrderData>.ConvertSnakeJsonToObject(Data);
         return result;
     }
 }

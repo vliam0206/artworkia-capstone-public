@@ -31,7 +31,7 @@ public class FollowRepository : IFollowRepository
     {
         return await _dbContext.Follows
             .Where(x => x.FollowedId == followingId)
-            .Include(x => x.Following)            
+            .Include(x => x.Following)
             .ToListAsync();
     }
     public async Task AddFollowAsync(Follow follow)

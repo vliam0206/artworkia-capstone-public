@@ -1,9 +1,9 @@
-﻿using Domain.Entitites;
-using Infrastructure.Repositories.Commons;
+﻿using Application.Services.Abstractions;
+using Domain.Entities.Commons;
+using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
-using Application.Services.Abstractions;
-using Domain.Entities.Commons;
+using Infrastructure.Repositories.Commons;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -42,7 +42,7 @@ public class ReviewRepository : GenericCreationRepository<Review>, IReviewReposi
         }
         if (accountId != null)
         {
-               allReviews = allReviews.Where(r => r.CreatedBy == accountId);
+            allReviews = allReviews.Where(r => r.CreatedBy == accountId);
         }
         if (!string.IsNullOrEmpty(keyword))
         {

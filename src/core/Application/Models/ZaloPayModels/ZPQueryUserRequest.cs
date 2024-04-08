@@ -11,7 +11,7 @@ public class UserQueryModel
 public class ZPQueryUserRequest : IBaseFormRequest
 {
     public string RequestId { get; set; } = Guid.NewGuid().ToString();
-    public int AppId { get; set; }    
+    public int AppId { get; set; }
     public string Phone { get; set; } = default!;
     public long Time { get; set; }
     public string Mac { get; set; } = default!;

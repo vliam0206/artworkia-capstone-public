@@ -2,7 +2,7 @@
 
 namespace Domain.Repositories.Abstractions;
 
-public interface ISoftwareDetailRepository 
+public interface ISoftwareDetailRepository
 {
     Task<List<SoftwareDetail>> GetAllSoftwareDetailsOfSoftwareAsync(Guid artworkId);
     Task AddSoftwareDetailAsync(SoftwareDetail softwareDetail);

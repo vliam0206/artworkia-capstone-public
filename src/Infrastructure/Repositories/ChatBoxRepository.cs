@@ -15,7 +15,7 @@ public class ChatBoxRepository : GenericRepository<ChatBox>, IChatBoxRepository
     public async Task<ChatBox?> GetChatBoxAsync(Guid audienceId, Guid creatorId)
     {
         return await _dbContext.ChatBoxes
-            .FirstOrDefaultAsync(x => 
+            .FirstOrDefaultAsync(x =>
             (x.AccountId_1 == audienceId && x.AccountId_2 == creatorId) ||
             (x.AccountId_1 == creatorId && x.AccountId_2 == audienceId));
     }
