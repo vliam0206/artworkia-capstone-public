@@ -3,6 +3,7 @@ using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services;
 
@@ -27,21 +28,22 @@ public class BlockService : IBlockService
     {
         Guid blockingId = _claimService.GetCurrentUserId ?? default;
         
-        var blockedAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(blockModel.BlockedId);
-        if (!blockedAccountExist)
+        Account blockedAccountExist = await _unitOfWork.AccountRepository.GetByIdAsync(blockModel.BlockedId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy tài khoản muốn chặn.");
+        if (blockedAccountExist.Role != Domain.Enums.RoleEnum.CommonUser)
         {
-            throw new KeyNotFoundException("Không tìm thấy tài khoản muốn chặn.");
+            throw new UnauthorizedAccessException("Không thể chặn tài khoản quản trị hệ thống.");
         }
 
         if (blockingId == blockModel.BlockedId)
         {
-            throw new Exception("Không thể chặn chính mình.");
+            throw new BadHttpRequestException("Không thể chặn chính mình.");
         }
 
         var tempBlock = await _unitOfWork.BlockRepository.GetByIdAsync(blockingId, blockModel.BlockedId);
         if (tempBlock != null)
         {
-            throw new Exception("Bạn đã chặn tài khoản này.");
+            throw new BadHttpRequestException("Bạn đã chặn tài khoản này.");
         }
 
         // delete follow if exist and vice versa
@@ -77,7 +79,7 @@ public class BlockService : IBlockService
         var block = await _unitOfWork.BlockRepository.GetByIdAsync(blockingId, blockedId);
         if (block == null)
         {
-            throw new KeyNotFoundException("Bạn đã gỡ chặn.");
+            throw new KeyNotFoundException("Bạn chưa chặn tài khoản này trước đó.");
         }
         // hard delete block in db
         _unitOfWork.BlockRepository.DeleteBlock(block);

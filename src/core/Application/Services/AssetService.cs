@@ -51,6 +51,10 @@ public class AssetService : IAssetService
 
     public async Task<IPagedList<AssetVM>> GetAssetsOfAccountAsync(Guid accountId, AssetCriteria criteria)
     {
+        bool isAccountExisted = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
+        if (!isAccountExisted)
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
+
         var listAsset = await _unitOfWork.AssetRepository.GetAllAssetsAsync(
             accountId, criteria.MinPrice, criteria.MaxPrice, criteria.Keyword, criteria.SortColumn, criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
         var listAssetVM = _mapper.Map<PagedList<AssetVM>>(listAsset);
@@ -65,7 +69,7 @@ public class AssetService : IAssetService
         if (asset == null)
             throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
         if (asset.DeletedOn != null)
-            throw new Exception("Tài nguyên đã bị xóa.");
+            throw new KeyNotFoundException("Tài nguyên đã bị xóa.");
         var assetVM = _mapper.Map<AssetVM>(asset);
 
         // check if user is logged in
@@ -108,10 +112,10 @@ public class AssetService : IAssetService
             return asset.Location;
 
         if (asset.DeletedOn != null)
-            throw new Exception("Tài nguyên đã bị xóa.");
+            throw new KeyNotFoundException("Tài nguyên đã bị xóa.");
 
         if (asset.Price > 0)
-            throw new Exception("Bạn chưa mua tài nguyên này.");
+            throw new UnauthorizedAccessException("Bạn chưa mua tài nguyên này.");
 
         return asset.Location;
     }
@@ -165,7 +169,7 @@ public class AssetService : IAssetService
         if (artwork == null)
             throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         if (artwork.DeletedOn != null)
-            throw new Exception("Tác phẩm đã bị xóa.");
+            throw new KeyNotFoundException("Tác phẩm đã bị xóa.");
 
         // lay stt cua hinh anh, dat ten lai hinh anh
         int latestOrder = await GetLatestOrderOfAssetInArtwork(assetModel.ArtworkId);
@@ -268,7 +272,7 @@ public class AssetService : IAssetService
     {
         var result = await _unitOfWork.AssetRepository.GetByIdAsync(assetId);
         if (result == null)
-            throw new Exception("Không tìm thấy tài nguyên.");
+            throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
         _unitOfWork.AssetRepository.SoftDelete(result);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -288,15 +292,21 @@ public class AssetService : IAssetService
 
     public async Task<List<AssetVM>> GetAllAssetsOfArtworkAsync(Guid artworkId)
     {
+        bool isArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(artworkId);
+        if (!isArtworkExisted)
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
+
         var listAssetOfArtwork = await _unitOfWork.AssetRepository.GetListByConditionAsync(x => x.ArtworkId == artworkId);
-        if (listAssetOfArtwork == null)
-            throw new KeyNotFoundException("Tác phẩm này không có tài nguyên nào.");
         var listAssetVMOfArtwork = _mapper.Map<List<AssetVM>>(listAssetOfArtwork);
         return listAssetVMOfArtwork;
     }
 
     public async Task<IPagedList<AssetVM>> GetAssetsBoughtOfAccountAsync(Guid accountId, PagedCriteria criteria)
     {
+        bool isAccountExisted = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
+        if (!isAccountExisted)
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
+
         var transactionAssets = await _unitOfWork.TransactionHistoryRepository.GetAssetsBoughtOfAccountAsync(accountId, criteria.PageNumber, criteria.PageSize);
         List<AssetVM> listAssetVM = new();
         foreach (var transaction in transactionAssets.Items)

@@ -22,7 +22,7 @@ public class ChatBoxService : IChatBoxService
         var accountExist = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
         if (!accountExist)
         {
-            throw new ArgumentException("Không tìm thấy tài khoản");
+            throw new KeyNotFoundException("Không tìm thấy tài khoản");
         }
         var chats = await _unitOfWork.ChatBoxRepository.GetChatBoxListAsync(accountId);
         return _mapper.Map<List<ChatBoxVM>>(chats);

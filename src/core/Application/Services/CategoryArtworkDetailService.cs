@@ -34,7 +34,7 @@ public class CategoryArtworkDetailService : ICategoryArtworkDetailService
         var artwork = _unitOfWork.ArtworkRepository.GetByIdAsync(categoryListArtworkModel.ArtworkId);
         if (artwork == null)
         {
-            throw new Exception("Không tìm thấy tác phẩm.");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         }
 
         var categoryList = categoryListArtworkModel.CategoryList;

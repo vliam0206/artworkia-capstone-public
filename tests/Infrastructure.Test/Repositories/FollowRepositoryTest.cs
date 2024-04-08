@@ -90,9 +90,9 @@ public class FollowRepositoryTest : SetupTest
             var account = MockAccountList(1).FirstOrDefault()!;
             mockData.Add(new Follow
             {
-                FollowingId = account.Id,
-                FollowedId = followerId,
-                Following = account
+                FollowingId = followerId,
+                FollowedId = account.Id,
+                Followed = account
             });
         }
         await _dbContext.Follows.AddRangeAsync(mockData);
@@ -129,9 +129,9 @@ public class FollowRepositoryTest : SetupTest
             var follower = MockAccountList(1).FirstOrDefault()!;
             mockData.Add(new Follow
             {
-                FollowingId = followingId,
-                FollowedId = follower.Id,
-                Followed = follower
+                FollowingId = follower.Id,
+                FollowedId = followingId,
+                Following = follower
             });
         }
         await _dbContext.Follows.AddRangeAsync(mockData);

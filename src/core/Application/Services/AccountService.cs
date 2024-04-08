@@ -54,7 +54,7 @@ public class AccountService : IAccountService
         }
         if (account.DeletedOn != null)
         {
-            throw new Exception("Tài khoản này đã bị xóa.");
+            throw new KeyNotFoundException("Tài khoản này đã bị xóa.");
         }
 
         // check if user is logged in
@@ -63,12 +63,21 @@ public class AccountService : IAccountService
             // check if account is blocking or blocked
             if (await _unitOfWork.BlockRepository.IsBlockedOrBlockingAsync(loginId.Value, accountId))
             {
-                throw new Exception("Không tìm thấy tài khoản vì chặn hoặc bị chặn.");
+                throw new BadHttpRequestException("Không tìm thấy tài khoản vì chặn hoặc bị chặn.");
             }
         }
 
         var accountVM = _mapper.Map<AccountVM>(account);
         return accountVM;
+    }
+
+    public async Task<PagedList<AccountVM>> GetAccountsAsync(AccountCriteria criteria)
+    {
+        var listAccount = await _unitOfWork.AccountRepository.GetAllAccountsAsync(
+                       criteria.Keyword, criteria.SortColumn, criteria.SortOrder,
+                                  criteria.PageNumber, criteria.PageSize);
+        var listAccountVM = _mapper.Map<PagedList<AccountVM>>(listAccount);
+        return listAccountVM;
     }
 
     public async Task<Account?> GetAccountByUsernameAsync(string username)
@@ -88,7 +97,7 @@ public class AccountService : IAccountService
         var errMsg = await ValidateAccountAsync(account);
         if (!string.IsNullOrEmpty(errMsg))
         {
-            throw new Exception(errMsg);
+            throw new BadHttpRequestException(errMsg);
         }
         // account valid -> add new account in db
         if (account.Password != null)
@@ -111,7 +120,7 @@ public class AccountService : IAccountService
         var errMsg = await ValidateAccountAsync(account);
         if (!string.IsNullOrEmpty(errMsg))
         {
-            throw new Exception(errMsg);
+            throw new BadHttpRequestException(errMsg);
         }
         // account valid -> update account in db
         _unitOfWork.AccountRepository.Update(account);
@@ -123,11 +132,11 @@ public class AccountService : IAccountService
         var account = await _unitOfWork.AccountRepository.GetByIdAsync(id);
         if (account == null)
         {
-            throw new ArgumentException("Không tìm thấy tài khoản.");
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
         }
         if (account.DeletedOn != null)
         {
-            throw new Exception("Tài khoản này đã bị xóa.");
+            throw new KeyNotFoundException("Tài khoản này đã bị xóa.");
         }
         // soft delete account in db
         _unitOfWork.AccountRepository.SoftDelete(account);
@@ -139,7 +148,7 @@ public class AccountService : IAccountService
         var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId);
         if (account == null)
         {
-            throw new ArgumentException("Không tìm thấy tài khoản.");
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
         }
         // check authorized
         if (account.Id != _claimService.GetCurrentUserId)
@@ -188,7 +197,7 @@ public class AccountService : IAccountService
         var account = await _unitOfWork.AccountRepository.GetByIdAsync(id);
         if (account == null)
         {
-            throw new ArgumentException("Không tìm thấy tài khoản.");
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
         }
         if (account.DeletedOn == null)
         {
@@ -198,15 +207,6 @@ public class AccountService : IAccountService
         account.DeletedBy = null;
         _unitOfWork.AccountRepository.Update(account);
         await _unitOfWork.SaveChangesAsync();
-    }
-
-    public async Task<PagedList<AccountVM>> GetAccountsAsync(AccountCriteria criteria)
-    {
-        var listAccount = await _unitOfWork.AccountRepository.GetAllAccountsAsync(
-                       criteria.Keyword, criteria.SortColumn, criteria.SortOrder, 
-                                  criteria.PageNumber, criteria.PageSize);
-        var listAccountVM = _mapper.Map<PagedList<AccountVM>>(listAccount);
-        return listAccountVM;
     }
 
     public async Task<PagedList<HiredAccountVM>> GetHiredAccountAsync(PagedCriteria pagedCriteria)
@@ -222,7 +222,7 @@ public class AccountService : IAccountService
         var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId);
         if (account == null)
         {
-            throw new ArgumentException("Không tìm thấy tài khoản.");
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
         }
 
         // change avatar

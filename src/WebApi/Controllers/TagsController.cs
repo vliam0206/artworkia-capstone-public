@@ -4,8 +4,7 @@ using AutoMapper;
 using Domain.Entities.Commons;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels.Commons;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 [Route("api/[controller]")]
@@ -29,13 +28,9 @@ public class TagsController : ControllerBase
             var result = await _tagService.GetAllTagsAsync();
             return Ok(result);
         }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -47,13 +42,9 @@ public class TagsController : ControllerBase
             var result = await _tagService.GetTagsAsync(criteria);
             return Ok(result);
         }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -66,13 +57,9 @@ public class TagsController : ControllerBase
             var result = await _tagService.SearchTagsByNameAsync(keyword);
             return Ok(result);
         }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -90,7 +77,7 @@ public class TagsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -109,7 +96,7 @@ public class TagsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -121,7 +108,6 @@ public class TagsController : ControllerBase
         if (!_tagService.IsTagValid(tagModel.TagName))
             return BadRequest(new ApiResponse
             {
-                IsSuccess = false,
                 ErrorMessage = $"Tên thẻ '{tagModel.TagName}' không phù hợp (chỉ bao gồm chữ in thường, in hoa, chữ số, khoảng cách, 2-30 kí tự)."
             });
         try
@@ -129,13 +115,13 @@ public class TagsController : ControllerBase
             TagVM tagVM = await _tagService.AddTagAsync(tagModel);
             return CreatedAtAction(nameof(GetTagById), new { tagId = tagVM.Id }, tagVM);
         }
-        catch (KeyNotFoundException ex)
+        catch (BadHttpRequestException ex)
         {
-            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -147,7 +133,6 @@ public class TagsController : ControllerBase
         if (!_tagService.IsTagValid(tagModel.TagName))
             return BadRequest(new ApiResponse
             {
-                IsSuccess = false,
                 ErrorMessage = $"Tên thẻ '{tagModel.TagName}' không phù hợp (chỉ bao gồm chữ in thường, in hoa, chữ số, khoảng cách, 2-30 kí tự)."
             });
 
@@ -160,9 +145,13 @@ public class TagsController : ControllerBase
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
+        catch (BadHttpRequestException ex)
+        {
+               return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

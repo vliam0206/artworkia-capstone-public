@@ -7,6 +7,8 @@ using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
+using static Application.Commons.VietnameseEnum;
 
 namespace Application.Services;
 public class ReportService : IReportService
@@ -49,9 +51,8 @@ public class ReportService : IReportService
 
     public async Task<ReportVM?> GetReportByIdAsync(Guid reportId)
     {
-        var result = await _unitOfWork.ReportRepository.GetByIdAsync(reportId);
-        if (result == null)
-            throw new KeyNotFoundException("Không tìm thấy báo cáo.");
+        var result = await _unitOfWork.ReportRepository.GetByIdAsync(reportId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy báo cáo.");
         var resultVM = _mapper.Map<ReportVM>(result);
         return resultVM;
     }
@@ -77,7 +78,7 @@ public class ReportService : IReportService
                 throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         }
         else
-            throw new Exception("Không tìm thấy đối tượng báo cáo.");
+            throw new KeyNotFoundException("Không tìm thấy đối tượng báo cáo.");
 
         var report = _mapper.Map<Report>(reportModel);
         report.State = StateEnum.Waiting;
@@ -90,9 +91,8 @@ public class ReportService : IReportService
 
     public async Task DeleteReportAsync(Guid reportId)
     {
-        var result = await _unitOfWork.ReportRepository.GetByIdAsync(reportId);
-        if (result == null)
-            throw new KeyNotFoundException("Không tìm thấy báo cáo.");
+        var result = await _unitOfWork.ReportRepository.GetByIdAsync(reportId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy báo cáo.");
         _unitOfWork.ReportRepository.Delete(result);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -103,7 +103,8 @@ public class ReportService : IReportService
         if (oldReport == null)
             throw new KeyNotFoundException("Không tìm thấy báo cáo.");
         if (oldReport.State != StateEnum.Waiting)
-            throw new Exception($"Báo cáo này đã được giải quyết (trạng thái hiện tại là {oldReport.State})");
+            throw new BadHttpRequestException($"Báo cáo này đã được giải quyết " +
+                $"(trạng thái hiện tại là '{STATE_ENUM_VN[oldReport.State]}')");
         oldReport.State = reportStateEM.State;
         oldReport.Note = reportStateEM.Note;
         _unitOfWork.ReportRepository.Update(oldReport);

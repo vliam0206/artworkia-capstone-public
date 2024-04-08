@@ -39,12 +39,8 @@ public class TagDetailService : ITagDetailService
 
     public async Task AddTagListArtworkAsync(TagListArtworkModel tagListArtworkModel, bool isSaveChanges = true)
     {
-        var artwork = _unitOfWork.ArtworkRepository.GetByIdAsync(tagListArtworkModel.ArtworkId);
-        if (artwork == null)
-        {
-            throw new Exception("Không tìm thấy tác phẩm.");
-        }
-
+        var artwork = _unitOfWork.ArtworkRepository.GetByIdAsync(tagListArtworkModel.ArtworkId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         var tagList = tagListArtworkModel.TagList;
         foreach (string tag in tagList)
         {
@@ -87,7 +83,7 @@ public class TagDetailService : ITagDetailService
         Guid? tagId = tag?.Id;
         if (tag == null)
         {
-            Tag newTag = new Tag()
+            Tag newTag = new()
             {
                 TagName = tagDetailModel.TagName
             };
@@ -96,7 +92,7 @@ public class TagDetailService : ITagDetailService
         }
         if (tagId != null)
         {
-            TagDetail tagDetail = new TagDetail()
+            TagDetail tagDetail = new()
             {
                 ArtworkId = tagDetailModel.ArtworkId,
                 TagId = tagId.Value

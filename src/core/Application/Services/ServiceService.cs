@@ -8,6 +8,7 @@ using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services;
 
@@ -46,6 +47,12 @@ public class ServiceService : IServiceService
 
     public async Task<IPagedList<ServiceVM>> GetServicesOfAccountAsync(Guid accountId, ServiceCriteria criteria)
     {
+        bool isAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
+        if (!isAccountExist)
+        {
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
+        }
+
         var listService = await _unitOfWork.ServiceRepository.GetAllServicesAsync(
             accountId, criteria.MinPrice, criteria.MaxPrice, criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
@@ -57,11 +64,11 @@ public class ServiceService : IServiceService
     {
         Guid? accountId = _claimService.GetCurrentUserId;
 
-        var service = await _unitOfWork.ServiceRepository.GetServiceByIdAsync(serviceId);
-        if (service == null)
-            throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
+        var service = await _unitOfWork.ServiceRepository.GetServiceByIdAsync(serviceId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
+
         if (service.DeletedOn != null)
-            throw new Exception("Dịch vụ đã xóa.");
+            throw new KeyNotFoundException("Dịch vụ đã xóa.");
 
         var serviceVM = _mapper.Map<ServiceVM>(service);
 
@@ -71,7 +78,7 @@ public class ServiceService : IServiceService
             // check if account is blocking or blocked
             if (await _unitOfWork.BlockRepository.IsBlockedOrBlockingAsync(accountId.Value, serviceVM.CreatedBy!.Value))
             {
-                throw new Exception("Không thể xem dịch vụ vì chặn hoặc bị chặn.");
+                throw new BadHttpRequestException("Không thể xem dịch vụ vì chặn hoặc bị chặn.");
             }
         }
         return serviceVM;
@@ -82,26 +89,24 @@ public class ServiceService : IServiceService
         Guid creatorId = _claimService.GetCurrentUserId ?? default;
         foreach (var artworkId in serviceModel.ArtworkReference)
         {
-            var artworkExistInDb = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
-            if (artworkExistInDb == null)
-            {
-                throw new KeyNotFoundException($"Không tìm thấy tác phẩm. (ID: {artworkId})");
-            }
+            var artworkExistInDb = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId) 
+                ?? throw new KeyNotFoundException($"Không tìm thấy tác phẩm. (ID: {artworkId})");
             if (artworkExistInDb.DeletedOn != null)
             {
-                throw new Exception($"Tác phẩm đã bị xóa. (ID: {artworkId})");
+                throw new KeyNotFoundException($"Tác phẩm đã bị xóa. (ID: {artworkId})");
             }
             if (artworkExistInDb.CreatedBy != creatorId)
             {
-                throw new Exception($"Bạn không sở hữu tác phẩm này. (ID: {artworkId})");
+                throw new UnauthorizedAccessException($"Bạn không sở hữu tác phẩm này. (ID: {artworkId})");
             }
             if (artworkExistInDb.Privacy != PrivacyEnum.Public)
             {
-                throw new Exception($"Tác phẩm không ở chế độ công khai. (ID: {artworkId})");
+                throw new BadHttpRequestException($"Tác phẩm không ở chế độ công khai. (ID: {artworkId})");
             }
             if (artworkExistInDb.State != StateEnum.Accepted)
             {
-                throw new Exception($"Tác phẩm chưa được chấp thuận. (ID: {artworkId}, trạng thái hiện tại: {artworkExistInDb.State})");
+                throw new BadHttpRequestException($"Tác phẩm chưa được chấp thuận. (ID: {artworkId}, " +
+                    $"trạng thái hiện tại: {artworkExistInDb.State})");
             }
         }
 
@@ -110,9 +115,9 @@ public class ServiceService : IServiceService
         string folderName = $"{PARENT_FOLDER}/Thumbnail";
 
         // them thumbnail image vao firebase
-        var url = await _firebaseService.UploadFileToFirebaseStorage(serviceModel.Thumbnail, newThumbnailName, folderName);
-        if (url == null)
-            throw new Exception("Không thể tải ảnh đại diện dịch vụ lên đám mây.");
+        var url = await _firebaseService.UploadFileToFirebaseStorage(
+            serviceModel.Thumbnail, newThumbnailName, folderName)
+            ?? throw new Exception("Không thể tải ảnh đại diện dịch vụ lên đám mây.");
         newService.Thumbnail = url;
 
         await _unitOfWork.ServiceRepository.AddAsync(newService);
@@ -159,11 +164,8 @@ public class ServiceService : IServiceService
     {
         Guid creatorId = _claimService.GetCurrentUserId ?? default;
 
-        var oldService = await _unitOfWork.ServiceRepository.GetByIdAsync(serviceId);
-        if (oldService == null)
-        {
-            throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
-        }
+        var oldService = await _unitOfWork.ServiceRepository.GetByIdAsync(serviceId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
 
         if (serviceEM.ArtworkReference != null)
         {
@@ -176,19 +178,19 @@ public class ServiceService : IServiceService
                 }
                 if (artworkExistInDb.DeletedOn != null)
                 {
-                    throw new Exception($"Tác phẩm đã bị xóa. (ID: {artworkId})");
+                    throw new KeyNotFoundException($"Tác phẩm đã bị xóa. (ID: {artworkId})");
                 }
                 if (artworkExistInDb.CreatedBy != creatorId)
                 {
-                    throw new Exception($"Bạn không sở hữu tác phẩm này. (ID: {artworkId})");
+                    throw new UnauthorizedAccessException($"Bạn không sở hữu tác phẩm này. (ID: {artworkId})");
                 }
                 if (artworkExistInDb.Privacy != PrivacyEnum.Public)
                 {
-                    throw new Exception($"Tác phẩm không ở chế độ công khai. (ID: {artworkId})");
+                    throw new BadHttpRequestException($"Tác phẩm không ở chế độ công khai. (ID: {artworkId})");
                 }
                 if (artworkExistInDb.State != StateEnum.Accepted)
                 {
-                    throw new Exception($"Tác phẩm chưa được chấp thuận. (ID: {artworkId}, trạng thái hiện tại: {artworkExistInDb.State})");
+                    throw new BadHttpRequestException($"Tác phẩm chưa được chấp thuận. (ID: {artworkId}, trạng thái hiện tại: {artworkExistInDb.State})");
                 }
             }
         }

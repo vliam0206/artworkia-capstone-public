@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 

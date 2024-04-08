@@ -4,7 +4,6 @@ using Application.Models.ZaloPayModels;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
-using WebApi.ViewModels;
 namespace WebApi;
 
 public class MappingProfile : Profile

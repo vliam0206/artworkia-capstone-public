@@ -1,14 +1,10 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
-using Application.Services.Firebase;
 using AutoMapper;
-using Domain.Entitites;
-using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 
 namespace WebApi.Controllers
 {
@@ -28,8 +24,15 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllImages()
         {
-            var result = await _imageService.GetAllImagesAsync();
-            return Ok(result);
+            try
+            {
+                var result = await _imageService.GetAllImagesAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+            }
         }
 
         [HttpGet("{imageId}/duplication")]
@@ -46,7 +49,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -60,13 +63,9 @@ namespace WebApi.Controllers
                     return NotFound();
                 return Ok(result);
             }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-            }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -81,11 +80,14 @@ namespace WebApi.Controllers
             {
                 await _imageService.AddImageAsync(imageModel);
                 return Ok();
-
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new ApiResponse { ErrorMessage = ex.Message });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -103,7 +105,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -122,7 +124,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
             }
         }
     }

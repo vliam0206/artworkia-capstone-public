@@ -51,7 +51,7 @@ public class CollectionService : ICollectionService
         var oldCollection = await _unitOfWork.CollectionRepository.GetByIdAsync(collectionId);
         if (oldCollection == null)
         {
-            throw new ArgumentException("Không tìm thấy bộ sưu tập.");
+            throw new KeyNotFoundException("Không tìm thấy bộ sưu tập.");
         }
         var currentUserId = _claimService.GetCurrentUserId;
         if (currentUserId == null || oldCollection.CreatedBy != currentUserId)
@@ -69,7 +69,7 @@ public class CollectionService : ICollectionService
         var collection = await _unitOfWork.CollectionRepository.GetByIdAsync(collectionId);
         if (collection == null)
         {
-            throw new ArgumentException("Không tìm thấy bộ sưu tập.");
+            throw new KeyNotFoundException("Không tìm thấy bộ sưu tập.");
         }
         _unitOfWork.CollectionRepository.Delete(collection);
         await _unitOfWork.SaveChangesAsync();
@@ -95,7 +95,7 @@ public class CollectionService : ICollectionService
         }
         if (!errMsg.IsNullOrEmpty())
         {
-            throw new ArgumentException(errMsg);
+            throw new KeyNotFoundException(errMsg);
         }
         // check authorization
         if (_claimService.GetCurrentUserId == null 
@@ -123,7 +123,7 @@ public class CollectionService : ICollectionService
                 .GetByIdAsync(bookmark.CollectionId, bookmark.ArtworkId);
         if (deletedBookmark == null)
         {
-            throw new ArgumentException("Bạn chưa lưu tác phẩm này vào bộ sưu tập này.");
+            throw new BadHttpRequestException("Bạn chưa lưu tác phẩm này vào bộ sưu tập này.");
         }        
 
         // remove artwork to collection (delete bookmark)

@@ -1,11 +1,9 @@
-using Application.Services;
 using Application.Services.Abstractions;
 using Domain.Entitites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels.Commons;
-using WebApi.ViewModels;
+using WebApi.Utils;
 using AutoMapper;
 using Application.Models;
 
@@ -41,7 +39,7 @@ public class CollectionsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -50,12 +48,23 @@ public class CollectionsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<CollectionDetailVM>> GetCollection(Guid id)
     {
-        var collection = await _collectionService.GetCollectionDetailAsync(id);
-        if (collection == null)
+        try
         {
-            return NotFound(new ApiResponse { ErrorMessage = "Collection Id not found!" });
+            var collection = await _collectionService.GetCollectionDetailAsync(id);
+            if (collection == null)
+            {
+                return NotFound(new ApiResponse { ErrorMessage = "Collection Id not found!" });
+            }
+            return Ok(_mapper.Map<CollectionDetailVM>(collection));
         }
-        return Ok(_mapper.Map<CollectionDetailVM>(collection));
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }   
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
     }    
 
     // POST: api/collections
@@ -67,22 +76,22 @@ public class CollectionsController : ControllerBase
         // check enum value
         //...
         // add collection
-        var collection = _mapper.Map<Collection>(model);        
         try
         {            
+            var collection = _mapper.Map<Collection>(model);        
             await _collectionService.CreateCollectionAsync(collection, model.ArtworkId);
             collection = await _collectionService.GetCollectionDetailAsync(collection.Id);
             if (collection == null)
             {
                 return StatusCode(500, new ApiResponse { ErrorMessage = "Server failed to create collection!" });
             }
+            return CreatedAtAction("GetCollection", new { id = collection.Id }, _mapper.Map<CollectionDetailVM>(collection));
         }
         catch (Exception ex)
         {
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
 
-        return CreatedAtAction("GetCollection", new { id = collection.Id }, _mapper.Map<CollectionDetailVM>(collection));
     }
 
     // PUT: api/collections/5
@@ -94,13 +103,14 @@ public class CollectionsController : ControllerBase
         // check whether enum value valid
         //...
         // Update collection
-        var collection = new Collection();
         try
         {
+            var collection = new Collection();
             await _collectionService.UpdateCollectionAsync(id, model);
             collection = await _collectionService.GetCollectionDetailAsync(id);
+            return Ok(_mapper.Map<CollectionVM>(collection));
         }
-        catch (ArgumentException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
@@ -113,7 +123,6 @@ public class CollectionsController : ControllerBase
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
 
-        return Ok(_mapper.Map<CollectionVM>(collection));
     }
 
     // DELETE: api/collections/5
@@ -125,8 +134,9 @@ public class CollectionsController : ControllerBase
         try
         {
             await _collectionService.DeleteCollectionAsync(id);
+            return NoContent();
         }
-        catch (ArgumentException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
@@ -134,8 +144,6 @@ public class CollectionsController : ControllerBase
         {
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
-
-        return NoContent();
     }
 
     // POST: api/collections/5/add-artwork
@@ -151,8 +159,9 @@ public class CollectionsController : ControllerBase
                 CollectionId = id,
                 ArtworkId = model.ArtworkId
             });
+            return Ok(new ApiResponse { IsSuccess = true });
         }
-        catch (ArgumentException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
@@ -169,7 +178,6 @@ public class CollectionsController : ControllerBase
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
 
-        return Ok(new ApiResponse { IsSuccess = true });
     }
 
     // DELETE: api/collections/5/artwork
@@ -185,8 +193,9 @@ public class CollectionsController : ControllerBase
                 CollectionId = id,
                 ArtworkId = model.ArtworkId
             });
+            return NoContent();
         }
-        catch (ArgumentException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
@@ -194,11 +203,13 @@ public class CollectionsController : ControllerBase
         {
             return Forbid();
         }
+        catch (BadHttpRequestException ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
         catch (Exception ex)
         {
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
-
-        return NoContent();
     }
 }

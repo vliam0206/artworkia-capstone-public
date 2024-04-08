@@ -45,7 +45,7 @@ public class SoftwareDetailService : ISoftwareDetailService
             {
                 throw new KeyNotFoundException("Không tìm thấy phần mềm.");
             }
-            SoftwareDetail softwareDetail = new SoftwareDetail
+            SoftwareDetail softwareDetail = new()
             {
                 ArtworkId = model.ArtworkId,
                 SoftwareUsedId = softwareUsed

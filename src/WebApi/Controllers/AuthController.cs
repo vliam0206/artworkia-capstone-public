@@ -8,8 +8,8 @@ using Firebase.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
-using WebApi.ViewModels;
-using WebApi.ViewModels.Commons;
+using Application.Models;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 
@@ -115,7 +115,7 @@ public class AuthController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -154,7 +154,7 @@ public class AuthController : ControllerBase
             return Ok(new ApiResponse { IsSuccess = true });
         } catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
         
     }

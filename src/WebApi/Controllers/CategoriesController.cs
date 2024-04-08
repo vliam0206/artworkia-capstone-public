@@ -1,10 +1,8 @@
 ﻿using Application.Services.Abstractions;
-using Domain.Entitites;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Models;
-using WebApi.ViewModels;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers;
@@ -22,8 +20,15 @@ public class CategoriesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllCategories()
     {
-        var result = await _categoryService.GetAllCategoriesAsync();
-        return Ok(result);
+        try
+        {
+            var result = await _categoryService.GetAllCategoriesAsync();
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
     }
 
     [HttpGet("{categoryId}")]
@@ -40,7 +45,7 @@ public class CategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -54,9 +59,17 @@ public class CategoriesController : ControllerBase
             return CreatedAtAction(nameof(GetCategoryById), 
                 new { categoryId = category.Id }, category);
         }
-        catch (Exception ex)
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -73,9 +86,13 @@ public class CategoriesController : ControllerBase
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
-        catch (Exception ex)
+        catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 

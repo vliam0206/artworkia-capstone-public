@@ -1,4 +1,4 @@
-﻿namespace WebApi.ViewModels.Commons;
+﻿namespace WebApi.Utils;
 
 public class ApiResponse
 {

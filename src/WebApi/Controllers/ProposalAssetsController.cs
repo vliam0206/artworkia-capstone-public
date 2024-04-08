@@ -1,9 +1,8 @@
 ﻿using Application.Models;
-using Application.Services;
 using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 
@@ -33,7 +32,7 @@ public class ProposalAssetsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -52,7 +51,7 @@ public class ProposalAssetsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

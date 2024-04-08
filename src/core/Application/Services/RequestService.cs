@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services;
 
@@ -27,20 +28,17 @@ public class RequestService : IRequestService
     public async Task<RequestVM> AddRequestAsync(RequestModel requestModel)
     {
         // kiem tra service co ton tai khong
-        var service = await _unitOfWork.ServiceRepository.GetByIdAsync(requestModel.ServiceId);
-        if (service == null)
-        {
-            throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
-        }
+        var service = await _unitOfWork.ServiceRepository.GetByIdAsync(requestModel.ServiceId)
+            ?? throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
         if (service.DeletedOn != null)
         {
-            throw new Exception("Dịch vụ này đã bị xóa.");
+            throw new KeyNotFoundException("Dịch vụ này đã bị xóa.");
         }
 
         // kiem tra budget co >= statingPrice cua service khong
         if (requestModel.Budget < service.StartingPrice)
         {
-            throw new Exception("Ngân sách không được nhỏ hơn giá khởi điểm của dịch vụ.");
+            throw new BadHttpRequestException("Ngân sách không được nhỏ hơn giá khởi điểm của dịch vụ.");
         }
 
         // kiem tra xem nguoi dung co the request service cua chinh minh khong
@@ -48,7 +46,7 @@ public class RequestService : IRequestService
         Guid creatorId = service.CreatedBy ?? default;
         if (audienceId == creatorId)
         {
-            throw new Exception("Bạn không thể tạo yêu cầu cho chính dịch vụ của bạn.");
+            throw new BadHttpRequestException("Bạn không thể tạo yêu cầu cho chính dịch vụ của bạn.");
         }
 
         Request newRequest = _mapper.Map<Request>(requestModel);
@@ -82,12 +80,8 @@ public class RequestService : IRequestService
 
     public async Task<RequestVM?> GetRequestByIdAsync(Guid requestId)
     {
-        var request = await _unitOfWork.RequestRepository.GetByIdAsync(requestId);
-        if (request == null)
-        {
-            throw new KeyNotFoundException("Không tìm thấy yêu cầu.");
-        }
-
+        var request = await _unitOfWork.RequestRepository.GetByIdAsync(requestId)
+            ?? throw new KeyNotFoundException("Không tìm thấy yêu cầu.");
         var requestVM = _mapper.Map<RequestVM>(request);
         return requestVM;
     }
@@ -101,6 +95,12 @@ public class RequestService : IRequestService
 
     public async Task<List<RequestVM>> GetRequestsByChatboxIdIdAsync(Guid chatboxId)
     {
+        bool isChatboxExist = await _unitOfWork.ChatBoxRepository.IsExistedAsync(chatboxId);
+        if (!isChatboxExist)
+        {
+            throw new KeyNotFoundException("Không tìm thấy hộp thoại.");
+        }
+
         var listRequest = await _unitOfWork.RequestRepository.GetRequestsByChatBoxIdAsync(chatboxId);
         var listRequestVM = _mapper.Map<List<RequestVM>>(listRequest);
         return listRequestVM;
@@ -115,6 +115,12 @@ public class RequestService : IRequestService
 
     public async Task<List<RequestVM>> GetRequestsByServiceIdAsync(Guid serviceId)
     {
+        bool isServiceExist = await _unitOfWork.ServiceRepository.IsExistedAsync(serviceId);
+        if (!isServiceExist)
+        {
+            throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
+        }
+
         var listRequest = await _unitOfWork.RequestRepository.GetRequestsByServiceIdAsync(serviceId);
         var listRequestVM = _mapper.Map<List<RequestVM>>(listRequest);
         return listRequestVM;
@@ -122,11 +128,8 @@ public class RequestService : IRequestService
 
     public async Task<RequestVM> UpdateRequestStatusAsync(Guid requestId, StateEnum requestStatus)
     {
-        var oldRequest = await _unitOfWork.RequestRepository.GetByIdAsync(requestId);
-        if (oldRequest == null)
-        {
-            throw new KeyNotFoundException("Không tìm thấy yêu cầu.");
-        }
+        var oldRequest = await _unitOfWork.RequestRepository.GetByIdAsync(requestId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy yêu cầu.");
 
         oldRequest.RequestStatus = requestStatus;
         await _unitOfWork.SaveChangesAsync();

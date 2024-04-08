@@ -2,7 +2,7 @@ using Application.Models;
 using Domain.Entitites;
 using Domain.Enums;
 
-namespace WebApi.ViewModels;
+namespace Application.Models;
 
 public class CollectionDetailVM
 {

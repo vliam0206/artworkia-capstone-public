@@ -44,6 +44,6 @@ public class ArtworkStateEM
 {
     [Required]
     public StateEnum State { get; set; } = default!;
-    [MaxLength(500), MinLength(10)]
+    [MaxLength(500)]
     public string? Note { get; set; }
 }

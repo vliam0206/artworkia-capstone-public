@@ -1,14 +1,11 @@
-﻿using Application.Models;
-using Application.Services;
-using Application.Services.Abstractions;
-using Domain.Entitites;
+﻿using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 
@@ -34,9 +31,12 @@ public class ChatBoxsController : ControllerBase
             var accountId = _claimService.GetCurrentUserId ?? default;
             var chats = await _chatBoxService.GetAllChatBoxByAccountIdAsync(accountId);
             return Ok(chats);
-        } catch (ArgumentException ex)
+        } catch (KeyNotFoundException ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        } catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 

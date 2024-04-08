@@ -3,6 +3,7 @@ using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services;
 
@@ -33,7 +34,7 @@ public class FollowService : IFollowService
 
         if (follow.FollowedId == follow.FollowingId)
         {
-            throw new ArgumentException("Bạn không thể theo dõi chính bạn.");
+            throw new BadHttpRequestException("Bạn không thể theo dõi chính bạn.");
         }
 
         var accountExist = await _unitOfWork.AccountRepository.IsExistedAsync(follow.FollowedId);
@@ -45,13 +46,13 @@ public class FollowService : IFollowService
         var tmpFollow = await _unitOfWork.FollowRepository.GetByIdAsync(follow.FollowingId, follow.FollowedId);
         if (tmpFollow != null)
         {
-            throw new Exception("Đã theo dõi.");
+            throw new BadHttpRequestException("Đã theo dõi.");
         }
 
         // check if account is blocking or blocked
         if (await _unitOfWork.BlockRepository.IsBlockedOrBlockingAsync(follow.FollowingId, follow.FollowedId))
         {
-            throw new Exception("Không thể theo dõi vì chặn hoặc bị chặn.");
+            throw new BadHttpRequestException("Không thể theo dõi vì chặn hoặc bị chặn.");
         }
 
         await _unitOfWork.FollowRepository.AddFollowAsync(follow);
@@ -64,7 +65,7 @@ public class FollowService : IFollowService
         var follow = await _unitOfWork.FollowRepository.GetByIdAsync(followingId, model.FollowedId);
         if (follow == null)
         {
-            throw new ArgumentException("Chưa theo dõi tài khoản này.");
+            throw new KeyNotFoundException("Chưa theo dõi tài khoản này.");
         }
         // hard delete follow in db
         _unitOfWork.FollowRepository.DeleteFollow(follow);

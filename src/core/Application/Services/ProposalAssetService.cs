@@ -1,4 +1,5 @@
-﻿using Application.Models;
+﻿using static Application.Commons.VietnameseEnum;
+using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
 using AutoMapper;
@@ -10,12 +11,6 @@ namespace Application.Services;
 
 public class ProposalAssetService : IProposalAssetService
 {
-    private static readonly Dictionary<ProposalAssetEnum, string> PROPOSALASSET_ENUM_VN = new Dictionary<ProposalAssetEnum, string>
-    {
-        { ProposalAssetEnum.Concept, "phác thảo" },
-        { ProposalAssetEnum.Final, "cuối cùng" },
-        { ProposalAssetEnum.Revision, "sửa đổi" }
-    };
     private static readonly string PARENT_FOLDER = "ProposalAsset";
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
@@ -99,7 +94,8 @@ public class ProposalAssetService : IProposalAssetService
         }        
 
         // create proposal successfully -> add Init milestone
-        await _milstoneService.AddMilestoneToProposalAsync(proposalAsset.ProposalId, $"Gửi tài nguyên thỏa thuận ({PROPOSALASSET_ENUM_VN[proposalAsset.Type]})");
+        await _milstoneService.AddMilestoneToProposalAsync(proposalAsset.ProposalId, 
+            $"Gửi tài nguyên thỏa thuận ({PROPOSALASSET_ENUM_VN[proposalAsset.Type]})");
 
         await _unitOfWork.SaveChangesAsync();
 
@@ -109,7 +105,14 @@ public class ProposalAssetService : IProposalAssetService
 
     public async Task<List<ProposalAssetVM>> GetProposalAssetsOfProposalAsync(Guid proposalId)
     {
-        var listProposalAsset = await _unitOfWork.ProposalAssetRepository.GetProposalAssetsOfProposalAsync(proposalId);
+        bool isProposalExisted = await _unitOfWork.ProposalRepository.IsExistedAsync(proposalId);
+        if (!isProposalExisted)
+        {
+            throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
+        }
+
+        var listProposalAsset = await _unitOfWork.ProposalAssetRepository
+            .GetProposalAssetsOfProposalAsync(proposalId);
         var listProposalAssetVM = _mapper.Map<List<ProposalAssetVM>>(listProposalAsset);
         return listProposalAssetVM;
     }

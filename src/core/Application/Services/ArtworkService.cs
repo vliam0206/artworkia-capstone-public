@@ -8,6 +8,9 @@ using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
+using static Application.Commons.VietnameseEnum;
+
 namespace Application.Services;
 
 public class ArtworkService : IArtworkService
@@ -78,6 +81,10 @@ public class ArtworkService : IArtworkService
     {
         Guid? loginId = _claimService.GetCurrentUserId;
 
+        bool isAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
+        if (!isAccountExist)
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
+
         var listArtwork = await _unitOfWork.ArtworkRepository.GetArtworksAsync(
             criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize,
@@ -139,7 +146,7 @@ public class ArtworkService : IArtworkService
         if (artwork == null)
             throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         if (artwork.DeletedOn != null)
-            throw new Exception("Tác phẩm đã bị xóa.");
+            throw new KeyNotFoundException("Tác phẩm đã bị xóa.");
 
         var artworkVM = _mapper.Map<ArtworkVM>(artwork);
 
@@ -149,7 +156,7 @@ public class ArtworkService : IArtworkService
             // check if account is blocking or blocked
             if (await _unitOfWork.BlockRepository.IsBlockedOrBlockingAsync(accountId.Value, artworkVM.CreatedBy!.Value))
             {
-                throw new Exception("Không tìm thấy tác phẩm vì chặn hoặc bị chặn.");
+                throw new BadHttpRequestException("Không tìm thấy tác phẩm vì chặn hoặc bị chặn.");
             }
             // check if user liked this artwork
             var isLiked = await _unitOfWork.LikeRepository.GetByIdAsync(accountId.Value, artworkId);
@@ -299,7 +306,7 @@ public class ArtworkService : IArtworkService
     {
         var oldArtwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
         if (oldArtwork == null)
-            throw new Exception("Không tìm thấy tác phẩm.");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
 
         oldArtwork.Title = artworkEM.Title;
         oldArtwork.Description = artworkEM.Description;
@@ -313,9 +320,9 @@ public class ArtworkService : IArtworkService
     {
         var oldArtwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
         if (oldArtwork == null)
-            throw new Exception("Không tìm thấy tác phẩm.");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         if (oldArtwork.State != StateEnum.Waiting)
-            throw new Exception($"Báo cáo đã được giải quyết (trạng thái hiện tại là {oldArtwork.State})");
+            throw new BadHttpRequestException($"Tác phẩm đã được xử lý (trạng thái hiện tại là '{STATE_ENUM_VN[oldArtwork.State]}')");
         oldArtwork.State = model.State;
         oldArtwork.Note = model.Note;
         _unitOfWork.ArtworkRepository.Update(oldArtwork);

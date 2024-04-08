@@ -34,13 +34,8 @@ public class WalletHistoryService : IWalletHistoryService
 
     public async Task UpdateWalletHistory(Guid transactionId, WalletHistory walletHistory)
     {
-        var oldWalletHistory = await _unitOfWork
-                                    .WalletHistoryRepository
-                                    .GetByIdAsync(transactionId);
-        if (oldWalletHistory == null)
-        {
-            throw new Exception("Không tìm thấy giao dịch của ví.");
-        }
+        var oldWalletHistory = await _unitOfWork.WalletHistoryRepository.GetByIdAsync(transactionId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy giao dịch của ví.");
         // update status
         oldWalletHistory.AppTransId = walletHistory.AppTransId;
         oldWalletHistory.TransactionStatus = walletHistory.TransactionStatus;
@@ -50,13 +45,9 @@ public class WalletHistoryService : IWalletHistoryService
 
     public async Task UpdateWalletHistoryStatus(string appTransId, TransactionStatusEnum status)
     {
-        var walletHistory = await _unitOfWork
-                                    .WalletHistoryRepository
-                                    .GetSingleByConditionAsync(x => x.AppTransId.Equals(appTransId));
-        if (walletHistory == null)
-        {
-            throw new Exception("Không tìm thấy giao dịch của ví.");
-        }
+        var walletHistory = await _unitOfWork.WalletHistoryRepository
+            .GetSingleByConditionAsync(x => x.AppTransId.Equals(appTransId)) 
+            ?? throw new KeyNotFoundException("Không tìm thấy giao dịch của ví.");
         // update status
         walletHistory.TransactionStatus = status;
         _unitOfWork.WalletHistoryRepository.Update(walletHistory);
@@ -65,13 +56,8 @@ public class WalletHistoryService : IWalletHistoryService
 
     public async Task UpdateWalletHistoryStatus(Guid transactionId, TransactionStatusEnum status)
     {
-        var walletHistory = await _unitOfWork
-                                    .WalletHistoryRepository
-                                    .GetByIdAsync(transactionId);
-        if (walletHistory == null)
-        {
-            throw new Exception("Không tìm thấy giao dịch của ví.");
-        }
+        var walletHistory = await _unitOfWork.WalletHistoryRepository.GetByIdAsync(transactionId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy giao dịch của ví.");
         // update status
         walletHistory.TransactionStatus = status;
         _unitOfWork.WalletHistoryRepository.Update(walletHistory);

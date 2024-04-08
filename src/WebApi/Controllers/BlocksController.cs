@@ -3,9 +3,8 @@ using Domain.Entitites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Enums;
 using Application.Models;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 
@@ -38,7 +37,7 @@ public class BlocksController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -58,7 +57,7 @@ public class BlocksController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -76,9 +75,17 @@ public class BlocksController : ControllerBase
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
-        catch (Exception ex)
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -98,7 +105,7 @@ public class BlocksController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

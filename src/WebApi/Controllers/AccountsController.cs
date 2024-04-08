@@ -1,5 +1,4 @@
-﻿using Application.Commons;
-using Application.Filters;
+﻿using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
@@ -8,8 +7,7 @@ using Domain.Entitites;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 
@@ -54,13 +52,9 @@ public class AccountsController : ControllerBase
             var accounts = await _accountService.GetAccountsAsync(criteria);
             return Ok(accounts);
         }
-        catch (ArgumentException ex)
-        {
-            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -73,13 +67,17 @@ public class AccountsController : ControllerBase
             var account = await _accountService.GetAccountByIdAsync(id);
             return Ok(account);
         }
-        catch (ArgumentException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
-        catch (Exception ex)
+        catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -106,13 +104,17 @@ public class AccountsController : ControllerBase
             await _accountService.UpdateAccountAsync(id, model);
             return NoContent();
         }
-        catch (ArgumentException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
-        catch (Exception ex)
+        catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -121,17 +123,21 @@ public class AccountsController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Account>> PostAccount(RegisterModel model)
     {
-        var account = _mapper.Map<Account>(model);
         try
         {
+            var account = _mapper.Map<Account>(model);
             await _accountService.CreateAccountAsync(account);
+            return CreatedAtAction("GetAccount", new { id = account.Id }, _mapper.Map<AccountVM>(account));
         }
-        catch (Exception ex)
+        catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
 
-        return CreatedAtAction("GetAccount", new { id = account.Id }, _mapper.Map<AccountVM>(account));
     }
 
     // DELETE: api/accounts/5
@@ -142,17 +148,17 @@ public class AccountsController : ControllerBase
         try
         {
             await _accountService.DeleteAccountAsync(id);
+            return NoContent();
         }
-        catch (ArgumentException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
 
-        return NoContent();
     }
 
     // PUT: api/accounts/undelete/5
@@ -164,13 +170,13 @@ public class AccountsController : ControllerBase
         {
             await _accountService.UndeleteAccountAsync(id);
         }
-        catch (ArgumentException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
 
         return NoContent();
@@ -189,7 +195,7 @@ public class AccountsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -203,13 +209,13 @@ public class AccountsController : ControllerBase
             await _accountService.EditPasswordAsync(id, model.OldPassword, model.NewPassword);
             return NoContent();
         }
-        catch (ArgumentException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -227,13 +233,13 @@ public class AccountsController : ControllerBase
             await _accountService.EditAvatarAsync(id, avatar);
             return NoContent();
         }
-        catch (ArgumentException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -266,19 +272,11 @@ public class AccountsController : ControllerBase
         }
         catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -293,19 +291,11 @@ public class AccountsController : ControllerBase
         }
         catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -320,19 +310,11 @@ public class AccountsController : ControllerBase
         }
         catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -367,19 +349,11 @@ public class AccountsController : ControllerBase
         }
         catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -394,19 +368,11 @@ public class AccountsController : ControllerBase
         }
         catch (KeyNotFoundException ex)
         {
-            return NotFound(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse
-            {
-                IsSuccess = false,
-                ErrorMessage = ex.Message
-            });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 

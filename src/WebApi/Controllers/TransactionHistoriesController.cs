@@ -1,9 +1,8 @@
 ﻿using Application.Services.Abstractions;
-using Domain.Entities.Commons;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 
@@ -29,9 +28,9 @@ public class TransactionHistoriesController : ControllerBase
                 .GetTransactionHistoriesOfAccount(accountId);
             return Ok(walletHistories);
         }
-        catch (ArgumentException ex)
+        catch (KeyNotFoundException ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message});
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message});
         }
         catch (Exception ex)
         {

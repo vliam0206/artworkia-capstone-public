@@ -32,7 +32,7 @@ public class TransactionHistoryService : ITransactionHistoryService
             var assetExist = await _unitOfWork.AssetRepository.IsExistedAsync(model.AssetId.Value);
             if (!assetExist)
             {
-                throw new ArgumentException("Không tìm thấy tài nguyên.");
+                throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
             }
         }
         if (model.ProposalId != null)
@@ -40,7 +40,7 @@ public class TransactionHistoryService : ITransactionHistoryService
             var proposalExist = await _unitOfWork.ProposalRepository.IsExistedAsync(model.ProposalId.Value);
             if (!proposalExist)
             {
-                throw new ArgumentException("Không tìn thấy proposalId.");
+                throw new KeyNotFoundException("Không tìn thấy proposalId.");
             }
         }
         var transaction = _mapper.Map<TransactionHistory>(model);
@@ -57,7 +57,7 @@ public class TransactionHistoryService : ITransactionHistoryService
         {
             if (currentAccountId != accountId)
             {
-                throw new ArgumentException("Bạn không đủ quyền để truy cập tính năng này.");
+                throw new KeyNotFoundException("Bạn không đủ quyền để truy cập tính năng này.");
             }
         }
         var result = await _unitOfWork.TransactionHistoryRepository

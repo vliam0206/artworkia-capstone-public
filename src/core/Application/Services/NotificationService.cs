@@ -25,7 +25,7 @@ public class NotificationService : INotificationService
         var checkAccount = await _unitOfWork.AccountRepository.IsExistedAsync(model.SentToAccount);
         if (!checkAccount)
         {
-            throw new ArgumentException("AccountId in SentToAccount of notification not found!");
+            throw new KeyNotFoundException("AccountId in SentToAccount of notification not found!");
         }
         // check if references exist
         if (model.ReferencedArtworkId != null)
@@ -33,7 +33,7 @@ public class NotificationService : INotificationService
             var checkReference = await _unitOfWork.ArtworkRepository.IsExistedAsync(model.ReferencedArtworkId.Value);
             if (!checkReference)
             {
-                throw new ArgumentException("ArtworkId in notification reference not found!");
+                throw new KeyNotFoundException("ArtworkId in notification reference not found!");
             }
         }
         if (model.ReferencedAccountId != null)
@@ -41,7 +41,7 @@ public class NotificationService : INotificationService
             var checkReference = await _unitOfWork.AccountRepository.IsExistedAsync(model.ReferencedAccountId.Value);
             if (!checkReference)
             {
-                throw new ArgumentException("AccountId in notification reference not found!");
+                throw new KeyNotFoundException("AccountId in notification reference not found!");
             }
         }
 
@@ -64,7 +64,7 @@ public class NotificationService : INotificationService
         var notification = await _unitOfWork.NotificationRepository.GetByIdAsync(notificationId);
         if (notification == null)
         {
-            throw new ArgumentException("Notification was not found.");
+            throw new KeyNotFoundException("Notification was not found.");
         }
         if (!notification.IsSeen)
         {

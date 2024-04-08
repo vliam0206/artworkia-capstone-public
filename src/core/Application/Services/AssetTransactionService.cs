@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Application.Services;
@@ -31,14 +32,14 @@ public class AssetTransactionService : IAssetTransactionService
             .GetSingleByConditionAsync(x => x.CreatedBy == _claimService.GetCurrentUserId
             && x.AssetId == assetTransactionModel.AssetId);
         if (assetTransaction is not null)
-            throw new Exception("Bạn đã mua tài nguyên này.");
+            throw new BadHttpRequestException("Bạn đã mua tài nguyên này.");
 
         // Check if asset is not found or deleted
         var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetTransactionModel.AssetId);
         if (asset is null)
             throw new KeyNotFoundException("Tài nguyên không tìm thấy.");
         if (asset.DeletedOn != null)
-            throw new Exception("Tài nguyên đã bị xóa");
+            throw new KeyNotFoundException("Tài nguyên đã bị xóa");
 
         // Check if user has enough money to buy this asset
         Guid accountId = _claimService.GetCurrentUserId ?? default;
@@ -54,7 +55,7 @@ public class AssetTransactionService : IAssetTransactionService
             throw new KeyNotFoundException("Không tìm thấy ví của người bán.");
         }
         if (wallet.Balance < asset.Price)
-            throw new Exception("Bạn không đủ tiền để mua tài nguyên này");
+            throw new BadHttpRequestException("Bạn không đủ tiền để mua tài nguyên này");
 
         wallet.Balance -= asset.Price;
         sellerWallet.Balance += asset.Price;

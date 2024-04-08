@@ -60,7 +60,7 @@ public class WalletService : IWalletService
         var oldWallet = await _unitOfWork.WalletRepository.GetByIdAsync(walletId);
         if (oldWallet is null)
         {
-            throw new Exception("Không tìm thấy ví.");
+            throw new KeyNotFoundException("Không tìm thấy ví.");
         }
         oldWallet.WithdrawMethod = walletEM.WithdrawMethod;
         oldWallet.WithdrawInformation = walletEM.WithdrawInformation;
@@ -74,7 +74,7 @@ public class WalletService : IWalletService
                                 .GetSingleByConditionAsync(x => x.AccountId == accountId);
         if (wallet == null)
         {
-            throw new Exception("Tài khoản này chưa có ví.");
+            throw new KeyNotFoundException("Tài khoản này chưa có ví.");
         }
         wallet.Balance += amount;
         _unitOfWork.WalletRepository.Update(wallet);
@@ -90,7 +90,7 @@ public class WalletService : IWalletService
                                 .GetSingleByConditionAsync(x => x.AccountId == accountId);
         if (wallet == null)
         {
-            throw new ArgumentException("Tài khoản này chưa có ví.");
+            throw new KeyNotFoundException("Tài khoản này chưa có ví.");
         }
         if (wallet.Balance < amount)
         {
@@ -129,7 +129,7 @@ public class WalletService : IWalletService
                                 .GetSingleByConditionAsync(x => x.AccountId == accountId);
         if (wallet == null)
         {
-            throw new ArgumentException("Tài khoản này chưa có ví.");
+            throw new KeyNotFoundException("Tài khoản này chưa có ví.");
         }
         return (wallet.Balance >= amount);
     }

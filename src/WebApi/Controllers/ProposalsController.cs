@@ -1,10 +1,9 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
-using Domain.Entitites;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 
@@ -30,8 +29,15 @@ public class ProposalsController : ControllerBase
     [Authorize]
     public async Task<IActionResult> GetAllProposals()
     {
-        var proposal = await _proposalService.GetAllProposalsAsync();
-        return Ok(proposal);
+        try
+        {
+            var proposal = await _proposalService.GetAllProposalsAsync();
+            return Ok(proposal);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
     }
 
     [HttpGet("{id}")]
@@ -49,7 +55,7 @@ public class ProposalsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -67,7 +73,7 @@ public class ProposalsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -86,7 +92,7 @@ public class ProposalsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -105,7 +111,7 @@ public class ProposalsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -124,7 +130,7 @@ public class ProposalsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -141,9 +147,13 @@ public class ProposalsController : ControllerBase
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
-        catch (Exception ex)
+        catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -160,9 +170,13 @@ public class ProposalsController : ControllerBase
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
-        catch (Exception ex)
+        catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -181,7 +195,7 @@ public class ProposalsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }     
     }
 
@@ -200,7 +214,7 @@ public class ProposalsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -217,9 +231,17 @@ public class ProposalsController : ControllerBase
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
-        catch (Exception ex)
+        catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -236,9 +258,17 @@ public class ProposalsController : ControllerBase
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
-        catch (Exception ex)
+        catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

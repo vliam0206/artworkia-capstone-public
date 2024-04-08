@@ -1,12 +1,11 @@
 ﻿using Application.Filters;
 using Application.Models;
-using Application.Services;
 using Application.Services.Abstractions;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 
@@ -32,13 +31,9 @@ public class ReviewsController : ControllerBase
             var result = await _reviewService.GetReviewsAsync(criteria);
             return Ok(result);
         }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -56,7 +51,7 @@ public class ReviewsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -73,9 +68,17 @@ public class ReviewsController : ControllerBase
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
-        catch (Exception ex)
+        catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -92,9 +95,13 @@ public class ReviewsController : ControllerBase
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new ApiResponse { ErrorMessage = ex.Message });
+        }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -111,9 +118,13 @@ public class ReviewsController : ControllerBase
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new ApiResponse { ErrorMessage = ex.Message });
+        }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

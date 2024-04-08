@@ -1,7 +1,7 @@
 ﻿using Domain.Attributes;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApi.ViewModels;
+namespace Application.Models;
 
 public class RegisterModel
 {

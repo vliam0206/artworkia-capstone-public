@@ -50,17 +50,17 @@ public class MessageService : IMessageService
         // check if message model is valid
         if (model.Text.IsNullOrEmpty() && model.File == null)
         { // text & file location can not be null at the same time
-            throw new ArgumentException("Tin nhắn và tệp tin không thể trống cùng lúc.");
+            throw new KeyNotFoundException("Tin nhắn và tệp tin không thể trống cùng lúc.");
         }
         var accountExist = await _unitOfWork.AccountRepository.IsExistedAsync(model.ReceiverId);
         if (!accountExist)
         {
-            throw new ArgumentException("Không tìm thấy tải khoản người nhận.");
+            throw new KeyNotFoundException("Không tìm thấy tải khoản người nhận.");
         }
         var currentUserId = _claimService.GetCurrentUserId ?? default;
         if (model.ReceiverId == currentUserId)
         {
-            throw new ArgumentException("Bạn không thể gửi tin nhắn cho chính bạn.");
+            throw new KeyNotFoundException("Bạn không thể gửi tin nhắn cho chính bạn.");
         }
         var newMessage = _mapper.Map<Message>(model);
         // dat lai ten file

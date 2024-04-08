@@ -9,6 +9,7 @@ using System.Text;
 using System;
 using System.Text.Json;
 using SixLabors.ImageSharp.Memory;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 
@@ -138,9 +139,14 @@ public class MessagesController : ControllerBase
         {
             var newMessage = await _messageService.SendMessageAsync(model);
             return Ok(newMessage);
-        } catch (ArgumentException ex)
+        }
+        catch (KeyNotFoundException ex)
         {
-            return BadRequest(ex.Message);
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

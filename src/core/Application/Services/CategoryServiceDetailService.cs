@@ -34,7 +34,7 @@ public class CategoryServiceDetailService : ICategoryServiceDetailService
         var artwork = _unitOfWork.ServiceRepository.GetByIdAsync(categoryListServiceModel.ServiceId);
         if (artwork == null)
         {
-            throw new Exception("Không tìm thấy dịch vụ.");
+            throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
         }
 
         var categoryList = categoryListServiceModel.CategoryList;

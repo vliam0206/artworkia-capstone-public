@@ -3,6 +3,7 @@ using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services;
 public class CategoryService : ICategoryService
@@ -39,7 +40,7 @@ public class CategoryService : ICategoryService
             .Equals(categoryModel.CategoryName.ToLower()));
         if (category != null)
         {
-            throw new Exception("Thể loại này đã tồn tại.");
+            throw new BadHttpRequestException("Thể loại này đã tồn tại.");
         }
 
         // neu co category cha, dam bao rang category co ton tai
@@ -56,7 +57,7 @@ public class CategoryService : ICategoryService
 
             if (parentCategory.ParentCategory != null)
             {
-                throw new Exception("Không thể thêm thể loại này vào thể loại con.");
+                throw new BadHttpRequestException("Không thể thêm thể loại này vào thể loại con.");
             }
         }
 
@@ -88,7 +89,7 @@ public class CategoryService : ICategoryService
             .Equals(categoryEM.CategoryName.ToLower()));
         if (category != null && !oldCategory.CategoryName.ToLower().Equals(categoryEM.CategoryName.ToLower()))
         {
-            throw new Exception("Thể loại này đã tồn tại.");
+            throw new BadHttpRequestException("Thể loại này đã tồn tại.");
         }
 
         oldCategory.CategoryName = categoryEM.CategoryName;

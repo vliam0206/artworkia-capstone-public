@@ -3,6 +3,7 @@ using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services;
 public class LikeService : ILikeService
@@ -28,7 +29,7 @@ public class LikeService : ILikeService
         var tmpLike = await _unitOfWork.LikeRepository.GetByIdAsync(accountId, likeModel.ArtworkId);
         if (tmpLike != null)
         {
-            throw new Exception("Bạn đã thích tác phẩm này.");
+            throw new BadHttpRequestException("Bạn đã thích tác phẩm này.");
         }
 
         Like like = new()
@@ -39,7 +40,7 @@ public class LikeService : ILikeService
         await _unitOfWork.LikeRepository.AddLikeAsync(like);
         var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(like.ArtworkId);
         if (artwork == null) 
-            throw new ArgumentException("Không tìm thấy tác phẩm.");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         artwork.LikeCount++;
         _unitOfWork.ArtworkRepository.Update(artwork);
         await _unitOfWork.SaveChangesAsync();
@@ -51,12 +52,12 @@ public class LikeService : ILikeService
 
         var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
         if (artwork == null)
-            throw new ArgumentException("Không tìm thấy tác phẩm.");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
 
         var tmpLike = await _unitOfWork.LikeRepository.GetByIdAsync(accountId, artworkId);
         if (tmpLike == null)
         {
-            throw new ArgumentException("Bạn chưa thích tác phẩm này.");
+            throw new BadHttpRequestException("Bạn chưa thích tác phẩm này.");
         }
 
         // hard delete like in db
@@ -68,6 +69,10 @@ public class LikeService : ILikeService
 
     public async Task<ArtworkLikeVM> GetAllLikesOfAccountAsync(Guid accountId)
     {
+        bool isAccountExisted = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
+        if (!isAccountExisted)
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
+
         var listAccounts = await _unitOfWork.LikeRepository.GetAllLikeOfAccountAsync(accountId);
         var listArtworksLikeds = new List<ArtworkPreviewVM>();
         foreach (var like in listAccounts)
@@ -84,6 +89,10 @@ public class LikeService : ILikeService
 
     public async Task<AccountLikeVM> GetAllLikesOfArtworkAsync(Guid artworkId)
     {
+        bool isArtworkExisted = await _unitOfWork.ArtworkRepository.IsExistedAsync(artworkId);
+        if (!isArtworkExisted)
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
+
         var listLikes = await _unitOfWork.LikeRepository.GetAllLikeOfArtworkAsync(artworkId);
         var listAccountsLikeds = new List<AccountBasicInfoVM>();
         foreach (var like in listLikes)

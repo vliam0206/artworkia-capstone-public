@@ -1,7 +1,6 @@
 ﻿using Application.Services.Abstractions;
-using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 
@@ -24,13 +23,9 @@ public class SoftwareUsedsController : ControllerBase
             var softwareUseds = await _softwareUsedService.GetAllSoftwareUsedAsync();
             return Ok(softwareUseds);
         }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -48,7 +43,7 @@ public class SoftwareUsedsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

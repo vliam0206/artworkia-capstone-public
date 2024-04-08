@@ -1,9 +1,7 @@
 ﻿using Application.Commons;
 using Application.Models;
 using Application.Models.ZaloPayModels;
-using Application.Services;
 using Application.Services.Abstractions;
-using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;

@@ -1,16 +1,12 @@
-﻿using Application.Commons;
-using Application.Filters;
+﻿using Application.Filters;
 using Application.Models;
-using Application.Services;
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entities.Commons;
-using Domain.Entitites;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
-using WebApi.ViewModels.Commons;
 
 namespace WebApi.Controllers;
 
@@ -44,13 +40,9 @@ public class ArtworksController : ControllerBase
             var result = await _artworkService.GetArtworksAsync(criteria);
             return Ok(result);
         }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -63,13 +55,9 @@ public class ArtworksController : ControllerBase
             var result = await _artworkService.GetArtworksOfFollowingsAsync(criteria);
             return Ok(result);
         }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -95,9 +83,13 @@ public class ArtworksController : ControllerBase
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
-        catch (Exception ex)
+        catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -115,7 +107,7 @@ public class ArtworksController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -170,7 +162,7 @@ public class ArtworksController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -228,7 +220,7 @@ public class ArtworksController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -247,7 +239,7 @@ public class ArtworksController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -270,7 +262,7 @@ public class ArtworksController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -290,7 +282,7 @@ public class ArtworksController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -303,13 +295,9 @@ public class ArtworksController : ControllerBase
             var result = await _artworkService.GetAllArtworksForModerationAsync(criteria);
             return Ok(result);
         }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -326,9 +314,13 @@ public class ArtworksController : ControllerBase
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
-        catch (Exception ex)
+        catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -338,7 +330,6 @@ public class ArtworksController : ControllerBase
         {
             return new ApiResponse
             {
-                IsSuccess = false,
                 ErrorMessage = "Hình ảnh phải có định dạng: JPG, JPEG, PNG, GIF, BMP, WEBP, or SVG."
             };
         }
@@ -347,7 +338,6 @@ public class ArtworksController : ControllerBase
         {
             return new ApiResponse
             {
-                IsSuccess = false,
                 ErrorMessage = "Dung lượng ảnh đại diện không quá 5MB."
             };
         }
@@ -362,7 +352,6 @@ public class ArtworksController : ControllerBase
         {
             return new ApiResponse
             {
-                IsSuccess = false,
                 ErrorMessage = "Số lượng thẻ không quá 30."
             };
         }
@@ -373,7 +362,6 @@ public class ArtworksController : ControllerBase
             {
                 return new ApiResponse
                 {
-                    IsSuccess = false,
                     ErrorMessage = $"Tên thẻ '{tag}' không phù hợp (chỉ bao gồm chữ in thường, in hoa, chữ số, khoảng cách, 2-30 kí tự)."
                 };
             }
@@ -387,7 +375,6 @@ public class ArtworksController : ControllerBase
         {
             return new ApiResponse
             {
-                IsSuccess = false,
                 ErrorMessage = "Số lượng thể loại không quá 3."
             };
         }
@@ -402,7 +389,6 @@ public class ArtworksController : ControllerBase
         {
             return new ApiResponse
             {
-                IsSuccess = false,
                 ErrorMessage = "Số lượng hình ảnh không quá 30."
             };
         }
@@ -413,7 +399,6 @@ public class ArtworksController : ControllerBase
             {
                 return new ApiResponse
                 {
-                    IsSuccess = false,
                     ErrorMessage = "Hình ảnh phải có định dạng: JPG, JPEG, PNG, GIF, BMP, WEBP, or SVG."
                 };
             }
@@ -422,7 +407,6 @@ public class ArtworksController : ControllerBase
             {
                 return new ApiResponse
                 {
-                    IsSuccess = false,
                     ErrorMessage = "Dung lượng hình ảnh không quá 16MB."
                 };
             }
@@ -438,7 +422,6 @@ public class ArtworksController : ControllerBase
             {
                 return new ApiResponse
                 {
-                    IsSuccess = false,
                     ErrorMessage = "Số lượng tài nguyên không vượt quá 5"
                 };
             }
@@ -449,7 +432,6 @@ public class ArtworksController : ControllerBase
                 {
                     return new ApiResponse
                     {
-                        IsSuccess = false,
                         ErrorMessage = "Tệp tin phải có định dạng: ABR, AI, ASE, DNG, DOC, DOCX, EPS, GIF, INDD, JPEG, JPG, OTF, PDF, PNG, PPT, PPTX, PSD, RAW, SVG, TIF, TIFF, TTF, TXT, WEBP, WOFF, WOFF2, XLS, XLSX, XMP, ZIP, RAR."
                     };
                 }
@@ -458,7 +440,6 @@ public class ArtworksController : ControllerBase
                 {
                     return new ApiResponse
                     {
-                        IsSuccess = false,
                         ErrorMessage = "Dung lượng tệp tin không quá 500MB."
                     };
                 }

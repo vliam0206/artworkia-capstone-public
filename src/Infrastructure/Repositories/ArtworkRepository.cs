@@ -301,7 +301,7 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         var artWork = await _dbContext.Artworks.FindAsync(artworkId);
         if (artWork == null)
         {
-            throw new ArgumentException("ArtworkId not found!");
+            throw new KeyNotFoundException("ArtworkId not found!");
         }
         artWork.CommentCount++;
         this.Update(artWork);
@@ -312,7 +312,7 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         var artWork = await _dbContext.Artworks.FindAsync(artworkId);
         if (artWork == null)
         {
-            throw new ArgumentException("ArtworkId not found!");
+            throw new KeyNotFoundException("ArtworkId not found!");
         }
         artWork.CommentCount--;
         this.Update(artWork);

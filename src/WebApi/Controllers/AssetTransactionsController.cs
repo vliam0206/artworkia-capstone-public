@@ -1,7 +1,7 @@
 ﻿using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Application.Models;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 using Microsoft.AspNetCore.Authorization;
 namespace WebApi.Controllers
 {
@@ -26,7 +26,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -44,7 +44,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -63,9 +63,13 @@ namespace WebApi.Controllers
             {
                 return NotFound(new ApiResponse { ErrorMessage = ex.Message });
             }
-            catch (Exception ex)
+            catch (BadHttpRequestException ex)
             {
                 return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
             }
         }
     }

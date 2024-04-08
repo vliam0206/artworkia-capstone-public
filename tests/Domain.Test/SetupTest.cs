@@ -35,8 +35,10 @@ public class SetupTest : IDisposable
     protected readonly Mock<ICommentRepository> _commentRepositoryMock;
     protected readonly Mock<IFollowRepository> _followRepositoryMock;
     protected readonly Mock<IImageRepository> _imageRepositoryMock;
+    protected readonly Mock<ILicenseTypeRepository> _licenseTypeRepositoryMock;
     protected readonly Mock<ILikeRepository> _likeRepositoryMock;
     protected readonly Mock<IMessageRepository> _messageRepositoryMock;
+    protected readonly Mock<IMilestoneRepository> _milestoneRepositoryMock;
     protected readonly Mock<INotificationRepository> _notificationRepositoryMock;
     protected readonly Mock<IProposalAssetRepository> _proposalAsseRepositoryMock;
     protected readonly Mock<IProposalRepository> _proposalRepositoryMock;
@@ -45,13 +47,14 @@ public class SetupTest : IDisposable
     protected readonly Mock<IReviewRepository> _reviewRepositoryMock;
     protected readonly Mock<IServiceDetailRepository> _serviceDetailRepositoryMock;
     protected readonly Mock<IServiceRepository> _serviceRepositoryMock;
+    protected readonly Mock<ISoftwareDetailRepository> _softwareDetailRepositoryMock;
+    protected readonly Mock<ISoftwareUsedRepository> _softwareUsedRepositoryMock;
     protected readonly Mock<ITagDetailRepository> _tagDetailRepositoryMock;
     protected readonly Mock<ITagRepository> _tagRepositoryMock;
     protected readonly Mock<ITransactionHistoryRepository> _transactionHistoryRepositoryMock;
     protected readonly Mock<IUserTokenRepository> _userTokenRepositoryMock;
     protected readonly Mock<IWalletHistoryRepository> _walletHistoryRepositoryMock;
     protected readonly Mock<IWalletRepository> _walletRepositoryMock;
-    protected readonly Mock<IMilestoneRepository> _milestoneRepositoryMock;
     #endregion
 
     #region service mocks
@@ -102,6 +105,7 @@ public class SetupTest : IDisposable
         _commentRepositoryMock = new Mock<ICommentRepository>();
         _followRepositoryMock = new Mock<IFollowRepository>();
         _imageRepositoryMock = new Mock<IImageRepository>();
+        _licenseTypeRepositoryMock = new Mock<ILicenseTypeRepository>();
         _likeRepositoryMock = new Mock<ILikeRepository> ();
         _messageRepositoryMock = new Mock<IMessageRepository>();
         _notificationRepositoryMock = new Mock<INotificationRepository>();
@@ -112,6 +116,8 @@ public class SetupTest : IDisposable
         _reviewRepositoryMock = new Mock<IReviewRepository>();
         _serviceDetailRepositoryMock = new Mock<IServiceDetailRepository>();
         _serviceRepositoryMock = new Mock<IServiceRepository>();
+        _softwareDetailRepositoryMock = new Mock<ISoftwareDetailRepository>();
+        _softwareUsedRepositoryMock = new Mock<ISoftwareUsedRepository>();
         _tagDetailRepositoryMock = new Mock<ITagDetailRepository>();
         _tagRepositoryMock = new Mock<ITagRepository>();
         _transactionHistoryRepositoryMock = new Mock<ITransactionHistoryRepository>();

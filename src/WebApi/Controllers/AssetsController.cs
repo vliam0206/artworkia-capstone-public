@@ -4,7 +4,7 @@ using Application.Services.Abstractions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 
@@ -26,8 +26,15 @@ public class AssetsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllAssets([FromQuery] AssetCriteria criteria)
     {
-        var result = await _assetService.GetAllAssetsAsync(criteria);
-        return Ok(result);
+        try
+        {
+            var result = await _assetService.GetAllAssetsAsync(criteria);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
     }
 
     [HttpGet("{assetId}")]
@@ -44,7 +51,7 @@ public class AssetsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -61,9 +68,13 @@ public class AssetsController : ControllerBase
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new ApiResponse { ErrorMessage = ex.Message });
+        }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -82,36 +93,9 @@ public class AssetsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
-
-    //[HttpGet("download-alt/{assetId}")]
-    //[Authorize]
-    //public async Task<IActionResult> GetAssetDownloadAlternativeAById(Guid assetId)
-    //{
-    //    try
-    //    {
-    //        var link = await _assetService.GetDownloadUriAssetAlternativeAsync(assetId);
-    //        return Ok(new { link });
-    //    }
-    //    catch (KeyNotFoundException ex)
-    //    {
-    //        return BadRequest(new ApiResponse
-    //        {
-    //            IsSuccess = false,
-    //            ErrorMessage = ex.Message
-    //        });
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return BadRequest(new ApiResponse
-    //        {
-    //            IsSuccess = false,
-    //            ErrorMessage = ex.Message
-    //        });
-    //    }
-    //}
 
     [HttpPost]
     [Authorize]
@@ -128,7 +112,7 @@ public class AssetsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -147,7 +131,7 @@ public class AssetsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -166,7 +150,7 @@ public class AssetsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 }

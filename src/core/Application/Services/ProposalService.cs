@@ -38,11 +38,11 @@ public class ProposalService : IProposalService
         var service = await _unitOfWork.ServiceRepository.GetByIdAsync(model.ServiceId);
         if (service == null)
         {
-            throw new ArgumentException("Không tìm thấy dịch vụ.");
+            throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
         }
         if (service.DeletedOn != null)
         {
-            throw new Exception("Dịch vụ đã bị xóa.");
+            throw new KeyNotFoundException("Dịch vụ đã bị xóa.");
         }
 
 
@@ -50,11 +50,11 @@ public class ProposalService : IProposalService
         Guid creatorId = _claimService.GetCurrentUserId ?? default;
         if (creatorId != service.CreatedBy)
         {
-            throw new ArgumentException("Chỉ người sở hữu dịch vụ mới có quyền tạo thỏa thuận.");
+            throw new BadHttpRequestException("Chỉ người sở hữu dịch vụ mới có quyền tạo thỏa thuận.");
         }
         if (audienceId == creatorId)
         {
-            throw new ArgumentException("Bạn không thể tạo thỏa thuận cho chính bạn.");
+            throw new BadHttpRequestException("Bạn không thể tạo thỏa thuận cho chính bạn.");
         }
 
         Proposal newProposal = _mapper.Map<Proposal>(model);
@@ -96,7 +96,7 @@ public class ProposalService : IProposalService
         var proposal = await _unitOfWork.ProposalRepository.GetProposalDetailWithReviewAsync(proposalId);
         if (proposal == null)
         {
-            throw new ArgumentException("Không tìm thấy thỏa thuận.");
+            throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
         }
 
         var proposalVM = _mapper.Map<ProposalVM>(proposal);
@@ -109,7 +109,7 @@ public class ProposalService : IProposalService
         var chatExist = await _unitOfWork.ChatBoxRepository.GetByIdAsync(chatId);
         if (chatExist == null)
         {
-            throw new ArgumentException("Không tìm thấy phiên chat.");
+            throw new KeyNotFoundException("Không tìm thấy phiên chat.");
         }
         var listProposal = await _unitOfWork.ProposalRepository
                                 .GetProposalsByChatIdAsync(chatId);
@@ -119,6 +119,12 @@ public class ProposalService : IProposalService
 
     public async Task<List<ProposalVM>> GetProposalsByAccountIdAsync(Guid accountId)
     {
+        bool isAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
+        if (!isAccountExist)
+        {
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
+        }
+
         var listProposal = await _unitOfWork.ProposalRepository
                                 .GetListByConditionAsync(x => x.CreatedBy == accountId
                                                         || x.OrdererId == accountId);
@@ -132,11 +138,11 @@ public class ProposalService : IProposalService
         var service = await _unitOfWork.ServiceRepository.GetByIdAsync(serviceId);
         if (service == null)
         {
-            throw new ArgumentException("Không tìm thấy dịch vụ.");
+            throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
         }
         if (service.DeletedOn != null)
         {
-            throw new Exception("Dịch vụ đã bị xóa.");
+            throw new KeyNotFoundException("Dịch vụ đã bị xóa.");
         }
         var listProposal = await _unitOfWork.ProposalRepository
                                 .GetListByConditionAsync(x => x.ServiceId == serviceId);
@@ -149,7 +155,7 @@ public class ProposalService : IProposalService
         var proposal = await _unitOfWork.ProposalRepository.GetProposalDetailWithReviewAsync(id);
         if (proposal == null)
         {
-            throw new ArgumentException("Không tìm thấy thỏa thuận.");
+            throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
         }
         Guid currenUser = _claimService.GetCurrentUserId ?? default;
         if ((currenUser != proposal.CreatedBy && currenUser != proposal.OrdererId)
@@ -174,7 +180,7 @@ public class ProposalService : IProposalService
         var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalId);
         if (proposal == null)
         {
-            throw new ArgumentException("Không tìm thấy thỏa thuận.");
+            throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
         }
 
         _unitOfWork.ProposalRepository.Delete(proposal);
@@ -187,21 +193,21 @@ public class ProposalService : IProposalService
         var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalId);
         if (proposal == null)
         {
-            throw new ArgumentException("Không tìm thấy thỏa thuận.");
+            throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
         }
         if (proposal.InitialPrice == 0)
         {
-            throw new ArgumentException("Thỏa thuận này không cần đặt cọc.");
+            throw new BadHttpRequestException("Thỏa thuận này không cần đặt cọc.");
         }
         if (proposal.ProposalStatus == ProposalStateEnum.InitPayment
             || proposal.ProposalStatus == ProposalStateEnum.CompletePayment)
         {
-            throw new ArgumentException("Thỏa thuận này đã được thanh toán.");
+            throw new BadHttpRequestException("Thỏa thuận này đã được thanh toán.");
         }
         var currentId = _claimService.GetCurrentUserId ?? default;
         if (currentId != proposal.OrdererId)
         {
-            throw new ArgumentException("Bạn không có quyền thanh toán cho thỏa thuận này.");
+            throw new UnauthorizedAccessException("Bạn không có quyền thanh toán cho thỏa thuận này.");
         }
         #endregion
 
@@ -243,24 +249,24 @@ public class ProposalService : IProposalService
         var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalId);
         if (proposal == null)
         {
-            throw new ArgumentException("Không tìm thấy thỏa thuận.");
+            throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
         }
         if (proposal.ProposalStatus != ProposalStateEnum.Completed)
         {
             if (proposal.ProposalStatus != ProposalStateEnum.InitPayment)
             {
-                throw new ArgumentException("Thỏa thuận phải được đặt cọc trước khi tiến hành hoàn tất thanh toán.");
+                throw new BadHttpRequestException("Thỏa thuận phải được đặt cọc trước khi tiến hành hoàn tất thanh toán.");
             }
-            throw new ArgumentException("Trạng thái dự án chưa được hoàn thành.");
+            throw new BadHttpRequestException("Trạng thái dự án chưa được hoàn thành.");
         }
         if (proposal.ProposalStatus == ProposalStateEnum.CompletePayment)
         {
-            throw new ArgumentException("Thỏa thuận này đã được thanh toán.");
+            throw new BadHttpRequestException("Thỏa thuận này đã được thanh toán.");
         }
         var currentId = _claimService.GetCurrentUserId ?? default;
         if (currentId != proposal.OrdererId)
         {
-            throw new ArgumentException("Bạn không có quyền thanh toán cho thỏa thuận này.");
+            throw new UnauthorizedAccessException("Bạn không có quyền thanh toán cho thỏa thuận này.");
         }
         #endregion
 

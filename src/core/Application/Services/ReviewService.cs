@@ -7,6 +7,8 @@ using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
+using static Application.Commons.VietnameseEnum;
 
 namespace Application.Services;
 
@@ -51,6 +53,7 @@ public class ReviewService : IReviewService
         {
             throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
         }
+
         var reviews = await _unitOfWork.ReviewRepository.GetReviewsByServiceIdAsync(serviceId, criteria.PageNumber, criteria.PageSize);
         return _mapper.Map<PagedList<ReviewVM>>(reviews);
     }
@@ -80,26 +83,24 @@ public class ReviewService : IReviewService
     public async Task<ReviewVM> AddReviewAsync(ReviewModel model)
     {
         // kiem tra proposal co ton tai khong
-        var proposal = await _unitOfWork.ProposalRepository.GetProposalDetailAsync(model.ProposalId);
-        if (proposal == null)
-        {
-            throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
-        }
-
+        var proposal = await _unitOfWork.ProposalRepository.GetProposalDetailAsync(model.ProposalId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
         if (proposal.Review != null)
         {
-            throw new Exception("Không thể đánh giá, thỏa thuận đã được đánh giá.");
+            throw new BadHttpRequestException("Không thể đánh giá, thỏa thuận đã được đánh giá.");
         }
 
         if (proposal.ProposalStatus != ProposalStateEnum.CompletePayment)
         {
-            throw new Exception($"Can not review, proposal is not completed yet! Không thể đánh giá, thỏa thuận chưa hoàn thành (trạng thái hiện tại là {proposal.ProposalStatus})");
+            throw new BadHttpRequestException($"Không thể đánh giá, thỏa thuận chưa hoàn thành " +
+                $"(trạng thái hiện tại là '{PROPOSALSTATE_ENUM_VN[proposal.ProposalStatus]}')");
         }
 
         Guid accountId = _claimService.GetCurrentUserId ?? default;
         if (proposal.OrdererId != accountId)
         {
-            throw new Exception("Không thể đánh giá, bạn không phải là khách hàng của thỏa thuận.");
+            throw new UnauthorizedAccessException(
+                "Không thể đánh giá, bạn không phải là khách hàng của thỏa thuận.");
         }
 
         Review newReview = _mapper.Map<Review>(model);  
@@ -119,7 +120,7 @@ public class ReviewService : IReviewService
         }
         if (oldReview.CreatedBy != accountId)
         {
-            throw new Exception("Bạn không phải người viết đánh giá này.");
+            throw new UnauthorizedAccessException("Bạn không phải người viết đánh giá này.");
         }
 
         oldReview.Vote = model.Vote;

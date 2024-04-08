@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Filters;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 using Application.Models;
 
 namespace WebApi.Controllers
@@ -36,7 +36,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -71,8 +71,6 @@ namespace WebApi.Controllers
             try
             {
                 var result = await _reportService.GetReportByIdAsync(reportId);
-                if (result == null)
-                    return NotFound();
                 return Ok(result);
             }
             catch (KeyNotFoundException ex)
@@ -81,7 +79,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -100,7 +98,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -117,9 +115,13 @@ namespace WebApi.Controllers
             {
                 return NotFound(new ApiResponse { ErrorMessage = ex.Message });
             }
-            catch (Exception ex)
+            catch (BadHttpRequestException ex)
             {
                 return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
             }
         }
 
@@ -138,7 +140,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+                return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
             }
         }
     }

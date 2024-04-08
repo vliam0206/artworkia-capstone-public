@@ -1,26 +1,22 @@
 ﻿using Application.Services.Abstractions;
 using AutoMapper;
-using Domain.Entitites;
-using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Services;
 using Application.Models;
 using Domain.Entities.Commons;
-using Application.Services;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
-using WebApi.ViewModels.Commons;
+using WebApi.Utils;
 namespace WebApi.Controllers;
 
 [ApiController]
 public class CommentsController : ControllerBase
 {
-    private readonly ICommentService _commentService;   
-    private readonly IMapper _mapper;   
+    private readonly ICommentService _commentService;
+    private readonly IMapper _mapper;
     public CommentsController(ICommentService commentService, IMapper mapper)
     {
         _commentService = commentService;
@@ -37,9 +33,10 @@ public class CommentsController : ControllerBase
             var comments = _mapper.Map<List<CommentVM>>(
                 await _commentService.GetCommentsByArtworkWithRepliesAsync(artworkId));
             return Ok(comments);
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
-            return BadRequest(new ApiResponse {ErrorMessage = ex.Message});
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -56,7 +53,7 @@ public class CommentsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -107,8 +104,15 @@ public class CommentsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetComment(Guid id)
     {
-        return Ok(_mapper.Map<CommentVM>(
-                await _commentService.GetCommentByIdAsync(id)));
+        try
+        {
+            return Ok(_mapper.Map<CommentVM>(
+                    await _commentService.GetCommentByIdAsync(id)));
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
     }
 
     // api/artworks/5/comments
@@ -116,15 +120,15 @@ public class CommentsController : ControllerBase
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> PostComment(Guid artworkId, [FromBody] CommentModel model)
-    {        
+    {
         try
         {
             var comment = await _commentService.AddCommentAsync(artworkId, model.CommentText);
-            return CreatedAtAction(nameof(GetComment), new {id = comment.Id}, comment);
+            return CreatedAtAction(nameof(GetComment), new { id = comment.Id }, comment);
         }
         catch (Exception ex)
         {
-            return BadRequest(new { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -141,7 +145,7 @@ public class CommentsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -156,9 +160,13 @@ public class CommentsController : ControllerBase
             await _commentService.EditCommentAsync(id, model.CommentText);
             return NoContent();
         }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { ErrorMessage = ex.Message });
+        }
         catch (Exception ex)
         {
-            return BadRequest(new { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
 
@@ -167,13 +175,13 @@ public class CommentsController : ControllerBase
     [HttpDelete]
     [Authorize(Roles = "CommonUser,Moderator,Admin")]
     public async Task<IActionResult> DeleteComment(Guid id)
-    {        
+    {
         try
         {
             await _commentService.DeleteCommentAsync(id);
             return NoContent();
         }
-        catch(ArgumentException ex)
+        catch (KeyNotFoundException ex)
         {
             return NotFound(new { ErrorMessage = ex.Message });
         }
@@ -183,7 +191,7 @@ public class CommentsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new { ErrorMessage = ex.Message });
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
-    }    
+    }
 }

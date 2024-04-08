@@ -5,6 +5,7 @@ using AutoMapper;
 using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
 
 namespace Application.Services;
@@ -45,9 +46,8 @@ public class TagService : ITagService
 
     public async Task<TagVM?> GetTagByIdAsync(Guid tagId)
     {
-        var tag = await _unitOfWork.TagRepository.GetByIdAsync(tagId);
-        if (tag == null)
-            throw new KeyNotFoundException("Không tìm thấy thẻ.");
+        var tag = await _unitOfWork.TagRepository.GetByIdAsync(tagId)
+            ?? throw new KeyNotFoundException("Không tìm thấy thẻ.");
         var tagVM = _mapper.Map<TagVM>(tag);
         return tagVM;
     }
@@ -57,7 +57,7 @@ public class TagService : ITagService
         var tagExist = await _unitOfWork.TagRepository
             .GetSingleByConditionAsync(x => x.TagName == tagModel.TagName);
         if (tagExist != null)
-            throw new Exception($"Tên thẻ '{tagExist.TagName}' đã tồn tại.");
+            throw new BadHttpRequestException($"Tên thẻ '{tagExist.TagName}' đã tồn tại.");
         Tag newTag = _mapper.Map<Tag>(tagModel);
         await _unitOfWork.TagRepository.AddAsync(newTag);
         await _unitOfWork.SaveChangesAsync();
@@ -66,9 +66,9 @@ public class TagService : ITagService
 
     public async Task DeleteTagAsync(Guid tagId)
     {
-        var result = await _unitOfWork.TagRepository.GetByIdAsync(tagId);
-        if (result == null)
-            throw new Exception("Không tìm thấy thẻ.");
+        var result = await _unitOfWork.TagRepository.GetByIdAsync(tagId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy thẻ.");
+
         _unitOfWork.TagRepository.Delete(result);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -78,11 +78,11 @@ public class TagService : ITagService
         var tagExist = await _unitOfWork.TagRepository
             .GetTagByNameAsync(tagModel.TagName);
         if (tagExist?.Id != tagId)
-            throw new Exception($"Tên thẻ '{tagExist?.TagName}' đã tồn tại.");
+            throw new BadHttpRequestException($"Tên thẻ '{tagExist?.TagName}' đã tồn tại.");
 
-        var oldTag = await _unitOfWork.TagRepository.GetByIdAsync(tagId);
-        if (oldTag == null)
-            throw new KeyNotFoundException("Không tìm thấy thẻ.");
+        var oldTag = await _unitOfWork.TagRepository.GetByIdAsync(tagId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy thẻ.");
+
         oldTag.TagName = tagModel.TagName;
         _unitOfWork.TagRepository.Update(oldTag);
         await _unitOfWork.SaveChangesAsync();
