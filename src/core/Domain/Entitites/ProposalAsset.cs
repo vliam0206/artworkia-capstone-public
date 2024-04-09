@@ -9,6 +9,8 @@ public class ProposalAsset : BaseEntity, ICreation
     public ProposalAssetEnum Type { get; set; }
     public string ProposalAssetName { get; set; } = default!;
     public string Location { get; set; } = default!;
+    public string ContentType { get; set; } = default!; // loai duoi file (rar, zip)
+    public ulong Size { get; set; } = default!; // dung luong asset, don vi byte
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
 

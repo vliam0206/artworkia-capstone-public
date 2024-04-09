@@ -5,6 +5,7 @@ using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
+using SixLabors.ImageSharp;
 using static Application.Commons.VietnameseEnum;
 
 namespace Application.Services;
@@ -36,11 +37,8 @@ public class ProposalAssetService : IProposalAssetService
     public async Task<ProposalAssetVM> AddProposalAssetAsync(ProposalAssetModel proposalAssetModel)
     {
         // kiem tra xem proposal co ton tai khong
-        var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalAssetModel.ProposalId);
-        if (proposal == null)
-        {
-            throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
-        }
+        var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalAssetModel.ProposalId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
 
         // user phai gui tuan tu concept -> final -> revision
         //var proposalAssets = await _unitOfWork.ProposalAssetRepository.GetProposalAssetsOfProposalAsync(proposalAssetModel.ProposalId);
@@ -76,16 +74,9 @@ public class ProposalAssetService : IProposalAssetService
         ProposalAsset proposalAsset = _mapper.Map<ProposalAsset>(proposalAssetModel);
         proposalAsset.Location = url;
         proposalAsset.ProposalAssetName = newProposalAssetName + fileExtension;
+        proposalAsset.ContentType = fileExtension.Replace(".", "");
+        proposalAsset.Size = (ulong)proposalAssetModel.File.Length;
         await _unitOfWork.ProposalAssetRepository.AddAsync(proposalAsset);
-
-        // map asset vao message
-        //var newMessage = new Message()
-        //{
-        //    ChatBoxId = proposal.ChatBoxId,
-        //    FileLocation = url,
-        //    FileName = proposalAsset.ProposalAssetName
-        //};
-        //await _unitOfWork.MessageRepository.AddAsync(newMessage);
 
         if (proposalAssetModel.Type == ProposalAssetEnum.Final)
         {

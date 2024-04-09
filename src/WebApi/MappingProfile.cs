@@ -4,6 +4,7 @@ using Application.Models.ZaloPayModels;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
+using static Application.Commons.VietnameseEnum;
 namespace WebApi;
 
 public class MappingProfile : Profile
@@ -128,7 +129,8 @@ public class MappingProfile : Profile
             .ForMember(model => model.IsReviewed, opt => opt.MapFrom(src => src.Review != null));
 
         CreateMap<ProposalAsset, ProposalAssetModel>().ReverseMap();
-        CreateMap<ProposalAsset, ProposalAssetVM>().ReverseMap();
+        CreateMap<ProposalAsset, ProposalAssetVM>()
+            .ForMember(model => model.Type, opt => opt.MapFrom(x => PROPOSALASSET_ENUM_VN[x.Type]));
 
         CreateMap<Milestone, MilestoneVM>().ReverseMap();
 

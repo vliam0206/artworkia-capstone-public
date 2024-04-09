@@ -27,8 +27,8 @@ public class ChatBoxConfiguration : IEntityTypeConfiguration<ChatBox>
             new ChatBox()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                AccountId_1 = Guid.Parse("00000000-0000-0000-0000-000000000005"),
-                AccountId_2 = Guid.Parse("00000000-0000-0000-0000-000000000002")
+                AccountId_1 = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
+                AccountId_2 = Guid.Parse("00000000-0000-0000-0000-000000000002") // lamlam
             }
         );
     }

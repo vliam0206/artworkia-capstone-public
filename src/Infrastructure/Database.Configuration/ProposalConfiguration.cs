@@ -30,16 +30,19 @@ public class ProposalConfiguration : IEntityTypeConfiguration<Proposal>
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                ProjectTitle = "yeu cau lam website ecommerce",
+                ProjectTitle = "Yêu cầu làm website mua bán thiệp đám cưới.",
                 Category = "Website",
-                Description = "yeu cau lam website ecommerce",
+                Description = @"Yêu cầu làm website mua bán thiệp đám cưới:
+                    - Giao diện trực quan, dễ sử dụng.
+                    - Tìm kiếm và bộ lọc sản phẩm.
+                    - Hệ thống thanh toán an toàn.",
                 TargetDelivery = DateTime.Parse("2024-2-2"),
                 NumberOfConcept = 2,
                 NumberOfRevision = 3,
                 InitialPrice = 20000,
-                Total = 69000,
+                Total = 80000,
                 ProposalStatus = ProposalStateEnum.CompletePayment,
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 CreatedOn = DateTime.Parse("2024-1-2"),
                 OrdererId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
             }

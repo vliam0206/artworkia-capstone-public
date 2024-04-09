@@ -4,36 +4,67 @@ namespace Application.Commons;
 
 public static class VietnameseEnum
 {
+    public static readonly Dictionary<NotifyTypeEnum, string> NOTIFYTYPE_ENUM_VN = new()
+    {
+        { NotifyTypeEnum.System, "Hệ thống" },
+        { NotifyTypeEnum.Warning, "Cảnh báo" },
+        { NotifyTypeEnum.Information, "Thông tin" }
+    };  
+
     public static readonly Dictionary<ProposalAssetEnum, string> PROPOSALASSET_ENUM_VN = new()
     {
-        { ProposalAssetEnum.Concept, "phác thảo" },
-        { ProposalAssetEnum.Final, "cuối cùng" },
-        { ProposalAssetEnum.Revision, "sửa đổi" }
-    };
-
-    public static readonly Dictionary<StateEnum, string> STATE_ENUM_VN = new()
-    {
-        { StateEnum.Waiting, "đang chờ" },
-        { StateEnum.Accepted, "chấp nhận" },
-        { StateEnum.Declined, "từ chối" },
-        { StateEnum.Cancelled, "hủy bỏ" }
+        { ProposalAssetEnum.Concept, "Phác thảo" },
+        { ProposalAssetEnum.Final, "Cuối cùng" },
+        { ProposalAssetEnum.Revision, "Sửa đổi" }
     };
 
     public static readonly Dictionary<ReportEntityEnum, string> REPORTENTITY_ENUM_VN = new()
     {
-        { ReportEntityEnum.Comment, "bình luận" },
-        { ReportEntityEnum.Account, "tài khoản" },
-        { ReportEntityEnum.Artwork, "tác phẩm" }
+        { ReportEntityEnum.Comment, "Bình luận" },
+        { ReportEntityEnum.Account, "Tài khoản" },
+        { ReportEntityEnum.Artwork, "Tác phẩm" }
     };
 
     public static readonly Dictionary<ProposalStateEnum, string> PROPOSALSTATE_ENUM_VN = new()
     {
-        { ProposalStateEnum.Waiting, "đang chờ" },
-        { ProposalStateEnum.Accepted, "chấp nhận" },
-        { ProposalStateEnum.Declined, "từ chối" },
-        { ProposalStateEnum.Cancelled, "hủy bỏ" },
-        { ProposalStateEnum.InitPayment, "đã đặt cọc" },
-        { ProposalStateEnum.Completed, "kết thúc" },
-        { ProposalStateEnum.CompletePayment, "thanh toán toàn bộ" }
+        { ProposalStateEnum.Waiting, "Đang chờ" },
+        { ProposalStateEnum.Accepted, "Chấp nhận" },
+        { ProposalStateEnum.Declined, "Từ chối" },
+        { ProposalStateEnum.Cancelled, "Hủy bỏ" },
+        { ProposalStateEnum.InitPayment, "Đã đặt cọc" },
+        { ProposalStateEnum.Completed, "Kết thúc" },
+        { ProposalStateEnum.CompletePayment, "Thanh toán toàn bộ" }
+    };
+
+    public static readonly Dictionary<ReportTypeEnum, string> REPORTTYPE_ENUM_VN = new()
+    {
+        { ReportTypeEnum.Harassment, "Quấy rối" },
+        { ReportTypeEnum.HateSpeech, "Phát ngôn thù hận" },
+        { ReportTypeEnum.Spam, "Spam" },
+        { ReportTypeEnum.Impersonation, "Giả mạo" },
+        { ReportTypeEnum.InappropriateContent, "Nội dung không phù hợp" },
+        { ReportTypeEnum.Other, "Khác" }
+    };
+
+    public static readonly Dictionary<StateEnum, string> STATE_ENUM_VN = new()
+    {
+        { StateEnum.Waiting, "Đang chờ" },
+        { StateEnum.Accepted, "Chấp nhận" },
+        { StateEnum.Declined, "Từ chối" },
+        { StateEnum.Cancelled, "Hủy bỏ" }
+    };
+
+    public static readonly Dictionary<TransactionStatusEnum, string> TRANSACTIONSTATUS_ENUM_VN = new()
+    {
+        { TransactionStatusEnum.InProgress, "Đang xử lý" },
+        { TransactionStatusEnum.Success, "Thành công" },
+        { TransactionStatusEnum.Failed, "Thất bại" },
+        { TransactionStatusEnum.Cancel, "Hủy bỏ" }
+    };
+
+    public static readonly Dictionary<WalletHistoryTypeEnum, string> WALLETHISTORYTYPE_ENUM_VN = new()
+    {
+        { WalletHistoryTypeEnum.Deposit, "Nạp tiền" },
+        { WalletHistoryTypeEnum.Withdraw, "Rút tiền" }
     };
 }

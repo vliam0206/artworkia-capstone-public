@@ -55,6 +55,28 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-14T15:30:03.678Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000005")
+            },
+            new TransactionHistory
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
+                ProposalId = new Guid("00000000-0000-0000-0000-000000000001"),
+                CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"), // phuhuynh
+                Detail = "	Đặt cọc thỏa thuận \"Làm web thiệp cưới\" (25%)",
+                Price = 20000,
+                TransactionStatus = TransactionStatusEnum.Success,
+                CreatedOn = DateTime.Parse("2024-01-03T02:59:59.000Z"),
+                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000002")  // lamlam
+            },
+            new TransactionHistory
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                ProposalId = new Guid("00000000-0000-0000-0000-000000000001"),
+                CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"), // phuhuynh
+                Detail = "	Đặt cọc thỏa thuận \"Làm web thiệp cưới\" (25%)",
+                Price = 20000,
+                TransactionStatus = TransactionStatusEnum.Success,
+                CreatedOn = DateTime.Parse("2024-02-01T02:59:59.000Z"),
+                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000002")  // lamlam
             }
         );
         #endregion
