@@ -16,5 +16,5 @@ public class RequestVM
     public DateTime CreatedOn { get; set; }
 
     public AccountBasicInfoVM Account { get; set; } = default!;
-    //public ServiceVM Service { get; set; } = default!;
+    public ServiceVM Service { get; set; } = default!;
 }
