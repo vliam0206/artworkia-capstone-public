@@ -35,9 +35,6 @@ public class TagsControllerTest : SetupTest
         _tagServiceMock.Setup(service => service.GetAllTagsAsync())
             .ReturnsAsync(mockTags);
 
-        var controller = new TagsController(
-            _tagServiceMock.Object, _mapperConfig);
-
         // Act
         var result = await _tagsController.GetAllTags();
         var okResult = result as OkObjectResult;

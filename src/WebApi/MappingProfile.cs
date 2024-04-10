@@ -15,6 +15,7 @@ public class MappingProfile : Profile
         CreateMap(typeof(PagedList<>), typeof(PagedList<>));
 
         CreateMap<Account, AccountVM>().ReverseMap();
+        CreateMap<Account, AccountModerationVM>().ReverseMap();
         CreateMap<Account, RegisterModel>().ReverseMap();
         CreateMap<Account, AccountModel>().ReverseMap();
         CreateMap<Account, HiredAccountVM>()
@@ -58,6 +59,7 @@ public class MappingProfile : Profile
             .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryArtworkDetails.Select(y => y.Category).ToList()))
             .ForMember(model => model.TagList, opt => opt.MapFrom(x => x.TagDetails.Select(y => y.Tag).ToList()))
             .ForMember(model => model.SoftwareUseds, opt => opt.MapFrom(x => x.SoftwareDetails.Select(y => y.SoftwareUsed).ToList()));
+        CreateMap<Artwork, ArtworkDetailModerationVM>();
         CreateMap<Account, AccountBasicInfoVM>().ReverseMap();
         CreateMap<Artwork, ArtworkModel>().ReverseMap();
         CreateMap<Artwork, ArtworkPreviewVM>().ReverseMap();

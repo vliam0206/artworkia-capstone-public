@@ -1,6 +1,7 @@
 ﻿using Application.Services.Abstractions;
 using Domain.Entities.Commons;
 using Domain.Entitites;
+using Domain.Enums;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
 using Infrastructure.Repositories.Commons;
@@ -14,6 +15,14 @@ public class AccountRepository : GenericAuditableRepository<Account>, IAccountRe
     public AccountRepository(AppDBContext dBContext, IClaimService claimService)
         : base(dBContext, claimService)
     {
+    }
+
+    public async Task<Account?> GetAccountDetailAsync(Guid id)
+    {
+        var account = await _dbContext.Accounts
+            .Include(x => x.Wallet)
+            .FirstOrDefaultAsync(x => x.Id == id);
+        return account;
     }
 
     public async Task<IPagedList<Account>> GetAllAccountsAsync(string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize)
@@ -56,7 +65,8 @@ public class AccountRepository : GenericAuditableRepository<Account>, IAccountRe
     {
         var accounts = _dbContext.Accounts
             .Where(x => x.DeletedOn == null)
-            .Include(x => x.Proposals);
+            .Include(x => x.Proposals)
+            .Where(x => x.Role == RoleEnum.CommonUser);
         var result = await this.ToPaginationAsync(accounts, pageNumber, pageSize);
         return result;
     }

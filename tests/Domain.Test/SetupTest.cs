@@ -1,6 +1,7 @@
 ﻿using Application.Commons;
 using Application.Services.Abstractions;
 using Application.Services.Authentication;
+using Application.Services.Firebase;
 using AutoFixture;
 using AutoMapper;
 using Domain.Entitites;
@@ -59,10 +60,38 @@ public class SetupTest : IDisposable
 
     #region service mocks
     protected readonly Mock<IAccountService> _accountServiceMock;
+    protected readonly Mock<IArtworkService> _artworkServiceMock;
+    protected readonly Mock<IAssetService> _assetServiceMock;
+    protected readonly Mock<IAssetTransactionService> _assetTransactionServiceMock;
+    protected readonly Mock<IBlockService> _blockServiceMock;
+    protected readonly Mock<ICategoryArtworkDetailService> _categoryArtworkDetailServiceMock;
+    protected readonly Mock<ICategoryService> _categoryServiceMock;
+    protected readonly Mock<ICategoryServiceDetailService> _categoryServiceDetailServiceMock;
+    protected readonly Mock<IChatBoxService> _chatBoxServiceMock;
+    protected readonly Mock<ICollectionService> _collectionServiceMock;
     protected readonly Mock<ICommentService> _commentServiceMock;
-    protected readonly Mock<ITagService> _tagServiceMock;
     protected readonly Mock<IFollowService> _followServiceMock;
+    protected readonly Mock<IImageService> _imageServiceMock;
+    protected readonly Mock<ILicenseTypeService> _licenseTypeServiceMock;
+    protected readonly Mock<ILikeService> _likeServiceMock;
+    protected readonly Mock<IMessageService> _messageServiceMock;
+    protected readonly Mock<INotificationService> _notificationServiceMock;
+    protected readonly Mock<IProposalAssetService> _proposalAssetServiceMock;
+    protected readonly Mock<IProposalService> _proposalServiceMock;
+    protected readonly Mock<IReportService> _reportServiceMock;
+    protected readonly Mock<IRequestService> _requestServiceMock;
+    protected readonly Mock<IReviewService> _reviewServiceMock;
+    protected readonly Mock<IServiceService> _serviceServiceMock;
+    protected readonly Mock<ISoftwareDetailService> _softwareDetailServiceMock;
+    protected readonly Mock<ISoftwareUsedService> _softwareUsedServiceMock;
+    protected readonly Mock<ITagDetailService> _tagDetailServiceMock;
+    protected readonly Mock<ITagService> _tagServiceMock;
+    protected readonly Mock<ITransactionHistoryService> _transactionHistoryServiceMock;
     protected readonly Mock<IUserTokenService> _userTokenServiceMock;
+    protected readonly Mock<IWalletHistoryService> _walletHistoryServiceMock;
+    protected readonly Mock<IWalletService> _walletServiceMock;
+    protected readonly Mock<IFirebaseService> _firebaseServiceMock;
+
     protected readonly Mock<ITokenHandler> _tokenHandlerMock;
     protected readonly Mock<IThirdAuthenticationService> _thirdAuthenticationServiceMock;
     #endregion
@@ -131,13 +160,40 @@ public class SetupTest : IDisposable
         #region setup services mock
 
         _accountServiceMock = new Mock<IAccountService>();
+        _artworkServiceMock = new Mock<IArtworkService>();
+        _assetServiceMock = new Mock<IAssetService>();
+        _assetTransactionServiceMock = new Mock<IAssetTransactionService>();
+        _blockServiceMock = new Mock<IBlockService>();
+        _categoryArtworkDetailServiceMock = new Mock<ICategoryArtworkDetailService>();
+        _categoryServiceMock = new Mock<ICategoryService>();
+        _categoryServiceDetailServiceMock = new Mock<ICategoryServiceDetailService>();
+        _chatBoxServiceMock = new Mock<IChatBoxService>();
+        _collectionServiceMock = new Mock<ICollectionService>();
         _commentServiceMock = new Mock<ICommentService>();
-        _tagServiceMock = new Mock<ITagService>();
         _followServiceMock = new Mock<IFollowService>();
+        _imageServiceMock = new Mock<IImageService>();
+        _licenseTypeServiceMock = new Mock<ILicenseTypeService>();
+        _likeServiceMock = new Mock<ILikeService>();
+        _messageServiceMock = new Mock<IMessageService>();
+        _milestoneRepositoryMock = new Mock<IMilestoneRepository>();
+        _notificationServiceMock = new Mock<INotificationService>();
+        _proposalAssetServiceMock = new Mock<IProposalAssetService>();
+        _proposalServiceMock = new Mock<IProposalService>();
+        _reportServiceMock = new Mock<IReportService>();
+        _requestServiceMock = new Mock<IRequestService>();
+        _reviewServiceMock = new Mock<IReviewService>();
+        _serviceServiceMock = new Mock<IServiceService>();
+        _softwareDetailServiceMock = new Mock<ISoftwareDetailService>();
+        _softwareUsedServiceMock = new Mock<ISoftwareUsedService>();
+        _tagDetailServiceMock = new Mock<ITagDetailService>();
+        _tagServiceMock = new Mock<ITagService>();
+        _transactionHistoryServiceMock = new Mock<ITransactionHistoryService>();
         _userTokenServiceMock = new Mock<IUserTokenService>();
+        _walletHistoryServiceMock = new Mock<IWalletHistoryService>();
+        _walletServiceMock = new Mock<IWalletService>();
         _tokenHandlerMock = new Mock<ITokenHandler>();
         _thirdAuthenticationServiceMock = new Mock<IThirdAuthenticationService>();
-
+        _firebaseServiceMock = new Mock<IFirebaseService>();
         #endregion
     }
 

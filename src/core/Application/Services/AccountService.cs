@@ -45,11 +45,8 @@ public class AccountService : IAccountService
     {
         Guid? loginId = _claimService.GetCurrentUserId;
 
-        var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId);
-        if (account == null)
-        {
-            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
-        }
+        var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy tài khoản.");
         if (account.DeletedOn != null)
         {
             throw new KeyNotFoundException("Tài khoản này đã bị xóa.");
@@ -69,6 +66,18 @@ public class AccountService : IAccountService
         return accountVM;
     }
 
+    public async Task<AccountModerationVM> GetAccountByIdForModerationAsync(Guid accountId)
+    {
+        var account = await _unitOfWork.AccountRepository.GetAccountDetailAsync(accountId);
+        if (account == null)
+        {
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
+        }
+
+        var accountVM = _mapper.Map<AccountModerationVM>(account);
+        return accountVM;
+    }
+
     public async Task<PagedList<AccountVM>> GetAccountsAsync(AccountCriteria criteria)
     {
         var listAccount = await _unitOfWork.AccountRepository.GetAllAccountsAsync(
@@ -77,10 +86,6 @@ public class AccountService : IAccountService
         var listAccountVM = _mapper.Map<PagedList<AccountVM>>(listAccount);
         return listAccountVM;
     }
-
-    public async Task<Account?> GetAccountByUsernameAsync(string username)
-        => await _unitOfWork.AccountRepository
-                .GetSingleByConditionAsync(x => x.Username.Equals(username));
 
     public async Task<List<Account>> GetDeletedAccountsAsync()
     {
@@ -163,7 +168,7 @@ public class AccountService : IAccountService
         }
         else
         {
-            throw new Exception("Mật khẩu cũ không đúng.");
+            throw new BadHttpRequestException("Mật khẩu cũ không đúng.");
         }
     }
 
@@ -200,7 +205,7 @@ public class AccountService : IAccountService
         }
         if (account.DeletedOn == null)
         {
-            throw new Exception("Tài khoản này đã bị xóa.");
+            throw new KeyNotFoundException("Tài khoản này đã bị xóa.");
         }
         account.DeletedOn = null;
         account.DeletedBy = null;

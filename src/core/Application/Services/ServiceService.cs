@@ -42,6 +42,12 @@ public class ServiceService : IServiceService
             null, criteria.MinPrice, criteria.MaxPrice, criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
         var listServiceVM = _mapper.Map<PagedList<ServiceVM>>(listService);
+
+        // calculate average rating of service
+        foreach (var serviceVM in listServiceVM.Items)
+        {
+            serviceVM.AverageRating = await _unitOfWork.ServiceRepository.GetAverageRatingOfServiceAsync(serviceVM.Id);
+        }
         return listServiceVM;
     }
 
@@ -57,6 +63,12 @@ public class ServiceService : IServiceService
             accountId, criteria.MinPrice, criteria.MaxPrice, criteria.Keyword, criteria.SortColumn,
             criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
         var listServiceVM = _mapper.Map<PagedList<ServiceVM>>(listService);
+
+        // calculate average rating of service
+        foreach (var serviceVM in listServiceVM.Items)
+        {
+            serviceVM.AverageRating = await _unitOfWork.ServiceRepository.GetAverageRatingOfServiceAsync(serviceVM.Id);
+        }
         return listServiceVM;
     }
 
@@ -81,6 +93,10 @@ public class ServiceService : IServiceService
                 throw new BadHttpRequestException("Không thể xem dịch vụ vì chặn hoặc bị chặn.");
             }
         }
+
+        // calculate average rating of service
+        serviceVM.AverageRating = await _unitOfWork.ServiceRepository.GetAverageRatingOfServiceAsync(serviceId);
+
         return serviceVM;
     }
 
@@ -171,11 +187,7 @@ public class ServiceService : IServiceService
         {
             foreach (var artworkId in serviceEM.ArtworkReference)
             {
-                var artworkExistInDb = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
-                if (artworkExistInDb == null)
-                {
-                    throw new KeyNotFoundException($"Không tìm thấy tác phẩm. (ID: {artworkId})");
-                }
+                var artworkExistInDb = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId) ?? throw new KeyNotFoundException($"Không tìm thấy tác phẩm. (ID: {artworkId})");
                 if (artworkExistInDb.DeletedOn != null)
                 {
                     throw new KeyNotFoundException($"Tác phẩm đã bị xóa. (ID: {artworkId})");

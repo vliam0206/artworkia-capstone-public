@@ -1,7 +1,9 @@
-﻿using Application.Filters;
+﻿using Application.Commons;
+using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
+using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -44,7 +46,7 @@ public class AccountsController : ControllerBase
     // GET: api/accounts
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<IEnumerable<AccountVM>>> GetAccounts([FromQuery] AccountCriteria criteria)
+    public async Task<ActionResult<IPagedList<AccountVM>>> GetAccounts([FromQuery] AccountCriteria criteria)
     {
         try
         {
@@ -73,6 +75,27 @@ public class AccountsController : ControllerBase
         catch (BadHttpRequestException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
+
+    // GET: api/moderation/accounts/5
+    // get account for moderation by id
+    [HttpGet("/api/moderation/accounts/{id}")]
+    [Authorize(Roles = "Moderator,Admin")]
+    public async Task<ActionResult<AccountModerationVM>> GetAccountForModeration(Guid id)
+    {
+        try
+        {
+            var account = await _accountService.GetAccountByIdForModerationAsync(id);
+            return Ok(account);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {
@@ -211,6 +234,10 @@ public class AccountsController : ControllerBase
         catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (BadHttpRequestException ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {

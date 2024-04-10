@@ -78,4 +78,17 @@ public class ServiceRepository : GenericAuditableRepository<Service>, IServiceRe
 
         return result;
     }
+
+    public async Task<double> GetAverageRatingOfServiceAsync(Guid serviceId)
+    {
+        var reviews = _dbContext.Reviews
+            .Include(x => x.Proposal)
+            .Where(x => x.Proposal.ServiceId == serviceId)
+            .Select(x => x.Vote);
+        if (!reviews.Any())
+        {
+            return 0;
+        }
+        return await reviews.AverageAsync();
+    }
 }

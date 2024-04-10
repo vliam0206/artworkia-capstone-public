@@ -15,7 +15,7 @@ public interface IAccountService
     Task EditPasswordAsync(Guid accountId, string oldPassword, string newPassword);
     Task<Account?> GetAccountByEmailAsync(string email);
     Task<AccountVM> GetAccountByIdAsync(Guid accountId);
-    Task<Account?> GetAccountByUsernameAsync(string username);
+    Task<AccountModerationVM> GetAccountByIdForModerationAsync(Guid accountId);
     Task<PagedList<AccountVM>> GetAccountsAsync(AccountCriteria criteria);
     Task<List<Account>> GetDeletedAccountsAsync();
     Task UpdateAccountAsync(Guid id, AccountModel model);

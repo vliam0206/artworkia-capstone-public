@@ -8,4 +8,5 @@ public interface IServiceRepository : IGenericRepository<Service>
     Task<IPagedList<Service>?> GetAllServicesAsync(
         Guid? accountId, int? minPrice, int? maxPrice, string? keyword,
         string? sortColumn, string? sortOrder, int page, int pageSize);
+    public Task<double> GetAverageRatingOfServiceAsync(Guid serviceId);
 }

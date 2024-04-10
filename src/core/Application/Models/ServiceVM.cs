@@ -10,6 +10,7 @@ public class ServiceVM
     public int NumberOfRevision { get; set; } = default!;
     public double StartingPrice { get; set; } = default!;
     public string Thumbnail { get; set; } = default!;
+    public double AverageRating { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public Guid? LastModificatedBy { get; set; }

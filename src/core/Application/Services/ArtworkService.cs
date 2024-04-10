@@ -142,9 +142,8 @@ public class ArtworkService : IArtworkService
     {
         Guid? accountId = _claimService.GetCurrentUserId;
 
-        var artwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId);
-        if (artwork == null)
-            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
+        var artwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         if (artwork.DeletedOn != null)
             throw new KeyNotFoundException("Tác phẩm đã bị xóa.");
 
@@ -166,6 +165,17 @@ public class ArtworkService : IArtworkService
         // increase view count
         artwork.ViewCount++;
         _unitOfWork.ArtworkRepository.Update(artwork);
+        await _unitOfWork.SaveChangesAsync();
+
+        return artworkVM;
+    }
+
+    public async Task<ArtworkDetailModerationVM?> GetArtworkByIdForModerationAsync(Guid artworkId)
+    {
+        var artwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
+        var artworkVM = _mapper.Map<ArtworkDetailModerationVM>(artwork);
+
         await _unitOfWork.SaveChangesAsync();
 
         return artworkVM;
@@ -330,5 +340,4 @@ public class ArtworkService : IArtworkService
         _unitOfWork.ArtworkRepository.Update(oldArtwork);
         await _unitOfWork.SaveChangesAsync();
     }
-
 }

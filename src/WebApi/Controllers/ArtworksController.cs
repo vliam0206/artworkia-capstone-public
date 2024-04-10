@@ -68,15 +68,13 @@ public class ArtworksController : ControllerBase
         return Ok(privacyEnums);
     }
 
-
     [HttpGet("{artworkId}")]
     public async Task<IActionResult> GetArtworkById(Guid artworkId)
     {
         try
         {
             var result = await _artworkService.GetArtworkByIdAsync(artworkId);
-            var resultModel = _mapper.Map<ArtworkVM>(result);
-            return Ok(resultModel);
+            return Ok(result);
         }
         catch (KeyNotFoundException ex)
         {
@@ -91,6 +89,25 @@ public class ArtworksController : ControllerBase
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
+
+    [HttpGet("/api/moderation/artworks/{artworkId}")]
+    public async Task<IActionResult> GetArtworkByIdForModeration(Guid artworkId)
+    {
+        try
+        {
+            var result = await _artworkService.GetArtworkByIdForModerationAsync(artworkId);
+            return Ok(result);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
+
 
     [HttpGet("{artworkId}/duplication")]
     public async Task<IActionResult> GetArtworksDuplicate(Guid artworkId)
