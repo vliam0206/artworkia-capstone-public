@@ -16,35 +16,33 @@ public class RequestConfiguration : IEntityTypeConfiguration<Request>
 
         // relationship
         builder.HasOne(x => x.Account).WithMany(a => a.Requests).HasForeignKey(x => x.CreatedBy);
-        builder.HasOne(x => x.Service).WithMany(s => s.Requests).HasForeignKey(x => x.ServiceId);
-        builder.HasOne(x => x.ChatBox).WithMany(c => c.Requests).HasForeignKey(x => x.ChatBoxId);
+        builder.HasOne(x => x.Service).WithMany(s => s.Requests).HasForeignKey(x => x.ServiceId);        
+        builder.HasOne(x => x.MessageObj).WithOne(m => m.Request).HasForeignKey<Message>(m => m.RequestId);
 
         builder.HasData
         (
             new Request()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001"),                
                 Message = "Yêu cầu làm website mua bán.",
                 Timeline = "2 - 3 tuần",
                 Budget = 69000,
                 RequestStatus = StateEnum.Declined,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
-                CreatedOn = DateTime.Parse("2024-1-1"),
+                CreatedOn = DateTime.Parse("2023-09-09")
             },
 
             new Request()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
-                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001"),                
                 Message = "Yêu cầu làm website mua bán thiệp đám cưới.",
                 Timeline = "2 - 3 tuần",
                 Budget = 69000,
                 RequestStatus = StateEnum.Accepted,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
-                CreatedOn = DateTime.Parse("2024-1-2"),
+                CreatedOn = DateTime.Parse("2023-09-14")
             }
         );
     }

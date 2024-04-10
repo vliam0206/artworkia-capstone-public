@@ -1,10 +1,12 @@
-﻿using Application.Models;
+﻿using Application.Commons;
+using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Http;
+using System.Net;
 
 namespace Application.Services;
 
@@ -32,6 +34,7 @@ public class ProposalService : IProposalService
 
     public async Task<ProposalVM> CreateProposalAsync(ProposalModel model)
     {
+        #region validation
         // check whether service exist
         var service = await _unitOfWork.ServiceRepository.GetByIdAsync(model.ServiceId);
         if (service == null)
@@ -54,13 +57,23 @@ public class ProposalService : IProposalService
         {
             throw new BadHttpRequestException("Bạn không thể tạo thỏa thuận cho chính bạn.");
         }
+        #endregion
 
         Proposal newProposal = _mapper.Map<Proposal>(model);
+        await _unitOfWork.ProposalRepository.AddAsync(newProposal);
 
         var chatBoxExist = await _unitOfWork.ChatBoxRepository.GetChatBoxAsync(audienceId, creatorId);
         if (chatBoxExist is not null)
         {
-            newProposal.ChatBoxId = chatBoxExist.Id;
+            // create new message in that chatboxId
+            var message = new Message
+            {
+                ChatBoxId = chatBoxExist.Id,
+                ProposalId = newProposal.Id,
+                CreatedBy = _claimService.GetCurrentUserId,
+                CreatedOn = CurrentTime.GetCurrentTime
+            };
+            await _unitOfWork.MessageRepository.AddAsync(message);
         }
         else
         {
@@ -70,9 +83,17 @@ public class ProposalService : IProposalService
                 AccountId_2 = creatorId,
             };
             await _unitOfWork.ChatBoxRepository.AddAsync(newChatBox);
-            newProposal.ChatBoxId = newChatBox.Id;
-        }
-        await _unitOfWork.ProposalRepository.AddAsync(newProposal);
+
+            // create new message in that chatboxId
+            var message = new Message
+            {
+                ChatBoxId = newChatBox.Id,
+                ProposalId = newProposal.Id,
+                CreatedBy = _claimService.GetCurrentUserId,
+                CreatedOn = CurrentTime.GetCurrentTime
+            };
+            await _unitOfWork.MessageRepository.AddAsync(message);
+        }       
 
         // create proposal successfully -> add Init milestone
         await _milstoneService.AddMilestoneToProposalAsync(newProposal.Id, "Thỏa thuận đã được tạo");

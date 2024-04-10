@@ -4,6 +4,7 @@ using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240410102545_EditSchemaForDisplayMessages")]
+    partial class EditSchemaForDisplayMessages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,12 +31,6 @@ namespace Migrators.MSSQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newid()");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ArtisticStyle")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Avatar")
                         .HasColumnType("nvarchar(max)");
@@ -69,6 +66,9 @@ namespace Migrators.MSSQL.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
+
                     b.Property<Guid?>("LastModificatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -88,9 +88,6 @@ namespace Migrators.MSSQL.Migrations
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
-
-                    b.Property<DateTime?>("VerifiedOn")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -112,6 +109,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 14, 12, 37, 42, 345, DateTimeKind.Local),
                             Email = "user@example.com",
                             Fullname = "Người dùng mặc định",
+                            IsVerified = false,
                             Password = "/Yvo/zNSPcJB+6Roi0BD6gR/tx9tPXSqrslB+3Zy0rwOC2lA",
                             Role = 2,
                             Username = "user"
@@ -125,10 +123,10 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 15, 17, 15, 47, 890, DateTimeKind.Local),
                             Email = "lamlam@example.com",
                             Fullname = "Trúc Lam Võ",
+                            IsVerified = true,
                             Password = "P9i8PUWQ4DnT6Dnstg7HEXTlnFUDoZFTNJopEJ4UxxoK3zRn",
                             Role = 2,
-                            Username = "lamlam",
-                            VerifiedOn = new DateTime(2023, 10, 15, 17, 15, 47, 890, DateTimeKind.Local)
+                            Username = "lamlam"
                         },
                         new
                         {
@@ -139,6 +137,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 21, 19, 20, 47, 890, DateTimeKind.Local),
                             Email = "hoanganh@example.com",
                             Fullname = "Đặng Hoàng Anh",
+                            IsVerified = false,
                             Password = "RZX95v+qA/O+EKXLkilrMbLW+cKQ7jekrOE9uwWE4fSupbQM",
                             Role = 2,
                             Username = "hoanganh"
@@ -152,6 +151,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 27, 19, 23, 47, 890, DateTimeKind.Local),
                             Email = "thong@example.com",
                             Fullname = "Nguyễn Trung Thông",
+                            IsVerified = false,
                             Password = "BCpA8roVqTkU54PKIBXU4Iyl3YqyF5wYPagAXZ/1HYFEB9dh",
                             Role = 2,
                             Username = "thong"
@@ -165,10 +165,10 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 30, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "phu@example.com",
                             Fullname = "Huỳnh Vạn Phú",
+                            IsVerified = true,
                             Password = "44p9oaVq2ED8i7Q6vKIaS//ynDYqhnLcHcX/W7sDDIa1m3v/",
                             Role = 2,
-                            Username = "phuhuynh",
-                            VerifiedOn = new DateTime(2023, 10, 16, 17, 15, 47, 890, DateTimeKind.Local)
+                            Username = "phuhuynh"
                         },
                         new
                         {
@@ -179,6 +179,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 14, 12, 37, 42, 345, DateTimeKind.Local),
                             Email = "mod@example.com",
                             Fullname = "Kiểm soát viên",
+                            IsVerified = false,
                             Password = "/yI89eEokmyCtc8FQcA8Salpuc2Gnv6+xvWUi9jfF3D56K8l",
                             Role = 1,
                             Username = "mod"
@@ -192,6 +193,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "admin@example.com",
                             Fullname = "Quản trị viên hệ thống",
+                            IsVerified = false,
                             Password = "tmb/sYLga1PDxUtRiIEU4YJtaG2HN58av/VA2S/8v19GLbSx",
                             Role = 0,
                             Username = "admin"
@@ -205,6 +207,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "nguyenhoang@example.com",
                             Fullname = "Nguyễn Hoàng",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "nguyenhoang"
@@ -218,6 +221,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "tranminh@example.com",
                             Fullname = "Trần Minh",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "tranminh"
@@ -231,6 +235,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "phamthanh@example.com",
                             Fullname = "Phạm Thanh",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "phamthanh"
@@ -244,6 +249,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "ngothanhtu@example.com",
                             Fullname = "Ngô Thanh Tú",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "ngothanhtu"
@@ -257,6 +263,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "truongthu@example.com",
                             Fullname = "Trương Thu",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "truongthu"
@@ -270,6 +277,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "levan@example.com",
                             Fullname = "Lê Văn",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "levan"
@@ -283,6 +291,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "nguyenminh@example.com",
                             Fullname = "Nguyễn Minh",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "nguyenminh"
@@ -296,6 +305,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "hoangtuan@example.com",
                             Fullname = "Hoàng Tuấn",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "hoangtuan"
@@ -309,6 +319,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 10, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "buiduong@example.com",
                             Fullname = "Bùi Dương",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "buiduong"
@@ -322,6 +333,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 10, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "phamha@example.com",
                             Fullname = "Phạm Hà",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "phamha"
@@ -335,6 +347,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 10, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "doantrang@example.com",
                             Fullname = "Đoàn Trang",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "doantrang"
@@ -348,6 +361,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 10, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "tranduc@example.com",
                             Fullname = "Trần Đức",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "tranduc"
@@ -361,6 +375,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 10, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "nguyenhieu@example.com",
                             Fullname = "Nguyễn Hiếu",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "nguyenhieu"
@@ -374,6 +389,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 10, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "vuthao@example.com",
                             Fullname = "Vũ Thảo",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "vuthao"
@@ -387,6 +403,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 10, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "nguyentien@example.com",
                             Fullname = "Nguyễn Tiến",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "nguyentien"
@@ -400,35 +417,11 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 10, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "vudang@example.com",
                             Fullname = "Vũ Đăng",
+                            IsVerified = false,
                             Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
                             Role = 2,
                             Username = "vudang"
                         });
-                });
-
-            modelBuilder.Entity("Domain.Entitites.ArtistCertificate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("newid()");
-
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CertificateUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Certificatename")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
-
-                    b.ToTable("ArtistCertificate", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entitites.Artwork", b =>
@@ -3367,17 +3360,6 @@ namespace Migrators.MSSQL.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.Entitites.ArtistCertificate", b =>
-                {
-                    b.HasOne("Domain.Entitites.Account", "Account")
-                        .WithMany("ArtistCertificates")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-                });
-
             modelBuilder.Entity("Domain.Entitites.Artwork", b =>
                 {
                     b.HasOne("Domain.Entitites.Account", "Account")
@@ -3843,8 +3825,6 @@ namespace Migrators.MSSQL.Migrations
 
             modelBuilder.Entity("Domain.Entitites.Account", b =>
                 {
-                    b.Navigation("ArtistCertificates");
-
                     b.Navigation("Artworks");
 
                     b.Navigation("Blocked");

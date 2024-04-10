@@ -7,7 +7,6 @@ namespace Domain.Entitites;
 public class Request : BaseEntity, ICreation
 {
     public Guid ServiceId { get; set; }
-    public Guid ChatBoxId { get; set; }
     [MaxLength(255)]
     public string Message { get; set; } = default!;
     [MaxLength(150)]
@@ -19,5 +18,5 @@ public class Request : BaseEntity, ICreation
 
     public virtual Account Account { get; set; } = default!;
     public virtual Service Service { get; set; } = default!;
-    public virtual ChatBox ChatBox { get; set; } = default!;
+    public virtual Message MessageObj { get; set; } = default!;
 }

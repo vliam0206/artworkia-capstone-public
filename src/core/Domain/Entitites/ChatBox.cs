@@ -9,7 +9,5 @@ public class ChatBox : BaseEntity
 
     public virtual Account Account_1 { get; set; } = default!;
     public virtual Account Account_2 { get; set; } = default!;
-    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
-    public virtual ICollection<Proposal> Proposals { get; set; } = new List<Proposal>();
-    public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
+    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();    
 }

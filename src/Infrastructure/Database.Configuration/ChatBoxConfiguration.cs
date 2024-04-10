@@ -20,8 +20,6 @@ public class ChatBoxConfiguration : IEntityTypeConfiguration<ChatBox>
                                         .HasForeignKey(x => x.AccountId_2)
                                         .OnDelete(DeleteBehavior.NoAction);
         builder.HasMany(x => x.Messages).WithOne(p => p.ChatBox).HasForeignKey(p => p.ChatBoxId);
-        builder.HasMany(x => x.Proposals).WithOne(p => p.ChatBox).HasForeignKey(p => p.ChatBoxId);
-        builder.HasMany(x => x.Requests).WithOne(r => r.ChatBox).HasForeignKey(r => r.ChatBoxId);
 
         builder.HasData(
             new ChatBox()

@@ -1,4 +1,5 @@
-﻿using Application.Models;
+﻿using Application.Commons;
+using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
@@ -12,7 +13,7 @@ public class RequestService : IRequestService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    private readonly IClaimService _claimService;
+    private readonly IClaimService _claimService;    
 
     public RequestService(
         IUnitOfWork unitOfWork,
@@ -27,6 +28,7 @@ public class RequestService : IRequestService
 
     public async Task<RequestVM> AddRequestAsync(RequestModel requestModel)
     {
+        #region validation
         // kiem tra service co ton tai khong
         var service = await _unitOfWork.ServiceRepository.GetByIdAsync(requestModel.ServiceId)
             ?? throw new KeyNotFoundException("Không tìm thấy dịch vụ.");
@@ -48,14 +50,24 @@ public class RequestService : IRequestService
         {
             throw new BadHttpRequestException("Bạn không thể tạo yêu cầu cho chính dịch vụ của bạn.");
         }
+        #endregion
 
         Request newRequest = _mapper.Map<Request>(requestModel);
         newRequest.RequestStatus = StateEnum.Waiting;
+        await _unitOfWork.RequestRepository.AddAsync(newRequest);
 
         var chatBoxExist = await _unitOfWork.ChatBoxRepository.GetChatBoxAsync(audienceId, creatorId);
         if (chatBoxExist is not null)
         {
-            newRequest.ChatBoxId = chatBoxExist.Id;
+            // create new message in that chatboxId
+            var message = new Message
+            {
+                ChatBoxId = chatBoxExist.Id,
+                RequestId = newRequest.Id,
+                CreatedBy = _claimService.GetCurrentUserId,
+                CreatedOn = CurrentTime.GetCurrentTime
+            };
+            await _unitOfWork.MessageRepository.AddAsync(message);
         }
         else
         {
@@ -64,10 +76,18 @@ public class RequestService : IRequestService
                 AccountId_1 = _claimService.GetCurrentUserId ?? default,
                 AccountId_2 = service.CreatedBy ?? default,
             };
-            await _unitOfWork.ChatBoxRepository.AddAsync(newChatBox);
-            newRequest.ChatBoxId = newChatBox.Id;
-        }
-        await _unitOfWork.RequestRepository.AddAsync(newRequest);
+            await _unitOfWork.ChatBoxRepository.AddAsync(newChatBox);           
+
+            // create new message in that chatboxId
+            var message = new Message
+            {
+                ChatBoxId = newChatBox.Id,
+                RequestId = newRequest.Id,
+                CreatedBy = _claimService.GetCurrentUserId,
+                CreatedOn = CurrentTime.GetCurrentTime
+            };
+            await _unitOfWork.MessageRepository.AddAsync(message);
+        }       
         await _unitOfWork.SaveChangesAsync();
         return _mapper.Map<RequestVM>(newRequest);
     }

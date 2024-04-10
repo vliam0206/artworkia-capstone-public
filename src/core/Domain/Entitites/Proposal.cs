@@ -6,7 +6,6 @@ namespace Domain.Entitites;
 
 public class Proposal : BaseEntity, ICreation
 {
-    public Guid ChatBoxId { get; set; }
     public Guid ServiceId { get; set; }
     [MaxLength(150)]
     public string ProjectTitle { get; set; } = default!;
@@ -26,9 +25,9 @@ public class Proposal : BaseEntity, ICreation
 
     public virtual Account Account { get; set; } = default!;
     public virtual Service Service { get; set; } = default!;
-    public virtual ChatBox ChatBox { get; set; } = default!;
     public virtual ICollection<ProposalAsset> ProposalAssets { get; set; } = new List<ProposalAsset>();
     public virtual Review? Review { get; set; }
     public virtual ICollection<TransactionHistory> TransactionHistories { get; set; } = new List<TransactionHistory>();
     public virtual ICollection<Milestone> Milestones { get; set; } = new List<Milestone>();
+    public virtual Message MessageObj { get; set; } = default!;
 }

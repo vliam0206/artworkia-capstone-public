@@ -38,6 +38,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.HasMany(x => x.Followers).WithOne(f => f.Following).HasForeignKey(f => f.FollowingId);
         builder.HasMany(x => x.WalletHistories).WithOne(h => h.Account).HasForeignKey(h => h.CreatedBy);
         builder.HasMany(x => x.Milestones).WithOne(m => m.CreatedAccount).HasForeignKey(m => m.CreatedBy);
+        builder.HasMany(x => x.ArtistCertificates).WithOne(a => a.Account).HasForeignKey(a => a.AccountId);
         #endregion
 
         #region init data
@@ -68,7 +69,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Birthdate = DateTime.Parse("2002-10-4"),
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-15T10:15:47.890Z"),
-                IsVerified = true
+                VerifiedOn = DateTime.Parse("2023-10-15T10:15:47.890Z")
             },
             new Account()
             {
@@ -108,7 +109,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Birthdate = DateTime.Parse("2002-5-6"),
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-30T03:21:47.890Z"),
-                IsVerified = true
+                VerifiedOn = DateTime.Parse("2023-10-16T10:15:47.890Z"),
             },
             // moderators
             new Account()

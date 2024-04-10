@@ -33,7 +33,7 @@ public class MessageService : IMessageService
     public async Task<List<MessageVM>> GetAllMessageAsync(Guid chatId)
     {
         var messages = await _unitOfWork.MessageRepository
-                        .GetListByConditionAsync(x => x.ChatBoxId == chatId);
+                                .GetMessageByChatBoxIdAsync(chatId);
         return _mapper.Map<List<MessageVM>>(messages);
     }
 

@@ -18,6 +18,7 @@ public class MappingProfile : Profile
         CreateMap<Account, RegisterModel>().ReverseMap();
         CreateMap<Account, AccountModel>().ReverseMap();
         CreateMap<Account, HiredAccountVM>()
+            .ForMember(model => model.IsVerified, opt => opt.MapFrom(src => src.VerifiedOn != null))
             .ForMember(model => model.ProjectCompleted,
                 opt => opt.MapFrom(x => x.Proposals
                 .Where(p => p.ProposalStatus == ProposalStateEnum.Completed

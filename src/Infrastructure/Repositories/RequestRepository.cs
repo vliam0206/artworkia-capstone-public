@@ -24,7 +24,8 @@ public class RequestRepository : GenericCreationRepository<Request>, IRequestRep
     {
         return await _dbContext.Requests
             .Include(x => x.Service)
-            .Where(x => x.ChatBoxId == chatboxId)
+            .Include(x => x.MessageObj)
+            .Where(x => x.MessageObj.ChatBoxId == chatboxId)
             .ToListAsync();
     }
 

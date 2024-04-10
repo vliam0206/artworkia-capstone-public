@@ -20,7 +20,9 @@ public class Account : BaseEntity, ICreation, IModification, ISoftDelete
     public string? Avatar { get; set; }
     [Birthdate]
     public DateTime? Birthdate { get; set; }
-    public bool IsVerified { get; set; } = false;
+    public string? Address { get; set; }
+    public string? ArtisticStyle { get; set; }
+    public DateTime? VerifiedOn { get; set; }
 
     public RoleEnum Role { get; set; } = RoleEnum.CommonUser;
     public Guid? CreatedBy { get; set; }
@@ -53,4 +55,5 @@ public class Account : BaseEntity, ICreation, IModification, ISoftDelete
     public virtual ICollection<Block> Blocked { get; set; } = new List<Block>(); // nguoi bi block
     public virtual ICollection<WalletHistory> WalletHistories { get; set; } = new List<WalletHistory>();
     public virtual ICollection<Milestone> Milestones { get; set; } = new List<Milestone>();
+    public virtual ICollection<ArtistCertificate> ArtistCertificates { get; set; } = new List<ArtistCertificate>();
 }

@@ -48,6 +48,7 @@ public class AppDBContext : DbContext
     public DbSet<Follow> Follows { get; set; }
     public DbSet<Block> Blocks { get; set; }
     public DbSet<Milestone> Milestones { get; set; }
+    public DbSet<ArtistCertificate> ArtistCertificates { get; set; }
 
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //{

@@ -17,7 +17,7 @@ public class ProposalRepository : GenericCreationRepository<Proposal>, IProposal
         return await _dbContext.Proposals
             .Include(x => x.Service)
             .Include(x => x.Account)
-            .Include(x => x.ChatBox)
+            //.Include(x => x.ChatBox)
             .Include(x => x.ProposalAssets)
             .Include(x => x.Review)
             .Include(x => x.TransactionHistories)
@@ -36,7 +36,8 @@ public class ProposalRepository : GenericCreationRepository<Proposal>, IProposal
     {
         return await _dbContext.Proposals
             .Include(x => x.Review)
-            .Where(x => x.ChatBoxId == ChatId)
+            .Include(x => x.MessageObj)
+            .Where(x => x.MessageObj.ChatBoxId == ChatId)
             .ToListAsync();
 
     }
