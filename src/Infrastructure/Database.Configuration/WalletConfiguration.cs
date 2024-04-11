@@ -47,7 +47,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
-                WithdrawInformation = "0902287463",
+                WithdrawInformation = "0365960823",
                 Balance = 1000000
             },
             new Wallet // wallet of phuhuynh
