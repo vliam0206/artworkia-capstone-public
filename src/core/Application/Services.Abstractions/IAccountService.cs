@@ -17,6 +17,7 @@ public interface IAccountService
     Task<AccountVM> GetAccountByIdAsync(Guid accountId);
     Task<AccountModerationVM> GetAccountByIdForModerationAsync(Guid accountId);
     Task<PagedList<AccountVM>> GetAccountsAsync(AccountCriteria criteria);
+    Task<PagedList<AccountModerationVM>> GetAccountsForModerationAsync(AccountCriteria criteria);
     Task<List<Account>> GetDeletedAccountsAsync();
     Task UpdateAccountAsync(Guid id, AccountModel model);
     Task<PagedList<HiredAccountVM>> GetHiredAccountAsync(PagedCriteria pagedCriteria);

@@ -4,20 +4,21 @@ using Application.Models.ZaloPayModels;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
-using static Application.Commons.VietnameseEnum;
 namespace WebApi;
 
 public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        // chu y: 1 so model, view model nam o Application.Models
         CreateMap(typeof(PagedList<>), typeof(PagedList<>));
 
-        CreateMap<Account, AccountVM>().ReverseMap();
-        CreateMap<Account, AccountModerationVM>().ReverseMap();
-        CreateMap<Account, RegisterModel>().ReverseMap();
-        CreateMap<Account, AccountModel>().ReverseMap();
+        #region Account
+        CreateMap<Account, AccountVM>();
+
+        CreateMap<Account, AccountModerationVM>();
+
+        CreateMap<Account, AccountBasicInfoVM>();
+
         CreateMap<Account, HiredAccountVM>()
             .ForMember(model => model.IsVerified, opt => opt.MapFrom(src => src.VerifiedOn != null))
             .ForMember(model => model.ProjectCompleted,
@@ -26,24 +27,72 @@ public class MappingProfile : Profile
                     || p.ProposalStatus == ProposalStateEnum.CompletePayment)
                 .Count()));
 
-        CreateMap<Tag, TagModel>().ReverseMap();
-        CreateMap<Tag, TagVM>().ReverseMap();
-        CreateMap<TagDetail, TagDetailVM>().ReverseMap();
+        CreateMap<Account, RegisterModel>().ReverseMap();
+        CreateMap<Account, AccountModel>().ReverseMap();
         CreateMap<Account, AccountDisplayModel>().ReverseMap();
+        #endregion
 
-        CreateMap<Tag, TagModel>().ReverseMap();
-        CreateMap<Tag, TagVM>().ReverseMap();
+        #region Artwork
+        CreateMap<Artwork, ArtworkVM>()
+            .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryArtworkDetails.Select(y => y.Category).ToList()))
+            .ForMember(model => model.TagList, opt => opt.MapFrom(x => x.TagDetails.Select(y => y.Tag).ToList()))
+            .ForMember(model => model.SoftwareUseds, opt => opt.MapFrom(x => x.SoftwareDetails.Select(y => y.SoftwareUsed).ToList()));
+        
+        CreateMap<Artwork, ArtworkModerationVM>()
+            .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryArtworkDetails.Select(y => y.Category).ToList()))
+            .ForMember(model => model.TagList, opt => opt.MapFrom(x => x.TagDetails.Select(y => y.Tag).ToList()))
+            .ForMember(model => model.SoftwareUseds, opt => opt.MapFrom(x => x.SoftwareDetails.Select(y => y.SoftwareUsed).ToList()));
+        
+        CreateMap<Artwork, ArtworkDetailModerationVM>();
+        CreateMap<Artwork, ArtworkPreviewVM>();
+        CreateMap<Artwork, ArtworkContainAssetVM>();
 
+        CreateMap<Artwork, ArtworkDisplayModel>()
+            .ForMember(model => model.Author, opt => opt.MapFrom(src => src.Account));
+
+        CreateMap<Artwork, ArtworkModel>().ReverseMap();
+        #endregion
+
+        #region Asset
         CreateMap<Asset, AssetModel>().ReverseMap();
         CreateMap<Asset, AssetVM>().ReverseMap();
+        #endregion
 
-        CreateMap<Image, ImageModel>().ReverseMap();
-        CreateMap<Image, ImageVM>().ReverseMap();
-        CreateMap<Image, ImageDuplicationVM>().ReverseMap();
+        #region Block
+        CreateMap<Block, BlockModel>().ReverseMap();
+        CreateMap<Block, BlockVM>();
+        #endregion
 
+        #region Bookmark
+        CreateMap<Bookmark, BookmarkVM>().ReverseMap();
+        CreateMap<Bookmark, BookmarkModel>().ReverseMap();
+        #endregion
+
+        #region Category
         CreateMap<Category, CategoryModel>().ReverseMap();
         CreateMap<Category, CategoryVM>().ReverseMap();
         CreateMap<Category, CategoryEM>().ReverseMap();
+        #endregion
+
+        #region Image
+        CreateMap<Image, ImageModel>().ReverseMap();
+        CreateMap<Image, ImageVM>().ReverseMap();
+        CreateMap<Image, ImageDuplicationVM>().ReverseMap();
+        #endregion
+
+        #region Tag
+        CreateMap<Tag, TagModel>().ReverseMap();
+        CreateMap<Tag, TagVM>().ReverseMap();
+        CreateMap<TagDetail, TagDetailVM>().ReverseMap();
+
+        CreateMap<Tag, TagModel>().ReverseMap();
+        CreateMap<Tag, TagVM>().ReverseMap();
+        #endregion 
+
+        #region TransactionHistory
+        CreateMap<TransactionHistory, AssetTransactionModel>().ReverseMap();
+        CreateMap<TransactionHistory, AssetTransactionVM>().ReverseMap();
+        #endregion
 
         CreateMap<CategoryArtworkDetail, CategoryArtworkModel>().ReverseMap();
         CreateMap<CategoryArtworkDetail, CategoryArtworkVM>().ReverseMap();
@@ -51,21 +100,6 @@ public class MappingProfile : Profile
         CreateMap<CategoryServiceDetail, CategoryServiceModel>().ReverseMap();
         CreateMap<CategoryServiceDetail, CategoryServiceVM>().ReverseMap();
 
-        CreateMap<Artwork, ArtworkVM>()
-            .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryArtworkDetails.Select(y => y.Category).ToList()))
-            .ForMember(model => model.TagList, opt => opt.MapFrom(x => x.TagDetails.Select(y => y.Tag).ToList()))
-            .ForMember(model => model.SoftwareUseds, opt => opt.MapFrom(x => x.SoftwareDetails.Select(y => y.SoftwareUsed).ToList()));
-        CreateMap<Artwork, ArtworkModerationVM>()
-            .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryArtworkDetails.Select(y => y.Category).ToList()))
-            .ForMember(model => model.TagList, opt => opt.MapFrom(x => x.TagDetails.Select(y => y.Tag).ToList()))
-            .ForMember(model => model.SoftwareUseds, opt => opt.MapFrom(x => x.SoftwareDetails.Select(y => y.SoftwareUsed).ToList()));
-        CreateMap<Artwork, ArtworkDetailModerationVM>();
-        CreateMap<Account, AccountBasicInfoVM>().ReverseMap();
-        CreateMap<Artwork, ArtworkModel>().ReverseMap();
-        CreateMap<Artwork, ArtworkPreviewVM>().ReverseMap();
-        CreateMap<Artwork, ArtworkContainAssetVM>();
-        CreateMap<Artwork, ArtworkDisplayModel>()
-            .ForMember(model => model.Author, opt => opt.MapFrom(src => src.Account));
 
         CreateMap<Follow, FollowModel>().ReverseMap();
         CreateMap<Follow, FollowingVM>().ReverseMap();
@@ -84,8 +118,6 @@ public class MappingProfile : Profile
             .ForMember(model => model.CreatedBy, opt => opt.MapFrom(x => x.Account))
             .ForMember(model => model.ReplyCount, opt => opt.MapFrom(x => x.Replies.Count()));
 
-        CreateMap<Block, BlockModel>().ReverseMap();
-        CreateMap<Block, BlockVM>().ReverseMap();
 
         CreateMap<Service, ServiceModel>().ReverseMap();
         CreateMap<Service, ServiceVM>()
@@ -97,9 +129,6 @@ public class MappingProfile : Profile
 
         CreateMap<Report, ReportModel>().ReverseMap();
         CreateMap<Report, ReportVM>().ReverseMap();
-
-        CreateMap<Bookmark, BookmarkVM>().ReverseMap();
-        CreateMap<Bookmark, BookmarkModel>().ReverseMap();
 
         CreateMap<Collection, CollectionDetailVM>()
             .ForMember(model => model.CreatedBy, opt => opt.MapFrom(src => src.Account))
@@ -115,8 +144,6 @@ public class MappingProfile : Profile
         CreateMap<Wallet, WalletVM>().ReverseMap();
         CreateMap<Wallet, WalletEM>().ReverseMap();
 
-        CreateMap<TransactionHistory, AssetTransactionModel>().ReverseMap();
-        CreateMap<TransactionHistory, AssetTransactionVM>().ReverseMap();
 
         CreateMap<WalletHistory, WalletHistoryVM>()
             .ForMember(model => model.AccountId, opt => opt.MapFrom(src => src.CreatedBy));
@@ -132,8 +159,7 @@ public class MappingProfile : Profile
             .ForMember(model => model.IsReviewed, opt => opt.MapFrom(src => src.Review != null));
 
         CreateMap<ProposalAsset, ProposalAssetModel>().ReverseMap();
-        CreateMap<ProposalAsset, ProposalAssetVM>()
-            .ForMember(model => model.Type, opt => opt.MapFrom(x => PROPOSALASSET_ENUM_VN[x.Type]));
+        CreateMap<ProposalAsset, ProposalAssetVM>();
 
         CreateMap<Milestone, MilestoneVM>().ReverseMap();
 

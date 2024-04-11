@@ -34,8 +34,12 @@ public class GenericAuditableRepository<TEntity> : GenericCreationRepository<TEn
 
     public override void SoftDelete(TEntity entity)
     {
-        entity.DeletedOn = CurrentTime.GetCurrentTime;
+        DateTime dateTime = CurrentTime.GetCurrentTime;
+        entity.DeletedOn = dateTime;
         entity.DeletedBy = _claimService.GetCurrentUserId;
+        
+        entity.LastModificatedOn = dateTime;
+        entity.LastModificatedBy = _claimService.GetCurrentUserId;
         _dbContext.Entry(entity).State = EntityState.Modified;
     }
 

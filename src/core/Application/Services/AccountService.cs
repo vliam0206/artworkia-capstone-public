@@ -87,6 +87,15 @@ public class AccountService : IAccountService
         return listAccountVM;
     }
 
+    public async Task<PagedList<AccountModerationVM>> GetAccountsForModerationAsync(AccountCriteria criteria)
+    {
+        var listAccount = await _unitOfWork.AccountRepository.GetAllAccountsForModerationAsync(
+                       criteria.Keyword, criteria.SortColumn, criteria.SortOrder,
+                                  criteria.PageNumber, criteria.PageSize);
+        var listAccountModerationVM = _mapper.Map<PagedList<AccountModerationVM>>(listAccount);
+        return listAccountModerationVM;
+    }
+
     public async Task<List<Account>> GetDeletedAccountsAsync()
     {
         var accounts = await _unitOfWork.AccountRepository.GetAllAsync();
@@ -241,4 +250,5 @@ public class AccountService : IAccountService
         _unitOfWork.AccountRepository.Update(account);
         await _unitOfWork.SaveChangesAsync();
     }
+
 }

@@ -59,6 +59,22 @@ public class AccountsController : ControllerBase
         }
     }
 
+    // GET: api/accounts
+    [HttpGet("/api/moderation/accounts")]
+    [Authorize(Roles = "Moderator,Admin")]
+    public async Task<ActionResult<IPagedList<AccountModerationVM>>> GetAccountsForModeration([FromQuery] AccountCriteria criteria)
+    {
+        try
+        {
+            var accounts = await _accountService.GetAccountsForModerationAsync(criteria);
+            return Ok(accounts);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
+
     // GET: api/accounts/5
     [HttpGet("{id}")]
     public async Task<ActionResult<AccountVM>> GetAccount(Guid id)

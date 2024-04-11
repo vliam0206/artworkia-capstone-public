@@ -6,13 +6,9 @@ namespace Application.Models;
 public class AccountVM
 {
     public Guid Id { get; set; }
-    [MaxLength(255)]
     public string Username { get; set; } = default!;
-    [MaxLength(255)]
     public string Email { get; set; } = default!;
-    [MaxLength(255)]
     public string Fullname { get; set; } = default!;
-    [MaxLength(300)]
     public string? Bio { get; set; }
     public string? Avatar { get; set; }
     public DateTime? Birthdate;
@@ -30,16 +26,15 @@ public class AccountVM
 public class AccountModerationVM
 {
     public Guid Id { get; set; }
-    [MaxLength(255)]
     public string Username { get; set; } = default!;
-    [MaxLength(255)]
     public string Email { get; set; } = default!;
-    [MaxLength(255)]
     public string Fullname { get; set; } = default!;
-    [MaxLength(300)]
     public string? Bio { get; set; }
     public string? Avatar { get; set; }
     public DateTime? Birthdate;
+    public string? Address { get; set; }
+    public string? ArtisticStyle { get; set; }
+    public DateTime? VerifiedOn { get; set; }
     public string Role { get; set; } = default!;
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }

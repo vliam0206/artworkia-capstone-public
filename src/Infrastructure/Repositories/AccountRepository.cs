@@ -61,6 +61,43 @@ public class AccountRepository : GenericAuditableRepository<Account>, IAccountRe
         return result;
     }
 
+    public async Task<IPagedList<Account>> GetAllAccountsForModerationAsync(string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize)
+    {
+        var allAccounts = _dbContext.Accounts
+            .Include(x => x.Wallet)
+            .Where(x => x.DeletedOn == null);
+
+        if (!string.IsNullOrEmpty(keyword))
+        {
+            keyword = keyword.ToLower();
+            allAccounts = allAccounts.Where(x => x.Username.ToLower().Contains(keyword)
+            || x.Email.ToLower().Contains(keyword) || x.Fullname.ToLower().Contains(keyword));
+        }
+
+        #region sorting
+        Expression<Func<Account, object>> orderBy = sortColumn?.ToLower() switch
+        {
+            "created" => x => x.CreatedOn,
+            _ => x => x.CreatedOn,
+        };
+
+        if (sortOrder?.ToLower() == "asc")
+        {
+            allAccounts = allAccounts.OrderBy(orderBy);
+        }
+        else
+        {
+            allAccounts = allAccounts.OrderByDescending(orderBy);
+        }
+        #endregion
+
+        #region paging
+        var result = await ToPaginationAsync(allAccounts, page, pageSize);
+        #endregion
+
+        return result;
+    }
+
     public async Task<IPagedList<Account>> GetAllHiredAccountsAsync(int pageNumber, int pageSize)
     {
         var accounts = _dbContext.Accounts

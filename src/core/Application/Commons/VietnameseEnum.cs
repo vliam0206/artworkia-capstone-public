@@ -25,6 +25,12 @@ public static class VietnameseEnum
         { ReportEntityEnum.Artwork, "Tác phẩm" }
     };
 
+    public static readonly Dictionary<PrivacyEnum, string> PRIVACY_ENUM_VN = new()
+    {
+        { PrivacyEnum.Public, "Công khai" },
+        { PrivacyEnum.Private, "Riêng tư" }
+    };
+
     public static readonly Dictionary<ProposalStateEnum, string> PROPOSALSTATE_ENUM_VN = new()
     {
         { ProposalStateEnum.Waiting, "Đang chờ" },
@@ -44,6 +50,13 @@ public static class VietnameseEnum
         { ReportTypeEnum.Impersonation, "Giả mạo" },
         { ReportTypeEnum.InappropriateContent, "Nội dung không phù hợp" },
         { ReportTypeEnum.Other, "Khác" }
+    };
+
+    public static readonly Dictionary<RoleEnum, string> ROLETYPE_ENUM_VN = new()
+    {
+        { RoleEnum.CommonUser, "Người dùng" },
+        { RoleEnum.Admin, "Quản trị viên" },
+        { RoleEnum.Moderator, "Kiểm soát viên" },
     };
 
     public static readonly Dictionary<StateEnum, string> STATE_ENUM_VN = new()

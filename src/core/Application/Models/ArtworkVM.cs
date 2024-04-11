@@ -30,7 +30,7 @@ public class ArtworkVM
     public List<SoftwareUsedVM> SoftwareUseds { get; set; } = default!;
     public List<AssetVM>? Assets { get; set; }
     public List<ImageVM> Images { get; set; } = default!;
-    public List<CommentVM>? Comments { get; set; }
+    //public List<CommentVM>? Comments { get; set; }
 }
 
 // View model for search results
