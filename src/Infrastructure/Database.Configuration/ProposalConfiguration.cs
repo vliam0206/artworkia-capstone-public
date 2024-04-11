@@ -38,7 +38,7 @@ public class ProposalConfiguration : IEntityTypeConfiguration<Proposal>
                 TargetDelivery = DateTime.Parse("2024-04-30"),
                 NumberOfConcept = 2,
                 NumberOfRevision = 3,
-                InitialPrice = 20000,
+                InitialPrice = 0.25,
                 Total = 80000,
                 ProposalStatus = ProposalStateEnum.CompletePayment,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
