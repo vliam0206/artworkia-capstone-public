@@ -33,4 +33,18 @@ public class DashboardController : ControllerBase
             .GetAllTransactionHistoriesAsync(pagedCriteria.PageNumber, pagedCriteria.PageSize);
         return Ok(result);
     }
+    
+    [HttpGet("transaction-histories-statistic")]
+    public async Task<IActionResult> GetAssetTransactionStatistic(DateTime startTime, DateTime? endTime = null)
+    {
+        try
+        {
+            var result = await _dashBoardService.GetAssetTransactionStatistic(startTime, endTime);
+            return Ok(result);
+        }         
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }

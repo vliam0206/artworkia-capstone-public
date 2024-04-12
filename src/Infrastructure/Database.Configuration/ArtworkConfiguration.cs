@@ -66,7 +66,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Title = "Vẻ đẹp của lịch sử",
                 Description = "Minh họa những cuộc chiến tiêu biểu của thời đại",
                 Privacy = PrivacyEnum.Public,
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), //hoanganh
                 CreatedOn = DateTime.Parse("2023-11-04T13:55:30.456Z"),
                 Thumbnail = "https://th.bing.com/th/id/OIG.k0SSs9Qn3tHNvlcMdMrG?w=1024&h=1024&rs=1&pid=ImgDetMain",
                 ThumbnailName = "00000000-0000-0000-0000-000000000002_t.jpg",
@@ -98,7 +98,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Title = "Hành trình của sự sáng tạo",
                 Description = "Minh họa cho hành trình không ngừng của sự sáng tạo",
                 Privacy = PrivacyEnum.Public,
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000004"), //thong
                 CreatedOn = DateTime.Parse("2023-11-06T00:30:15.567Z"),
                 Thumbnail = "https://th.bing.com/th/id/OIG.LTaVFacabNQc22SAk1r1?pid=ImgGn",
                 ThumbnailName = "00000000-0000-0000-0000-000000000005_t.jpg",
@@ -162,7 +162,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Title = "Sự lạc quan của tương lai",
                 Description = "Minh họa cho tâm trạng lạc quan và hy vọng về tương lai",
                 Privacy = PrivacyEnum.Public,
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), //phuhuynh
                 CreatedOn = DateTime.Parse("2023-11-09T21:20:10.234Z"),
                 Thumbnail = "https://th.bing.com/th/id/OIG.Uz66_wn15hsKPirpv6Pb?pid=ImgGn",
                 ThumbnailName = "00000000-0000-0000-0000-000000000009_t.jpg",
@@ -178,7 +178,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Title = "Nơi gặp gỡ tâm hồn",
                 Description = "Tượng trưng cho nơi gặp gỡ và kết nối tâm hồn con người",
                 Privacy = PrivacyEnum.Public,
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), //hoanganh
                 CreatedOn = DateTime.Parse("2023-11-10T13:55:30.456Z"),
                 Thumbnail = "https://th.bing.com/th/id/OIG.78MNqZpoa6ReKmvZCHPI?pid=ImgGn",
                 ThumbnailName = "00000000-0000-0000-0000-00000000000a_t.jpg",
@@ -194,7 +194,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Title = "Vũ trụ tâm trí",
                 Description = "Tượng trưng cho vũ trụ rộng lớn và không gian của tâm trí con người",
                 Privacy = PrivacyEnum.Public,
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), //phuhuynh
                 CreatedOn = DateTime.Parse("2023-11-11T08:30:03.678Z"),
                 Thumbnail = "https://th.bing.com/th/id/OIG.Iar__phrqaC3bhQLIHAZ?w=1024&h=1024&rs=1&pid=ImgDetMain",
                 ThumbnailName = "00000000-0000-0000-0000-00000000000b_t.jpg",
@@ -209,7 +209,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000c"),
                 Title = "Hành trình tìm kiếm đam mê",
                 Description = "Bức tranh thể hiện hành trình tìm kiếm và theo đuổi đam mê trong cuộc sống",
-                Privacy = PrivacyEnum.Public,
+                Privacy = PrivacyEnum.Private,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
                 CreatedOn = DateTime.Parse("2023-11-11T02:37:42.345Z"),
                 Thumbnail = "https://th.bing.com/th/id/OIG.MxQxUggA0RKmKdTjwAqw?pid=ImgGn",
@@ -267,6 +267,28 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Waiting,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+            new Artwork()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000011"),
+                Title = "Bất Động Sản Thạnh Lộc-Thạnh Xuân",
+                Description = "Bán đất ngay ngã tư ga, Hà Huy Giáp vào 1/sẹc, phường Thạnh Xuân,quận 12.\r\n" +
+                "-  Khu phân lô đại phú, gần Bánh Mỳ Hà Nội.\r\n" +
+                "- Diện tích: 4,10m x 14m\r\n" +
+                "- Hướng Tây nam\r\n" +
+                "- Giá: 3,5 tỷ còn thương lượng \r\n" +
+                "- Đường nhựa xe tải vào tận nơi .\r\n" +
+                "-Liên hệ: 0347307890 Nguyễn Hoàng.",
+                Privacy = PrivacyEnum.Public,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000008"), //nguyenhoang
+                CreatedOn = DateTime.Parse("2023-11-10T08:30:03.678Z"),
+                Thumbnail = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FThumbnail%2F00000000-0000-0000-0000-000000000011_t.jpg?alt=media&token=aad2c767-acdf-470f-bc35-9c55947cc9af",
+                ThumbnailName = "00000000-0000-0000-0000-000000000011_t.jpg",
+                ViewCount = 70,
+                LikeCount = 0,
+                CommentCount = 0,
+                State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             }
         );

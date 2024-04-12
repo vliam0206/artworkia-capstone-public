@@ -31,10 +31,10 @@ public class ProposalConfiguration : IEntityTypeConfiguration<Proposal>
                 ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 ProjectTitle = "Yêu cầu làm website mua bán thiệp đám cưới.",
                 Category = "Website",
-                Description = @"Yêu cầu làm website mua bán thiệp đám cưới:
-                    - Giao diện trực quan, dễ sử dụng.
-                    - Tìm kiếm và bộ lọc sản phẩm.
-                    - Hệ thống thanh toán an toàn.",
+                Description = @"Yêu cầu làm website mua bán thiệp đám cưới. 
+                                Giao diện trực quan, dễ sử dụng. 
+                                Tìm kiếm và bộ lọc sản phẩm.
+                                Hệ thống thanh toán an toàn.",
                 TargetDelivery = DateTime.Parse("2024-04-30"),
                 NumberOfConcept = 2,
                 NumberOfRevision = 3,

@@ -158,6 +158,32 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
                 Location = "https://th.bing.com/th/id/OIG.5gNG99_0Acz4Y8CGOYlg?pid=ImgGn",
                 ImageName = "00000000-0000-0000-0000-000000000010_i0.jpg",
                 Order = 0
+            },
+
+            // anh bds
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000021"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000011"),
+                Location = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FImage%2F00000000-0000-0000-0000-000000000011_i0.jpg?alt=media&token=e9a93f6f-4bcf-4517-824a-dacd402bdcec",
+                ImageName = "00000000-0000-0000-0000-000000000011_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000022"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000011"),
+                Location = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FImage%2F00000000-0000-0000-0000-000000000011_i1.jpg?alt=media&token=3442240e-37f5-42f9-be58-5c359ebcde5c",
+                ImageName = "00000000-0000-0000-0000-000000000011_i1.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000023"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000011"),
+                Location = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FImage%2F00000000-0000-0000-0000-000000000011_i2.jpg?alt=media&token=4d6ad124-294d-4059-b21d-a37cfb3d0c6a",
+                ImageName = "00000000-0000-0000-0000-000000000011_i2.jpg",
+                Order = 0
             }
 
 

@@ -122,10 +122,29 @@ public class ArtworkService : IArtworkService
 
     public async Task<IPagedList<ArtworkContainAssetVM>> GetArtworksContainAssetsOfAccountAsync(Guid accountId, PagedCriteria criteria)
     {
+        Guid? loginId = _claimService.GetCurrentUserId;
+
         var listArtwork = await _unitOfWork.ArtworkRepository.GetArtworksContainAssetsOfAccountAsync(
             accountId, criteria.PageNumber, criteria.PageSize);
-        var listArtworkVM = _mapper.Map<PagedList<ArtworkContainAssetVM>>(listArtwork);
-        return listArtworkVM;
+        var pagedListArtworkVM = _mapper.Map<PagedList<ArtworkContainAssetVM>>(listArtwork);
+
+        if (loginId != null)
+        {
+            foreach (var artworkVM in pagedListArtworkVM.Items)
+            {
+                if (artworkVM.Assets != null)
+                { 
+                    foreach (var asset in artworkVM.Assets)
+                    {
+                        var isBought = await _unitOfWork.TransactionHistoryRepository.GetAssetTransactionAsync(loginId.Value, asset.Id);
+                        asset.IsBought = isBought != null;
+                    }
+                }
+            }
+        }
+
+
+        return pagedListArtworkVM;
     }
 
     public async Task<List<ImageDuplicationVM>> GetArtworksDuplicateAsync(Guid artworkId)
@@ -156,6 +175,14 @@ public class ArtworkService : IArtworkService
             if (await _unitOfWork.BlockRepository.IsBlockedOrBlockingAsync(accountId.Value, artworkVM.CreatedBy!.Value))
             {
                 throw new BadHttpRequestException("Không tìm thấy tác phẩm vì chặn hoặc bị chặn.");
+            }
+            if (artworkVM.Assets != null)
+            {
+                foreach (var asset in artworkVM.Assets)
+                {
+                    var isBought = await _unitOfWork.TransactionHistoryRepository.GetAssetTransactionAsync(accountId.Value, asset.Id);
+                    asset.IsBought = isBought != null;
+                }
             }
             // check if user liked this artwork
             var isLiked = await _unitOfWork.LikeRepository.GetByIdAsync(accountId.Value, artworkId);

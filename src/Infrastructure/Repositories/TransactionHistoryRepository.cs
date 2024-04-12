@@ -1,6 +1,7 @@
 ﻿using Application.Services.Abstractions;
 using Domain.Entities.Commons;
 using Domain.Entitites;
+using Domain.Models;
 using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
 using Infrastructure.Repositories.Commons;
@@ -61,5 +62,24 @@ public class TransactionHistoryRepository : GenericCreationRepository<Transactio
                                     .OrderByDescending(x => x.CreatedOn);
         var result = await this.ToPaginationAsync(transactionList, pageNumber, pageSize);
         return result;
+    }
+    
+    public async Task<List<NoTransByDate>> GetAssetTransactionStatistic(DateTime startTime, DateTime endTime)
+    {
+        var assetCountsByDay = await _dbContext.TransactionHistories
+            .Include(x => x.Asset)
+            .Where(x => x.CreatedOn >= startTime && x.CreatedOn <= endTime && x.AssetId != null)
+            .GroupBy(t => t.CreatedOn.Date)
+            .OrderBy(g => g.Key)
+            .Select(g => new NoTransByDate
+            {
+                Date = g.Key,
+                Count = g.Count(),
+                Total = _dbContext.TransactionHistories
+                    .Where(t => t.CreatedOn <= g.Key)
+                    .Sum(t => t.AssetId != null ? 1 : 0) + g.Count()
+            })
+            .ToListAsync();
+        return assetCountsByDay;
     }
 }

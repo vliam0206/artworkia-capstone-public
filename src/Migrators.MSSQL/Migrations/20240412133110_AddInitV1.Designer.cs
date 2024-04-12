@@ -4,6 +4,7 @@ using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240412133110_AddInitV1")]
+    partial class AddInitV1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -634,7 +637,7 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000008"),
                             CommentCount = 0,
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2023, 11, 1, 15, 30, 3, 678, DateTimeKind.Local),
                             Description = "Đây là tuyển tập tâm huyết của mình, nhớ like và comment để ủng hộ mình nha",
                             IsAIGenerated = false,
@@ -651,7 +654,7 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000009"),
                             CommentCount = 0,
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2023, 11, 10, 4, 20, 10, 234, DateTimeKind.Local),
                             Description = "Minh họa cho tâm trạng lạc quan và hy vọng về tương lai",
                             IsAIGenerated = false,
@@ -770,7 +773,7 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000011"),
                             CommentCount = 0,
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000008"),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000003"),
                             CreatedOn = new DateTime(2023, 11, 10, 15, 30, 3, 678, DateTimeKind.Local),
                             Description = "Bán đất ngay ngã tư ga, Hà Huy Giáp vào 1/sẹc, phường Thạnh Xuân,quận 12.\r\n-  Khu phân lô đại phú, gần Bánh Mỳ Hà Nội.\r\n- Diện tích: 4,10m x 14m\r\n- Hướng Tây nam\r\n- Giá: 3,5 tỷ còn thương lượng \r\n- Đường nhựa xe tải vào tận nơi .\r\n-Liên hệ: 0347307890 Nguyễn Hoàng.",
                             IsAIGenerated = false,
@@ -1025,21 +1028,6 @@ namespace Migrators.MSSQL.Migrations
                         new
                         {
                             CategoryId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000001")
-                        },
-                        new
-                        {
-                            CategoryId = new Guid("00000000-0000-0000-0000-000000000009"),
-                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000001")
-                        },
-                        new
-                        {
-                            CategoryId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            CategoryId = new Guid("00000000-0000-0000-0000-000000000001"),
                             ArtworkId = new Guid("00000000-0000-0000-0000-00000000000e")
                         },
                         new
@@ -1061,11 +1049,6 @@ namespace Migrators.MSSQL.Migrations
                         {
                             CategoryId = new Guid("00000000-0000-0000-0000-000000000009"),
                             ArtworkId = new Guid("00000000-0000-0000-0000-00000000000f")
-                        },
-                        new
-                        {
-                            CategoryId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000011")
                         });
                 });
 

@@ -20,6 +20,21 @@ public class CategoryArtworkDetailConfiguration : IEntityTypeConfiguration<Categ
         (
             new CategoryArtworkDetail()
             {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000009")
+            },
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000002")
+            },
+            new CategoryArtworkDetail()
+            {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
                 CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
@@ -42,6 +57,11 @@ public class CategoryArtworkDetailConfiguration : IEntityTypeConfiguration<Categ
             {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000f"),
                 CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000009")
+            },
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000011"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             }
         );
         #endregion

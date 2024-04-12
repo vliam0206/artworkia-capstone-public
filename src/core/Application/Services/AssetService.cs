@@ -51,6 +51,8 @@ public class AssetService : IAssetService
 
     public async Task<IPagedList<AssetVM>> GetAssetsOfAccountAsync(Guid accountId, AssetCriteria criteria)
     {
+        Guid? loginId = _claimService.GetCurrentUserId;
+
         bool isAccountExisted = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
         if (!isAccountExisted)
             throw new KeyNotFoundException("Không tìm thấy tài khoản.");
@@ -58,6 +60,16 @@ public class AssetService : IAssetService
         var listAsset = await _unitOfWork.AssetRepository.GetAllAssetsAsync(
             accountId, criteria.MinPrice, criteria.MaxPrice, criteria.Keyword, criteria.SortColumn, criteria.SortOrder, criteria.PageNumber, criteria.PageSize);
         var listAssetVM = _mapper.Map<PagedList<AssetVM>>(listAsset);
+
+        // check if user is logged in
+        if (loginId != null)
+        {
+            foreach (var asset in listAssetVM.Items)
+            {
+                var isBought = await _unitOfWork.TransactionHistoryRepository.GetAssetTransactionAsync(loginId.Value, asset.Id);
+                asset.IsBought = isBought != null;
+            }
+        }
         return listAssetVM;
     }
 
