@@ -30,6 +30,7 @@ public class MappingProfile : Profile
         CreateMap<Account, RegisterModel>().ReverseMap();
         CreateMap<Account, AccountModel>().ReverseMap();
         CreateMap<Account, AccountDisplayModel>().ReverseMap();
+        CreateMap<Account, AccountCreateModel>().ReverseMap();
         #endregion
 
         #region Artwork

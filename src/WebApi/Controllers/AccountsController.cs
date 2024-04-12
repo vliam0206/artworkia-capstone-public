@@ -159,7 +159,7 @@ public class AccountsController : ControllerBase
     // POST: api/accounts    
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<Account>> PostAccount(RegisterModel model)
+    public async Task<ActionResult<Account>> PostAccount(AccountCreateModel model)
     {
         try
         {
