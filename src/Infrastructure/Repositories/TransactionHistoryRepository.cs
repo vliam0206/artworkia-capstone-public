@@ -52,4 +52,14 @@ public class TransactionHistoryRepository : GenericCreationRepository<Transactio
 
         return transactionsList;
     }
+
+    public async Task<IPagedList<TransactionHistory>> GetAllTransacrionHistoriesPaginationAsync(int pageNumber, int pageSize)
+    {
+        var transactionList = _dbContext.TransactionHistories
+                                    .Include(x => x.Account)
+                                    .Include(x => x.ToAccount)
+                                    .OrderByDescending(x => x.CreatedOn);
+        var result = await this.ToPaginationAsync(transactionList, pageNumber, pageSize);
+        return result;
+    }
 }

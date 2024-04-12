@@ -145,8 +145,7 @@ public class MappingProfile : Profile
         CreateMap<Wallet, WalletEM>().ReverseMap();
 
 
-        CreateMap<WalletHistory, WalletHistoryVM>()
-            .ForMember(model => model.AccountId, opt => opt.MapFrom(src => src.CreatedBy));
+        CreateMap<WalletHistory, WalletHistoryVM>();
 
         CreateMap<TransactionHistory, TransactionHistoryVM>()
             .ForMember(model => model.FromAccount, opt => opt.MapFrom(src => src.Account));

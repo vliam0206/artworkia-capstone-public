@@ -41,6 +41,7 @@ public static class DependencyInjection
         services.AddScoped<IChatBoxService, ChatBoxService>();
         services.AddScoped<IReviewService, ReviewService>();
         services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<IDashBoardService, DashBoardService>();
 
         services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<ITokenHandler, TokenHandler>();
