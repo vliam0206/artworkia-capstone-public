@@ -123,11 +123,29 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         return result;
     }
 
-    public async Task<IPagedList<Artwork>> GetArtworksContainAssetsOfAccountAsync(Guid creatorId, int page, int pageSize)
+    public async Task<IPagedList<Artwork>> GetArtworksContainAssetsOfAccountAsync(Guid creatorId, int page, int pageSize,
+        StateEnum? state = null, PrivacyEnum? privacy = null)
     {
         var allArtworks = _dbContext.Artworks
             .Include(a => a.Assets)
             .Where(a => a.CreatedBy == creatorId && a.DeletedOn == null && a.Assets.Any());
+
+        if (state != null)
+        {
+            allArtworks = allArtworks.Where(a => a.State == state);
+        }
+        else
+        {
+            allArtworks = allArtworks.Where(a => a.State == StateEnum.Accepted);
+        }
+        if (privacy != null)
+        {
+            allArtworks = allArtworks.Where(a => a.Privacy == privacy);
+        }
+        else
+        {
+            allArtworks = allArtworks.Where(a => a.Privacy == PrivacyEnum.Public);
+        }
 
         allArtworks = allArtworks.OrderByDescending(x => x.CreatedOn);
 
