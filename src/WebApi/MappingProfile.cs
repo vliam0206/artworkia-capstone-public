@@ -4,6 +4,7 @@ using Application.Models.ZaloPayModels;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
+using Domain.Models;
 namespace WebApi;
 
 public class MappingProfile : Profile
@@ -173,5 +174,7 @@ public class MappingProfile : Profile
 
         CreateMap<Notification, NotificationModel>().ReverseMap();
         CreateMap<Notification, NotificationVM>().ReverseMap();
+
+        CreateMap<TopCreatorOfAssetTrans, TopCreatorOfAssetTransVM>();
     }
 }

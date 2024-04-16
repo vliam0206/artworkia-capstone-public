@@ -215,9 +215,8 @@ public class ArtworkService : IArtworkService
         string folderName = $"{PARENT_FOLDER}/Thumbnail";
         string extension = System.IO.Path.GetExtension(artworkModel.Thumbnail.FileName);
         // them thumbnail image vao firebase
-        var url = await _firebaseService.UploadFileToFirebaseStorage(artworkModel.Thumbnail, newThumbnailName, folderName);
-        if (url == null)
-            throw new Exception("Không thể tải ảnh đại diện (thumbnail) lên đám mây.");
+        var url = await _firebaseService.UploadFileToFirebaseStorage(artworkModel.Thumbnail, newThumbnailName, folderName) 
+            ?? throw new KeyNotFoundException("Lỗi khi tải ảnh đại diện lên đám mây.");
         newArtwork.Thumbnail = url;
         newArtwork.ThumbnailName = newThumbnailName + extension;
         // them artwork 
@@ -277,10 +276,8 @@ public class ArtworkService : IArtworkService
                 // upload asset len firebase, lay url
                 uploadAssetsTask.Add(Task.Run(async () =>
                 {
-                    var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.file.File, newAssetName, assetFolderName);
-                    if (url == null)
-                        throw new Exception("Không thể tải tài nguyên lên đám mây.");
-
+                    var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.file.File, newAssetName, assetFolderName) 
+                    ?? throw new KeyNotFoundException("Lỗi khi tải tài nguyên lên đám mây.");
                     Asset newAsset = new()
                     {
                         ArtworkId = newArtwork.Id,
@@ -313,7 +310,7 @@ public class ArtworkService : IArtworkService
         // check if artwork exist
         var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
         if (artwork == null)
-            throw new Exception("Không tìm thấy tác phẩm.");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
 
         // check authorized
         if (_claimService.GetCurrentRole.Equals(RoleEnum.CommonUser.ToString()) &&
@@ -329,7 +326,7 @@ public class ArtworkService : IArtworkService
     {
         var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
         if (artwork == null)
-            throw new Exception("Không tìm thấy tác phẩm.");
+            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
 
         // check authorized
         if (_claimService.GetCurrentRole.Equals(RoleEnum.CommonUser.ToString()) &&

@@ -6,6 +6,7 @@ using CoenM.ImageHash;
 using CoenM.ImageHash.HashAlgorithms;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services;
 public class ImageService : IImageService
@@ -60,9 +61,8 @@ public class ImageService : IImageService
         string imageExtension = Path.GetExtension(imageModel.Image.FileName); // lay duoi file (.png, .jpg, ...)
 
         //upload hinh anh len firebase, lay url
-        var url = await _firebaseService.UploadFileToFirebaseStorage(imageModel.Image, newImageName, folderName);
-        if (url == null)
-            throw new Exception("Không thể tải hình ảnh lên đám mây.");
+        var url = await _firebaseService.UploadFileToFirebaseStorage(imageModel.Image, newImageName, folderName) 
+            ?? throw new KeyNotFoundException("Lỗi khi tải hình ảnh lên đám mây.");
 
         // hashing image de kiem tra trung anh
         var hashAlgorithm = new PerceptualHash();
@@ -99,7 +99,7 @@ public class ImageService : IImageService
         // chi cho phep upload nhieu hinh anh cho artwork moi tao
         var listImage = await _unitOfWork.ImageRepository.GetListByConditionAsync(x => x.ArtworkId == multiImageModel.ArtworkId);
         if (listImage.Count > 0)
-            throw new Exception("Tác phẩm đã có bộ hình ảnh, không thể thêm ảnh lần nữa (chỉ cho phép thêm hình ảnh trong lần đầu tiên)");
+            throw new BadHttpRequestException("Tác phẩm đã có bộ hình ảnh, không thể thêm ảnh lần nữa (chỉ cho phép thêm hình ảnh trong lần đầu tiên)");
         #endregion
 
         #region upload range image (optimize)
@@ -115,9 +115,8 @@ public class ImageService : IImageService
             //upload hinh anh len firebase, lay url
             uploadImagesTask.Add(Task.Run(async () =>
             {
-                var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName);
-                if (url == null)
-                    throw new Exception("Lỗi khi tải bộ hình ảnh lên đám mây.");
+                var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName) 
+                ?? throw new KeyNotFoundException("Lỗi khi tải bộ hình ảnh lên đám mây.");
 
                 // hashing image de kiem tra trung anh
                 var hashAlgorithm = new PerceptualHash();
@@ -148,7 +147,7 @@ public class ImageService : IImageService
         //    //upload hinh anh len firebase, lay url
         //    var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName);
         //    if (url == null)
-        //        throw new Exception("Error when uploading images to firebase");
+        //        throw new KeyNotFoundException("Lỗi khi tải hình ảnh lên đám mây");
 
         //    // luu thong tin hinh anh vao database
         //    Image image = new Image()
@@ -186,9 +185,8 @@ public class ImageService : IImageService
             string imageExtension = Path.GetExtension(singleImage.image.FileName); // lay duoi file (.png, .jpg, ...)
 
             //upload hinh anh len firebase, lay url
-            var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName);
-            if (url == null)
-                throw new Exception("Lỗi khi tải bộ hình ảnh lên đám mây.");
+            var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName)
+                ?? throw new KeyNotFoundException("Lỗi khi tải bộ hình ảnh lên đám mây.");
 
             // luu thong tin hinh anh vao database
             Image image = new()

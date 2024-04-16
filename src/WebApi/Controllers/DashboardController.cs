@@ -3,6 +3,7 @@ using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Utils;
 
 namespace WebApi.Controllers;
 
@@ -34,14 +35,58 @@ public class DashboardController : ControllerBase
         return Ok(result);
     }
     
-    [HttpGet("transaction-histories-statistic")]
+    [HttpGet("asset-transaction-statistic")]
     public async Task<IActionResult> GetAssetTransactionStatistic(DateTime startTime, DateTime? endTime = null)
     {
         try
         {
-            var result = await _dashBoardService.GetAssetTransactionStatistic(startTime, endTime);
+            if (startTime > endTime)
+            {
+                return BadRequest(new ApiResponse { ErrorMessage = "Thời gian bắt đầu không lớn hơn thời gian kết thúc." });
+            }
+            var result = await _dashBoardService.GetAssetTransactionStatisticAsync(startTime, endTime);
             return Ok(result);
         }         
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpGet("percentage-category-asset-transaction-statistic")]
+    public async Task<IActionResult> GetPercentageCategoryOfAssetTransStatistic(DateTime? startTime = null, DateTime? endTime = null)
+    {
+        try
+        {
+            if (startTime > endTime)
+            {
+                return BadRequest(new ApiResponse { ErrorMessage = "Thời gian bắt đầu không lớn hơn thời gian kết thúc." });
+            }
+            var result = await _dashBoardService.GetPercentageCategoryOfAssetTransStatisticAsync(startTime, endTime);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpGet("top-creator-asset-transaction-statistic")]
+    public async Task<IActionResult> GetTopCreatorOfAssetTransStatistic(int topNumber = 10, DateTime? startTime = null, DateTime? endTime = null)
+    {
+        try
+        {
+            if (topNumber < 1 || topNumber > 1000)
+            {
+                return BadRequest(new ApiResponse { ErrorMessage = "Số lượng top creator phải lớn hơn 0 và nhỏ hơn 1000." });
+            }
+            if (startTime > endTime)
+            {
+                return BadRequest(new ApiResponse { ErrorMessage = "Thời gian bắt đầu không lớn hơn thời gian kết thúc." });
+            }
+            var result = await _dashBoardService.GetTopCreatorOfAssetTransStatisticAsync(topNumber, startTime, endTime);
+            return Ok(result);
+        }
         catch (Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);

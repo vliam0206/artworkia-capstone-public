@@ -14,5 +14,7 @@ public interface ITransactionHistoryRepository : IGenericRepository<TransactionH
     Task<IPagedList<TransactionHistory>> GetAssetsBoughtOfAccountAsync(Guid accountId, int page, int pageSize);
     Task<List<TransactionHistory>> GetTransactionHistoriesOfAccountAsync(Guid accountId);
     Task<IPagedList<TransactionHistory>> GetAllTransacrionHistoriesPaginationAsync(int pageNumber, int pageSize);
-    Task<List<NoTransByDate>> GetAssetTransactionStatistic(DateTime startTime, DateTime endTime);
+    Task<List<NoAssetTransByDate>> GetAssetTransactionStatisticAsync(DateTime? startTime = null, DateTime? endTime = null);
+    Task<List<PercentageCategoryOfAssetTrans>> GetPercentageCategoryOfAssetTransStatisticAsync(DateTime? startTime = null, DateTime? endTime = null);
+    Task<List<TopCreatorOfAssetTrans>> GetTopCreatorOfAssetTransStatisticAsync(int topNumber, DateTime? startTime = null, DateTime? endTime = null);
 }

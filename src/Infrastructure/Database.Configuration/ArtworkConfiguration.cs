@@ -25,9 +25,11 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
         builder.HasMany(x => x.Comments).WithOne(c => c.Artwork).HasForeignKey(c => c.ArtworkId);
         builder.HasMany(x => x.ServiceDetails).WithOne(c => c.Artwork).HasForeignKey(c => c.ArtworkId);
 
-        #region init data
+        #region init data 
+        // Seed 50 artworks
         builder.HasData
         (
+            // Artwork 1
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
@@ -38,12 +40,14 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CreatedOn = DateTime.Parse("2023-11-02T02:37:42.345Z"),
                 Thumbnail = "https://th.bing.com/th/id/OIG.7WfKwqG.VAbgwQ87iaTU?w=1024&h=1024&rs=1&pid=ImgDetMain",
                 ThumbnailName = "00000000-0000-0000-0000-000000000001_t.jpg",
-                ViewCount = 99,
+                ViewCount = 344,
                 LikeCount = 8,
                 CommentCount = 6,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
             },
+
+            // Artwork 2
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
@@ -60,6 +64,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
+
+            // Artwork 3
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
@@ -76,6 +82,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
+
+            // Artwork 4
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
@@ -86,12 +94,14 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CreatedOn = DateTime.Parse("2023-11-05T08:30:03.678Z"),
                 Thumbnail = "https://th.bing.com/th/id/OIG.Oe0vi0jHSKaHn5DZ267N?w=1024&h=1024&rs=1&pid=ImgDetMain",
                 ThumbnailName = "00000000-0000-0000-0000-000000000004_t.jpg",
-                ViewCount = 23,
+                ViewCount = 203,
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
+
+            // Artwork 5
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
@@ -108,6 +118,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
+
+            // Artwork 6
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000006"),
@@ -124,6 +136,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
+
+            // Artwork 7
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000007"),
@@ -140,6 +154,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
+
+            // Artwork 8
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000008"),
@@ -156,6 +172,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
+
+            // Artwork 9
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000009"),
@@ -166,12 +184,14 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CreatedOn = DateTime.Parse("2023-11-09T21:20:10.234Z"),
                 Thumbnail = "https://th.bing.com/th/id/OIG.Uz66_wn15hsKPirpv6Pb?pid=ImgGn",
                 ThumbnailName = "00000000-0000-0000-0000-000000000009_t.jpg",
-                ViewCount = 86,
+                ViewCount = 826,
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
+
+            // Artwork 10
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000a"),
@@ -188,6 +208,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
+
+            // Artwork 11
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000b"),
@@ -198,12 +220,14 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CreatedOn = DateTime.Parse("2023-11-11T08:30:03.678Z"),
                 Thumbnail = "https://th.bing.com/th/id/OIG.Iar__phrqaC3bhQLIHAZ?w=1024&h=1024&rs=1&pid=ImgDetMain",
                 ThumbnailName = "00000000-0000-0000-0000-00000000000b_t.jpg",
-                ViewCount = 65,
+                ViewCount = 565,
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
+
+            // Artwork 12
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000c"),
@@ -221,6 +245,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
 
+            // Artwork 13
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
@@ -237,6 +262,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
+
+            // Artwork 14
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000f"),
@@ -247,12 +274,14 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CreatedOn = DateTime.Parse("2023-11-14T08:20:45.890Z"),
                 Thumbnail = "https://th.bing.com/th/id/OIG.MC3PObbEmuJhfsPJ8biQ?pid=ImgGn",
                 ThumbnailName = "00000000-0000-0000-0000-00000000000f_t.jpg",
-                ViewCount = 0,
+                ViewCount = 564,
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Waiting,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
+
+            // Artwork 15
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000010"),
@@ -263,12 +292,14 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CreatedOn = DateTime.Parse("2023-11-14T10:55:30.456Z"),
                 Thumbnail = "https://th.bing.com/th/id/OIG.5gNG99_0Acz4Y8CGOYlg?pid=ImgGn",
                 ThumbnailName = "00000000-0000-0000-0000-000000000010_t.jpg",
-                ViewCount = 0,
+                ViewCount = 344,
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Waiting,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
+
+            // Artwork 16
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000011"),
@@ -290,7 +321,28 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CommentCount = 0,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // Artwork 17
+            new Artwork()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+                Title = "Countdown / character introduction images for a game release",
+                Description = "The first ever licensed visual novel in Vietnam, which might not " +
+                "sound special, is a huge milestone in the development of this extremely niche " +
+                "genre in my community. Great stuffs, and it was an honor of mine to work with this.",
+                Privacy = PrivacyEnum.Public,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), //phu
+                CreatedOn = DateTime.Parse("2023-11-12T09:30:03.678Z"),
+                Thumbnail = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FThumbnail%2F00000000-0000-0000-0000-000000000011_t.jpg?alt=media&token=aad2c767-acdf-470f-bc35-9c55947cc9af",
+                ThumbnailName = "00000000-0000-0000-0000-000000000011_t.jpg",
+                ViewCount = 1011,
+                LikeCount = 0,
+                CommentCount = 0,
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             }
+
         );
         #endregion
     }

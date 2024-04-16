@@ -133,7 +133,7 @@ public class ServiceService : IServiceService
         // them thumbnail image vao firebase
         var url = await _firebaseService.UploadFileToFirebaseStorage(
             serviceModel.Thumbnail, newThumbnailName, folderName)
-            ?? throw new Exception("Không thể tải ảnh đại diện dịch vụ lên đám mây.");
+            ?? throw new KeyNotFoundException("Lỗi khi tải ảnh đại diện dịch vụ lên đám mây.");
         newService.Thumbnail = url;
 
         await _unitOfWork.ServiceRepository.AddAsync(newService);
@@ -213,9 +213,8 @@ public class ServiceService : IServiceService
         // cap nhat thumbnail image vao firebase (neu co)
         if (serviceEM.Thumbnail != null)
         {
-            var url = await _firebaseService.UploadFileToFirebaseStorage(serviceEM.Thumbnail, newThumbnailName, folderName);
-            if (url == null)
-                throw new Exception("Không thể tải ảnh đại diện dịch vụ lên đám mây.");
+            var url = await _firebaseService.UploadFileToFirebaseStorage(serviceEM.Thumbnail, newThumbnailName, folderName) 
+                ?? throw new KeyNotFoundException("Lỗi khi tải ảnh đại diện dịch vụ lên đám mây.");
             oldService.Thumbnail = url;
         }
 

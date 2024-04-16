@@ -5,6 +5,7 @@ using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
 using SixLabors.ImageSharp;
 using static Application.Commons.VietnameseEnum;
 
@@ -47,13 +48,13 @@ public class ProposalAssetService : IProposalAssetService
         //    case ProposalAssetEnum.Final:
         //        if (!proposalAssets.Any(x => x.Type == ProposalAssetEnum.Concept))
         //        {
-        //            throw new Exception("Must send concept before sending final.");
+        //            throw new BadHttpRequestException("Must send concept before sending final.");
         //        }
         //        break;
         //    case ProposalAssetEnum.Revision:
         //        if (!proposalAssets.Any(x => x.Type == ProposalAssetEnum.Final))
         //        {
-        //            throw new Exception("Must send final before sending revision.");
+        //            throw new BadHttpRequestException("Must send final before sending revision.");
         //        }
         //        break;
         //}
@@ -64,11 +65,8 @@ public class ProposalAssetService : IProposalAssetService
         string fileExtension = Path.GetExtension(proposalAssetModel.File.FileName);
 
         // upload file len firebase
-        var url = await _firebaseService.UploadFileToFirebaseStorage(proposalAssetModel.File, newProposalAssetName, folderName);
-        if (url == null)
-        {
-            throw new Exception("Không thể tải tệp tin lên đám mây.");
-        }
+        var url = await _firebaseService.UploadFileToFirebaseStorage(proposalAssetModel.File, newProposalAssetName, folderName) 
+            ?? throw new KeyNotFoundException("Lỗi khi tải tệp tin lên đám mây.");
 
         // map assetModel sang proposalAsset
         ProposalAsset proposalAsset = _mapper.Map<ProposalAsset>(proposalAssetModel);

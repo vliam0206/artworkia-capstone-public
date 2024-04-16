@@ -6,6 +6,7 @@ using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
 using Infrastructure.Repositories.Commons;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Infrastructure.Repositories;
 public class TransactionHistoryRepository : GenericCreationRepository<TransactionHistory>, ITransactionHistoryRepository
@@ -64,22 +65,123 @@ public class TransactionHistoryRepository : GenericCreationRepository<Transactio
         return result;
     }
     
-    public async Task<List<NoTransByDate>> GetAssetTransactionStatistic(DateTime startTime, DateTime endTime)
+    public async Task<List<NoAssetTransByDate>> GetAssetTransactionStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
     {
-        var assetCountsByDay = await _dbContext.TransactionHistories
+        // tong trans truoc starttime
+        int totalUntilStartTime = 0;
+
+        var assetTransactions = _dbContext.TransactionHistories
             .Include(x => x.Asset)
-            .Where(x => x.CreatedOn >= startTime && x.CreatedOn <= endTime && x.AssetId != null)
+            .Where(x => x.AssetId != null);
+
+        if (startTime != null)
+        {
+            totalUntilStartTime = _dbContext.TransactionHistories
+                    .Where(t => t.CreatedOn < startTime)
+                    .Sum(t => t.AssetId != null ? 1 : 0);
+
+            assetTransactions = assetTransactions.Where(x => x.CreatedOn >= startTime.Value.Date);
+        }
+
+        if (endTime != null)
+        {
+            assetTransactions = assetTransactions.Where(x => x.CreatedOn <= endTime.Value.Date.AddDays(1).AddTicks(-1));
+        }
+
+        var assetCountsByDayList = await assetTransactions
             .GroupBy(t => t.CreatedOn.Date)
             .OrderBy(g => g.Key)
-            .Select(g => new NoTransByDate
+            .Select(g => new NoAssetTransByDate
             {
                 Date = g.Key,
-                Count = g.Count(),
-                Total = _dbContext.TransactionHistories
-                    .Where(t => t.CreatedOn <= g.Key)
-                    .Sum(t => t.AssetId != null ? 1 : 0) + g.Count()
+                Count = g.Count()
             })
             .ToListAsync();
-        return assetCountsByDay;
+        foreach ( var transaction in assetCountsByDayList)
+        {
+            transaction.Total = totalUntilStartTime + transaction.Count;
+            transaction.IncreaseRate = Math.Round((double)transaction.Count / 
+                (totalUntilStartTime == 0 ? 1 : totalUntilStartTime), 2);
+            totalUntilStartTime += transaction.Count;
+        }
+        return assetCountsByDayList;
+    }
+
+    public async Task<List<PercentageCategoryOfAssetTrans>> GetPercentageCategoryOfAssetTransStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
+    {
+        // Truy vấn dữ liệu về các giao dịch liên quan đến artwork cụ thể
+        var transactionsQuery = _dbContext.TransactionHistories
+            .Include(t => t.Asset!)
+                .ThenInclude(a => a.Artwork)
+                    .ThenInclude(x => x.CategoryArtworkDetails)
+                        .ThenInclude(x => x.Category)
+            .Where(x => x.AssetId != null);
+
+        if (startTime != null)
+        {
+            transactionsQuery = transactionsQuery.Where(x => x.CreatedOn >= startTime.Value.Date);
+        }
+        if (endTime != null)
+        {
+            transactionsQuery = transactionsQuery.Where(x => x.CreatedOn <= endTime.Value.Date.AddDays(1).AddTicks(-1));  
+        }
+        var transactions = await transactionsQuery.ToListAsync();
+
+        // Đếm số lần xuất hiện của mỗi thể loại
+        var categoryCounts = transactions
+            .SelectMany(t => t.Asset!.Artwork.CategoryArtworkDetails)
+            .GroupBy(c => c.Category)
+            .Select(g => new { Category = g.Key, Count = g.Count() })
+            .ToList();
+
+        var sum = categoryCounts.Sum(x=>  x.Count);
+
+        // Tính phần trăm thể loại
+        List<PercentageCategoryOfAssetTrans> list = new List<PercentageCategoryOfAssetTrans>();
+        foreach (var categoryCount in categoryCounts)
+        {
+            var percentage = (double)categoryCount.Count / sum * 100;
+            PercentageCategoryOfAssetTrans item = new()
+            {
+                Category = categoryCount.Category.CategoryName,
+                Percentage = percentage
+
+            };
+            list.Add(item);
+        }
+
+        return list;
+    }
+
+    public async Task<List<TopCreatorOfAssetTrans>> GetTopCreatorOfAssetTransStatisticAsync(int topNumber, DateTime? startTime = null, DateTime? endTime = null)
+    {
+        // Truy vấn dữ liệu về các giao dịch liên quan đến artwork cụ thể
+        var transactionsQuery = _dbContext.TransactionHistories
+            .Include(t => t.Asset!)
+                .ThenInclude(a => a.Artwork)
+            .Where(x => x.AssetId != null);
+
+        if (startTime != null)
+        {
+            transactionsQuery = transactionsQuery.Where(x => x.CreatedOn >= startTime.Value.Date);
+        }
+        if (endTime != null)
+        {
+            transactionsQuery = transactionsQuery.Where(x => x.CreatedOn <= endTime.Value.Date.AddDays(1).AddTicks(-1));
+        }
+        var transactions = await transactionsQuery
+            .GroupBy(t => t.Asset!.Artwork.Account)
+            .Select(g => new TopCreatorOfAssetTrans
+            {
+                Creator = g.Key,
+                TotalBought = g.Count(),
+                TotalRevenue = g.Sum(x => x.Price)
+            })
+            .OrderByDescending(x => x.TotalRevenue)
+            .Take(topNumber)
+            .ToListAsync();
+
+
+        return transactions;
     }
 }

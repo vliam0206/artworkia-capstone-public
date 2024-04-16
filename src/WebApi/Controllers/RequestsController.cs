@@ -19,6 +19,7 @@ public class RequestsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Moderator,Admin")]
     public async Task<IActionResult> GetAllRequests()
     {
         try

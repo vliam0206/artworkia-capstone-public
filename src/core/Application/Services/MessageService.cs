@@ -70,11 +70,8 @@ public class MessageService : IMessageService
             string folderName = "Message";
             string fileExtension = Path.GetExtension(model.File.FileName);
             // upload file len firebase
-            var url = await _firebaseService.UploadFileToFirebaseStorage(model.File, newMessageName, folderName);
-            if (url == null)
-            {
-                throw new Exception("Không thể tải tệp tin lên đám mây.");
-            }
+            var url = await _firebaseService.UploadFileToFirebaseStorage(model.File, newMessageName, folderName) 
+                ?? throw new KeyNotFoundException("Lỗi khi tải tệp tin lên đám mây.");
             newMessage.FileLocation = url;
             newMessage.FileName = newMessageName + fileExtension;
         }

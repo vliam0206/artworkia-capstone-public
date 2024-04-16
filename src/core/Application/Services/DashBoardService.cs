@@ -34,14 +34,22 @@ public class DashBoardService : IDashBoardService
         return _mapper.Map<PagedList<WalletHistoryVM>>(result);
     }
 
-    public async Task<List<NoTransByDate>> GetAssetTransactionStatistic(DateTime startTime, DateTime? endTime = null)
+    public async Task<List<NoAssetTransByDate>> GetAssetTransactionStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
     {
-        if (endTime == null)
-        {
-            endTime = DateTime.UtcNow;
-        }
-        var result = await _unitOfWork.TransactionHistoryRepository.GetAssetTransactionStatistic(startTime, endTime.Value);
+        var result = await _unitOfWork.TransactionHistoryRepository.GetAssetTransactionStatisticAsync(startTime, endTime);
         return result;
 
+    }
+
+    public async Task<List<PercentageCategoryOfAssetTrans>> GetPercentageCategoryOfAssetTransStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
+    {
+        var result = await _unitOfWork.TransactionHistoryRepository.GetPercentageCategoryOfAssetTransStatisticAsync(startTime, endTime);
+        return result;
+    }
+
+    public async Task<List<TopCreatorOfAssetTransVM>> GetTopCreatorOfAssetTransStatisticAsync(int topNumber = 10, DateTime? startTime = null, DateTime? endTime = null)
+    {
+        var result = await _unitOfWork.TransactionHistoryRepository.GetTopCreatorOfAssetTransStatisticAsync(topNumber, startTime, endTime);
+        return _mapper.Map<List<TopCreatorOfAssetTransVM>>(result);
     }
 }

@@ -7,6 +7,7 @@ using AutoMapper;
 using Domain.Entities.Commons;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services;
 public class AssetService : IAssetService
@@ -146,10 +147,10 @@ public class AssetService : IAssetService
             return link;
 
         if (asset.DeletedOn != null)
-            throw new Exception("Tài nguyên đã bị xóa.");
+            throw new KeyNotFoundException("Tài nguyên đã bị xóa.");
 
         if (asset.Price > 0)
-            throw new Exception("Bạn chưa mua tài nguyên này.");
+            throw new BadHttpRequestException("Bạn chưa mua tài nguyên này.");
 
         return link;
     }
@@ -176,9 +177,8 @@ public class AssetService : IAssetService
         string imageExtension = Path.GetExtension(assetModel.File.FileName); // lay duoi file (.zip, .rar, ...)
 
         // upload asset len firebase, lay url
-        var url = await _firebaseService.UploadFileToFirebaseStorage(assetModel.File, newAssetName, folderName);
-        if (url == null)
-            throw new Exception("Không thể tải tài nguyên lên đám mây.");
+        var url = await _firebaseService.UploadFileToFirebaseStorage(assetModel.File, newAssetName, folderName) 
+            ?? throw new KeyNotFoundException("Lỗi khi tải tài nguyên lên đám mây.");
 
         // map assetModel sang asset
         Asset newAsset = _mapper.Map<Asset>(assetModel);
@@ -203,7 +203,7 @@ public class AssetService : IAssetService
             throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         var allAssetsOfArtwork = await _unitOfWork.AssetRepository.GetListByConditionAsync(x => x.ArtworkId == multiAssetModel.ArtworkId);
         if (allAssetsOfArtwork.Count > 0)
-            throw new Exception("Tác phẩm đã có tài nguyên.");
+            throw new BadHttpRequestException("Tác phẩm đã có tài nguyên.");
         #endregion
 
         #region upload asset (optimize)
@@ -220,7 +220,7 @@ public class AssetService : IAssetService
         //    {
         //        var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.file.File, newAssetName, folderName);
         //        if (url == null)
-        //            throw new Exception("Cannot upload asset to firebase!");
+        //            throw new KeyNotFoundException("Lỗi khi tải tài nguyên lên đám mây.");
 
         //        Asset newAsset = new()
         //        {
@@ -246,10 +246,8 @@ public class AssetService : IAssetService
             string imageExtension = Path.GetExtension(singleAsset.File.FileName); // lay duoi file (.zip, .rar, ...)
 
             // upload asset len firebase, lay url
-            var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.File, newAssetName, folderName);
-            if (url == null)
-                throw new Exception("Không thể tải tài nguyên lên đám mây.!");
-
+            var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.File, newAssetName, folderName) 
+                ?? throw new KeyNotFoundException("Lỗi khi tải tài nguyên lên đám mây.!");
             Asset newAsset = new()
             {
                 ArtworkId = multiAssetModel.ArtworkId,

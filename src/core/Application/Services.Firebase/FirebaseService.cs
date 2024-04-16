@@ -33,21 +33,15 @@ public class FirebaseService : IFirebaseService
     {
         if (files.Length > 0)
         {
-            //var storage = new FirebaseStorage(
-            //    _firebaseConfiguration.Bucket,
-            //    new FirebaseStorageOptions
-            //    {
-            //        AuthTokenAsyncFactory = SignInAndGetAuthToken,
-            //        ThrowOnCancel = true
-            //    });
-            var task = new FirebaseStorage(
-                _firebaseConfiguration.Bucket
-                )
-                .Child(folderName)
-                .Child($"{fileName}.{Path.GetExtension(files.FileName).Substring(1)}")
-                .PutAsync(files.OpenReadStream());
             try
             {
+                var task = new FirebaseStorage(
+                    _firebaseConfiguration.Bucket
+                    )
+                    .Child(folderName)
+                    .Child($"{fileName}.{Path.GetExtension(files.FileName).Substring(1)}")
+                    .PutAsync(files.OpenReadStream());
+
                 string? urlFile = await task;
                 return urlFile;
             }
@@ -63,14 +57,15 @@ public class FirebaseService : IFirebaseService
     {
         if (files.Length > 0)
         {
-            var task = new FirebaseStorage(
-                _firebaseConfiguration.Bucket
-                )
-                .Child(folderName)
-                .Child($"{fileName}")
-                .PutAsync(files.OpenReadStream());
             try
             {
+                var task = new FirebaseStorage(
+                    _firebaseConfiguration.Bucket
+                    )
+                    .Child(folderName)
+                    .Child($"{fileName}")
+                    .PutAsync(files.OpenReadStream());
+
                 string? urlFile = await task;
                 return urlFile;
             }
@@ -84,17 +79,18 @@ public class FirebaseService : IFirebaseService
 
     public async Task DeleteFileInFirebaseStorage(string fileName, string folderName)
     {
-        var task = new FirebaseStorage(
-            _firebaseConfiguration.Bucket,
-            new FirebaseStorageOptions
-            {
-                ThrowOnCancel = true
-            })
-            .Child(folderName)
-            .Child(fileName)
-            .DeleteAsync();
         try
         {
+            var task = new FirebaseStorage(
+                _firebaseConfiguration.Bucket,
+                new FirebaseStorageOptions
+                {
+                    ThrowOnCancel = true
+                })
+                .Child(folderName)
+                .Child(fileName)
+                .DeleteAsync();
+
             await task;
         }
         catch (Exception ex)
@@ -105,17 +101,18 @@ public class FirebaseService : IFirebaseService
 
     public async Task<string?> DownloadFileFromFirebaseStorage(string fileName, string folderName)
     {
-        var task = new FirebaseStorage(
-            _firebaseConfiguration.Bucket,
-            new FirebaseStorageOptions
-            {
-                ThrowOnCancel = true
-            })
-            .Child(folderName)
-            .Child(fileName).
-            GetDownloadUrlAsync();
         try
         {
+            var task = new FirebaseStorage(
+                _firebaseConfiguration.Bucket,
+                new FirebaseStorageOptions
+                {
+                    ThrowOnCancel = true
+                })
+                .Child(folderName)
+                .Child(fileName).
+                GetDownloadUrlAsync();
+
             var downloadUrl = await task;
             return downloadUrl;
         }
@@ -127,17 +124,18 @@ public class FirebaseService : IFirebaseService
 
     public async Task<FirebaseMetaData?> GetMetadataFileFromFirebaseStorage(string fileName, string folderName)
     {
-        var task = new FirebaseStorage(
-            _firebaseConfiguration.Bucket,
-            new FirebaseStorageOptions
-            {
-                ThrowOnCancel = true
-            })
-            .Child(folderName)
-            .Child(fileName).
-            GetMetaDataAsync();
         try
         {
+            var task = new FirebaseStorage(
+                _firebaseConfiguration.Bucket,
+                new FirebaseStorageOptions
+                {
+                    ThrowOnCancel = true
+                })
+                .Child(folderName)
+                .Child(fileName).
+                GetMetaDataAsync();
+
             var metadata = await task;
             return metadata;
         }

@@ -232,20 +232,15 @@ public class AccountService : IAccountService
 
     public async Task EditAvatarAsync(Guid accountId, IFormFile avatar)
     {
-        var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId);
-        if (account == null)
-        {
-            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
-        }
+        var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy tài khoản.");
 
         // change avatar
         string newAvatarName = accountId + "_ava";
         string folderName = $"{PARENT_FOLDER}/Avatar";
         //upload hinh anh len firebase, lay url
-        var url = await _firebaseService.UploadFileToFirebaseStorageNoExtension(avatar, newAvatarName, folderName);
-        if (url == null)
-            throw new Exception("Lỗi khi tải ảnh đại diện lên đám mây.");
-
+        var url = await _firebaseService.UploadFileToFirebaseStorageNoExtension(avatar, newAvatarName, folderName) 
+            ?? throw new KeyNotFoundException("Lỗi khi tải ảnh đại diện lên đám mây.");
         account.Avatar = url;
         _unitOfWork.AccountRepository.Update(account);
         await _unitOfWork.SaveChangesAsync();
