@@ -18,6 +18,7 @@ public class CategoryArtworkDetailConfiguration : IEntityTypeConfiguration<Categ
         #region init data
         builder.HasData
         (
+            // artwork 1
             new CategoryArtworkDetail()
             {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
@@ -28,11 +29,28 @@ public class CategoryArtworkDetailConfiguration : IEntityTypeConfiguration<Categ
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000009")
             },
+
+            // artwork 2
             new CategoryArtworkDetail()
             {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000002")
             },
+
+            // artwork 3
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 4
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-00000000000a")
+            },
+
             new CategoryArtworkDetail()
             {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),

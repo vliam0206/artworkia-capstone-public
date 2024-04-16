@@ -34,7 +34,7 @@ public class DashBoardService : IDashBoardService
         return _mapper.Map<PagedList<WalletHistoryVM>>(result);
     }
 
-    public async Task<List<NoAssetTransByDate>> GetAssetTransactionStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
+    public async Task<List<AssetTransByDate>> GetAssetTransactionStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
     {
         var result = await _unitOfWork.TransactionHistoryRepository.GetAssetTransactionStatisticAsync(startTime, endTime);
         return result;
@@ -51,5 +51,29 @@ public class DashBoardService : IDashBoardService
     {
         var result = await _unitOfWork.TransactionHistoryRepository.GetTopCreatorOfAssetTransStatisticAsync(topNumber, startTime, endTime);
         return _mapper.Map<List<TopCreatorOfAssetTransVM>>(result);
+    }
+
+    public async Task<List<ProposalByDate>> GetProposalByDateStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
+    {
+        var result = await _unitOfWork.ProposalRepository.GetProposalStatisticAsync(startTime, endTime);
+        return result;
+    }
+
+    public async Task<List<PercentageCategoryOfProposal>> GetPercentageCategoryOfProposalStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
+    {
+        var result = await _unitOfWork.ProposalRepository.GetPercentageCategoryOfProposalStatisticAsync(startTime, endTime);
+        return result;
+    }
+
+    public async Task<List<TopCreatorOfProposalVM>> GetTopCreatorOfProposalStatisticAsync(int topNumber = 10, DateTime? startTime = null, DateTime? endTime = null)
+    {
+        var result = await _unitOfWork.ProposalRepository.GetTopCreatorOfProposalStatisticAsync(topNumber, startTime, endTime);
+        return _mapper.Map<List<TopCreatorOfProposalVM>>(result);
+    }
+
+    public async Task<List<TopServiceOfCreatorVM>> GetTopServiceOfCreatorStatisticAsync(int topNumber = 10, DateTime? startTime = null, DateTime? endTime = null)
+    {
+        var result = await _unitOfWork.ProposalRepository.GetTopServiceOfCreatorStatisticAsync(topNumber, startTime, endTime);
+        return _mapper.Map<List<TopServiceOfCreatorVM>>(result);
     }
 }

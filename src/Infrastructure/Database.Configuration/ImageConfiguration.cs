@@ -20,7 +20,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
                 Location = "https://i.pinimg.com/originals/b5/7e/14/b57e14aa401d41db2072d1b0ccfbde2b.jpg",
-                ImageName = "00000000-0000-0000-0000-00000000000e_i1.jpg",
+                ImageName = "00000000-0000-0000-0000-00000000000e_i0.jpg",
                 Order = 0
             },
             new Image()
@@ -28,7 +28,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
                 Location = "https://i.pinimg.com/originals/04/b7/46/04b7460b2efef9c432dabbcda2507b71.jpg",
-                ImageName = "00000000-0000-0000-0000-00000000000e_i2.jpg",
+                ImageName = "00000000-0000-0000-0000-00000000000e_i1.jpg",
                 Order = 1
             },
             new Image()
@@ -36,7 +36,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
                 Location = "https://i.pinimg.com/originals/d5/5e/e1/d55ee127c8dc1c7f9d94edc0ec596758.jpg",
-                ImageName = "00000000-0000-0000-0000-00000000000e_i3.jpg",
+                ImageName = "00000000-0000-0000-0000-00000000000e_i2.jpg",
                 Order = 2
             },
             new Image()
@@ -83,7 +83,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000009"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
-                Location = "https://th.bing.com/th/id/OIG.k0SSs9Qn3tHNvlcMdMrG?w=1024&h=1024&rs=1&pid=ImgDetMain",
+                Location = "https://vov2-media.solidtech.vn/sites/default/files/styles/large/public/2022-05/dien-bien-phu_-_bia.jpg",
                 ImageName = "00000000-0000-0000-0000-000000000003_i0.jpg",
                 Order = 0
             },
@@ -175,7 +175,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000011"),
                 Location = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FImage%2F00000000-0000-0000-0000-000000000011_i1.jpg?alt=media&token=3442240e-37f5-42f9-be58-5c359ebcde5c",
                 ImageName = "00000000-0000-0000-0000-000000000011_i1.jpg",
-                Order = 0
+                Order = 1
             },
             new Image()
             {
@@ -183,9 +183,68 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000011"),
                 Location = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FImage%2F00000000-0000-0000-0000-000000000011_i2.jpg?alt=media&token=4d6ad124-294d-4059-b21d-a37cfb3d0c6a",
                 ImageName = "00000000-0000-0000-0000-000000000011_i2.jpg",
+                Order = 2
+            },
+
+            // anh aw 17
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000024"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+                Location = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FImage%2F1.png?alt=media&token=61dea5b6-4462-49b3-b58a-3acc6f9861fc",
+                ImageName = "00000000-0000-0000-0000-000000000012_i0.png",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000025"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+                Location = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FImage%2F2.png?alt=media&token=10e991c2-11ac-469b-9933-3b223fe17f5b",
+                ImageName = "00000000-0000-0000-0000-000000000012_i1.png",
+                Order = 1
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000026"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+                Location = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FImage%2F3.png?alt=media&token=13f47f61-2372-4b87-b8f4-806c5ef956ee",
+                ImageName = "00000000-0000-0000-0000-000000000012_i2.png",
+                Order = 2
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000027"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+                Location = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FImage%2F4.png?alt=media&token=53a9b98e-1875-48d6-a880-6b935081afe5",
+                ImageName = "00000000-0000-0000-0000-000000000012_i3.png",
+                Order = 3
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000028"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+                Location = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FImage%2F5.png?alt=media&token=4d9137a2-5836-4cee-8e36-c1b87f9236c6",
+                ImageName = "00000000-0000-0000-0000-000000000012_i4.png",
+                Order = 4
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000029"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+                Location = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FImage%2F6.png?alt=media&token=3b05c46f-6ed0-42d6-aa84-1ef96a880f99",
+                ImageName = "00000000-0000-0000-0000-000000000012_i4.png",
+                Order = 5
+            },
+
+            // image aw 18
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000002a"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000013"),
+                Location = "https://vov2.vov.vn/sites/default/files/styles/large/public/2022-05/vo-nguyen-giap.jpg",
+                ImageName = "00000000-0000-0000-0000-000000000013_i0.png",
                 Order = 0
             }
-
 
         );
         #endregion

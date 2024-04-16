@@ -5,8 +5,6 @@ using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
-using Microsoft.AspNetCore.Http;
-using SixLabors.ImageSharp;
 using static Application.Commons.VietnameseEnum;
 
 namespace Application.Services;

@@ -39,6 +39,7 @@ public class ProposalVM
     public string Category { get; set; } = default!;
     public string Description { get; set; } = default!;
     public DateTime TargetDelivery { get; set; }
+    public DateTime? ActualDelivery { get; set; } //ngay hoan thanh thuc te
     public int NumberOfConcept { get; set; }
     public int NumberOfRevision { get; set; }
     public double InitialPrice { get; set; }

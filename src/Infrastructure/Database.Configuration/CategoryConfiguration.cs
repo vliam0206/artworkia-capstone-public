@@ -28,10 +28,12 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             new Category() { Id = Guid.Parse("00000000-0000-0000-0000-000000000006"), CategoryName = "Đồ họa chuyển động", ParentCategory = null },
             new Category() { Id = Guid.Parse("00000000-0000-0000-0000-000000000007"), CategoryName = "In ấn", ParentCategory = null },
             new Category() { Id = Guid.Parse("00000000-0000-0000-0000-000000000008"), CategoryName = "Đồ họa 3D", ParentCategory = null },
-            new Category() { Id = Guid.Parse("00000000-0000-0000-0000-000000000009"), CategoryName = "Nghệ thuật số", ParentCategory = null },
+            new Category() { Id = Guid.Parse("00000000-0000-0000-0000-000000000009"), CategoryName = "Nghệ thuật số", ParentCategory = Guid.Parse("00000000-0000-0000-0000-000000000001") },
             new Category() { Id = Guid.Parse("00000000-0000-0000-0000-00000000000a"), CategoryName = "Nhiếp ảnh", ParentCategory = null },
             new Category() { Id = Guid.Parse("00000000-0000-0000-0000-00000000000b"), CategoryName = "Thiết kế sản phẩm", ParentCategory = null },
-            new Category() { Id = Guid.Parse("00000000-0000-0000-0000-00000000000c"), CategoryName = "Quảng cáo", ParentCategory = null }
+            new Category() { Id = Guid.Parse("00000000-0000-0000-0000-00000000000c"), CategoryName = "Quảng cáo", ParentCategory = null },
+            new Category() { Id = Guid.Parse("00000000-0000-0000-0000-00000000000d"), CategoryName = "Phác họa", ParentCategory = Guid.Parse("00000000-0000-0000-0000-000000000001") },
+            new Category() { Id = Guid.Parse("00000000-0000-0000-0000-00000000000e"), CategoryName = "Thiết kế nhân vật", ParentCategory = Guid.Parse("00000000-0000-0000-0000-000000000001") }
         );
         #endregion
     }

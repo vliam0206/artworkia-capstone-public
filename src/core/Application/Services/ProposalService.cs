@@ -314,6 +314,8 @@ public class ProposalService : IProposalService
 
         // 3. update the proposal status
         proposal.ProposalStatus = ProposalStateEnum.CompletePayment;
+        proposal.ActualDelivery = DateTime.UtcNow;
+
         _unitOfWork.ProposalRepository.Update(proposal);
 
         await _unitOfWork.SaveChangesAsync();

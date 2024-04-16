@@ -35,7 +35,8 @@ public class ProposalConfiguration : IEntityTypeConfiguration<Proposal>
                                 Giao diện trực quan, dễ sử dụng. 
                                 Tìm kiếm và bộ lọc sản phẩm.
                                 Hệ thống thanh toán an toàn.",
-                TargetDelivery = DateTime.Parse("2024-04-30"),
+                TargetDelivery = DateTime.Parse("2024-01-30"),
+                ActualDelivery = DateTime.Parse("2024-02-01"),
                 NumberOfConcept = 2,
                 NumberOfRevision = 3,
                 InitialPrice = 0.25,

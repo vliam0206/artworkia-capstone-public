@@ -92,4 +92,84 @@ public class DashboardController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpGet("proposal-statistic")]
+    public async Task<IActionResult> GetProposalStatistic(DateTime? startTime = null, DateTime? endTime = null)
+    {
+        try
+        {
+            if (startTime > endTime)
+            {
+                return BadRequest(new ApiResponse { ErrorMessage = "Thời gian bắt đầu không lớn hơn thời gian kết thúc." });
+            }
+            var result = await _dashBoardService.GetProposalByDateStatisticAsync(startTime, endTime);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpGet("percentage-category-proposal-statistic")]
+    public async Task<IActionResult> GetPercentageCategoryOfProposalStatistic(DateTime? startTime = null, DateTime? endTime = null)
+    {
+        try
+        {
+            if (startTime > endTime)
+            {
+                return BadRequest(new ApiResponse { ErrorMessage = "Thời gian bắt đầu không lớn hơn thời gian kết thúc." });
+            }
+            var result = await _dashBoardService.GetPercentageCategoryOfProposalStatisticAsync(startTime, endTime);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpGet("top-creator-proposal-statistic")]
+    public async Task<IActionResult> GetTopCreatorOfProposalStatistic(int topNumber = 10, DateTime? startTime = null, DateTime? endTime = null)
+    {
+        try
+        {
+            if (topNumber < 1 || topNumber > 1000)
+            {
+                return BadRequest(new ApiResponse { ErrorMessage = "Số lượng top creator phải lớn hơn 0 và nhỏ hơn 1000." });
+            }
+            if (startTime > endTime)
+            {
+                return BadRequest(new ApiResponse { ErrorMessage = "Thời gian bắt đầu không lớn hơn thời gian kết thúc." });
+            }
+            var result = await _dashBoardService.GetTopCreatorOfProposalStatisticAsync(topNumber, startTime, endTime);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpGet("top-service-creator-statistic")]
+    public async Task<IActionResult> GetTopServiceOfCreatorStatistic(int topNumber = 10, DateTime? startTime = null, DateTime? endTime = null)
+    {
+        try
+        {
+            if (topNumber < 1 || topNumber > 1000)
+            {
+                return BadRequest(new ApiResponse { ErrorMessage = "Số lượng top creator phải lớn hơn 0 và nhỏ hơn 1000." });
+            }
+            if (startTime > endTime)
+            {
+                return BadRequest(new ApiResponse { ErrorMessage = "Thời gian bắt đầu không lớn hơn thời gian kết thúc." });
+            }
+            var result = await _dashBoardService.GetTopServiceOfCreatorStatisticAsync(topNumber, startTime, endTime);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }

@@ -45,6 +45,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CommentCount = 6,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                IsAIGenerated = true
             },
 
             // Artwork 2
@@ -62,25 +63,27 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Accepted,
-                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                IsAIGenerated = true
             },
 
             // Artwork 3
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
-                Title = "Vẻ đẹp của lịch sử",
-                Description = "Minh họa những cuộc chiến tiêu biểu của thời đại",
+                Title = "Chiến thắng Điện Biên Phủ",
+                Description = "Minh họa cuộc chiến tiêu biểu của thời đại",
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), //hoanganh
                 CreatedOn = DateTime.Parse("2023-11-04T13:55:30.456Z"),
-                Thumbnail = "https://th.bing.com/th/id/OIG.k0SSs9Qn3tHNvlcMdMrG?w=1024&h=1024&rs=1&pid=ImgDetMain",
+                Thumbnail = "https://vov2-media.solidtech.vn/sites/default/files/styles/large/public/2022-05/dien-bien-phu_-_bia.jpg",
                 ThumbnailName = "00000000-0000-0000-0000-000000000002_t.jpg",
                 ViewCount = 638,
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Accepted,
-                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                IsAIGenerated = false
             },
 
             // Artwork 4
@@ -260,7 +263,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Accepted,
-                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                IsAIGenerated = true
             },
 
             // Artwork 14
@@ -278,7 +282,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Waiting,
-                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                IsAIGenerated = false
             },
 
             // Artwork 15
@@ -334,14 +339,37 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), //phu
                 CreatedOn = DateTime.Parse("2023-11-12T09:30:03.678Z"),
-                Thumbnail = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FThumbnail%2F00000000-0000-0000-0000-000000000011_t.jpg?alt=media&token=aad2c767-acdf-470f-bc35-9c55947cc9af",
+                Thumbnail = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FImage%2F1.png?alt=media&token=61dea5b6-4462-49b3-b58a-3acc6f9861fc",
                 ThumbnailName = "00000000-0000-0000-0000-000000000011_t.jpg",
                 ViewCount = 1011,
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // Artwork 18
+            new Artwork()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000013"),
+                Title = "Tranh sơn dầu Đại tướng Võ Nguyên Giáp",
+                Description = "Là một họa sĩ được sinh ra và lớn lên khi đất nước đã thống nhất, Mai Duy Minh " +
+                "đã cố gắng hết sức có thể trong việc tìm kiếm một câu trả lời cho riêng cá nhân anh về cách mà " +
+                "các thế hệ người Việt Nam bền bỉ đi qua mọi gian khổ để bảo vệ độc lập dân tộc. Tất cả những nỗ " +
+                "lực tìm kiếm và lắng nghe mọi vang vọng từ quá khứ chiến đấu anh dũng ấy của cha anh đi trước đã " +
+                "được hội tụ trong bức tranh “Điện Biên Phủ”..",
+                Privacy = PrivacyEnum.Public,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000011"), //phamha
+                CreatedOn = DateTime.Parse("2023-11-13T11:11:03.678Z"),
+                Thumbnail = "https://vov2.vov.vn/sites/default/files/styles/large/public/2022-05/vo-nguyen-giap.jpg",
+                ThumbnailName = "00000000-0000-0000-0000-000000000012_t.jpg",
+                ViewCount = 345,
+                LikeCount = 0,
+                CommentCount = 0,
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000008")
             }
+
 
         );
         #endregion

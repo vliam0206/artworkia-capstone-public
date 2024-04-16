@@ -20,6 +20,7 @@ public class FollowConfiguration : IEntityTypeConfiguration<Follow>
 
         #region init data
         builder.HasData(
+            // hoanganh
             new Follow
             {
                 FollowingId = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
@@ -29,6 +30,32 @@ public class FollowConfiguration : IEntityTypeConfiguration<Follow>
             {
                 FollowingId = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
                 FollowedId = Guid.Parse("00000000-0000-0000-0000-000000000005")  // phuhuynh
+            },
+
+            // phuhuynh
+            new Follow
+            {
+                FollowingId = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
+                FollowedId = Guid.Parse("00000000-0000-0000-0000-000000000003")  // lamlam
+            },
+            new Follow
+            {
+                FollowingId = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
+                FollowedId = Guid.Parse("00000000-0000-0000-0000-000000000002")  // hoanganh
+            },
+
+            // lamlam
+            new Follow
+            {
+                FollowingId = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
+                FollowedId = Guid.Parse("00000000-0000-0000-0000-000000000005")  // phuhuynh
+            },
+
+            // thong
+            new Follow
+            {
+                FollowingId = Guid.Parse("00000000-0000-0000-0000-000000000004"), // thong
+                FollowedId = Guid.Parse("00000000-0000-0000-0000-000000000002")  // lamlam
             }
         );
         #endregion

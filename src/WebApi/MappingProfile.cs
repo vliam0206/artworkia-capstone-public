@@ -125,6 +125,7 @@ public class MappingProfile : Profile
         CreateMap<Service, ServiceVM>()
             .ForMember(model => model.Categories, opt => opt.MapFrom(x => x.CategoryServiceDetails.Select(y => y.Category).ToList()))
             .ForMember(model => model.ArtworkReferences, opt => opt.MapFrom(x => x.ServiceDetails.Select(y => y.Artwork).ToList()));
+        CreateMap<Service, ServiceBasicInfoVM>();
 
         CreateMap<Request, RequestModel>().ReverseMap();
         CreateMap<Request, RequestVM>().ReverseMap();
@@ -176,5 +177,7 @@ public class MappingProfile : Profile
         CreateMap<Notification, NotificationVM>().ReverseMap();
 
         CreateMap<TopCreatorOfAssetTrans, TopCreatorOfAssetTransVM>();
+        CreateMap<TopCreatorOfProposal, TopCreatorOfProposalVM>();
+        CreateMap<TopServiceOfCreator, TopServiceOfCreatorVM>();
     }
 }

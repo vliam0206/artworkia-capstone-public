@@ -65,7 +65,7 @@ public class TransactionHistoryRepository : GenericCreationRepository<Transactio
         return result;
     }
     
-    public async Task<List<NoAssetTransByDate>> GetAssetTransactionStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
+    public async Task<List<AssetTransByDate>> GetAssetTransactionStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
     {
         // tong trans truoc starttime
         int totalUntilStartTime = 0;
@@ -91,7 +91,7 @@ public class TransactionHistoryRepository : GenericCreationRepository<Transactio
         var assetCountsByDayList = await assetTransactions
             .GroupBy(t => t.CreatedOn.Date)
             .OrderBy(g => g.Key)
-            .Select(g => new NoAssetTransByDate
+            .Select(g => new AssetTransByDate
             {
                 Date = g.Key,
                 Count = g.Count()

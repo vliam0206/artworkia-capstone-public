@@ -13,7 +13,8 @@ public class Proposal : BaseEntity, ICreation
     public string Category { get; set; } = default!;
     [MaxLength(1000)]
     public string Description { get; set; } = default!;
-    public DateTime TargetDelivery { get; set; }
+    public DateTime TargetDelivery { get; set; } // ngay hoan thanh du kien
+    public DateTime? ActualDelivery { get; set; } //ngay hoan thanh thuc te
     public int NumberOfConcept { get; set; } = default!;
     public int NumberOfRevision { get; set; } = default!;
     public double InitialPrice { get; set; }
