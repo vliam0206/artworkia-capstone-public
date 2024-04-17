@@ -20,11 +20,42 @@ public class ServiceDetailConfiguration : IEntityTypeConfiguration<ServiceDetail
         #region init data
         builder.HasData
         (
+
+            // service 1
             new ServiceDetail()
             {
                 ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
+            },
+
+            // service 2
+            new ServiceDetail()
+            {
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+            },
+
+            // service 3
+            new ServiceDetail()
+            {
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+            },
+
+            // service 4
+            new ServiceDetail()
+            {
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000009"),
+            },
+
+            // service 5
+            new ServiceDetail()
+            {
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000020"),
             }
+
         );
         #endregion
     }

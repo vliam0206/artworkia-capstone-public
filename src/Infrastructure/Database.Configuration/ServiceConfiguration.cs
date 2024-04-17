@@ -24,6 +24,7 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
         #region init data
         builder.HasData
         (
+            // service 1
             new Service()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
@@ -33,11 +34,13 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                 NumberOfConcept = 2,
                 NumberOfRevision = 2,
                 StartingPrice = 100000,
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
                 CreatedOn = DateTime.Parse("2024-1-2"),
                 LastModificatedOn = DateTime.Parse("2024-1-2"),
                 Thumbnail = "https://3.imimg.com/data3/SQ/DN/MY-16602737/banner-design-services.png"
             },
+
+            // service 2
             new Service()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
@@ -47,39 +50,80 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                 NumberOfConcept = 3,
                 NumberOfRevision = 3,
                 StartingPrice = 150000,
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
                 CreatedOn = DateTime.Parse("2024-1-3"),
                 LastModificatedOn = DateTime.Parse("2024-1-3"),
                 Thumbnail = "https://laptopdieplinh.com/uploads/7%20c%C3%B4ng%20c%E1%BB%A5%20ph%C3%A1t%20tri%E1%BB%83n%20website%20b%E1%BA%A1n%20c%E1%BA%A7n%20bi%E1%BA%BFt%20-%200.jpg"
             },
+
+            // service 3
             new Service()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
-                ServiceName = "Dịch vụ in ấn",
-                Description = "Mô tả Dịch vụ in ấn",
-                DeliveryTime = "1 - 2 tuần",
-                NumberOfConcept = 1,
-                NumberOfRevision = 1,
-                StartingPrice = 50000,
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                ServiceName = "Dịch vụ thiết kế nhân vật trò chơi 2D",
+                Description = "Dịch vụ thiết kế nhân vật trò chơi 2D, từ indie tới AAA",
+                DeliveryTime = "1 - 2 tháng",
+                NumberOfConcept = 2,
+                NumberOfRevision = 2,
+                StartingPrice = 100000,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), //phuhuynh
                 CreatedOn = DateTime.Parse("2024-1-5"),
                 LastModificatedOn = DateTime.Parse("2024-1-5"),
-                Thumbnail = "https://channel.mediacdn.vn/2022/3/17/photo-1-1647512803989607433836.jpg"
+                Thumbnail = "https://static.vecteezy.com/system/resources/previews/023/289/956/original/cute-monster-doodle-character-design-flat-illustration-suitable-for-poster-banner-mascot-or-event-related-template-free-vector.jpg"
             },
+
+            // service 4
             new Service()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
-                ServiceName = "Dịch vụ quản lý dự án",
-                Description = "Mô tả Dịch vụ quản lý dự án",
-                DeliveryTime = "3 - 4 tuần",
+                ServiceName = "Dịch vụ thiết kế nhân vật trò chơi 3D",
+                Description = "Dịch vụ thiết kế nhân vật trò chơi 3D, từ indie tới AAA",
+                DeliveryTime = "3 - 4 tháng",
                 NumberOfConcept = 2,
                 NumberOfRevision = 2,
                 StartingPrice = 120000,
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
                 CreatedOn = DateTime.Parse("2024-1-7"),
                 LastModificatedOn = DateTime.Parse("2024-1-7"),
-                Thumbnail = "https://www.inandaiduong.com/wp-content/uploads/2015/01/dich-vu-thiet-ke-in-an.jpg"
+                Thumbnail = "https://masterbundles.com/wp-content/uploads/2023/11/media-2-816.jpg"
+            },
+
+            // service 5
+            new Service()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                ServiceName = "Phục chế chân dung liệt sĩ",
+                Description = "Tôi không muốn làm việc phục dựng, phục chế ảnh như một động tác khô khan về kỹ thuật, " +
+                "tôi còn muốn kể lại những câu chuyện thực tế về liệt sĩ bằng ngôn ngữ hội họa và nhiếp ảnh",
+                DeliveryTime = "1 - 2 tuần",
+                NumberOfConcept = 2,
+                NumberOfRevision = 1,
+                StartingPrice = 20000,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
+                CreatedOn = DateTime.Parse("2024-1-8"),
+                LastModificatedOn = DateTime.Parse("2024-1-8"),
+                Thumbnail = "https://media-cdn-v2.laodong.vn/storage/newsportal/2023/7/26/1221583/CAF7870B-5832-44DC-B.jpeg"
+            },
+
+            // service 6
+            new Service()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000006"),
+                ServiceName = "Thiết kế hình ảnh khoa học viễn tưởng",
+                Description = "Thiết kế hình ảnh khoa học viễn tưởng phong phú và độc đáo, tùy chỉnh cho không gian của bạn. " +
+                "Từ các bức tranh tường tường đồ sộ đến các tác phẩm nghệ thuật nhỏ hơn, chúng tôi mang đến sự sáng tạo và " +
+                "phong cách cho mọi dự án.",
+                DeliveryTime = "1 - 2 tháng",
+                NumberOfConcept = 3,
+                NumberOfRevision = 2,
+                StartingPrice = 50000,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-00000000000b"), // melodysheep
+                CreatedOn = DateTime.Parse("2024-1-9"),
+                LastModificatedOn = DateTime.Parse("2024-1-9"),
+                Thumbnail = "https://cdn.musicbed.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_40,w_1200,h_630/v1658956186/production/albums/9887"
             }
+
+
         );
         #endregion
     }

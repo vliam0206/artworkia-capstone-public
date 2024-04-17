@@ -184,13 +184,13 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000b"),
-                Username = "ngothanhtu",
+                Username = "melodysheep",
                 Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
                 Fullname = "Ngô Thanh Tú",
                 Email = "ngothanhtu@example.com",
                 Bio = "Tôi là một họa sĩ chuyên về tranh kỹ thuật số, đã có nhiều triển lãm cá nhân " +
                 "và tham gia vào dự án nghệ thuật trên toàn thế giới.",
-                Avatar = "https://i.pinimg.com/564x/8f/52/88/8f5288392e58e7f69adecfdd1bb1d896.jpg",
+                Avatar = "https://yt3.googleusercontent.com/ytc/AIdro_klHVaP6_ZcnT8VyPFedRHgJOPOym_tLSxoFCL0KJSZL1k=s900-c-k-c0x00ffffff-no-rj",
                 Birthdate = DateTime.Parse("2001-1-1"),
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-02T03:21:47.890Z")
@@ -258,9 +258,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
                 Fullname = "Bùi Dương",
                 Email = "buiduong@example.com",
-                Bio = "Tôi là một thiết kế đồ họa trẻ tuổi nhưng tài năng, đã tham gia vào nhiều " +
-                "dự án sáng tạo và độc đáo.",
-                Avatar = "https://i.pinimg.com/564x/10/3a/ed/103aed482f200ba1af9a50a2392a83f0.jpg",
+                Bio = "Sinh viên đại học mỹ thuật HCM, thích vẽ tranh phong cách Nhật Bản, nếu thích hãy theo dõi mình nhé.",
+                Avatar = "https://i.pinimg.com/736x/58/29/bd/5829bdfa438410a86cf9b180c077939c.jpg",
                 Birthdate = DateTime.Parse("1999-10-14"),
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-10-02T03:21:47.890Z")
@@ -344,7 +343,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Email = "nguyentien@example.com",
                 Bio = "Tôi là một nhà thiết kế đồ họa có kinh nghiệm, đã tham gia vào việc " +
                 "phát triển các ứng dụng di động và giao diện người dùng.",
-                Avatar = "https://i.pinimg.com/564x/7b/78/42/7b784268d117a6d57a8d9a83c7eaa977.jpg",
+                Avatar = "https://i.pinimg.com/originals/30/33/0b/30330b5e8e0f772f0edaa310294703a2.jpg",
                 Birthdate = DateTime.Parse("2004-11-4"),
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-10-02T03:21:47.890Z")
@@ -356,8 +355,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
                 Fullname = "Vũ Đăng",
                 Email = "vudang@example.com",
-                Bio = "Tôi là một họa sĩ nổi tiếng với phong cách nghệ thuật độc đáo và sáng tạo. " +
-                "Đã tham gia vào nhiều triển lãm nghệ thuật quốc tế và được biết đến với các tác phẩm nổi bật.",
+                Bio = "Tôi là một họa sĩ người Áo có ước mơ vào trường Mỹ Thuật",
                 Avatar = "https://i.pinimg.com/564x/f9/7f/c4/f97fc4762b0ca1c3ba76c3b2e6c5041c.jpg",
                 Birthdate = DateTime.Parse("2002-4-4"),
                 Role = RoleEnum.CommonUser,

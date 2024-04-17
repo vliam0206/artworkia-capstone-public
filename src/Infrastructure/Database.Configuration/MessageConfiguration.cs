@@ -36,7 +36,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 CreatedOn = DateTime.Parse("2023-09-10"),
-                Text = "Hellooooo bạn"
+                Text = "Chào bạn"
             },
             new Message()
             {
@@ -44,7 +44,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 CreatedOn = DateTime.Parse("2023-09-11"),
-                Text = "Hellooooo 2"
+                Text = "Mình muốn bạn làm website mua bán"
             },
             new Message()
             {
@@ -52,7 +52,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 CreatedOn = DateTime.Parse("2023-09-12"),
-                Text = "Hellooooo 3"
+                Text = "Nếu được hãy chấp nhận nhé"
             },
             new Message()
             {
@@ -60,7 +60,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 CreatedOn = DateTime.Parse("2023-09-13"),
-                Text = "Hellooooo 4"
+                Text = "Yêu cầu khác đi"
             },
             new Message() // request
             {
@@ -76,7 +76,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 CreatedOn = DateTime.Parse("2023-09-15"),
-                Text = "Hellooooo 5"
+                Text = "Vầy được chưa?"
             },
             new Message()
             {
@@ -84,7 +84,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 CreatedOn = DateTime.Parse("2023-09-16"),
-                Text = "Hellooooo 6"
+                Text = "OK, mình muốn 100k, giá vậy được ko?"
             },
             new Message()
             {
@@ -92,7 +92,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 CreatedOn = DateTime.Parse("2023-09-17"),
-                Text = "Hellooooo 7"
+                Text = "80k được ko?"
             },
             new Message()
             {
@@ -100,7 +100,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 CreatedOn = DateTime.Parse("2023-09-18"),
-                Text = "Hellooooo 8"
+                Text = "Thôi cũng được, bạn muốn khi nào xong?"
             },
             new Message()
             {
@@ -108,7 +108,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 CreatedOn = DateTime.Parse("2023-09-19"),
-                Text = "Hellooooo 9"
+                Text = "Cuối tháng 1"
             },
             new Message()
             {
@@ -116,7 +116,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 CreatedOn = DateTime.Parse("2023-09-20"),
-                Text = "Hellooooo 10"
+                Text = "Để mình tạo thỏa thuận"
             },
             new Message() // proposal
             {
@@ -132,7 +132,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
                 ChatBoxId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 CreatedOn = DateTime.Parse("2024-01-01"),
-                Text = "Hello from the sea."
+                Text = "ok mình làm đây"
             }
         ); ;
         #endregion

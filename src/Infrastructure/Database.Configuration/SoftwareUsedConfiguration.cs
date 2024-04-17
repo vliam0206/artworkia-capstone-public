@@ -297,6 +297,16 @@ public class SoftwareUsedConfiguration : IEntityTypeConfiguration<SoftwareUsed>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000038"),
                 SoftwareName = "Godot Engine"
+            },
+            new SoftwareUsed()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000039"),
+                SoftwareName = "Stable Diffusion"
+            },
+            new SoftwareUsed()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000003a"),
+                SoftwareName = "Midjourney"
             }
         );
         #endregion

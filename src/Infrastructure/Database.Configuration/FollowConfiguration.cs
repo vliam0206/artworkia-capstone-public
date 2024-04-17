@@ -36,12 +36,12 @@ public class FollowConfiguration : IEntityTypeConfiguration<Follow>
             new Follow
             {
                 FollowingId = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
-                FollowedId = Guid.Parse("00000000-0000-0000-0000-000000000003")  // lamlam
+                FollowedId = Guid.Parse("00000000-0000-0000-0000-000000000002")  // lamlam
             },
             new Follow
             {
                 FollowingId = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
-                FollowedId = Guid.Parse("00000000-0000-0000-0000-000000000002")  // hoanganh
+                FollowedId = Guid.Parse("00000000-0000-0000-0000-000000000003")  // hoanganh
             },
 
             // lamlam
