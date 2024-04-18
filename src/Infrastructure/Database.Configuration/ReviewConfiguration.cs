@@ -24,7 +24,7 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 ProposalId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 Vote = 5,
-                Detail = "good",
+                Detail = "Dịch vụ xuất sắc",
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 CreatedOn = DateTime.Parse("2024-2-2"),
             }

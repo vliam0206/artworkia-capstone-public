@@ -173,6 +173,209 @@ public class SoftwareDetailConfiguration : IEntityTypeConfiguration<SoftwareDeta
             {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000001b"),
                 SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-00000000003a"),
+            },
+
+            // artwork 32
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000020"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 33
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000021"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 34
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000022"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 35
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000023"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 36
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000024"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 37
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000025"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 38
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000026"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 39
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000027"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 40
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000028"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 41
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000029"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-00000000003a"),
+            },
+
+            // artwork 42
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000002a"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-00000000003a"),
+            },
+
+            // artwork 43
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000002b"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-00000000003a"),
+            },
+
+            // artwork 46
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000002e"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-00000000003a"),
+            },
+
+            // artwork 47
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000002f"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-00000000003a"),
+            },
+
+            // artwork 48
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000030"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 49
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000031"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 50
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000032"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 51
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000033"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+            },
+
+            // artwork 52
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000034"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+            },
+
+            // artwork 53
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000035"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+            },
+
+            // artwork 60
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003c"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-00000000000c"),
+            },
+
+            // artwork 61
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003d"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-00000000000b"),
+            },
+
+            // artwork 62
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003e"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 63
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003f"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000039"),
+            },
+
+            // artwork 64
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000040"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000039"),
+            },
+
+            // artwork 65
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000041"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-00000000003a"),
+            },
+
+            // artwork 69
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000045"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 70
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000046"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000035"),
+            },
+
+            // artwork 71
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000047"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
             }
         );
         #endregion

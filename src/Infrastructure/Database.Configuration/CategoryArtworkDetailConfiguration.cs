@@ -323,9 +323,252 @@ public class CategoryArtworkDetailConfiguration : IEntityTypeConfiguration<Categ
             {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000001f"),
                 CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000004")
+            },
+
+            // artwork 32
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000020"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000002")
+            },
+
+            // artwork 33
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000021"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 34
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000022"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 35
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000023"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 36
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000024"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 37
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000025"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 38
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000026"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 39
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000027"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 40
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000028"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 41
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000029"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 42
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000002a"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 43
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000002b"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 44
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000002c"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000002")
+            },
+
+            // artwork 45
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000002d"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000002")
+            },
+
+            // artwork 46
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000002e"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 47
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000002f"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+
+            // artwork 48
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000030"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000002")
+            },
+
+            // artwork 49
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000031"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000031"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000002")
+            },
+
+            // artwork 50
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000032"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000002")
+            },
+
+            // artwork 51
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000033"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000003")
+            },
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000033"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-00000000000b")
+            },
+
+            // artwork 52
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000034"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000003")
+            },
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000034"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-00000000000b")
+            },
+
+            // artwork 53
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000035"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000003")
+            },
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000035"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-00000000000b")
+            },
+
+            // artwork 54
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000036"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-00000000000a")
+            },
+
+            // artwork 55
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000037"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-00000000000a")
+            },
+
+            // artwork 56
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000038"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-00000000000a")
+            },
+
+            // artwork 57
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000039"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-00000000000a")
+            },
+
+            // artwork 58
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003a"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-00000000000a")
+            },
+
+            // artwork 59
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003b"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-00000000000a")
+            },
+
+            // artwork 60
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003c"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000002")
+            },
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003c"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000008")
+            },
+
+            // artwork 61
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003d"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000002")
+            },
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003d"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000008")
+            },
+            new CategoryArtworkDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003d"),
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-00000000000e")
             }
-
-
         );
         #endregion
 

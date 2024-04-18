@@ -32,6 +32,13 @@ public class BlockConfiguration : IEntityTypeConfiguration<Block>
             {
                 BlockingId = Guid.Parse("00000000-0000-0000-0000-000000000001"), //user
                 BlockedId = Guid.Parse("00000000-0000-0000-0000-000000000003")  //hoanganh
+            },
+
+            new Block
+            {
+                BlockingId = Guid.Parse("00000000-0000-0000-0000-000000000005"), //phuhuynh,
+                BlockedId = Guid.Parse("00000000-0000-0000-0000-000000000017")  //vudang (hitler)
+
             }
         );
         #endregion

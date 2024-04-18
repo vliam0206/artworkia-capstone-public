@@ -1,6 +1,7 @@
 ﻿using Domain.Entitites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Runtime.InteropServices;
 
 namespace Infrastructure.Database.Configuration;
 
@@ -52,7 +53,6 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                 StartingPrice = 150000,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
                 CreatedOn = DateTime.Parse("2024-1-3"),
-                LastModificatedOn = DateTime.Parse("2024-1-3"),
                 Thumbnail = "https://laptopdieplinh.com/uploads/7%20c%C3%B4ng%20c%E1%BB%A5%20ph%C3%A1t%20tri%E1%BB%83n%20website%20b%E1%BA%A1n%20c%E1%BA%A7n%20bi%E1%BA%BFt%20-%200.jpg"
             },
 
@@ -68,7 +68,6 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                 StartingPrice = 100000,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), //phuhuynh
                 CreatedOn = DateTime.Parse("2024-1-5"),
-                LastModificatedOn = DateTime.Parse("2024-1-5"),
                 Thumbnail = "https://static.vecteezy.com/system/resources/previews/023/289/956/original/cute-monster-doodle-character-design-flat-illustration-suitable-for-poster-banner-mascot-or-event-related-template-free-vector.jpg"
             },
 
@@ -84,7 +83,6 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                 StartingPrice = 120000,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
                 CreatedOn = DateTime.Parse("2024-1-7"),
-                LastModificatedOn = DateTime.Parse("2024-1-7"),
                 Thumbnail = "https://masterbundles.com/wp-content/uploads/2023/11/media-2-816.jpg"
             },
 
@@ -101,7 +99,6 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                 StartingPrice = 20000,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), // hoanganh
                 CreatedOn = DateTime.Parse("2024-1-8"),
-                LastModificatedOn = DateTime.Parse("2024-1-8"),
                 Thumbnail = "https://media-cdn-v2.laodong.vn/storage/newsportal/2023/7/26/1221583/CAF7870B-5832-44DC-B.jpeg"
             },
 
@@ -119,9 +116,41 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                 StartingPrice = 50000,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-00000000000b"), // melodysheep
                 CreatedOn = DateTime.Parse("2024-1-9"),
-                LastModificatedOn = DateTime.Parse("2024-1-9"),
                 Thumbnail = "https://cdn.musicbed.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_40,w_1200,h_630/v1658956186/production/albums/9887"
-            }
+            },
+
+            // service 7
+            new Service()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+                ServiceName = "Thiết kế Mobile App bằng Figma",
+                Description = "Bạn đang muốn tạo ra một ứng dụng di động ấn tượng và thu hút người dùng? Figma chính là công cụ hoàn hảo " +
+                "để biến ý tưởng của bạn thành hiện thực.",
+                DeliveryTime = "1 - 2 tháng",
+                NumberOfConcept = 3,
+                NumberOfRevision = 2,
+                StartingPrice = 80000,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000012"), // doantrang
+                CreatedOn = DateTime.Parse("2024-1-15"),
+                Thumbnail = "https://bs-uploads.toptal.io/blackfish-uploads/components/seo/5914508/og_image/optimized/figma-design-tool-e09b94850458e37b90442beb2a9192cc.png"
+            },
+
+            // service 8
+            new Service()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000008"),
+                ServiceName = "Thiết kế nhân vật game 3D",
+                Description = "Mang đến sức sống cho những thế giới ảo diệu! " +
+                "Bạn đang tìm kiếm dịch vụ thiết kế nhân vật game 3D chất lượng " +
+                "cao để nâng tầm dự án của mình ? Hãy đến với chúng tôi!",
+                DeliveryTime = "1 - 2 tuần",
+                NumberOfConcept = 1,
+                NumberOfRevision = 2,
+                StartingPrice = 30000,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000013"), // tranduc
+                CreatedOn = DateTime.Parse("2024-1-9"),
+                Thumbnail = "https://i.pinimg.com/564x/d4/37/b3/d437b301b2408a5772d9be18d2dcbdee.jpg"
+            }   
 
 
         );

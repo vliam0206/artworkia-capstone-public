@@ -2,6 +2,7 @@
 using Application.Services.Abstractions;
 using Application.Services.Authentication;
 using Application.Services.Firebase;
+using Application.Services.GoogleStorage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -46,6 +47,7 @@ public static class DependencyInjection
         services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<ITokenHandler, TokenHandler>();
         services.AddScoped<IFirebaseService, FirebaseService>();
+        services.AddScoped<IStorageService, StorageService>();
         services.AddScoped<IThirdAuthenticationService, ThirdAuthenticationService>();
         services.AddScoped<IZaloPayService, ZaloPayService>();
         return services;

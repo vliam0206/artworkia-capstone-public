@@ -43,20 +43,22 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         #region init data
         builder.HasData(
-            // users
+            // account 1
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 Username = "user",
                 Password = "/Yvo/zNSPcJB+6Roi0BD6gR/tx9tPXSqrslB+3Zy0rwOC2lA", //12345
-                Fullname = "Người dùng mặc định",
+                Fullname = "Nguyễn Văn A",
                 Email = "user@example.com",
-                Bio = "Tôi là người dùng mặc định",
+                Bio = "Tôi là người dùng, không có gì đặc biệt",
                 Avatar = "https://i.pinimg.com/564x/ed/de/aa/eddeaaf250c19489e25bd0a2dd3e7756.jpg",
                 Birthdate = DateTime.Parse("2000-10-14"),
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-14T05:37:42.345Z")
             },
+
+            // account 2
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
@@ -71,6 +73,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 CreatedOn = DateTime.Parse("2023-09-15T10:15:47.890Z"),
                 VerifiedOn = DateTime.Parse("2023-10-15T10:15:47.890Z")
             },
+
+            // account 3
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
@@ -84,6 +88,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-21T12:20:47.890Z")
             },
+
+            // account 4
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
@@ -97,6 +103,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-27T12:23:47.890Z")
             },
+
+            // account 5
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
@@ -111,7 +119,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 CreatedOn = DateTime.Parse("2023-09-30T03:21:47.890Z"),
                 VerifiedOn = DateTime.Parse("2023-10-16T10:15:47.890Z"),
             },
-            // moderators
+
+            // account 6: moderators
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000006"),
@@ -125,7 +134,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.Moderator,
                 CreatedOn = DateTime.Parse("2023-09-14T05:37:42.345Z")
             },
-            // admin
+
+            // account 7: admin
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000007"),
@@ -139,6 +149,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.Admin,
                 CreatedOn = DateTime.Parse("2023-09-02T03:21:47.890Z")
             },
+            
+            // account 8: spam
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000008"),
@@ -153,6 +165,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-02T03:21:47.890Z")
             },
+
+            // account 9
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000009"),
@@ -167,6 +181,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-02T03:21:47.890Z")
             },
+
+            // account 10
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000a"),
@@ -181,6 +197,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-02T03:21:47.890Z")
             },
+
+            // account 11
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000b"),
@@ -195,6 +213,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-02T03:21:47.890Z")
             },
+
+            // account 12
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000c"),
@@ -209,20 +229,24 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-02T03:21:47.890Z")
             },
+
+            // account 13
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000d"),
-                Username = "levan",
+                Username = "levantan",
                 Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
-                Fullname = "Lê Văn",
+                Fullname = "Lê Văn Tân",
                 Email = "levan@example.com",
-                Bio = "Tôi là một nhiếp ảnh gia có tên tuổi, đã chụp nhiều bức ảnh độc đáo về văn " +
-                "hóa và cảnh đẹp Việt Nam.",
+                Bio = "Một nhiếp ảnh gia tự xưng, thích du lịch, chụp nhiều bức ảnh độc đáo về văn " +
+                "hóa và cảnh đẹp Việt Nam và thế giới.",
                 Avatar = "https://i.pinimg.com/564x/9c/28/19/9c2819e41426236d748392299cd20246.jpg",
                 Birthdate = DateTime.Parse("2002-8-4"),
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-02T03:21:47.890Z")
             },
+
+            // account 14
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
@@ -237,6 +261,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-02T03:21:47.890Z")
             },
+
+            // account 15
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000f"),
@@ -251,6 +277,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-02T03:21:47.890Z")
             },
+
+            // account 16
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000010"),
@@ -264,6 +292,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-10-02T03:21:47.890Z")
             },
+
+            // account 17
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000011"),
@@ -278,6 +308,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-10-02T03:21:47.890Z")
             },
+
+            // account 18
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000012"),
@@ -292,6 +324,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-10-02T03:21:47.890Z")
             },
+
+            // account 19
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000013"),
@@ -306,6 +340,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-10-02T03:21:47.890Z")
             },
+
+            // account 20
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000014"),
@@ -320,6 +356,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-10-02T03:21:47.890Z")
             },
+
+            // account 21
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000015"),
@@ -334,6 +372,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-10-02T03:21:47.890Z")
             },
+
+            // account 22
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000016"),
@@ -348,6 +388,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-10-02T03:21:47.890Z")
             },
+
+            // account 23
             new Account()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000017"),
@@ -360,6 +402,30 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Birthdate = DateTime.Parse("2002-4-4"),
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-10-02T03:21:47.890Z")
+            },
+
+            // account 24
+            new Account()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000018"),
+                Username = "minhhuy",
+                Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
+                Fullname = "Trần Nguyễn Minh Huy",
+                Email = "minhhuy@example.com",
+                Bio = "Living and working in Japan / big fan of Key (Kagikko - 鍵っ子). A guy of social, cultural, and natural.",
+                Avatar = "https://i.pinimg.com/564x/af/65/88/af6588a1cb6be3602190e4c223b79318.jpg",
+            },
+
+            // account 25
+            new Account()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000019"),
+                Username = "manhkbrady",
+                Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
+                Fullname = "Nguyễn Đức Mạnh",
+                Email = "manhkbrady@example.com",
+                Bio = "Nole của công ty NaiNovel - công ty game đầu hàng Việt Nam",
+                Avatar = "https://i.pinimg.com/564x/d9/03/0a/d9030a5696d2507a1dfb38a686ac93c2.jpg",
             }
         );
         #endregion

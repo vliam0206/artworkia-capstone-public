@@ -54,6 +54,40 @@ public class ServiceDetailConfiguration : IEntityTypeConfiguration<ServiceDetail
             {
                 ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000020"),
+            },
+
+            // service 7
+            new ServiceDetail()
+            {
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000034"),
+            },
+            new ServiceDetail()
+            {
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000035"),
+            },
+            new ServiceDetail()
+            {
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000033"),
+            },
+
+            // service 8
+            new ServiceDetail()
+            {
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000008"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003d"),
+            },
+            new ServiceDetail()
+            {
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000008"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003e"),
+            },
+            new ServiceDetail()
+            {
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000008"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000003f"),
             }
 
         );

@@ -30,7 +30,7 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000007"), TagName = "Chân dung" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000008"), TagName = "Sáng tạo" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000009"), TagName = "Kỹ thuật số" },
-            new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-00000000000a"), TagName = "Graffiti" },
+            new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-00000000000a"), TagName = "Nhật Bản" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-00000000000b"), TagName = "Dự án cá nhân" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-00000000000c"), TagName = "Nghệ thuật số hóa" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-00000000000d"), TagName = "Thể thao" },
@@ -45,7 +45,7 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000016"), TagName = "Nghệ thuật đương đại" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000017"), TagName = "Khoa học" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000018"), TagName = "Kiến trúc" },
-            new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000019"), TagName = "AI" },
+            new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000019"), TagName = "AI Tạo Sinh" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-00000000001a"), TagName = "Lịch sử" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-00000000001b"), TagName = "Chính trị" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-00000000001c"), TagName = "Việt Nam" },
@@ -57,7 +57,9 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000022"), TagName = "Nhân vật" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000023"), TagName = "Trò chơi" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000024"), TagName = "Khoa học viễn tưởng" },
-            new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000025"), TagName = "Kinh điển" }
+            new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000025"), TagName = "Kinh điển" },
+            new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000026"), TagName = "Dễ thương" },
+            new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000027"), TagName = "Phát họa" }
         );
         #endregion
     }
