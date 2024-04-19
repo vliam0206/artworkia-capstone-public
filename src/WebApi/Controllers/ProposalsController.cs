@@ -234,6 +234,10 @@ public class ProposalsController : ControllerBase
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
         catch (UnauthorizedAccessException ex)
         {
             return Unauthorized(new ApiResponse { ErrorMessage = ex.Message });
@@ -258,6 +262,10 @@ public class ProposalsController : ControllerBase
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (BadHttpRequestException ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (ArgumentOutOfRangeException ex)
         {
             return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
         }
