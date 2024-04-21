@@ -40,8 +40,14 @@ public class AssetTransactionService : IAssetTransactionService
         if (asset.DeletedOn != null)
             throw new KeyNotFoundException("Tài nguyên đã bị xóa");
 
-        // Check if user has enough money to buy this asset
+
         Guid accountId = _claimService.GetCurrentUserId ?? default;
+        if (asset.Artwork.CreatedBy == accountId)
+        {
+            throw new BadHttpRequestException("Không thể mua tài nguyên của chính mình.");  
+        }
+
+        // Check if user has enough money to buy this asset
         Wallet? wallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x => x.AccountId == accountId);
         Wallet? sellerWallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x => x.AccountId == asset.Artwork.CreatedBy);
 

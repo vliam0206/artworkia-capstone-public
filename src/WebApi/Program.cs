@@ -45,6 +45,8 @@ builder.Services.AddCorsPolicy();
 
 //builder.Host.UseSerilog();
 
+Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"Credentials/application_default_credentials.json");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

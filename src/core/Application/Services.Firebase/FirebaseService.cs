@@ -13,22 +13,6 @@ public class FirebaseService : IFirebaseService
         _firebaseConfiguration = config.FirebaseConfiguration;
     }
 
-    //private async Task<string> SignInAndGetAuthToken()
-    //{
-    //    //Firebase config
-    //    var config = new FirebaseAuthConfig
-    //    {
-    //        ApiKey = _firebaseConfiguration.ApiKey,
-    //        AuthDomain = _firebaseConfiguration.AuthDomain,
-    //        Providers = new FirebaseAuthProvider[]{
-    //                    new EmailProvider(),
-    //                }
-    //    };
-    //    var client = new FirebaseAuthClient(config);
-    //    var authResult = await client.SignInWithEmailAndPasswordAsync(_firebaseConfiguration.AuthEmail, _firebaseConfiguration.AuthPassword);
-    //    return await authResult.User.GetIdTokenAsync();
-    //}
-
     public async Task<string?> UploadFileToFirebaseStorage(IFormFile files, string fileName, string folderName)
     {
         if (files.Length > 0)
@@ -40,30 +24,6 @@ public class FirebaseService : IFirebaseService
                     )
                     .Child(folderName)
                     .Child($"{fileName}.{Path.GetExtension(files.FileName).Substring(1)}")
-                    .PutAsync(files.OpenReadStream());
-
-                string? urlFile = await task;
-                return urlFile;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        return null;
-    }
-
-    public async Task<string?> UploadFileToFirebaseStorageNoExtension(IFormFile files, string fileName, string folderName)
-    {
-        if (files.Length > 0)
-        {
-            try
-            {
-                var task = new FirebaseStorage(
-                    _firebaseConfiguration.Bucket
-                    )
-                    .Child(folderName)
-                    .Child($"{fileName}")
                     .PutAsync(files.OpenReadStream());
 
                 string? urlFile = await task;

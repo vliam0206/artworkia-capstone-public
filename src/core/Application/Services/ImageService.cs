@@ -1,6 +1,7 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
+using Application.Services.GoogleStorage;
 using AutoMapper;
 using CoenM.ImageHash;
 using CoenM.ImageHash.HashAlgorithms;
@@ -11,15 +12,18 @@ using Microsoft.AspNetCore.Http;
 namespace Application.Services;
 public class ImageService : IImageService
 {
-    private static readonly string PARENT_FOLDER = "Artwork";
+    private static readonly string PARENT_FOLDER = "Image";
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IFirebaseService _firebaseService;
+    private readonly ICloudStorageService _cloudStorageService;
     private readonly IMapper _mapper;
 
-    public ImageService(IUnitOfWork unitOfWork, IFirebaseService firebaseService, IMapper mapper)
+    public ImageService(
+        IUnitOfWork unitOfWork, 
+        ICloudStorageService cloudStorageService,
+        IMapper mapper)
     {
         _unitOfWork = unitOfWork;
-        _firebaseService = firebaseService;
+        _cloudStorageService = cloudStorageService;
         _mapper = mapper;
     }
 
@@ -57,11 +61,11 @@ public class ImageService : IImageService
         // lay stt cua hinh anh, dat ten lai hinh anh
         int latestOrder = await GetLatestOrderOfImageInArtwork(imageModel.ArtworkId);
         string newImageName = imageModel.ArtworkId + "_i" + latestOrder;
-        string folderName = $"{PARENT_FOLDER}/Image";
+        string folderName = PARENT_FOLDER;
         string imageExtension = Path.GetExtension(imageModel.Image.FileName); // lay duoi file (.png, .jpg, ...)
 
-        //upload hinh anh len firebase, lay url
-        var url = await _firebaseService.UploadFileToFirebaseStorage(imageModel.Image, newImageName, folderName) 
+        //upload hinh anh len cloud, lay url
+        var url = await _cloudStorageService.UploadFileToCloudStorage(imageModel.Image, newImageName, folderName) 
             ?? throw new KeyNotFoundException("Lỗi khi tải hình ảnh lên đám mây.");
 
         // hashing image de kiem tra trung anh
@@ -109,13 +113,13 @@ public class ImageService : IImageService
             Guid artworkId = multiImageModel.ArtworkId;
 
             string newImageName = artworkId + "_i" + singleImage.index;
-            string folderName = $"{PARENT_FOLDER}/Image";
+            string folderName = PARENT_FOLDER;
             string imageExtension = Path.GetExtension(singleImage.image.FileName); // lay duoi file (.png, .jpg, ...)
 
-            //upload hinh anh len firebase, lay url
+            //upload hinh anh len cloud, lay url
             uploadImagesTask.Add(Task.Run(async () =>
             {
-                var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName) 
+                var url = await _cloudStorageService.UploadFileToCloudStorage(singleImage.image, newImageName, folderName) 
                 ?? throw new KeyNotFoundException("Lỗi khi tải bộ hình ảnh lên đám mây.");
 
                 // hashing image de kiem tra trung anh
@@ -137,30 +141,6 @@ public class ImageService : IImageService
         await Task.WhenAll(uploadImagesTask);
         #endregion
 
-        #region upload range image (legacy)
-        //foreach (var singleImage in multiImageModel.Images.Select((image, index) => (image, index)))
-        //{
-        //    string newImageName = multiImageModel.ArtworkId + "_i" + singleImage.index;
-        //    string folderName = $"{PARENT_FOLDER}/Image";
-        //    string imageExtension = Path.GetExtension(singleImage.image.FileName); // lay duoi file (.png, .jpg, ...)
-
-        //    //upload hinh anh len firebase, lay url
-        //    var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName);
-        //    if (url == null)
-        //        throw new KeyNotFoundException("Lỗi khi tải hình ảnh lên đám mây");
-
-        //    // luu thong tin hinh anh vao database
-        //    Image image = new Image()
-        //    {
-        //        ArtworkId = multiImageModel.ArtworkId,
-        //        Location = url,
-        //        ImageName = newImageName + imageExtension,
-        //        Order = singleImage.index
-        //    };
-        //    await _unitOfWork.ImageRepository.AddAsync(image);
-        //}
-        #endregion
-
         if (isSaveChanges)
             await _unitOfWork.SaveChangesAsync();
     }
@@ -172,7 +152,7 @@ public class ImageService : IImageService
         {
             foreach (var image in listOldImage)
             {
-                await _firebaseService.DeleteFileInFirebaseStorage(image.ImageName, $"{PARENT_FOLDER}/Image");
+                await _cloudStorageService.DeleteFileInCloudStorage(image.ImageName, $"{PARENT_FOLDER}/Image");
                 _unitOfWork.ImageRepository.Delete(image);
             }
             await _unitOfWork.SaveChangesAsync();
@@ -181,11 +161,11 @@ public class ImageService : IImageService
         foreach (var singleImage in multiImageModel.Images.Select((image, index) => (image, index)))
         {
             string newImageName = multiImageModel.ArtworkId + "_i" + singleImage.index;
-            string folderName = $"{PARENT_FOLDER}/Image";
+            string folderName = PARENT_FOLDER;
             string imageExtension = Path.GetExtension(singleImage.image.FileName); // lay duoi file (.png, .jpg, ...)
 
-            //upload hinh anh len firebase, lay url
-            var url = await _firebaseService.UploadFileToFirebaseStorage(singleImage.image, newImageName, folderName)
+            //upload hinh anh len cloud, lay url
+            var url = await _cloudStorageService.UploadFileToCloudStorage(singleImage.image, newImageName, folderName)
                 ?? throw new KeyNotFoundException("Lỗi khi tải bộ hình ảnh lên đám mây.");
 
             // luu thong tin hinh anh vao database
@@ -207,7 +187,7 @@ public class ImageService : IImageService
         if (result == null)
             throw new KeyNotFoundException("Không tìm thấy hình ảnh.");
 
-        await _firebaseService.DeleteFileInFirebaseStorage(result.ImageName, "Image");
+        await _cloudStorageService.DeleteFileInCloudStorage(result.ImageName, PARENT_FOLDER);
         _unitOfWork.ImageRepository.Delete(result);
         await _unitOfWork.SaveChangesAsync();
     }

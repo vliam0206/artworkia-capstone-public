@@ -3,6 +3,7 @@ using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
+using Application.Services.GoogleStorage;
 using AutoMapper;
 using Domain.Entities.Commons;
 using Domain.Entitites;
@@ -14,25 +15,25 @@ namespace Application.Services;
 
 public class ServiceService : IServiceService
 {
-    private static readonly string PARENT_FOLDER = "Service";
+    private static readonly string PARENT_FOLDER = "ServiceThumbnail";
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IClaimService _claimService;
-    private readonly IFirebaseService _firebaseService;
+    private readonly ICloudStorageService _cloudStorageService;
     private readonly ICategoryServiceDetailService _categoryArtworkDetailService;
 
     public ServiceService(
         IUnitOfWork unitOfWork,
         IMapper mapper,
         IClaimService claimService,
-        IFirebaseService firebaseService,
+        ICloudStorageService cloudStorageService,
         ICategoryServiceDetailService categoryArtworkDetailService
         )
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _claimService = claimService;
-        _firebaseService = firebaseService;
+        _cloudStorageService = cloudStorageService;
         _categoryArtworkDetailService = categoryArtworkDetailService;
     }
 
@@ -128,10 +129,10 @@ public class ServiceService : IServiceService
 
         var newService = _mapper.Map<Service>(serviceModel);
         string newThumbnailName = newService.Id + "_t";
-        string folderName = $"{PARENT_FOLDER}/Thumbnail";
+        string folderName = PARENT_FOLDER;
 
         // them thumbnail image vao firebase
-        var url = await _firebaseService.UploadFileToFirebaseStorage(
+        var url = await _cloudStorageService.UploadFileToCloudStorage(
             serviceModel.Thumbnail, newThumbnailName, folderName)
             ?? throw new KeyNotFoundException("Lỗi khi tải ảnh đại diện dịch vụ lên đám mây.");
         newService.Thumbnail = url;
@@ -208,12 +209,12 @@ public class ServiceService : IServiceService
         }
 
         string newThumbnailName = serviceId + "_t";
-        string folderName = $"{PARENT_FOLDER}/Thumbnail";
+        string folderName = PARENT_FOLDER;
 
         // cap nhat thumbnail image vao firebase (neu co)
         if (serviceEM.Thumbnail != null)
         {
-            var url = await _firebaseService.UploadFileToFirebaseStorage(serviceEM.Thumbnail, newThumbnailName, folderName) 
+            var url = await _cloudStorageService.UploadFileToCloudStorage(serviceEM.Thumbnail, newThumbnailName, folderName) 
                 ?? throw new KeyNotFoundException("Lỗi khi tải ảnh đại diện dịch vụ lên đám mây.");
             oldService.Thumbnail = url;
         }

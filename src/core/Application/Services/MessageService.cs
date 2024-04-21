@@ -3,6 +3,7 @@ using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
+using Application.Services.GoogleStorage;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
@@ -12,22 +13,24 @@ namespace Application.Services;
 
 public class MessageService : IMessageService
 {
+    private static readonly string PARENT_FOLDER = "Message";
+
     private readonly IUnitOfWork _unitOfWork;
     private readonly IClaimService _claimService;
     private readonly IMapper _mapper;
-    private readonly IFirebaseService _firebaseService;
+    private readonly ICloudStorageService _cloudStorageService;
 
 
     public MessageService(
         IUnitOfWork unitOfWork,
         IClaimService claimService,
         IMapper mapper,
-        IFirebaseService firebaseService)
+        ICloudStorageService cloudStorageService)
     {
         _unitOfWork = unitOfWork;
         _claimService = claimService;
         _mapper = mapper;
-        _firebaseService = firebaseService;
+        _cloudStorageService = cloudStorageService;
     }
 
     public async Task<List<MessageVM>> GetAllMessageAsync(Guid chatId)
@@ -67,10 +70,10 @@ public class MessageService : IMessageService
         if (model.File is not null)
         {
             string newMessageName = $"{Path.GetFileNameWithoutExtension(model.File.FileName)}_{DateTime.Now.Ticks}";
-            string folderName = "Message";
+            string folderName = PARENT_FOLDER;
             string fileExtension = Path.GetExtension(model.File.FileName);
             // upload file len firebase
-            var url = await _firebaseService.UploadFileToFirebaseStorage(model.File, newMessageName, folderName) 
+            var url = await _cloudStorageService.UploadFileToCloudStorage(model.File, newMessageName, folderName) 
                 ?? throw new KeyNotFoundException("Lỗi khi tải tệp tin lên đám mây.");
             newMessage.FileLocation = url;
             newMessage.FileName = newMessageName + fileExtension;

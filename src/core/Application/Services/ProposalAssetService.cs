@@ -1,6 +1,7 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
+using Application.Services.GoogleStorage;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
@@ -14,7 +15,7 @@ public class ProposalAssetService : IProposalAssetService
     private static readonly string PARENT_FOLDER = "ProposalAsset";
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    private readonly IFirebaseService _firebaseService;
+    private readonly ICloudStorageService _cloudStorageService;
     private readonly IClaimService _claimService;
     private readonly IMilestoneService _milstoneService;
 
@@ -22,13 +23,13 @@ public class ProposalAssetService : IProposalAssetService
     public ProposalAssetService(
         IUnitOfWork unitOfWork,
         IMapper mapper,
-        IFirebaseService firebaseService,
+        ICloudStorageService cloudStorageService,
         IMilestoneService milstoneService,
         IClaimService claimService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
-        _firebaseService = firebaseService;
+        _cloudStorageService = cloudStorageService;
         _milstoneService = milstoneService;
         _claimService = claimService;
     }
@@ -36,7 +37,7 @@ public class ProposalAssetService : IProposalAssetService
     public async Task<ProposalAssetVM> AddProposalAssetAsync(ProposalAssetModel proposalAssetModel)
     {
         // kiem tra xem proposal co ton tai khong
-        var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalAssetModel.ProposalId) 
+        var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalAssetModel.ProposalId)
             ?? throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
 
         // user phai gui tuan tu concept -> final -> revision
@@ -63,7 +64,8 @@ public class ProposalAssetService : IProposalAssetService
         string fileExtension = Path.GetExtension(proposalAssetModel.File.FileName);
 
         // upload file len firebase
-        var url = await _firebaseService.UploadFileToFirebaseStorage(proposalAssetModel.File, newProposalAssetName, folderName) 
+        var url = await _cloudStorageService.UploadFileToCloudStorage(
+            proposalAssetModel.File, newProposalAssetName, folderName, false)
             ?? throw new KeyNotFoundException("Lỗi khi tải tệp tin lên đám mây.");
 
         // map assetModel sang proposalAsset
@@ -88,6 +90,28 @@ public class ProposalAssetService : IProposalAssetService
 
         var proposalAssetVM = _mapper.Map<ProposalAssetVM>(proposalAsset);
         return proposalAssetVM;
+    }
+
+    public async Task<string?> GetDownloadUriProposalAssetAsync(Guid proposalAssetId)
+    {
+        var proposalAsset = await _unitOfWork.ProposalAssetRepository.GetProposalAssetsWithProposalAsync(proposalAssetId)
+            ?? throw new KeyNotFoundException("Không tìm thấy tài nguyên thỏa thuận.");
+
+        // kiem tra xem user da mua asset chua
+        if (!_claimService.IsAuthorized(proposalAsset.Proposal.CreatedBy!.Value)
+            && !_claimService.IsAuthorized(proposalAsset.Proposal.OrdererId))
+        {
+            throw new UnauthorizedAccessException("Bạn không có quyền tải tài nguyên này.");
+        }
+
+        if (proposalAsset.Type == ProposalAssetEnum.Final &&
+            proposalAsset.Proposal.ProposalStatus != ProposalStateEnum.CompletePayment)
+        {
+            throw new UnauthorizedAccessException("Phải hoàn tất thanh toán trước khi tải.");
+        }
+
+        return await _cloudStorageService.GetDownloadSignedUrlFromPrivateCloudStorage(proposalAsset.ProposalAssetName, PARENT_FOLDER);
+
     }
 
     public async Task<List<ProposalAssetVM>> GetProposalAssetsOfProposalAsync(Guid proposalId)

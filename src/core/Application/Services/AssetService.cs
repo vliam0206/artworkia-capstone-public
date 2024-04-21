@@ -2,7 +2,7 @@
 using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
-using Application.Services.Firebase;
+using Application.Services.GoogleStorage;
 using AutoMapper;
 using Domain.Entities.Commons;
 using Domain.Entitites;
@@ -12,21 +12,22 @@ using Microsoft.AspNetCore.Http;
 namespace Application.Services;
 public class AssetService : IAssetService
 {
-    private static readonly string PARENT_FOLDER = "Artwork";
+    private static readonly string PARENT_FOLDER = "Asset";
+
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    private readonly IFirebaseService _firebaseService;
+    private readonly ICloudStorageService _cloudStorageService;
     private readonly IClaimService _claimService;
 
     public AssetService(
         IUnitOfWork unitOfWork,
         IMapper mapper,
-        IFirebaseService firebaseService,
+        ICloudStorageService cloudStorageService,
         IClaimService claimService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
-        _firebaseService = firebaseService;
+        _cloudStorageService = cloudStorageService;
         _claimService = claimService;
     }
 
@@ -95,21 +96,21 @@ public class AssetService : IAssetService
         return assetVM;
     }
 
+    // lay link download cua asset
     public async Task<string?> GetDownloadUriAssetAsync(Guid assetId)
     {
-        var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId);
-        if (asset == null)
-            throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
+        var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
 
         // kiem tra xem user da mua asset chua
         var accountId = _claimService.GetCurrentUserId ?? default;
         var assetTransaction = await _unitOfWork.TransactionHistoryRepository.GetSingleByConditionAsync(
             x => x.AssetId == assetId && x.CreatedBy == accountId);
         if (assetTransaction != null)
-            return asset.Location;
+            return await _cloudStorageService.GetDownloadSignedUrlFromPrivateCloudStorage(asset.AssetName, PARENT_FOLDER);
 
         if (asset.Artwork.CreatedBy == accountId)
-            return asset.Location;
+            return await _cloudStorageService.GetDownloadSignedUrlFromPrivateCloudStorage(asset.AssetName, PARENT_FOLDER);
 
         if (asset.DeletedOn != null)
             throw new KeyNotFoundException("Tài nguyên đã bị xóa.");
@@ -117,7 +118,7 @@ public class AssetService : IAssetService
         if (asset.Price > 0)
             throw new UnauthorizedAccessException("Bạn chưa mua tài nguyên này.");
 
-        return asset.Location;
+        return await _cloudStorageService.GetDownloadSignedUrlFromPrivateCloudStorage(asset.AssetName, PARENT_FOLDER);
     }
 
     public async Task<string?> GetDownloadUriAssetForModerationAsync(Guid assetId)
@@ -125,34 +126,7 @@ public class AssetService : IAssetService
         var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId);
         if (asset == null)
             throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
-        return asset.Location;
-    }
-
-    public async Task<string?> GetDownloadUriAssetAlternativeAsync(Guid assetId)
-    {
-        var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId);
-        if (asset == null)
-            throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
-
-        var link = await _firebaseService.DownloadFileFromFirebaseStorage(asset.AssetName, $"{PARENT_FOLDER}/Asset");
-
-        // kiem tra xem user da mua asset chua
-        var accountId = _claimService.GetCurrentUserId ?? default;
-        var assetTransaction = await _unitOfWork.TransactionHistoryRepository.GetSingleByConditionAsync(
-            x => x.AssetId == assetId && x.CreatedBy == accountId);
-        if (assetTransaction != null)
-            return link;
-
-        if (asset.Artwork.CreatedBy == accountId)
-            return link;
-
-        if (asset.DeletedOn != null)
-            throw new KeyNotFoundException("Tài nguyên đã bị xóa.");
-
-        if (asset.Price > 0)
-            throw new BadHttpRequestException("Bạn chưa mua tài nguyên này.");
-
-        return link;
+        return await _cloudStorageService.GetDownloadSignedUrlFromPrivateCloudStorage(asset.AssetName, PARENT_FOLDER);
     }
 
     // lay so thu tu lon nhat cua asset trong artwork
@@ -173,11 +147,11 @@ public class AssetService : IAssetService
 
         // dat ten lai hinh anh
         string newAssetName = $"{Path.GetFileNameWithoutExtension(assetModel.File.FileName)}_{DateTime.Now.Ticks}";
-        string folderName = $"{PARENT_FOLDER}/Asset";
+        string folderName = PARENT_FOLDER;
         string imageExtension = Path.GetExtension(assetModel.File.FileName); // lay duoi file (.zip, .rar, ...)
 
-        // upload asset len firebase, lay url
-        var url = await _firebaseService.UploadFileToFirebaseStorage(assetModel.File, newAssetName, folderName) 
+        // upload asset len cloud, lay url
+        var url = await _cloudStorageService.UploadFileToCloudStorage(assetModel.File, newAssetName, folderName, false) 
             ?? throw new KeyNotFoundException("Lỗi khi tải tài nguyên lên đám mây.");
 
         // map assetModel sang asset
@@ -242,11 +216,11 @@ public class AssetService : IAssetService
         foreach (var singleAsset in multiAssetModel.Assets)
         {
             string newAssetName = multiAssetModel.ArtworkId + "_a" + index;
-            string folderName = $"{PARENT_FOLDER}/Asset";
+            string folderName = PARENT_FOLDER;
             string imageExtension = Path.GetExtension(singleAsset.File.FileName); // lay duoi file (.zip, .rar, ...)
 
-            // upload asset len firebase, lay url
-            var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.File, newAssetName, folderName) 
+            // upload asset len cloud, lay url
+            var url = await _cloudStorageService.UploadFileToCloudStorage(singleAsset.File, newAssetName, folderName, false) 
                 ?? throw new KeyNotFoundException("Lỗi khi tải tài nguyên lên đám mây.!");
             Asset newAsset = new()
             {
