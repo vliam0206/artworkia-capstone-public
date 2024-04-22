@@ -1,6 +1,5 @@
 ﻿using Application.Models;
 using Application.Services.Abstractions;
-using Application.Services.Firebase;
 using Application.Services.GoogleStorage;
 using AutoMapper;
 using CoenM.ImageHash;
@@ -18,7 +17,7 @@ public class ImageService : IImageService
     private readonly IMapper _mapper;
 
     public ImageService(
-        IUnitOfWork unitOfWork, 
+        IUnitOfWork unitOfWork,
         ICloudStorageService cloudStorageService,
         IMapper mapper)
     {
@@ -65,7 +64,7 @@ public class ImageService : IImageService
         string imageExtension = Path.GetExtension(imageModel.Image.FileName); // lay duoi file (.png, .jpg, ...)
 
         //upload hinh anh len cloud, lay url
-        var url = await _cloudStorageService.UploadFileToCloudStorage(imageModel.Image, newImageName, folderName) 
+        var url = await _cloudStorageService.UploadFileToCloudStorage(imageModel.Image, newImageName, folderName)
             ?? throw new KeyNotFoundException("Lỗi khi tải hình ảnh lên đám mây.");
 
         // hashing image de kiem tra trung anh
@@ -119,7 +118,7 @@ public class ImageService : IImageService
             //upload hinh anh len cloud, lay url
             uploadImagesTask.Add(Task.Run(async () =>
             {
-                var url = await _cloudStorageService.UploadFileToCloudStorage(singleImage.image, newImageName, folderName) 
+                var url = await _cloudStorageService.UploadFileToCloudStorage(singleImage.image, newImageName, folderName)
                 ?? throw new KeyNotFoundException("Lỗi khi tải bộ hình ảnh lên đám mây.");
 
                 // hashing image de kiem tra trung anh

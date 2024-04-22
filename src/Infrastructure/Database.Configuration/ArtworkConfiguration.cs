@@ -2,7 +2,6 @@
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static System.Net.WebRequestMethods;
 
 namespace Infrastructure.Database.Configuration;
 
@@ -188,12 +187,12 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000009"),
                 Title = "Sự lạc quan của tương lai",
                 Description = "Minh họa cho tâm trạng lạc quan và hy vọng về tương lai",
-                Privacy = PrivacyEnum.Public,
+                Privacy = PrivacyEnum.Private,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), //phuhuynh
                 CreatedOn = DateTime.Parse("2023-12-09T21:20:10.234Z"),
                 Thumbnail = "https://th.bing.com/th/id/OIG.Uz66_wn15hsKPirpv6Pb?pid=ImgGn",
                 ThumbnailName = "00000000-0000-0000-0000-000000000009_t.jpg",
-                ViewCount = 826,
+                ViewCount = 0,
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Accepted,
@@ -265,7 +264,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Description = null,
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000015"), //vuthao
-                CreatedOn = DateTime.Parse("2023-12-11T02:37:42.345Z"),
+                CreatedOn = DateTime.Parse("2024-03-05T02:37:42.345Z"),
                 Thumbnail = "https://i.pinimg.com/originals/7f/b2/ab/7fb2abc0dddd2aa40a86ce6c318b369a.jpg",
                 ThumbnailName = "00000000-0000-0000-0000-00000000000d_t.jpg",
                 ViewCount = 2034,
@@ -551,7 +550,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Description = null,
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000011"), //phamha
-                CreatedOn = DateTime.Parse("2023-12-25T08:20:45.890Z"),
+                CreatedOn = DateTime.Parse("2024-02-25T08:20:45.890Z"),
                 Thumbnail = "https://i.pinimg.com/originals/5b/43/fc/5b43fc89abad25aa3359bfe0f27923f9.jpg",
                 ThumbnailName = "00000000-0000-0000-0000-00000000001b_t.jpg",
                 ViewCount = 1124,
@@ -845,7 +844,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Accepted,
-                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"), 
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 IsAIGenerated = true
             },
 
@@ -875,7 +874,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Title = "Hệ mặt trời",
                 Description = null,
                 Privacy = PrivacyEnum.Public,
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000013"), //tranduc
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), //phuhuynh
                 CreatedOn = DateTime.Parse("2023-12-11T08:20:45.890Z"),
                 Thumbnail = "https://i.pinimg.com/originals/33/b5/96/33b596908f23b4b2c3f3e64f032e51b6.png",
                 ThumbnailName = "00000000-0000-0000-0000-00000000002c_t.jpg",
@@ -894,7 +893,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Title = "Lập phương rubik",
                 Description = null,
                 Privacy = PrivacyEnum.Public,
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000013"), //tranduc
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), //phuhuynh
                 CreatedOn = DateTime.Parse("2023-12-12T08:20:45.890Z"),
                 Thumbnail = "https://i.pinimg.com/originals/02/f2/28/02f2283c2a59d3e7d7287a95fae5c2f5.jpg",
                 ThumbnailName = "00000000-0000-0000-0000-00000000002d_t.jpg",
@@ -967,7 +966,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
             new Artwork()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000031"),
-                Title = "Võ Nguyên Giáp",
+                Title = "Bác bảo thắng là thắng",
                 Description = null,
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), //hoanganh
@@ -988,12 +987,12 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000032"),
                 Title = "4575",
                 Description = null,
-                Privacy = PrivacyEnum.Public,
+                Privacy = PrivacyEnum.Private,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), //hoanganh
                 CreatedOn = DateTime.Parse("2023-12-17T08:20:45.890Z"),
                 Thumbnail = "https://i.pinimg.com/564x/49/40/56/494056c9b3f314dad493bac63265f296.jpg",
                 ThumbnailName = "00000000-0000-0000-0000-000000000032_t.jpg",
-                ViewCount = 672,
+                ViewCount = 0,
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Accepted,
@@ -1129,7 +1128,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 "visiting the Con Dao Islands. Find out what makes Con Dao is a must-visit!",
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-00000000000d"), //levantan
-                CreatedOn = DateTime.Parse("2024-02-01T08:20:45.890Z"),
+                CreatedOn = DateTime.Parse("2024-01-06T08:20:45.890Z"),
                 Thumbnail = "https://i.pinimg.com/564x/ff/78/08/ff7808be1114e07dc1065245bd8bfc7f.jpg",
                 ThumbnailName = "00000000-0000-0000-0000-000000000039_t.jpg",
                 ViewCount = 919,
@@ -1280,7 +1279,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Description = null,
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000011"), //phamha
-                CreatedOn = DateTime.Parse("2024-01-08T08:20:45.890Z"),
+                CreatedOn = DateTime.Parse("2024-02-08T08:20:45.890Z"),
                 Thumbnail = "https://i.pinimg.com/564x/00/ed/65/00ed65b58c95c4d694fc95598af0a885.jpg",
                 ThumbnailName = "00000000-0000-0000-0000-000000000041_t.jpg",
                 ViewCount = 452,
@@ -1394,8 +1393,8 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Description = null,
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-00000000000c"), //truongthu
-                CreatedOn = DateTime.Parse("2024-01-30T08:20:45.890Z"),
-                Thumbnail = "https://pbs.twimg.com/media/GLZZrVhbUAEie26?format=png&name=900x900",
+                CreatedOn = DateTime.Parse("2023-12-30T08:20:45.890Z"),
+                Thumbnail = "https://storage.googleapis.com/***REMOVED***-public/Artwork/VSCode.png",
                 ThumbnailName = "00000000-0000-0000-0000-000000000047_t.jpg",
                 ViewCount = 928,
                 LikeCount = 0,
@@ -1496,6 +1495,44 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CommentCount = 0,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // Artwork 77
+            new Artwork()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000004d"),
+                Title = "IntelliJ Redesign",
+                Description = null,
+                Privacy = PrivacyEnum.Public,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-00000000000c"), //truongthu
+                CreatedOn = DateTime.Parse("2024-01-07T08:20:45.890Z"),
+                Thumbnail = "https://storage.googleapis.com/***REMOVED***-public/Artwork/IntellijLogo.png",
+                ThumbnailName = "00000000-0000-0000-0000-00000000004d_t.jpg",
+                ViewCount = 1228,
+                LikeCount = 0,
+                CommentCount = 0,
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                IsAIGenerated = false
+            },
+
+            // Artwork 78
+            new Artwork()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000004e"),
+                Title = "Phục chế ảnh nữ liệt sĩ",
+                Description = null,
+                Privacy = PrivacyEnum.Public,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), //hoanganh
+                CreatedOn = DateTime.Parse("2024-03-02T08:20:45.890Z"),
+                Thumbnail = "https://storage.googleapis.com/***REMOVED***-public/Artwork/phucche1.png",
+                ThumbnailName = "00000000-0000-0000-0000-00000000004e_t.jpg",
+                ViewCount = 433,
+                LikeCount = 0,
+                CommentCount = 0,
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                IsAIGenerated = false
             }
 
 

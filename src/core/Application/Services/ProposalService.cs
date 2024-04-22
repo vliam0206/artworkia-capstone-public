@@ -6,7 +6,6 @@ using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Http;
-using System.Net;
 
 namespace Application.Services;
 
@@ -93,7 +92,7 @@ public class ProposalService : IProposalService
                 CreatedOn = CurrentTime.GetCurrentTime
             };
             await _unitOfWork.MessageRepository.AddAsync(message);
-        }       
+        }
 
         // create proposal successfully -> add Init milestone
         await _milstoneService.AddMilestoneToProposalAsync(newProposal.Id, "Thỏa thuận đã được tạo");

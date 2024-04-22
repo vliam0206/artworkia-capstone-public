@@ -45,7 +45,7 @@ public class AccountService : IAccountService
     {
         Guid? loginId = _claimService.GetCurrentUserId;
 
-        var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId) 
+        var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId)
             ?? throw new KeyNotFoundException("Không tìm thấy tài khoản.");
         if (account.DeletedOn != null)
         {
@@ -232,14 +232,14 @@ public class AccountService : IAccountService
 
     public async Task EditAvatarAsync(Guid accountId, IFormFile avatar)
     {
-        var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId) 
+        var account = await _unitOfWork.AccountRepository.GetByIdAsync(accountId)
             ?? throw new KeyNotFoundException("Không tìm thấy tài khoản.");
 
         // change avatar
         string newAvatarName = accountId + "_ava";
         string folderName = PARENT_FOLDER;
         //upload hinh anh len cloud, lay url
-        var url = await _cloudStorageService.UploadFileToCloudStorage(avatar, newAvatarName, folderName) 
+        var url = await _cloudStorageService.UploadFileToCloudStorage(avatar, newAvatarName, folderName)
             ?? throw new KeyNotFoundException("Lỗi khi tải ảnh đại diện lên đám mây.");
         account.Avatar = url;
         _unitOfWork.AccountRepository.Update(account);

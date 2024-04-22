@@ -55,7 +55,7 @@ public class ProposalRepository : GenericCreationRepository<Proposal>, IProposal
         if (startTime != null)
         {
             totalUntilStartTime = _dbContext.Proposals
-                    .Where(x => x.ProposalStatus != ProposalStateEnum.CompletePayment &&  x.ActualDelivery < startTime)
+                    .Where(x => x.ProposalStatus != ProposalStateEnum.CompletePayment && x.ActualDelivery < startTime)
                     .Count();
 
             proposalCompleteds = proposalCompleteds.Where(x => x.ActualDelivery >= startTime.Value.Date);
@@ -113,7 +113,7 @@ public class ProposalRepository : GenericCreationRepository<Proposal>, IProposal
         var sum = categoryCounts.Sum(x => x.Count);
 
         // Tính phần trăm thể loại
-        List<PercentageCategoryOfProposal> list = new List<PercentageCategoryOfProposal>();
+        List<PercentageCategoryOfProposal> list = new();
         foreach (var categoryCount in categoryCounts)
         {
             var percentage = (double)categoryCount.Count / sum * 100;

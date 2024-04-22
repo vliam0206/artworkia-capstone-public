@@ -23,12 +23,13 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
         #region Init data
         builder.HasData
         (
+        #region asset
             new TransactionHistory
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                AssetId = new Guid("00000000-0000-0000-0000-000000000004"),
+                AssetId = new Guid("00000000-0000-0000-0000-000000000030"),
                 CreatedBy = new Guid("00000000-0000-0000-0000-000000000001"), // user
-                Detail = "Mở khóa tài nguyên \"Cánh cụt ZIP\"",
+                Detail = "Mở khóa tài nguyên \"Ảnh cánh cụt\"",
                 Price = 12000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-13T15:30:03.678Z"),
@@ -37,10 +38,10 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
             new TransactionHistory
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
-                AssetId = new Guid("00000000-0000-0000-0000-000000000001"),
+                AssetId = new Guid("00000000-0000-0000-0000-000000000010"),
                 CreatedBy = new Guid("00000000-0000-0000-0000-000000000001"), // user
                 Detail = "Mở khóa tài nguyên \"File PTS tuyển tập minh hoạ sách tâm lý\"",
-                Price = 10000,
+                Price = 20000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-15T02:59:59.000Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000002")
@@ -48,17 +49,21 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
             new TransactionHistory
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
-                AssetId = new Guid("00000000-0000-0000-0000-000000000004"),
+                AssetId = new Guid("00000000-0000-0000-0000-000000000030"),
                 CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"), // lamlam
-                Detail = "Mở khóa tài nguyên \"Cánh cụt ZIP\"",
-                Price = 12000,
+                Detail = "Mở khóa tài nguyên \"Ảnh cánh cụt\"",
+                Price = 20000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-14T15:30:03.678Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000005")
             },
+        #endregion
+
+
+        #region proposal
             new TransactionHistory
             {
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000104"),
                 ProposalId = new Guid("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"), // phuhuynh
                 Detail = "	Đặt cọc thỏa thuận \"Làm web thiệp cưới\" (25%)",
@@ -69,7 +74,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
             },
             new TransactionHistory
             {
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000105"),
                 ProposalId = new Guid("00000000-0000-0000-0000-000000000001"),
                 CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"), // phuhuynh
                 Detail = "	Đặt cọc thỏa thuận \"Làm web thiệp cưới\" (25%)",
@@ -78,6 +83,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 CreatedOn = DateTime.Parse("2024-02-01T02:59:59.000Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000002")  // lamlam
             }
+            #endregion
         );
         #endregion
     }

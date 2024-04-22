@@ -13,7 +13,7 @@ public class RequestService : IRequestService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    private readonly IClaimService _claimService;    
+    private readonly IClaimService _claimService;
 
     public RequestService(
         IUnitOfWork unitOfWork,
@@ -76,7 +76,7 @@ public class RequestService : IRequestService
                 AccountId_1 = _claimService.GetCurrentUserId ?? default,
                 AccountId_2 = service.CreatedBy ?? default,
             };
-            await _unitOfWork.ChatBoxRepository.AddAsync(newChatBox);           
+            await _unitOfWork.ChatBoxRepository.AddAsync(newChatBox);
 
             // create new message in that chatboxId
             var message = new Message
@@ -87,7 +87,7 @@ public class RequestService : IRequestService
                 CreatedOn = CurrentTime.GetCurrentTime
             };
             await _unitOfWork.MessageRepository.AddAsync(message);
-        }       
+        }
         await _unitOfWork.SaveChangesAsync();
         return _mapper.Map<RequestVM>(newRequest);
     }

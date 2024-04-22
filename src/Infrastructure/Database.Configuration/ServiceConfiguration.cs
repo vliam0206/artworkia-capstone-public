@@ -1,7 +1,6 @@
 ﻿using Domain.Entitites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Runtime.InteropServices;
 
 namespace Infrastructure.Database.Configuration;
 
@@ -150,7 +149,7 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000013"), // tranduc
                 CreatedOn = DateTime.Parse("2024-1-9"),
                 Thumbnail = "https://i.pinimg.com/564x/d4/37/b3/d437b301b2408a5772d9be18d2dcbdee.jpg"
-            }   
+            }
 
 
         );

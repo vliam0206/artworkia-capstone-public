@@ -16,7 +16,7 @@ public class RequestConfiguration : IEntityTypeConfiguration<Request>
 
         // relationship
         builder.HasOne(x => x.Account).WithMany(a => a.Requests).HasForeignKey(x => x.CreatedBy);
-        builder.HasOne(x => x.Service).WithMany(s => s.Requests).HasForeignKey(x => x.ServiceId);        
+        builder.HasOne(x => x.Service).WithMany(s => s.Requests).HasForeignKey(x => x.ServiceId);
         builder.HasOne(x => x.MessageObj).WithOne(m => m.Request).HasForeignKey<Message>(m => m.RequestId);
 
         builder.HasData
@@ -24,7 +24,7 @@ public class RequestConfiguration : IEntityTypeConfiguration<Request>
             new Request()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001"),                
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 Message = "Yêu cầu làm website mua bán.",
                 Timeline = "2 - 3 tuần",
                 Budget = 69000,
@@ -36,7 +36,7 @@ public class RequestConfiguration : IEntityTypeConfiguration<Request>
             new Request()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
-                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001"),                
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 Message = "Yêu cầu làm website mua bán thiệp đám cưới.",
                 Timeline = "2 - 3 tuần",
                 Budget = 69000,

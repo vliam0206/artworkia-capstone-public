@@ -5,7 +5,6 @@ using Domain.Entities.Commons;
 using Domain.Test;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Build.Framework;
 using Moq;
 using WebApi.Controllers;
 using WebApi.Utils;
@@ -33,7 +32,7 @@ public class AccountsControllerTest : SetupTest
             _serviceServiceMock.Object,
             _artworkServiceMock.Object,
             _reviewServiceMock.Object);
-        _criteria = new ();
+        _criteria = new();
     }
 
     [Fact]
@@ -48,7 +47,7 @@ public class AccountsControllerTest : SetupTest
             .ReturnsAsync(mockPagedList);
 
         // Act
-        ActionResult<IPagedList<AccountVM>> result = 
+        ActionResult<IPagedList<AccountVM>> result =
             await _accountsController.GetAccounts(_criteria);
 
         // Assert

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240418090754_AddInitV5")]
-    partial class AddInitV5
+    [Migration("20240421125730_AddInitV1")]
+    partial class AddInitV1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -684,12 +684,12 @@ namespace Migrators.MSSQL.Migrations
                             IsAIGenerated = true,
                             LicenseTypeId = new Guid("00000000-0000-0000-0000-000000000001"),
                             LikeCount = 0,
-                            Privacy = 0,
+                            Privacy = 1,
                             State = 1,
                             Thumbnail = "https://th.bing.com/th/id/OIG.Uz66_wn15hsKPirpv6Pb?pid=ImgGn",
                             ThumbnailName = "00000000-0000-0000-0000-000000000009_t.jpg",
                             Title = "Sự lạc quan của tương lai",
-                            ViewCount = 826
+                            ViewCount = 0
                         },
                         new
                         {
@@ -747,7 +747,7 @@ namespace Migrators.MSSQL.Migrations
                             Id = new Guid("00000000-0000-0000-0000-00000000000d"),
                             CommentCount = 0,
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000015"),
-                            CreatedOn = new DateTime(2023, 12, 11, 9, 37, 42, 345, DateTimeKind.Local),
+                            CreatedOn = new DateTime(2024, 3, 5, 9, 37, 42, 345, DateTimeKind.Local),
                             IsAIGenerated = false,
                             LicenseTypeId = new Guid("00000000-0000-0000-0000-000000000001"),
                             LikeCount = 0,
@@ -983,7 +983,7 @@ namespace Migrators.MSSQL.Migrations
                             Id = new Guid("00000000-0000-0000-0000-00000000001b"),
                             CommentCount = 0,
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000011"),
-                            CreatedOn = new DateTime(2023, 12, 25, 15, 20, 45, 890, DateTimeKind.Local),
+                            CreatedOn = new DateTime(2024, 2, 25, 15, 20, 45, 890, DateTimeKind.Local),
                             IsAIGenerated = true,
                             LicenseTypeId = new Guid("00000000-0000-0000-0000-000000000001"),
                             LikeCount = 0,
@@ -1255,7 +1255,7 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("00000000-0000-0000-0000-00000000002c"),
                             CommentCount = 0,
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000013"),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2023, 12, 11, 15, 20, 45, 890, DateTimeKind.Local),
                             IsAIGenerated = false,
                             LicenseTypeId = new Guid("00000000-0000-0000-0000-000000000002"),
@@ -1271,7 +1271,7 @@ namespace Migrators.MSSQL.Migrations
                         {
                             Id = new Guid("00000000-0000-0000-0000-00000000002d"),
                             CommentCount = 0,
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000013"),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2023, 12, 12, 15, 20, 45, 890, DateTimeKind.Local),
                             IsAIGenerated = false,
                             LicenseTypeId = new Guid("00000000-0000-0000-0000-000000000002"),
@@ -1345,7 +1345,7 @@ namespace Migrators.MSSQL.Migrations
                             State = 1,
                             Thumbnail = "https://i.pinimg.com/originals/3d/e0/d0/3de0d0e553793ec3ee39cf1e7404e96e.jpg",
                             ThumbnailName = "00000000-0000-0000-0000-000000000031_t.jpg",
-                            Title = "Võ Nguyên Giáp",
+                            Title = "Bác bảo thắng là thắng",
                             ViewCount = 1999
                         },
                         new
@@ -1357,12 +1357,12 @@ namespace Migrators.MSSQL.Migrations
                             IsAIGenerated = false,
                             LicenseTypeId = new Guid("00000000-0000-0000-0000-000000000008"),
                             LikeCount = 0,
-                            Privacy = 0,
+                            Privacy = 1,
                             State = 1,
                             Thumbnail = "https://i.pinimg.com/564x/49/40/56/494056c9b3f314dad493bac63265f296.jpg",
                             ThumbnailName = "00000000-0000-0000-0000-000000000032_t.jpg",
                             Title = "4575",
-                            ViewCount = 672
+                            ViewCount = 0
                         },
                         new
                         {
@@ -1469,7 +1469,7 @@ namespace Migrators.MSSQL.Migrations
                             Id = new Guid("00000000-0000-0000-0000-000000000039"),
                             CommentCount = 0,
                             CreatedBy = new Guid("00000000-0000-0000-0000-00000000000d"),
-                            CreatedOn = new DateTime(2024, 2, 1, 15, 20, 45, 890, DateTimeKind.Local),
+                            CreatedOn = new DateTime(2024, 1, 6, 15, 20, 45, 890, DateTimeKind.Local),
                             Description = "Looking for the best island to visit in Vietnam? This is the ultimate guide to visiting the Con Dao Islands. Find out what makes Con Dao is a must-visit!",
                             IsAIGenerated = false,
                             LicenseTypeId = new Guid("00000000-0000-0000-0000-000000000008"),
@@ -1604,7 +1604,7 @@ namespace Migrators.MSSQL.Migrations
                             Id = new Guid("00000000-0000-0000-0000-000000000041"),
                             CommentCount = 0,
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000011"),
-                            CreatedOn = new DateTime(2024, 1, 8, 15, 20, 45, 890, DateTimeKind.Local),
+                            CreatedOn = new DateTime(2024, 2, 8, 15, 20, 45, 890, DateTimeKind.Local),
                             IsAIGenerated = false,
                             LicenseTypeId = new Guid("00000000-0000-0000-0000-000000000003"),
                             LikeCount = 0,
@@ -1701,13 +1701,13 @@ namespace Migrators.MSSQL.Migrations
                             Id = new Guid("00000000-0000-0000-0000-000000000047"),
                             CommentCount = 0,
                             CreatedBy = new Guid("00000000-0000-0000-0000-00000000000c"),
-                            CreatedOn = new DateTime(2024, 1, 30, 15, 20, 45, 890, DateTimeKind.Local),
+                            CreatedOn = new DateTime(2023, 12, 30, 15, 20, 45, 890, DateTimeKind.Local),
                             IsAIGenerated = false,
                             LicenseTypeId = new Guid("00000000-0000-0000-0000-000000000001"),
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
-                            Thumbnail = "https://pbs.twimg.com/media/GLZZrVhbUAEie26?format=png&name=900x900",
+                            Thumbnail = "https://storage.googleapis.com/***REMOVED***-public/Artwork/VSCode.png",
                             ThumbnailName = "00000000-0000-0000-0000-000000000047_t.jpg",
                             Title = "Visual Studio Code Redesign",
                             ViewCount = 928
@@ -1792,6 +1792,38 @@ namespace Migrators.MSSQL.Migrations
                             ThumbnailName = "00000000-0000-0000-0000-00000000004c_t.jpg",
                             Title = "Cyberpunk Robot Poster",
                             ViewCount = 1133
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-00000000004d"),
+                            CommentCount = 0,
+                            CreatedBy = new Guid("00000000-0000-0000-0000-00000000000c"),
+                            CreatedOn = new DateTime(2024, 1, 7, 15, 20, 45, 890, DateTimeKind.Local),
+                            IsAIGenerated = false,
+                            LicenseTypeId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            LikeCount = 0,
+                            Privacy = 0,
+                            State = 1,
+                            Thumbnail = "https://storage.googleapis.com/***REMOVED***-public/Artwork/IntellijLogo.png",
+                            ThumbnailName = "00000000-0000-0000-0000-00000000004d_t.jpg",
+                            Title = "IntelliJ Redesign",
+                            ViewCount = 1228
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-00000000004e"),
+                            CommentCount = 0,
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000003"),
+                            CreatedOn = new DateTime(2024, 3, 2, 15, 20, 45, 890, DateTimeKind.Local),
+                            IsAIGenerated = false,
+                            LicenseTypeId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            LikeCount = 0,
+                            Privacy = 0,
+                            State = 1,
+                            Thumbnail = "https://storage.googleapis.com/***REMOVED***-public/Artwork/phucche1.png",
+                            ThumbnailName = "00000000-0000-0000-0000-00000000004e_t.jpg",
+                            Title = "Phục chế ảnh nữ liệt sĩ",
+                            ViewCount = 433
                         });
                 });
 
@@ -1857,37 +1889,158 @@ namespace Migrators.MSSQL.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000001"),
-                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000008"),
-                            AssetName = "PTS_1.zip",
-                            AssetTitle = "File PTS tuyển tập minh hoạ sách tâm lý",
-                            ContentType = "zip",
-                            Description = "tập tin PTS tuyển tập minh hoạ sách tâm lý sẽ cung cấp một cái nhìn tổng quan và thú vị.",
-                            Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
+                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000004"),
+                            AssetName = "CommercialAsset.rar",
+                            AssetTitle = "Dấu vết của quá khứ",
+                            ContentType = "rar",
+                            Description = "Ảnh gốc, phục hồi chất lượng",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
                             Price = 10000.0,
-                            Size = 1476992m
+                            Size = 8000000m
                         },
                         new
                         {
-                            Id = new Guid("00000000-0000-0000-0000-000000000002"),
+                            Id = new Guid("00000000-0000-0000-0000-000000000010"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000008"),
+                            AssetName = "CommercialAsset.rar",
+                            AssetTitle = "File PTS tuyển tập minh hoạ sách tâm lý",
+                            ContentType = "rar",
+                            Description = "tập tin PTS tuyển tập minh hoạ sách tâm lý sẽ cung cấp một cái nhìn tổng quan và thú vị.",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Price = 20000.0,
+                            Size = 8000000m
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000020"),
                             ArtworkId = new Guid("00000000-0000-0000-0000-00000000000e"),
-                            AssetName = "PTS_1.zip",
+                            AssetName = "CommercialAsset.rar",
                             AssetTitle = "Robot PTS",
-                            ContentType = "zip",
+                            ContentType = "rar",
                             Description = "Tặng các bạn",
-                            Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
                             Price = 0.0,
-                            Size = 3243243m
+                            Size = 8000000m
                         },
                         new
                         {
-                            Id = new Guid("00000000-0000-0000-0000-000000000004"),
+                            Id = new Guid("00000000-0000-0000-0000-000000000030"),
                             ArtworkId = new Guid("00000000-0000-0000-0000-00000000000f"),
-                            AssetName = "PTS_1.zip",
-                            AssetTitle = "Canh cụt ZIP",
-                            ContentType = "zip",
-                            Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
+                            AssetName = "CommercialAsset.rar",
+                            AssetTitle = "Ảnh cánh cụt",
+                            ContentType = "rar",
+                            Description = "Tổng hợp cánh cụt fullsize",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
                             Price = 12000.0,
-                            Size = 2568643m
+                            Size = 8000000m
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000040"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-00000000000f"),
+                            AssetName = "CommercialAsset.rar",
+                            AssetTitle = "Hình ảnh giới thiệu nhân vật & Đếm ngược ra mắt game",
+                            ContentType = "rar",
+                            Description = "File PTS, tùy ý chỉnh sửa",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Price = 30000.0,
+                            Size = 8000000m
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000050"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000014"),
+                            AssetName = "CommercialAsset.rar",
+                            AssetTitle = "Không gian vũ trụ",
+                            ContentType = "rar",
+                            Description = "File PTS, A collection of 173 wallpapers in 4K resolution from THE SIGHTS OF SPACE",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Price = 50000.0,
+                            Size = 8000000m
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000060"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000015"),
+                            AssetName = "CommercialAsset.rar",
+                            AssetTitle = "Tương lai loài người",
+                            ContentType = "rar",
+                            Description = "File PTS, A collection of 173 wallpapers in 4K resolution",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Price = 50000.0,
+                            Size = 8000000m
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000070"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000033"),
+                            AssetName = "CommercialAsset.rar",
+                            AssetTitle = "Figma Full",
+                            ContentType = "rar",
+                            Description = "All 100 pages + 200 icons in Figma",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Price = 100000.0,
+                            Size = 8000000m
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000080"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000034"),
+                            AssetName = "CommercialAsset.rar",
+                            AssetTitle = "Figma Full",
+                            ContentType = "rar",
+                            Description = "All 100 pages + 200 icons in Figma",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Price = 90000.0,
+                            Size = 8000000m
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000081"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000035"),
+                            AssetName = "CommercialAsset.rar",
+                            AssetTitle = "Figma Full",
+                            ContentType = "rar",
+                            Description = "All 100 pages + 200 icons in Figma",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Price = 120000.0,
+                            Size = 8000000m
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000082"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000035"),
+                            AssetName = "CommercialAsset.rar",
+                            AssetTitle = "Figma Full",
+                            ContentType = "rar",
+                            Description = "All 100 pages + 200 icons in Figma",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Price = 120000.0,
+                            Size = 8000000m
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000083"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000046"),
+                            AssetName = "CommercialAsset.rar",
+                            AssetTitle = "Pixel Art GUI / UI Kit + 151 icons!",
+                            ContentType = "rar",
+                            Description = "Universal / Fantasy Pixel Art GUI Kit for your new project, featuring Windowed and Fullscreen views to fit all your needs!",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Price = 150000.0,
+                            Size = 8000000m
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000084"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000047"),
+                            AssetName = "CommercialAsset.rar",
+                            AssetTitle = "Logo Asset",
+                            ContentType = "rar",
+                            Description = "Original PNG",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Price = 10000.0,
+                            Size = 8000000m
                         });
                 });
 
@@ -3641,8 +3794,16 @@ namespace Migrators.MSSQL.Migrations
                             Id = new Guid("00000000-0000-0000-0000-000000000090"),
                             ArtworkId = new Guid("00000000-0000-0000-0000-000000000047"),
                             ImageName = "00000000-0000-0000-0000-000000000047_i0.jpg",
-                            Location = "https://pbs.twimg.com/media/GLZZrVhbUAEie26?format=png&name=900x900",
+                            Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/VSCode.png",
                             Order = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000091"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-000000000047"),
+                            ImageName = "00000000-0000-0000-0000-000000000047_i1.jpg",
+                            Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/VSCode-Thick.png",
+                            Order = 1
                         },
                         new
                         {
@@ -3683,6 +3844,38 @@ namespace Migrators.MSSQL.Migrations
                             ImageName = "00000000-0000-0000-0000-00000000004c_i0.jpg",
                             Location = "https://i.pinimg.com/564x/19/d5/fb/19d5fbfe0a970510bfe47aa148e0b71e.jpg",
                             Order = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000098"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-00000000004d"),
+                            ImageName = "00000000-0000-0000-0000-00000000004d_i0.jpg",
+                            Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/IntellijLogo.png",
+                            Order = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000099"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-00000000004d"),
+                            ImageName = "00000000-0000-0000-0000-00000000004d_i1.jpg",
+                            Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/intelliJShadow.png",
+                            Order = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-00000000009b"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-00000000004e"),
+                            ImageName = "00000000-0000-0000-0000-00000000004e_i0.jpg",
+                            Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/phucche1.png",
+                            Order = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-00000000009c"),
+                            ArtworkId = new Guid("00000000-0000-0000-0000-00000000004e"),
+                            ImageName = "00000000-0000-0000-0000-00000000004e_i1.jpg",
+                            Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/phucche2.png",
+                            Order = 1
                         });
                 });
 
@@ -4335,49 +4528,49 @@ namespace Migrators.MSSQL.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000001"),
-                            ContentType = "zip",
+                            ContentType = "rar",
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
-                            ProposalAssetName = "concept1_3435438593.zip",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/ProposalAsset/ConceptAsset.rar?authuser=4",
+                            ProposalAssetName = "ConceptAsset.rar",
                             ProposalId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            Size = 13094430m,
+                            Size = 8000000m,
                             Type = 0
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000002"),
-                            ContentType = "zip",
+                            ContentType = "rar",
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2024, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
-                            ProposalAssetName = "concept1_3435433593.zip",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/ProposalAsset/ConceptAsset.rar?authuser=4",
+                            ProposalAssetName = "ConceptAsset.rar",
                             ProposalId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            Size = 12094430m,
+                            Size = 8000000m,
                             Type = 0
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000003"),
-                            ContentType = "zip",
+                            ContentType = "rar",
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2024, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
-                            ProposalAssetName = "concept1_3435733593.zip",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/ProposalAsset/FinalAsset.rar?authuser=4",
+                            ProposalAssetName = "FinalAsset.rar",
                             ProposalId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            Size = 16094430m,
+                            Size = 14000000m,
                             Type = 1
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000004"),
-                            ContentType = "zip",
+                            ContentType = "rar",
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2024, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
-                            ProposalAssetName = "concept1_3433433593.zip",
+                            Location = "https://storage.cloud.google.com/***REMOVED***/ProposalAsset/RevisionAsset.rar?authuser=4",
+                            ProposalAssetName = "RevisionAsset.rar",
                             ProposalId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            Size = 16084430m,
+                            Size = 14000000m,
                             Type = 2
                         });
                 });
@@ -7295,10 +7488,10 @@ namespace Migrators.MSSQL.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000001"),
-                            AssetId = new Guid("00000000-0000-0000-0000-000000000004"),
+                            AssetId = new Guid("00000000-0000-0000-0000-000000000030"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000001"),
                             CreatedOn = new DateTime(2024, 1, 13, 22, 30, 3, 678, DateTimeKind.Local),
-                            Detail = "Mở khóa tài nguyên \"Cánh cụt ZIP\"",
+                            Detail = "Mở khóa tài nguyên \"Ảnh cánh cụt\"",
                             Price = 12000.0,
                             ToAccountId = new Guid("00000000-0000-0000-0000-000000000005"),
                             TransactionStatus = 1
@@ -7306,28 +7499,28 @@ namespace Migrators.MSSQL.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000002"),
-                            AssetId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            AssetId = new Guid("00000000-0000-0000-0000-000000000010"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000001"),
                             CreatedOn = new DateTime(2024, 1, 15, 9, 59, 59, 0, DateTimeKind.Local),
                             Detail = "Mở khóa tài nguyên \"File PTS tuyển tập minh hoạ sách tâm lý\"",
-                            Price = 10000.0,
+                            Price = 20000.0,
                             ToAccountId = new Guid("00000000-0000-0000-0000-000000000002"),
                             TransactionStatus = 1
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000003"),
-                            AssetId = new Guid("00000000-0000-0000-0000-000000000004"),
+                            AssetId = new Guid("00000000-0000-0000-0000-000000000030"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"),
                             CreatedOn = new DateTime(2024, 1, 14, 22, 30, 3, 678, DateTimeKind.Local),
-                            Detail = "Mở khóa tài nguyên \"Cánh cụt ZIP\"",
-                            Price = 12000.0,
+                            Detail = "Mở khóa tài nguyên \"Ảnh cánh cụt\"",
+                            Price = 20000.0,
                             ToAccountId = new Guid("00000000-0000-0000-0000-000000000005"),
                             TransactionStatus = 1
                         },
                         new
                         {
-                            Id = new Guid("00000000-0000-0000-0000-000000000004"),
+                            Id = new Guid("00000000-0000-0000-0000-000000000104"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2024, 1, 3, 9, 59, 59, 0, DateTimeKind.Local),
                             Detail = "	Đặt cọc thỏa thuận \"Làm web thiệp cưới\" (25%)",
@@ -7338,7 +7531,7 @@ namespace Migrators.MSSQL.Migrations
                         },
                         new
                         {
-                            Id = new Guid("00000000-0000-0000-0000-000000000005"),
+                            Id = new Guid("00000000-0000-0000-0000-000000000105"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2024, 2, 1, 9, 59, 59, 0, DateTimeKind.Local),
                             Detail = "	Đặt cọc thỏa thuận \"Làm web thiệp cưới\" (25%)",
@@ -7466,6 +7659,142 @@ namespace Migrators.MSSQL.Migrations
                             AccountId = new Guid("00000000-0000-0000-0000-000000000005"),
                             Balance = 1000000.0,
                             WithdrawInformation = "0398550944",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000009"),
+                            AccountId = new Guid("00000000-0000-0000-0000-000000000009"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-00000000000a"),
+                            AccountId = new Guid("00000000-0000-0000-0000-00000000000a"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-00000000000b"),
+                            AccountId = new Guid("00000000-0000-0000-0000-00000000000b"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-00000000000c"),
+                            AccountId = new Guid("00000000-0000-0000-0000-00000000000c"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-00000000000d"),
+                            AccountId = new Guid("00000000-0000-0000-0000-00000000000d"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-00000000000e"),
+                            AccountId = new Guid("00000000-0000-0000-0000-00000000000e"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-00000000000f"),
+                            AccountId = new Guid("00000000-0000-0000-0000-00000000000f"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000010"),
+                            AccountId = new Guid("00000000-0000-0000-0000-000000000010"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000011"),
+                            AccountId = new Guid("00000000-0000-0000-0000-000000000011"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000012"),
+                            AccountId = new Guid("00000000-0000-0000-0000-000000000012"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000013"),
+                            AccountId = new Guid("00000000-0000-0000-0000-000000000013"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000014"),
+                            AccountId = new Guid("00000000-0000-0000-0000-000000000014"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000015"),
+                            AccountId = new Guid("00000000-0000-0000-0000-000000000015"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000016"),
+                            AccountId = new Guid("00000000-0000-0000-0000-000000000016"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000017"),
+                            AccountId = new Guid("00000000-0000-0000-0000-000000000017"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000018"),
+                            AccountId = new Guid("00000000-0000-0000-0000-000000000018"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
+                            WithdrawMethod = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000019"),
+                            AccountId = new Guid("00000000-0000-0000-0000-000000000019"),
+                            Balance = 0.0,
+                            WithdrawInformation = "0365960823",
                             WithdrawMethod = 0
                         });
                 });

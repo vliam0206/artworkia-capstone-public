@@ -2,7 +2,6 @@
 using Application.Services.Abstractions;
 using Application.Services.GoogleStorage;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Utils;
 
@@ -25,7 +24,7 @@ public class DashboardController : ControllerBase
         _cloudStorageService = cloudStorageService;
     }
 
-    [HttpGet("wallet-histories")]    
+    [HttpGet("wallet-histories")]
     public async Task<IActionResult> GetAllWalletHistoriesInPlatform([FromQuery] PagedCriteria pagedCriteria)
     {
         var result = await _dashBoardService
@@ -40,7 +39,7 @@ public class DashboardController : ControllerBase
             .GetAllTransactionHistoriesAsync(pagedCriteria.PageNumber, pagedCriteria.PageSize);
         return Ok(result);
     }
-    
+
     [HttpGet("asset-transaction-statistic")]
     public async Task<IActionResult> GetAssetTransactionStatistic(DateTime startTime, DateTime? endTime = null)
     {
@@ -52,7 +51,7 @@ public class DashboardController : ControllerBase
             }
             var result = await _dashBoardService.GetAssetTransactionStatisticAsync(startTime, endTime);
             return Ok(result);
-        }         
+        }
         catch (Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);

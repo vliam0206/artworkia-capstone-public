@@ -99,7 +99,7 @@ public class AssetService : IAssetService
     // lay link download cua asset
     public async Task<string?> GetDownloadUriAssetAsync(Guid assetId)
     {
-        var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId) 
+        var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId)
             ?? throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
 
         // kiem tra xem user da mua asset chua
@@ -151,7 +151,7 @@ public class AssetService : IAssetService
         string imageExtension = Path.GetExtension(assetModel.File.FileName); // lay duoi file (.zip, .rar, ...)
 
         // upload asset len cloud, lay url
-        var url = await _cloudStorageService.UploadFileToCloudStorage(assetModel.File, newAssetName, folderName, false) 
+        var url = await _cloudStorageService.UploadFileToCloudStorage(assetModel.File, newAssetName, folderName, false)
             ?? throw new KeyNotFoundException("Lỗi khi tải tài nguyên lên đám mây.");
 
         // map assetModel sang asset
@@ -159,7 +159,7 @@ public class AssetService : IAssetService
         newAsset.Location = url;
         newAsset.AssetName = newAssetName + imageExtension;
         newAsset.ContentType = imageExtension.Replace(".", "");
-        newAsset.Size = (ulong) assetModel.File.Length;
+        newAsset.Size = (ulong)assetModel.File.Length;
 
         await _unitOfWork.AssetRepository.AddAsync(newAsset);
         await _unitOfWork.SaveChangesAsync();
@@ -220,7 +220,7 @@ public class AssetService : IAssetService
             string imageExtension = Path.GetExtension(singleAsset.File.FileName); // lay duoi file (.zip, .rar, ...)
 
             // upload asset len cloud, lay url
-            var url = await _cloudStorageService.UploadFileToCloudStorage(singleAsset.File, newAssetName, folderName, false) 
+            var url = await _cloudStorageService.UploadFileToCloudStorage(singleAsset.File, newAssetName, folderName, false)
                 ?? throw new KeyNotFoundException("Lỗi khi tải tài nguyên lên đám mây.!");
             Asset newAsset = new()
             {
@@ -231,8 +231,8 @@ public class AssetService : IAssetService
                 Location = url,
                 AssetName = newAssetName + imageExtension,
                 ContentType = imageExtension.Replace(".", ""),
-                Size = (ulong) singleAsset.File.Length,
-        };
+                Size = (ulong)singleAsset.File.Length,
+            };
             await _unitOfWork.AssetRepository.AddAsync(newAsset);
             index++;
         }

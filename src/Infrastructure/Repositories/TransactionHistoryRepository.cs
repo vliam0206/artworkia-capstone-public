@@ -6,7 +6,6 @@ using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
 using Infrastructure.Repositories.Commons;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace Infrastructure.Repositories;
 public class TransactionHistoryRepository : GenericCreationRepository<TransactionHistory>, ITransactionHistoryRepository
@@ -64,7 +63,7 @@ public class TransactionHistoryRepository : GenericCreationRepository<Transactio
         var result = await this.ToPaginationAsync(transactionList, pageNumber, pageSize);
         return result;
     }
-    
+
     public async Task<List<AssetTransByDate>> GetAssetTransactionStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
     {
         // tong trans truoc starttime
@@ -97,10 +96,10 @@ public class TransactionHistoryRepository : GenericCreationRepository<Transactio
                 Count = g.Count()
             })
             .ToListAsync();
-        foreach ( var transaction in assetCountsByDayList)
+        foreach (var transaction in assetCountsByDayList)
         {
             transaction.Total = totalUntilStartTime + transaction.Count;
-            transaction.IncreaseRate = Math.Round((double)transaction.Count / 
+            transaction.IncreaseRate = Math.Round((double)transaction.Count /
                 (totalUntilStartTime == 0 ? 1 : totalUntilStartTime), 2);
             totalUntilStartTime += transaction.Count;
         }
@@ -123,7 +122,7 @@ public class TransactionHistoryRepository : GenericCreationRepository<Transactio
         }
         if (endTime != null)
         {
-            transactionsQuery = transactionsQuery.Where(x => x.CreatedOn <= endTime.Value.Date.AddDays(1).AddTicks(-1));  
+            transactionsQuery = transactionsQuery.Where(x => x.CreatedOn <= endTime.Value.Date.AddDays(1).AddTicks(-1));
         }
         var transactions = await transactionsQuery.ToListAsync();
 
@@ -134,10 +133,10 @@ public class TransactionHistoryRepository : GenericCreationRepository<Transactio
             .Select(g => new { Category = g.Key, Count = g.Count() })
             .ToList();
 
-        var sum = categoryCounts.Sum(x=>  x.Count);
+        var sum = categoryCounts.Sum(x => x.Count);
 
         // Tính phần trăm thể loại
-        List<PercentageCategoryOfAssetTrans> list = new List<PercentageCategoryOfAssetTrans>();
+        List<PercentageCategoryOfAssetTrans> list = new();
         foreach (var categoryCount in categoryCounts)
         {
             var percentage = (double)categoryCount.Count / sum * 100;

@@ -2,7 +2,6 @@
 using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
-using Application.Services.Firebase;
 using Application.Services.GoogleStorage;
 using AutoMapper;
 using Domain.Entities.Commons;
@@ -214,7 +213,7 @@ public class ServiceService : IServiceService
         // cap nhat thumbnail image vao firebase (neu co)
         if (serviceEM.Thumbnail != null)
         {
-            var url = await _cloudStorageService.UploadFileToCloudStorage(serviceEM.Thumbnail, newThumbnailName, folderName) 
+            var url = await _cloudStorageService.UploadFileToCloudStorage(serviceEM.Thumbnail, newThumbnailName, folderName)
                 ?? throw new KeyNotFoundException("Lỗi khi tải ảnh đại diện dịch vụ lên đám mây.");
             oldService.Thumbnail = url;
         }

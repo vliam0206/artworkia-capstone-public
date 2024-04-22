@@ -20,43 +20,190 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
         #region init data
         builder.HasData
         (
+            // Artwork 4 lamlam
             new Asset()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000004"),
+                AssetTitle = "Dấu vết của quá khứ",
+                Description = "Ảnh gốc, phục hồi chất lượng",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 10000,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 8 lamlam
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000010"),
                 ArtworkId = new Guid("00000000-0000-0000-0000-000000000008"),
                 AssetTitle = "File PTS tuyển tập minh hoạ sách tâm lý",
                 Description = "tập tin PTS tuyển tập minh hoạ sách tâm lý " +
                 "sẽ cung cấp một cái nhìn tổng quan và thú vị.",
-                AssetName = "PTS_1.zip",
-                Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
-                Price = 10000,
-                ContentType = "zip",
-                Size = 1476992
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 20000,
+                ContentType = "rar",
+                Size = 8000000
             },
+
+            // Artwork 14 lamlam
             new Asset()
             {
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000020"),
                 ArtworkId = new Guid("00000000-0000-0000-0000-00000000000e"),
                 AssetTitle = "Robot PTS",
                 Description = "Tặng các bạn",
-                AssetName = "PTS_1.zip",
-                Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
                 Price = 0,
-                ContentType = "zip",
-                Size = 3243243
+                ContentType = "rar",
+                Size = 8000000
             },
+
+            // Artwork 15 phu
             new Asset()
             {
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000030"),
                 ArtworkId = new Guid("00000000-0000-0000-0000-00000000000f"),
-                AssetTitle = "Canh cụt ZIP",
-                Description = null,
-                AssetName = "PTS_1.zip",
-                Location = "https://github.com/saadeghi/daisyui/archive/refs/tags/v4.5.0.zip",
+                AssetTitle = "Ảnh cánh cụt",
+                Description = "Tổng hợp cánh cụt fullsize",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
                 Price = 12000,
-                ContentType = "zip",
-                Size = 2568643
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 18 manhkbrady
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000040"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-00000000000f"),
+                AssetTitle = "Hình ảnh giới thiệu nhân vật & Đếm ngược ra mắt game",
+                Description = "File PTS, tùy ý chỉnh sửa",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 30000,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 20 melodysheep
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000050"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000014"),
+                AssetTitle = "Không gian vũ trụ",
+                Description = "File PTS, A collection of 173 wallpapers in 4K resolution from THE SIGHTS OF SPACE",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 50000,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 21 melodysheep
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000060"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000015"),
+                AssetTitle = "Tương lai loài người",
+                Description = "File PTS, A collection of 173 wallpapers in 4K resolution",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 50000,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 51 doantrang
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000070"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000033"),
+                AssetTitle = "Figma Full",
+                Description = "All 100 pages + 200 icons in Figma",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 100000,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 52 doantrang
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000080"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000034"),
+                AssetTitle = "Figma Full",
+                Description = "All 100 pages + 200 icons in Figma",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 90000,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 53 doantrang
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000081"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000035"),
+                AssetTitle = "Figma Full",
+                Description = "All 100 pages + 200 icons in Figma",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 120000,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 61 tranduc
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000082"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000035"),
+                AssetTitle = "Figma Full",
+                Description = "All 100 pages + 200 icons in Figma",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 120000,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 70 phamthanh
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000083"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000046"),
+                AssetTitle = "Pixel Art GUI / UI Kit + 151 icons!",
+                Description = "Universal / Fantasy Pixel Art GUI Kit for your new project, " +
+                "featuring Windowed and Fullscreen views to fit all your needs!",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 150000,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 71 truongthu
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000084"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000047"),
+                AssetTitle = "Logo Asset",
+                Description = "Original PNG",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 10000,
+                ContentType = "rar",
+                Size = 8000000
             }
+
         );
         #endregion
     }

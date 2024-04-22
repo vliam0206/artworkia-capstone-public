@@ -1,7 +1,6 @@
 ﻿using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
-using Application.Services.GoogleStorage;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

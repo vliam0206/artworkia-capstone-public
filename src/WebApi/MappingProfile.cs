@@ -39,12 +39,12 @@ public class MappingProfile : Profile
             .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryArtworkDetails.Select(y => y.Category).ToList()))
             .ForMember(model => model.TagList, opt => opt.MapFrom(x => x.TagDetails.Select(y => y.Tag).ToList()))
             .ForMember(model => model.SoftwareUseds, opt => opt.MapFrom(x => x.SoftwareDetails.Select(y => y.SoftwareUsed).ToList()));
-        
+
         CreateMap<Artwork, ArtworkModerationVM>()
             .ForMember(model => model.CategoryList, opt => opt.MapFrom(x => x.CategoryArtworkDetails.Select(y => y.Category).ToList()))
             .ForMember(model => model.TagList, opt => opt.MapFrom(x => x.TagDetails.Select(y => y.Tag).ToList()))
             .ForMember(model => model.SoftwareUseds, opt => opt.MapFrom(x => x.SoftwareDetails.Select(y => y.SoftwareUsed).ToList()));
-        
+
         CreateMap<Artwork, ArtworkDetailModerationVM>();
         CreateMap<Artwork, ArtworkPreviewVM>();
         CreateMap<Artwork, ArtworkContainAssetVM>();

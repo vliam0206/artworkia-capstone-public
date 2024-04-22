@@ -1,9 +1,9 @@
-﻿using Application.Services.Abstractions;
+﻿using Application.Commons;
+using Application.Models;
+using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Models;
 using Domain.Repositories.Abstractions;
-using Application.Models;
-using Application.Commons;
 namespace Application.Services;
 
 public class DashBoardService : IDashBoardService
@@ -12,7 +12,7 @@ public class DashBoardService : IDashBoardService
     private readonly IMapper _mapper;
 
     public DashBoardService(
-        IUnitOfWork unitOfWork, 
+        IUnitOfWork unitOfWork,
         IMapper mapper)
     {
         _unitOfWork = unitOfWork;

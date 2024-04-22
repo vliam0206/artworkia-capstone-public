@@ -296,7 +296,9 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
                 .ThenInclude(c => c.Category)
             .Include(t => t.TagDetails)
                 .ThenInclude(t => t.Tag)
-            .Where(a => a.DeletedOn == null && followingAccountIds.Contains(a.CreatedBy ?? default));
+            .Where(a => a.State == StateEnum.Accepted && a.Privacy == PrivacyEnum.Public
+                && a.DeletedOn == null && followingAccountIds.Contains(a.CreatedBy ?? default));
+
 
         // sorting
         allArtworks = allArtworks.OrderByDescending(x => x.CreatedOn);

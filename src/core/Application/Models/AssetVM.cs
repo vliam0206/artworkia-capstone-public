@@ -1,6 +1,4 @@
-﻿using Firebase.Storage;
-
-namespace Application.Models;
+﻿namespace Application.Models;
 
 public class AssetVM
 {
@@ -13,6 +11,6 @@ public class AssetVM
     public double Price { get; set; } = 0;
     public bool IsBought { get; set; } = default!;
     public string ContentType { get; set; } = default!;
-    public ulong Size { get; set; } = default!; 
+    public ulong Size { get; set; } = default!;
     public DateTime? LastModificatedOn { get; set; }
 }

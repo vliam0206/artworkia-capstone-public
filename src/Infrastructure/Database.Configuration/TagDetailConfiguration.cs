@@ -1600,7 +1600,7 @@ public class TagDetailConfiguration : IEntityTypeConfiguration<TagDetail>
             {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000041"),
                 TagId = Guid.Parse("00000000-0000-0000-0000-000000000004")
-            },  
+            },
             new TagDetail()
             {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000041"),
@@ -1678,7 +1678,7 @@ public class TagDetailConfiguration : IEntityTypeConfiguration<TagDetail>
             {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000045"),
                 TagId = Guid.Parse("00000000-0000-0000-0000-000000000022")
-            },  
+            },
             new TagDetail()
             {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000045"),

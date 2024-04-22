@@ -149,7 +149,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Role = RoleEnum.Admin,
                 CreatedOn = DateTime.Parse("2023-09-02T03:21:47.890Z")
             },
-            
+
             // account 8: spam
             new Account()
             {

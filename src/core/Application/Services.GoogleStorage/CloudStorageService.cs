@@ -1,6 +1,5 @@
 ﻿using Application.AppConfigurations;
 using Application.Commons;
-using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Http;
 
@@ -30,9 +29,10 @@ public class CloudStorageService : ICloudStorageService
                     files.ContentType,
                     files.OpenReadStream());
                 string publicUrl = $"https://storage.googleapis.com/{_googleStorageConfiguration.BucketPublic}/{folderAndFileName}";
-                
+
                 return publicUrl;
-            } else
+            }
+            else
             {
                 var obj = await client.UploadObjectAsync(
                     _googleStorageConfiguration.BucketPrivate,
@@ -79,7 +79,7 @@ public class CloudStorageService : ICloudStorageService
             stream.Position = 0;
 
             return stream;
-        } 
+        }
         catch (Exception ex)
         {
             throw new Exception(ex.Message);
@@ -93,7 +93,7 @@ public class CloudStorageService : ICloudStorageService
             var client = await StorageClient.CreateAsync();
             UrlSigner urlSigner = await UrlSigner.FromCredentialFileAsync("Credentials/account_service.json");
 
-            string url = await urlSigner.SignAsync(_googleStorageConfiguration.BucketPrivate, 
+            string url = await urlSigner.SignAsync(_googleStorageConfiguration.BucketPrivate,
                 $"{folderName}/{fileName}", TimeSpan.FromHours(EXPIRATION_TIME_HOUR), HttpMethod.Get);
 
             return url;

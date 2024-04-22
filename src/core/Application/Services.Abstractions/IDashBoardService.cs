@@ -1,6 +1,6 @@
-﻿using Domain.Models;
+﻿using Application.Commons;
 using Application.Models;
-using Application.Commons;
+using Domain.Models;
 
 namespace Application.Services.Abstractions;
 

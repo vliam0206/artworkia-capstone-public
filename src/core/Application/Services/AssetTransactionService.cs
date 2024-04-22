@@ -44,7 +44,7 @@ public class AssetTransactionService : IAssetTransactionService
         Guid accountId = _claimService.GetCurrentUserId ?? default;
         if (asset.Artwork.CreatedBy == accountId)
         {
-            throw new BadHttpRequestException("Không thể mua tài nguyên của chính mình.");  
+            throw new BadHttpRequestException("Không thể mua tài nguyên của chính mình.");
         }
 
         // Check if user has enough money to buy this asset

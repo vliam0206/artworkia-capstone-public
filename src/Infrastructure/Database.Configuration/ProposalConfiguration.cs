@@ -16,7 +16,7 @@ public class ProposalConfiguration : IEntityTypeConfiguration<Proposal>
 
         // relationship
         builder.HasOne(x => x.Account).WithMany(a => a.Proposals).HasForeignKey(x => x.CreatedBy);
-        builder.HasOne(x => x.Service).WithMany(s => s.Proposals).HasForeignKey(x => x.ServiceId);        
+        builder.HasOne(x => x.Service).WithMany(s => s.Proposals).HasForeignKey(x => x.ServiceId);
         builder.HasMany(x => x.ProposalAssets).WithOne(a => a.Proposal).HasForeignKey(a => a.ProposalId);
         builder.HasOne(x => x.Review).WithOne(r => r.Proposal).HasForeignKey<Review>(x => x.ProposalId);
         builder.HasMany(x => x.TransactionHistories).WithOne(t => t.Proposal).HasForeignKey(t => t.ProposalId);
@@ -28,7 +28,7 @@ public class ProposalConfiguration : IEntityTypeConfiguration<Proposal>
             // service 1
             new Proposal()
             {
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),                
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 ProjectTitle = "Yêu cầu làm website mua bán thiệp đám cưới.",
                 Category = "Website",

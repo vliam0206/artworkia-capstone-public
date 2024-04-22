@@ -2,7 +2,6 @@
 using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
-using Application.Services.Firebase;
 using Application.Services.GoogleStorage;
 using AutoMapper;
 using Domain.Entities.Commons;
@@ -135,7 +134,7 @@ public class ArtworkService : IArtworkService
             foreach (var artworkVM in pagedListArtworkVM.Items)
             {
                 if (artworkVM.Assets != null)
-                { 
+                {
                     foreach (var asset in artworkVM.Assets)
                     {
                         var isBought = await _unitOfWork.TransactionHistoryRepository.GetAssetTransactionAsync(loginId.Value, asset.Id);
@@ -163,7 +162,7 @@ public class ArtworkService : IArtworkService
     {
         Guid? accountId = _claimService.GetCurrentUserId;
 
-        var artwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId) 
+        var artwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId)
             ?? throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         if (artwork.DeletedOn != null)
             throw new KeyNotFoundException("Tác phẩm đã bị xóa.");
@@ -206,7 +205,7 @@ public class ArtworkService : IArtworkService
 
     public async Task<ArtworkDetailModerationVM?> GetArtworkByIdForModerationAsync(Guid artworkId)
     {
-        var artwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId) 
+        var artwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId)
             ?? throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         var artworkVM = _mapper.Map<ArtworkDetailModerationVM>(artwork);
 
@@ -222,7 +221,7 @@ public class ArtworkService : IArtworkService
         string folderName = THUMBNAIL_ARTWORK_FOLDER;
         string extension = System.IO.Path.GetExtension(artworkModel.Thumbnail.FileName);
         // them thumbnail image vao firebase
-        var url = await _cloudStorageService.UploadFileToCloudStorage(artworkModel.Thumbnail, newThumbnailName, folderName) 
+        var url = await _cloudStorageService.UploadFileToCloudStorage(artworkModel.Thumbnail, newThumbnailName, folderName)
             ?? throw new KeyNotFoundException("Lỗi khi tải ảnh đại diện lên đám mây.");
         newArtwork.Thumbnail = url;
         newArtwork.ThumbnailName = newThumbnailName + extension;
@@ -283,7 +282,7 @@ public class ArtworkService : IArtworkService
                 // upload asset len private cloud, lay url
                 uploadAssetsTask.Add(Task.Run(async () =>
                 {
-                    var url = await _cloudStorageService.UploadFileToCloudStorage(singleAsset.file.File, newAssetName, assetFolderName, false) 
+                    var url = await _cloudStorageService.UploadFileToCloudStorage(singleAsset.file.File, newAssetName, assetFolderName, false)
                     ?? throw new KeyNotFoundException("Lỗi khi tải tài nguyên lên đám mây.");
                     Asset newAsset = new()
                     {
@@ -294,8 +293,8 @@ public class ArtworkService : IArtworkService
                         Description = singleAsset.file.Description,
                         Price = singleAsset.file.Price,
                         ContentType = imageExtension.Replace(".", ""),
-                        Size = (ulong) singleAsset.file.File.Length
-                };
+                        Size = (ulong)singleAsset.file.File.Length
+                    };
                     await _unitOfWork.AssetRepository.AddAsync(newAsset);
                 }));
             }

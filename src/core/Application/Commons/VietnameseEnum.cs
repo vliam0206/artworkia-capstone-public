@@ -9,7 +9,7 @@ public static class VietnameseEnum
         { NotifyTypeEnum.System, "Hệ thống" },
         { NotifyTypeEnum.Warning, "Cảnh báo" },
         { NotifyTypeEnum.Information, "Thông tin" }
-    };  
+    };
 
     public static readonly Dictionary<ProposalAssetEnum, string> PROPOSALASSET_ENUM_VN = new()
     {

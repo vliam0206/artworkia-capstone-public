@@ -2,7 +2,6 @@
 using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
-using Application.Services.Firebase;
 using Application.Services.GoogleStorage;
 using AutoMapper;
 using Domain.Entitites;
@@ -73,7 +72,7 @@ public class MessageService : IMessageService
             string folderName = PARENT_FOLDER;
             string fileExtension = Path.GetExtension(model.File.FileName);
             // upload file len firebase
-            var url = await _cloudStorageService.UploadFileToCloudStorage(model.File, newMessageName, folderName) 
+            var url = await _cloudStorageService.UploadFileToCloudStorage(model.File, newMessageName, folderName)
                 ?? throw new KeyNotFoundException("Lỗi khi tải tệp tin lên đám mây.");
             newMessage.FileLocation = url;
             newMessage.FileName = newMessageName + fileExtension;
