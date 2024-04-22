@@ -1,5 +1,6 @@
 ﻿using Application.Filters;
 using Application.Services.Abstractions;
+using Application.Services.GoogleStorage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,15 @@ namespace WebApi.Controllers;
 public class DashboardController : ControllerBase
 {
     private readonly IDashBoardService _dashBoardService;
+    private readonly ICloudStorageService _cloudStorageService;
 
-    public DashboardController(IDashBoardService dashBoardService)
+    public DashboardController(
+        IDashBoardService dashBoardService,
+        ICloudStorageService cloudStorageService
+        )
     {
         _dashBoardService = dashBoardService;
+        _cloudStorageService = cloudStorageService;
     }
 
     [HttpGet("wallet-histories")]    
@@ -172,4 +178,67 @@ public class DashboardController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    #region test google cloud storage
+    [HttpPost("private/google")]
+    public async Task<IActionResult> UploadPrivateFile(IFormFile file)
+    {
+        try
+        {
+            var check = await _cloudStorageService.UploadFileToCloudStorage(
+                file, file.FileName, "Test", false);
+            return Ok(check);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
+
+    [HttpPost("public/google")]
+    public async Task<IActionResult> UploadPublicFile(IFormFile file)
+    {
+        try
+        {
+            var check = await _cloudStorageService.UploadFileToCloudStorage(
+                file, file.FileName, "Test", true);
+            return Ok(check);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
+
+    [HttpGet("private/google")]
+    [Authorize]
+    public async Task<IActionResult> DownloadFile(string fileName)
+    {
+        try
+        {
+            var stream = await _cloudStorageService.DownloadFileFromPrivateCloudStorage(fileName, "Test");
+            return File(stream, "application/octet-stream", fileName);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
+
+    [HttpGet("private/google/signedurl")]
+    [Authorize]
+    public async Task<IActionResult> GetSignedUrl(string fileName)
+    {
+        try
+        {
+            var signedUrl = await _cloudStorageService
+                .GetDownloadSignedUrlFromPrivateCloudStorage(fileName, "Test");
+            return Ok(signedUrl);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
+    #endregion
 }

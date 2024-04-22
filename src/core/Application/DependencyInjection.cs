@@ -47,7 +47,7 @@ public static class DependencyInjection
         services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<ITokenHandler, TokenHandler>();
         services.AddScoped<IFirebaseService, FirebaseService>();
-        services.AddScoped<IStorageService, StorageService>();
+        services.AddScoped<ICloudStorageService, CloudStorageService>();
         services.AddScoped<IThirdAuthenticationService, ThirdAuthenticationService>();
         services.AddScoped<IZaloPayService, ZaloPayService>();
         return services;

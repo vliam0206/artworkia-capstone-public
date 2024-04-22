@@ -1,4 +1,5 @@
 ﻿using Application.Models;
+using Application.Services;
 using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,29 @@ public class ProposalAssetsController : ControllerBase
         catch (KeyNotFoundException ex)
         {
             return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
+
+    [HttpGet("download/{proposalId}")]
+    [Authorize]
+    public async Task<IActionResult> GetProposalAssetDownloadById(Guid proposalId)
+    {
+        try
+        {
+            var link = await _proposalAssetService.GetDownloadUriProposalAssetAsync(proposalId);
+            return Ok(new { link });
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new ApiResponse { ErrorMessage = ex.Message });
         }
         catch (Exception ex)
         {

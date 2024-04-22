@@ -8,7 +8,6 @@ public interface IAssetService
     Task<AssetVM> GetAssetByIdAsync(Guid assetId);
     Task<string?> GetDownloadUriAssetAsync(Guid assetId);
     Task<string?> GetDownloadUriAssetForModerationAsync(Guid assetId);
-    Task<string?> GetDownloadUriAssetAlternativeAsync(Guid assetId);
     Task<IPagedList<AssetVM>> GetAllAssetsAsync(AssetCriteria criteria);
     Task<IPagedList<AssetVM>> GetAssetsBoughtOfAccountAsync(Guid accountId, PagedCriteria criteria);
     Task<IPagedList<AssetVM>> GetAssetsOfAccountAsync(Guid accountId, AssetCriteria criteria);

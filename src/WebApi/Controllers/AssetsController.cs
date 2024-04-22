@@ -15,53 +15,13 @@ public class AssetsController : ControllerBase
 {
     private readonly IAssetService _assetService;
     private readonly IMapper _mapper;
-    private readonly IStorageService _storageService;
 
     public AssetsController(
         IAssetService assetService,
-        IMapper mapper,
-        IStorageService storageService)
+        IMapper mapper)
     {
         _assetService = assetService;
         _mapper = mapper;
-        _storageService = storageService;
-    }
-
-    [HttpPost("google")]
-    public async Task<IActionResult> UploadFile(IFormFile file)
-    {
-        try
-        {
-            var check = await _storageService.UploadFileToCloudStorage(file, file.FileName, "Artwork");
-            //return CreatedAtAction(nameof(GetAssetById), new { assetId = asset.Id }, asset);
-            return Ok();
-        }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
-        }
-    }
-
-    [HttpGet("google")]
-    public async Task<IActionResult> DownloadFile(string fileName)
-    {
-        try
-        {
-            var stream = await _storageService.DownloadFileFromCloudStorage(fileName, "Artwork");
-            return File(stream, "application/octet-stream", fileName);
-        }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
-        }
     }
 
     [HttpGet]

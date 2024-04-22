@@ -3,6 +3,7 @@ using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
 using Application.Services.Firebase;
+using Application.Services.GoogleStorage;
 using AutoMapper;
 using Domain.Entities.Commons;
 using Domain.Entitites;
@@ -15,13 +16,14 @@ namespace Application.Services;
 
 public class ArtworkService : IArtworkService
 {
-    private static readonly string PARENT_FOLDER = "Artwork";
+    private static readonly string THUMBNAIL_ARTWORK_FOLDER = "ThumbnailArtwork";
+    private static readonly string ASSET_FOLDER = "Asset";
     private readonly IUnitOfWork _unitOfWork;
     private readonly IImageService _imageService;
     private readonly ITagDetailService _tagDetailService;
     private readonly ISoftwareDetailService _softwareDetailService;
     private readonly ICategoryArtworkDetailService _categoryArtworkDetailService;
-    private readonly IFirebaseService _firebaseService;
+    private readonly ICloudStorageService _cloudStorageService;
     private readonly IClaimService _claimService;
     private readonly IMapper _mapper;
     public ArtworkService(
@@ -30,7 +32,7 @@ public class ArtworkService : IArtworkService
         ITagDetailService tagDetailService,
         ISoftwareDetailService softwareDetailService,
         ICategoryArtworkDetailService catworkDetailService,
-        IFirebaseService firebaseService,
+        ICloudStorageService cloudStorageService,
         IClaimService claimService,
         IMapper mapper)
     {
@@ -39,7 +41,7 @@ public class ArtworkService : IArtworkService
         _tagDetailService = tagDetailService;
         _softwareDetailService = softwareDetailService;
         _categoryArtworkDetailService = catworkDetailService;
-        _firebaseService = firebaseService;
+        _cloudStorageService = cloudStorageService;
         _claimService = claimService;
         _mapper = mapper;
     }
@@ -168,6 +170,11 @@ public class ArtworkService : IArtworkService
 
         var artworkVM = _mapper.Map<ArtworkVM>(artwork);
 
+        if (artwork.State != StateEnum.Accepted && accountId != artwork.CreatedBy)
+            throw new UnauthorizedAccessException("Tác phẩm này chưa được chấp nhận.");
+        if (artwork.Privacy == PrivacyEnum.Private && accountId != artwork.CreatedBy)
+            throw new UnauthorizedAccessException("Tác phẩm này là tác phẩm riêng tư.");
+
         // check if user is logged in
         if (accountId != null)
         {
@@ -212,10 +219,10 @@ public class ArtworkService : IArtworkService
     {
         var newArtwork = _mapper.Map<Artwork>(artworkModel);
         string newThumbnailName = newArtwork.Id + "_t";
-        string folderName = $"{PARENT_FOLDER}/Thumbnail";
+        string folderName = THUMBNAIL_ARTWORK_FOLDER;
         string extension = System.IO.Path.GetExtension(artworkModel.Thumbnail.FileName);
         // them thumbnail image vao firebase
-        var url = await _firebaseService.UploadFileToFirebaseStorage(artworkModel.Thumbnail, newThumbnailName, folderName) 
+        var url = await _cloudStorageService.UploadFileToCloudStorage(artworkModel.Thumbnail, newThumbnailName, folderName) 
             ?? throw new KeyNotFoundException("Lỗi khi tải ảnh đại diện lên đám mây.");
         newArtwork.Thumbnail = url;
         newArtwork.ThumbnailName = newThumbnailName + extension;
@@ -270,13 +277,13 @@ public class ArtworkService : IArtworkService
                 }
 
                 string newAssetName = $"{Path.GetFileNameWithoutExtension(singleAsset.file.File.FileName)}_{DateTime.Now.Ticks}";
-                string assetFolderName = $"{PARENT_FOLDER}/Asset";
+                string assetFolderName = ASSET_FOLDER;
                 string imageExtension = Path.GetExtension(singleAsset.file.File.FileName);
 
-                // upload asset len firebase, lay url
+                // upload asset len private cloud, lay url
                 uploadAssetsTask.Add(Task.Run(async () =>
                 {
-                    var url = await _firebaseService.UploadFileToFirebaseStorage(singleAsset.file.File, newAssetName, assetFolderName) 
+                    var url = await _cloudStorageService.UploadFileToCloudStorage(singleAsset.file.File, newAssetName, assetFolderName, false) 
                     ?? throw new KeyNotFoundException("Lỗi khi tải tài nguyên lên đám mây.");
                     Asset newAsset = new()
                     {

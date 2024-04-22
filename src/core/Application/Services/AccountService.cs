@@ -2,7 +2,7 @@
 using Application.Filters;
 using Application.Models;
 using Application.Services.Abstractions;
-using Application.Services.Firebase;
+using Application.Services.GoogleStorage;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
@@ -12,21 +12,21 @@ namespace Application.Services;
 
 public class AccountService : IAccountService
 {
-    private static readonly string PARENT_FOLDER = "Account";
+    private static readonly string PARENT_FOLDER = "Avatar";
     private readonly IUnitOfWork _unitOfWork;
     private readonly IClaimService _claimService;
-    private readonly IFirebaseService _firebaseService;
+    private readonly ICloudStorageService _cloudStorageService;
     private readonly IMapper _mapper;
 
     public AccountService(
         IUnitOfWork unitOfWork,
         IClaimService claimService,
-        IFirebaseService firebaseService,
+        ICloudStorageService cloudStorageService,
         IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _claimService = claimService;
-        _firebaseService = firebaseService;
+        _cloudStorageService = cloudStorageService;
         _mapper = mapper;
     }
 
@@ -237,9 +237,9 @@ public class AccountService : IAccountService
 
         // change avatar
         string newAvatarName = accountId + "_ava";
-        string folderName = $"{PARENT_FOLDER}/Avatar";
-        //upload hinh anh len firebase, lay url
-        var url = await _firebaseService.UploadFileToFirebaseStorageNoExtension(avatar, newAvatarName, folderName) 
+        string folderName = PARENT_FOLDER;
+        //upload hinh anh len cloud, lay url
+        var url = await _cloudStorageService.UploadFileToCloudStorage(avatar, newAvatarName, folderName) 
             ?? throw new KeyNotFoundException("Lỗi khi tải ảnh đại diện lên đám mây.");
         account.Avatar = url;
         _unitOfWork.AccountRepository.Update(account);

@@ -11,7 +11,7 @@ public class Artwork : BaseEntity, ICreation, IModification, ISoftDelete
     [MaxLength(5000)]
     public string? Description { get; set; }
     public string Thumbnail { get; set; } = default!; // url address
-    public string ThumbnailName { get; set; } = default!; // can ten thumbnail de xoa anh tren firebase
+    public string ThumbnailName { get; set; } = default!; // can ten thumbnail de xoa anh tren cloud
     public int ViewCount { get; set; } = default!;
     public int LikeCount { get; set; } = default!;
     public int CommentCount { get; set; } = default!;
