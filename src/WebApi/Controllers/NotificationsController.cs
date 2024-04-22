@@ -22,9 +22,8 @@ public class NotificationsController : ControllerBase
         _claimService = claimService;
     }
 
-    [HttpGet("ws")]
-    [Authorize]
-    public async Task GetNotificationOfCurrentAccountWebSocket([FromQuery] PagedCriteria pagedCriteria)
+    [HttpGet("/api/accounts/{accountId}/[controller]/ws")]
+    public async Task GetNotificationOfCurrentAccountWebSocket(Guid accountId, [FromQuery] PagedCriteria pagedCriteria)
     {
         try
         {
@@ -34,9 +33,9 @@ public class NotificationsController : ControllerBase
                 {
                     while (ws.State == WebSocketState.Open)
                     {
-                        var currentUser = _claimService.GetCurrentUserId ?? default;
+                        //var currentUser = _claimService.GetCurrentUserId ?? default;
                         var chats = await _notificationService
-                            .GetNotificationsOfAnAccountAsync(currentUser, pagedCriteria);
+                            .GetNotificationsOfAnAccountAsync(accountId, pagedCriteria);
                         var jsonString = JsonSerializer.Serialize(chats);
                         var buffer = Encoding.UTF8.GetBytes(jsonString);
                         await ws.SendAsync(
