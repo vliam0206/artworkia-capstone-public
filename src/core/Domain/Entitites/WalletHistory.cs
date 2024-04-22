@@ -6,6 +6,8 @@ namespace Domain.Entitites;
 public class WalletHistory : BaseEntity, ICreation
 {
     public double Amount { get; set; }
+    public double WalletBalance { get; set; }
+    public double Fee { get; set; }
     public WalletHistoryTypeEnum Type { get; set; }
     public PaymentMethodEnum PaymentMethod { get; set; } = PaymentMethodEnum.ZaloPay;
     public TransactionStatusEnum TransactionStatus { get; set; } = TransactionStatusEnum.InProgress;
