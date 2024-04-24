@@ -48,7 +48,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 Username = "user",
-                Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
+                Password = "/Yvo/zNSPcJB+6Roi0BD6gR/tx9tPXSqrslB+3Zy0rwOC2lA", //12345
                 Fullname = "Nguyễn Văn A",
                 Email = "user@example.com",
                 Bio = "Tôi là người dùng, không có gì đặc biệt",
@@ -63,7 +63,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 Username = "lamlam",
-                Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
+                Password = "P9i8PUWQ4DnT6Dnstg7HEXTlnFUDoZFTNJopEJ4UxxoK3zRn", //12345
                 Fullname = "Trúc Lam Võ",
                 Email = "lamlam@example.com",
                 Bio = "Tôi là Trúc Lam Võ, tôi là một nghệ sĩ đầy tài năng",
@@ -79,7 +79,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                 Username = "hoanganh",
-                Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
+                Password = "RZX95v+qA/O+EKXLkilrMbLW+cKQ7jekrOE9uwWE4fSupbQM", //12345
                 Fullname = "Đặng Hoàng Anh",
                 Email = "hoanganh@example.com",
                 Bio = "Tôi là Đặng Hoàng Anh, tôi là một nghệ sĩ đầy tài năng",
@@ -94,7 +94,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                 Username = "thong",
-                Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
+                Password = "BCpA8roVqTkU54PKIBXU4Iyl3YqyF5wYPagAXZ/1HYFEB9dh", //12345
                 Fullname = "Nguyễn Trung Thông",
                 Email = "thong@example.com",
                 Bio = "Tôi là Nguyễn Trung Thông, tôi là một nghệ sĩ đầy tài năng",
@@ -109,7 +109,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 Username = "phuhuynh",
-                Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
+                Password = "44p9oaVq2ED8i7Q6vKIaS//ynDYqhnLcHcX/W7sDDIa1m3v/", //12345 
                 Fullname = "Huỳnh Vạn Phú",
                 Email = "phu@example.com",
                 Bio = "Tôi là Huỳnh Vạn Phú, tôi là một nghệ sĩ đầy tài năng",
@@ -125,7 +125,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000006"),
                 Username = "mod",
-                Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
+                Password = "/yI89eEokmyCtc8FQcA8Salpuc2Gnv6+xvWUi9jfF3D56K8l", //12345
                 Fullname = "Kiểm soát viên",
                 Email = "mod@example.com",
                 Bio = "Tôi là kiểm soát viên hệ thống",
@@ -140,7 +140,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000007"),
                 Username = "admin",
-                Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
+                Password = "tmb/sYLga1PDxUtRiIEU4YJtaG2HN58av/VA2S/8v19GLbSx", //12345
                 Fullname = "Quản trị viên hệ thống",
                 Email = "admin@example.com",
                 Bio = "Tôi là quản trị viên hệ thống",

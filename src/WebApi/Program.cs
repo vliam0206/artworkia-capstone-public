@@ -1,6 +1,5 @@
 using Application;
 using Application.Commons;
-using Application.Services.ELK;
 using Infrastructure;
 using System.Text.Json.Serialization;
 using WebApi;
@@ -45,7 +44,6 @@ builder.Services.AddCorsPolicy();
 //      .ReadFrom.Configuration(builder.Configuration).CreateLogger();
 
 //builder.Host.UseSerilog();
-bool flag = builder.Services.AddElasticSearch(builder.Configuration);
 
 Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"Credentials/application_default_credentials.json");
 
@@ -76,6 +74,5 @@ app.UseWebSockets(new WebSocketOptions
 });
 
 app.UseApplyMigrations(); // Apply latest migrations, especially when running in Docker
-if (flag) app.UseInitDataElasticSearch(); // Init data for elastic search
 
 app.Run();

@@ -112,7 +112,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 14, 12, 37, 42, 345, DateTimeKind.Local),
                             Email = "user@example.com",
                             Fullname = "Nguyễn Văn A",
-                            Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
+                            Password = "/Yvo/zNSPcJB+6Roi0BD6gR/tx9tPXSqrslB+3Zy0rwOC2lA",
                             Role = 2,
                             Username = "user"
                         },
@@ -125,7 +125,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 15, 17, 15, 47, 890, DateTimeKind.Local),
                             Email = "lamlam@example.com",
                             Fullname = "Trúc Lam Võ",
-                            Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
+                            Password = "P9i8PUWQ4DnT6Dnstg7HEXTlnFUDoZFTNJopEJ4UxxoK3zRn",
                             Role = 2,
                             Username = "lamlam",
                             VerifiedOn = new DateTime(2023, 10, 15, 17, 15, 47, 890, DateTimeKind.Local)
@@ -139,7 +139,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 21, 19, 20, 47, 890, DateTimeKind.Local),
                             Email = "hoanganh@example.com",
                             Fullname = "Đặng Hoàng Anh",
-                            Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
+                            Password = "RZX95v+qA/O+EKXLkilrMbLW+cKQ7jekrOE9uwWE4fSupbQM",
                             Role = 2,
                             Username = "hoanganh"
                         },
@@ -152,7 +152,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 27, 19, 23, 47, 890, DateTimeKind.Local),
                             Email = "thong@example.com",
                             Fullname = "Nguyễn Trung Thông",
-                            Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
+                            Password = "BCpA8roVqTkU54PKIBXU4Iyl3YqyF5wYPagAXZ/1HYFEB9dh",
                             Role = 2,
                             Username = "thong"
                         },
@@ -165,7 +165,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 30, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "phu@example.com",
                             Fullname = "Huỳnh Vạn Phú",
-                            Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
+                            Password = "44p9oaVq2ED8i7Q6vKIaS//ynDYqhnLcHcX/W7sDDIa1m3v/",
                             Role = 2,
                             Username = "phuhuynh",
                             VerifiedOn = new DateTime(2023, 10, 16, 17, 15, 47, 890, DateTimeKind.Local)
@@ -179,7 +179,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 14, 12, 37, 42, 345, DateTimeKind.Local),
                             Email = "mod@example.com",
                             Fullname = "Kiểm soát viên",
-                            Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
+                            Password = "/yI89eEokmyCtc8FQcA8Salpuc2Gnv6+xvWUi9jfF3D56K8l",
                             Role = 1,
                             Username = "mod"
                         },
@@ -192,7 +192,7 @@ namespace Migrators.MSSQL.Migrations
                             CreatedOn = new DateTime(2023, 9, 2, 10, 21, 47, 890, DateTimeKind.Local),
                             Email = "admin@example.com",
                             Fullname = "Quản trị viên hệ thống",
-                            Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh",
+                            Password = "tmb/sYLga1PDxUtRiIEU4YJtaG2HN58av/VA2S/8v19GLbSx",
                             Role = 0,
                             Username = "admin"
                         },

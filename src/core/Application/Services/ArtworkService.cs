@@ -45,13 +45,6 @@ public class ArtworkService : IArtworkService
         _mapper = mapper;
     }
 
-    public async Task<List<ArtworkVM>> GetAllArtworksAsync()
-    {
-        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworks();
-        var listArtworkVM = _mapper.Map<List<ArtworkVM>>(listArtwork);
-        return listArtworkVM;
-    }
-
     public async Task<IPagedList<ArtworkPreviewVM>> GetArtworksAsync(ArtworkCriteria criteria)
     {
         Guid? loginId = _claimService.GetCurrentUserId;

@@ -5,7 +5,6 @@ using AutoMapper;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Nest;
 using WebApi.Utils;
 
 namespace WebApi.Controllers;
@@ -17,43 +16,19 @@ public class ArtworksController : ControllerBase
     private readonly IArtworkService _artworkService;
     private readonly ITagService _tagService;
     private readonly ITagDetailService _tagDetailService;
-    private readonly IElasticClient _elasticClient;
     private readonly IMapper _mapper;
 
     public ArtworksController(
         IArtworkService artworkService,
         ITagService tagService,
         ITagDetailService tagDetailService,
-        IElasticClient elasticClient,
         IMapper mapper
         )
     {
         _artworkService = artworkService;
         _tagService = tagService;
         _tagDetailService = tagDetailService;
-        _elasticClient = elasticClient;
         _mapper = mapper;
-    }
-
-    [HttpGet("elastic")]
-    public async Task<IActionResult> GetArtworksWithElasticSearch(string keyword)
-    {
-        try
-        {
-            var result = await _elasticClient.SearchAsync<ArtworksV2>(s =>
-            s.Query(
-                q => q.QueryString(
-                    d => d.Query('*' + keyword + '*')
-                    )
-                ).Size(30)
-                );
-            return Ok(result.Documents.ToList());
-
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
-        }
     }
 
     [HttpGet]

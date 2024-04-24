@@ -7,9 +7,7 @@ using Domain.Repositories.Abstractions;
 using Infrastructure.Database;
 using Infrastructure.Repositories.Commons;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using System.Linq.Expressions;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace Infrastructure.Repositories;
 public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRepository
@@ -19,23 +17,6 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
     {
     }
 
-    public async Task<List<Artwork>> GetAllArtworks()
-    {
-        var allArtworks = await _dbContext.Artworks
-            .Include(a => a.Account)
-            .Include(l => l.LicenseType)
-            .Include(c => c.CategoryArtworkDetails)
-                .ThenInclude(c => c.Category)
-            .Include(t => t.TagDetails)
-                .ThenInclude(t => t.Tag)
-            .Include(s => s.SoftwareDetails)
-                .ThenInclude(s => s.SoftwareUsed)
-            .Include(s => s.Assets)
-            .Where(a => a.DeletedOn == null && a.State == StateEnum.Accepted && a.Privacy == PrivacyEnum.Public)
-            .ToListAsync();
-
-        return allArtworks;
-    }
     public async Task<IPagedList<Artwork>> GetArtworksAsync(
         string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize,
         Guid? accountId = null, Guid? categoryId = null, Guid? tagId = null,
@@ -349,5 +330,4 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         artWork.CommentCount--;
         this.Update(artWork);
     }
-
 }
