@@ -7,6 +7,7 @@ public interface IArtworkService
 {
     Task<ArtworkVM?> GetArtworkByIdAsync(Guid artworkId);
     Task<ArtworkDetailModerationVM?> GetArtworkByIdForModerationAsync(Guid artworkId);
+    Task<List<ArtworkVM>> GetAllArtworksAsync();
     Task<IPagedList<ArtworkPreviewVM>> GetArtworksAsync(ArtworkCriteria criteria);
     Task<IPagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkModerationCriteria criteria);
     Task<IPagedList<ArtworkPreviewVM>> GetAllArtworksByAccountIdAsync(Guid accountId, ArtworkModerationCriteria criteria);
