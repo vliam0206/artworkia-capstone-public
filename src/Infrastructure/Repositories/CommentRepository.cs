@@ -44,7 +44,8 @@ public class CommentRepository : GenericAuditableRepository<Comment>, ICommentRe
     public async Task<IPagedList<Comment>> GetCommentsWithRepliesPaginationAsync(Guid artworkId, int pageNumber, int pageSize)
     {
         var commentsList = _dbContext.Comments
-            .Where(x => x.ArtworkId == artworkId)
+            .Where(x => x.ArtworkId == artworkId
+                    && x.DeletedOn == null)
             .Include(x => x.Account)
             .Include(x => x.Replies)
             .OrderByDescending(x => x.CreatedOn);

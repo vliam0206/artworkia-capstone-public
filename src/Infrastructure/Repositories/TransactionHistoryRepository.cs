@@ -45,7 +45,7 @@ public class TransactionHistoryRepository : GenericCreationRepository<Transactio
     public async Task<List<TransactionHistory>> GetTransactionHistoriesOfAccountAsync(Guid accountId)
     {
         var transactionsList = await _dbContext.TransactionHistories
-            .Where(x => x.CreatedBy == accountId || x.ToAccountId == accountId)
+            .Where(x => x.CreatedBy == accountId)
             .Include(x => x.Account)
             .Include(x => x.ToAccount)
             .OrderByDescending(x => x.CreatedOn)

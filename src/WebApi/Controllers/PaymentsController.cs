@@ -212,7 +212,7 @@ public class PaymentsController : ControllerBase
             // create new transaction & save in db
             var transaction = new WalletHistory
             {
-                Amount = model.Amount,
+                Amount = - model.Amount,
                 Type = WalletHistoryTypeEnum.Withdraw
             };
             await _walletHistoryService.AddWalletHistory(transaction);
@@ -230,7 +230,7 @@ public class PaymentsController : ControllerBase
             transaction.AppTransId = result.Data!.OrderId;
             await _walletHistoryService.UpdateWalletHistory(transaction.Id, transaction);
             // update coins balance            
-            await _walletService.SubtrasctCoinsFromWallet(currentUserId, model.Amount);
+            await _walletService.AddCoinsToWallet(currentUserId, - model.Amount);
             return Ok(result);
         }
         catch (ArgumentOutOfRangeException ex)

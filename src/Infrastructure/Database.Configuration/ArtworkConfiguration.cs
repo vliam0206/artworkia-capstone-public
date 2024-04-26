@@ -169,7 +169,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Title = "Tuyển tập minh hoạ sách tâm lý",
                 Description = "Đây là tuyển tập tâm huyết của mình, nhớ like và comment để ủng hộ mình nha",
                 Privacy = PrivacyEnum.Public,
-                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000004"), //thong
                 CreatedOn = DateTime.Parse("2023-12-01T08:30:03.678Z"),
                 Thumbnail = "https://static-company.waka.vn/img.media/tin%20t%E1%BB%A9c/38540.jpg",
                 ThumbnailName = "00000000-0000-0000-0000-000000000008_t.jpg",

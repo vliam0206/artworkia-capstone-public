@@ -77,7 +77,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 Size = 8000000
             },
 
-            // Artwork 18 manhkbrady
+            // Artwork 18 phuhuynh
             new Asset()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000040"),

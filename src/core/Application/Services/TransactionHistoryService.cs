@@ -47,7 +47,7 @@ public class TransactionHistoryService : ITransactionHistoryService
         return _mapper.Map<TransactionHistoryVM>(transaction);
     }
 
-    public async Task<List<TransactionHistoryVM>> GetTransactionHistoriesOfAccount(Guid accountId)
+    public async Task<List<TransactionHistoryForUserVM>> GetTransactionHistoriesOfAccount(Guid accountId)
     {
         // check if current account authorized to use this function
         var currentAccountId = _claimService.GetCurrentUserId ?? default;
@@ -61,14 +61,7 @@ public class TransactionHistoryService : ITransactionHistoryService
         var result = await _unitOfWork.TransactionHistoryRepository
             .GetTransactionHistoriesOfAccountAsync(accountId);
 
-        var viewModels = _mapper.Map<List<TransactionHistoryVM>>(result);
-        foreach (var model in viewModels)
-        {
-            if (model.ToAccount.Id == currentAccountId)
-            {
-                model.IsPositive = true;
-            }
-        }
+        var viewModels = _mapper.Map<List<TransactionHistoryForUserVM>>(result);        
         return viewModels;
     }
 }

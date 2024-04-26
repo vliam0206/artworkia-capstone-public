@@ -2,7 +2,9 @@
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
+using Domain.Enums;
 using Domain.Repositories.Abstractions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Services;
 
@@ -44,13 +46,22 @@ public class WalletService : IWalletService
     }
 
     public async Task<WalletVM?> GetWalletByAccountIdAsync(Guid accountId)
-    {
+    {        
         var wallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x
                                     => x.AccountId == accountId);
         if (wallet is null)
         {
             throw new KeyNotFoundException("Không tìm thấy ví.");
         }
+        // check authorized
+        var currentRole = _claimService.GetCurrentRole ?? default;
+        var currentUserId = _claimService.GetCurrentUserId ?? default;
+        if (currentRole.Equals(RoleEnum.CommonUser.ToString())
+            && currentUserId != wallet.AccountId)
+        {
+            throw new UnauthorizedAccessException("Bạn không thể xem thông tin ví của người khác.");
+        }
+
         var walletVM = _mapper.Map<WalletVM>(wallet);
         return walletVM;
     }

@@ -10,10 +10,12 @@ namespace WebApi.Controllers;
 public class WalletsController : ControllerBase
 {
     private readonly IWalletService _walletService;
+    private readonly IClaimService _claimService;
 
-    public WalletsController(IWalletService walletService)
+    public WalletsController(IWalletService walletService, IClaimService claimService)
     {
         _walletService = walletService;
+        _claimService = claimService;
     }
 
     [Route("api/[controller]/{walletId}")]
@@ -44,6 +46,31 @@ public class WalletsController : ControllerBase
         try
         {
             var result = await _walletService.GetWalletByAccountIdAsync(userId);
+            return Ok(result);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
+
+    [Route("api/account/current-wallet")]
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> GetWalletOfCurrentUserId()
+    {
+        try
+        {
+            var currentUserId = _claimService.GetCurrentUserId ?? default;
+            var result = await _walletService.GetWalletByAccountIdAsync(currentUserId);
             return Ok(result);
         }
         catch (KeyNotFoundException ex)

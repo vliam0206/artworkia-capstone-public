@@ -25,7 +25,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0902287461",
-                Balance = 2000000
+                Balance = 10000
             },
 
             // account 2
@@ -35,7 +35,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0939959417",
-                Balance = 1000000
+                Balance = 163500
             },
 
             // account 3
@@ -44,8 +44,8 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
-                WithdrawInformation = "0902287462",
-                Balance = 1000000
+                WithdrawInformation = "0912695680",
+                Balance = 10000
             },
 
             // account 4
@@ -55,7 +55,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0365960823",
-                Balance = 1000000
+                Balance = 9000
             },
 
             // account 5
@@ -65,7 +65,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 AccountId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0398550944",
-                Balance = 1000000
+                Balance = 12800
             },
 
             // account 9
@@ -88,14 +88,14 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 Balance = 0
             },
 
-            // account 11
+            // account 11 melodysheep
             new Wallet
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000000b"),
                 AccountId = Guid.Parse("00000000-0000-0000-0000-00000000000b"),
                 WithdrawMethod = WithdrawMethodEnum.Zalopay,
                 WithdrawInformation = "0365960823",
-                Balance = 0
+                Balance = 47500
             },
 
             // account 12
@@ -128,15 +128,15 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
                 Balance = 0
             },
 
-            // account 15
-            new Wallet
-            {
-                Id = Guid.Parse("00000000-0000-0000-0000-00000000000f"),
-                AccountId = Guid.Parse("00000000-0000-0000-0000-00000000000f"),
-                WithdrawMethod = WithdrawMethodEnum.Zalopay,
-                WithdrawInformation = "0365960823",
-                Balance = 0
-            },
+            //// account 15 hoangtuan
+            //new Wallet
+            //{
+            //    Id = Guid.Parse("00000000-0000-0000-0000-00000000000f"),
+            //    AccountId = Guid.Parse("00000000-0000-0000-0000-00000000000f"),
+            //    WithdrawMethod = WithdrawMethodEnum.Zalopay,
+            //    WithdrawInformation = "0365960823",
+            //    Balance = 0
+            //},
 
             // account 16
             new Wallet

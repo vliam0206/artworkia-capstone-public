@@ -14,7 +14,7 @@ public class TransactionHistory : BaseEntity, ICreation
     public string Detail { get; set; } = default!;
     public double Price { get; set; }
     public double WalletBalance { get; set; }
-    public double Fee { get; set; }
+    public double Fee { get; set; } = 0;
     public TransactionStatusEnum TransactionStatus { get; set; } = TransactionStatusEnum.InProgress;
     public DateTime CreatedOn { get; set; }
 

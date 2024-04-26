@@ -230,35 +230,67 @@ public class ProposalService : IProposalService
         #endregion
 
         // payment (coins)
-        var amount = proposal.InitialPrice * proposal.Total;
+        var amount = proposal.InitialPrice * proposal.Total;        
         var creatorId = proposal.CreatedBy ?? default;
-        // substract coins from audience wallet
-        await _walletService.SubtrasctCoinsFromWallet(currentId, amount, false);
-        // add coins to creator wallet
-        await _walletService.AddCoinsToWallet(creatorId, amount, false);
+
+        // Check if user has enough money to buy this asset
+        Wallet? wallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x => x.AccountId == currentId);
+        Wallet? creatorWallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x => x.AccountId == creatorId);
+
+        if (wallet is null)
+        {
+            throw new KeyNotFoundException("Không tìm thấy ví của người mua.");
+        }
+        if (creatorWallet is null)
+        {
+            throw new KeyNotFoundException("Không tìm thấy ví của người bán.");
+        }
+        if (wallet.Balance < amount)
+            throw new BadHttpRequestException("Bạn không đủ xu để thực hiện giao dịch này.");
 
         // payment successfully
-        // 1. add new payment history for audience (createdBy) and creator (ToAccountId)
-        var transactionHistory = new TransactionModel
+        // 1. add 2 new transaction histories for client & creator
+        var clientTransactionHistory = new TransactionHistory
+        {
+            CreatedBy = currentId,
+            ProposalId = proposalId,
+            Detail = $"Đặt cọc thỏa thuận \"{proposal.ProjectTitle}\" ({proposal.InitialPrice * 100}%)",
+            Price = - amount,
+            TransactionStatus = TransactionStatusEnum.Success,
+            ToAccountId = creatorId,
+            WalletBalance = wallet.Balance - amount
+        };        
+        var creatorTransactionHistory = new TransactionHistory
         {
             ProposalId = proposalId,
             Detail = $"Đặt cọc thỏa thuận \"{proposal.ProjectTitle}\" ({proposal.InitialPrice * 100}%)",
-            Price = amount,
+            Price = amount * (1 - AppConstant.PLATFORM_FEE),
             TransactionStatus = TransactionStatusEnum.Success,
-            ToAccountId = creatorId
+            ToAccountId = currentId,
+            WalletBalance = creatorWallet.Balance + amount * (1 - AppConstant.PLATFORM_FEE),
+            Fee = amount * AppConstant.PLATFORM_FEE
         };
-        var transactionVM = await _transactionHistoryService.CreateTransactionHistory(transactionHistory);
+        await _unitOfWork.TransactionHistoryRepository.AddAsync(clientTransactionHistory);
+        await _unitOfWork.TransactionHistoryRepository.AddAsync(creatorTransactionHistory);
 
-        // 2. payment successfully -> add new miletone
+        creatorTransactionHistory.CreatedBy = creatorId;
+
+        // 2. update wallets
+        wallet.Balance -= amount;
+        creatorWallet.Balance += amount * (1 - AppConstant.PLATFORM_FEE);
+        _unitOfWork.WalletRepository.Update(wallet);
+        _unitOfWork.WalletRepository.Update(creatorWallet);
+
+        // 3. add new miletone
         await _milstoneService.AddMilestoneToProposalAsync(proposalId, $"Đặt cọc thành công {amount} xu ({proposal.InitialPrice * 100}%)");
 
-        // 3. update the proposal status
+        // 4. update the proposal status
         proposal.ProposalStatus = ProposalStateEnum.InitPayment;
         _unitOfWork.ProposalRepository.Update(proposal);
 
         await _unitOfWork.SaveChangesAsync();
 
-        return transactionVM;
+        return _mapper.Map<TransactionHistoryVM>(clientTransactionHistory);
     }
 
     public async Task<TransactionHistoryVM> CompletePaymentProposalAsync(Guid proposalId)
@@ -291,24 +323,56 @@ public class ProposalService : IProposalService
         // payment (coins)
         var amount = proposal.Total - (proposal.InitialPrice * proposal.Total);
         var creatorId = proposal.CreatedBy ?? default;
-        // substract coins from audience wallet
-        await _walletService.SubtrasctCoinsFromWallet(currentId, amount, false);
-        // add coins to creator wallet
-        await _walletService.AddCoinsToWallet(creatorId, amount, false);
+
+        // Check if user has enough money to buy this asset
+        Wallet? wallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x => x.AccountId == currentId);
+        Wallet? creatorWallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x => x.AccountId == creatorId);
+
+        if (wallet is null)
+        {
+            throw new KeyNotFoundException("Không tìm thấy ví của người mua.");
+        }
+        if (creatorWallet is null)
+        {
+            throw new KeyNotFoundException("Không tìm thấy ví của người bán.");
+        }
+        if (wallet.Balance < amount)
+            throw new BadHttpRequestException("Bạn không đủ xu để thực hiện giao dịch này.");
 
         // payment successfully
-        // 1. add new payment history for audience (createdBy) and creator (ToAccountId)
-        var transactionHistory = new TransactionModel
+        // 1. add 2 new transaction histories for client & creator
+        var clientTransactionHistory = new TransactionHistory
+        {
+            CreatedBy = currentId,
+            ProposalId = proposalId,
+            Detail = $"Hoàn tất thanh toán thỏa thuận \"{proposal.ProjectTitle}\" ({(1 - proposal.InitialPrice) * 100}%)",
+            Price = -amount,
+            TransactionStatus = TransactionStatusEnum.Success,
+            ToAccountId = creatorId,
+            WalletBalance = wallet.Balance - amount
+        };
+        var creatorTransactionHistory = new TransactionHistory
         {
             ProposalId = proposalId,
             Detail = $"Hoàn tất thanh toán thỏa thuận \"{proposal.ProjectTitle}\" ({(1 - proposal.InitialPrice) * 100}%)",
-            Price = amount,
+            Price = amount * (1 - AppConstant.PLATFORM_FEE),
             TransactionStatus = TransactionStatusEnum.Success,
-            ToAccountId = creatorId
+            ToAccountId = currentId,
+            WalletBalance = creatorWallet.Balance + amount * (1 - AppConstant.PLATFORM_FEE),
+            Fee = amount * AppConstant.PLATFORM_FEE
         };
-        var transactionVM = await _transactionHistoryService.CreateTransactionHistory(transactionHistory);
+        await _unitOfWork.TransactionHistoryRepository.AddAsync(clientTransactionHistory);
+        await _unitOfWork.TransactionHistoryRepository.AddAsync(creatorTransactionHistory);
 
-        // 2. add new miletone
+        creatorTransactionHistory.CreatedBy = creatorId;
+
+        // 2. update wallets
+        wallet.Balance -= amount;
+        creatorWallet.Balance += amount * (1 - AppConstant.PLATFORM_FEE);
+        _unitOfWork.WalletRepository.Update(wallet);
+        _unitOfWork.WalletRepository.Update(creatorWallet);
+
+        // 3. add new miletone
         await _milstoneService.AddMilestoneToProposalAsync(proposalId, $"Hoàn tất thanh toán {amount} xu ({(1 - proposal.InitialPrice) * 100}%)");
 
         // 3. update the proposal status
@@ -319,6 +383,6 @@ public class ProposalService : IProposalService
 
         await _unitOfWork.SaveChangesAsync();
 
-        return transactionVM;
+        return _mapper.Map<TransactionHistoryVM>(clientTransactionHistory);
     }
 }

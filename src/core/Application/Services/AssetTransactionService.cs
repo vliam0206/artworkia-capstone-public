@@ -1,10 +1,12 @@
-﻿using Application.Models;
+﻿using Application.Commons;
+using Application.Models;
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Application.Services;
 
@@ -60,46 +62,41 @@ public class AssetTransactionService : IAssetTransactionService
             throw new KeyNotFoundException("Không tìm thấy ví của người bán.");
         }
         if (wallet.Balance < asset.Price)
-            throw new BadHttpRequestException("Bạn không đủ tiền để mua tài nguyên này");
+            throw new BadHttpRequestException("Bạn không đủ tiền để mua tài nguyên này");        
 
-        wallet.Balance -= asset.Price;
-        sellerWallet.Balance += asset.Price;
-
-        //TransactionHistory newAssetTransactionForBuyer = new TransactionHistory()
-        //{
-        //    CreatedBy = accountId,
-        //    AssetId = assetTransactionModel.AssetId,
-        //    Detail = $"Bạn đã mua tài nguyên \"{asset.AssetTitle}\"",
-        //    Price = asset.Price,
-        //    TransactionStatus = TransactionStatusEnum.Success,
-        //};
-        //TransactionHistory newAssetTransactionForSeller = new TransactionHistory()
-        //{
-        //    AssetId = assetTransactionModel.AssetId,
-        //    Detail = $"Người dùng \"{_claimService.GetCurrentUserName}\" đã mua tài nguyên \"{asset.AssetTitle}\"",
-        //    Price = asset.Price,
-        //    TransactionStatus = TransactionStatusEnum.Success,
-        //};
-
-        // Add new payment history for audience(createdBy) and creator(ToAccountId)
-        TransactionHistory newAssetTransaction = new()
+        TransactionHistory newAssetTransactionForBuyer = new TransactionHistory()
         {
             CreatedBy = accountId,
             AssetId = assetTransactionModel.AssetId,
             Detail = $"Mở khóa tài nguyên \"{asset.AssetTitle}\"",
-            Price = asset.Price,
+            Price = -asset.Price,
             TransactionStatus = TransactionStatusEnum.Success,
-            ToAccountId = asset.Artwork.CreatedBy
+            ToAccountId = asset.Artwork.CreatedBy,
+            WalletBalance = wallet.Balance - asset.Price
         };
-        await _unitOfWork.TransactionHistoryRepository.AddAsync(newAssetTransaction);
+        TransactionHistory newAssetTransactionForSeller = new TransactionHistory()
+        {            
+            AssetId = assetTransactionModel.AssetId,
+            Detail = $"Mở khóa tài nguyên \"{asset.AssetTitle}\"",
+            Price = asset.Price * (1 - AppConstant.PLATFORM_FEE),
+            TransactionStatus = TransactionStatusEnum.Success,
+            ToAccountId = accountId,
+            WalletBalance = sellerWallet.Balance + asset.Price * (1 - AppConstant.PLATFORM_FEE),
+            Fee = asset.Price * AppConstant.PLATFORM_FEE
+        };
 
-        //await _unitOfWork.TransactionHistoryRepository.AddAsync(newAssetTransactionForBuyer);
-        //await _unitOfWork.TransactionHistoryRepository.AddAsync(newAssetTransactionForSeller);
-        //newAssetTransactionForSeller.CreatedBy = asset.Artwork.CreatedBy;
+        wallet.Balance -= asset.Price;
+        sellerWallet.Balance += asset.Price * (1 - AppConstant.PLATFORM_FEE);
+
+        await _unitOfWork.TransactionHistoryRepository.AddAsync(newAssetTransactionForBuyer);
+        await _unitOfWork.TransactionHistoryRepository.AddAsync(newAssetTransactionForSeller);
+
+        newAssetTransactionForSeller.CreatedBy = asset.Artwork.CreatedBy;
+
         _unitOfWork.WalletRepository.Update(wallet);
         _unitOfWork.WalletRepository.Update(sellerWallet);
         await _unitOfWork.SaveChangesAsync();
-        var result = _mapper.Map<AssetTransactionVM>(newAssetTransaction);
+        var result = _mapper.Map<AssetTransactionVM>(newAssetTransactionForBuyer);
         return result;
     }
 
