@@ -76,10 +76,50 @@ public class MappingProfile : Profile
         CreateMap<Category, CategoryEM>().ReverseMap();
         #endregion
 
+        #region Collection
+        CreateMap<Collection, CollectionDetailVM>()
+            .ForMember(model => model.CreatedBy, opt => opt.MapFrom(src => src.Account))
+            .ForMember(model => model.Artworks, opt => opt.MapFrom(src => src.Bookmarks));
+        CreateMap<Collection, CollectionVM>()
+            .ForMember(model => model.CreatedBy, opt => opt.MapFrom(src => src.Account))
+            .ForMember(model => model.Items, opt => opt.MapFrom(src => src.Bookmarks.Count()))
+            .ForMember(model => model.Thumbnail, opt => opt.MapFrom(src => src.Bookmarks.FirstOrDefault()!.Artwork.Thumbnail));
+        CreateMap<Collection, CollectionModificationModel>().ReverseMap();
+        CreateMap<CollectionCreationModel, Collection>().ReverseMap();
+        #endregion
+
+        #region Comment
+        CreateMap<Comment, CommentVM>()
+            .ForMember(model => model.CreatedBy, opt => opt.MapFrom(x => x.Account))
+            .ForMember(model => model.ReplyCount, opt => opt.MapFrom(x => x.Replies.Count()));
+        #endregion
+
+        #region Follow
+        CreateMap<Follow, FollowModel>().ReverseMap();
+        CreateMap<Follow, FollowingVM>().ReverseMap();
+        CreateMap<Follow, FollowerVM>().ReverseMap();
+        #endregion
+
         #region Image
         CreateMap<Image, ImageModel>().ReverseMap();
         CreateMap<Image, ImageVM>().ReverseMap();
         CreateMap<Image, ImageDuplicationVM>().ReverseMap();
+        #endregion
+
+        #region Proposal
+        CreateMap<Proposal, ProposalModel>().ReverseMap();
+        CreateMap<Proposal, ProposalVM>()
+            .ForMember(model => model.IsReviewed, opt => opt.MapFrom(src => src.Review != null))
+            .ForMember(model => model.Creator, opt => opt.MapFrom(src => src.Account))
+            .ForMember(model => model.Orderer, opt => opt.MapFrom(src => src.Orderer));
+        #endregion
+
+        #region Service
+        CreateMap<Service, ServiceModel>().ReverseMap();
+        CreateMap<Service, ServiceVM>()
+            .ForMember(model => model.Categories, opt => opt.MapFrom(x => x.CategoryServiceDetails.Select(y => y.Category).ToList()))
+            .ForMember(model => model.ArtworkReferences, opt => opt.MapFrom(x => x.ServiceDetails.Select(y => y.Artwork).ToList()));
+        CreateMap<Service, ServiceBasicInfoVM>();
         #endregion
 
         #region Tag
@@ -94,6 +134,19 @@ public class MappingProfile : Profile
         #region TransactionHistory
         CreateMap<TransactionHistory, AssetTransactionModel>().ReverseMap();
         CreateMap<TransactionHistory, AssetTransactionVM>().ReverseMap();
+
+        CreateMap<TransactionHistory, TransactionHistoryVM>()
+            .ForMember(model => model.FromAccount, opt => opt.MapFrom(src => src.Account));
+        CreateMap<TransactionHistory, TransactionHistoryForUserVM>()
+            .ForMember(model => model.CreatedAccount, opt => opt.MapFrom(src => src.Account))
+            .ForMember(model => model.OtherAccount, opt => opt.MapFrom(src => src.ToAccount));
+        CreateMap<TransactionHistory, TransactionModel>().ReverseMap();
+        #endregion
+
+        #region Wallet
+        CreateMap<Wallet, WalletModel>().ReverseMap();
+        CreateMap<Wallet, WalletVM>().ReverseMap();
+        CreateMap<Wallet, WalletEM>().ReverseMap();
         #endregion
 
         CreateMap<CategoryArtworkDetail, CategoryArtworkModel>().ReverseMap();
@@ -101,11 +154,6 @@ public class MappingProfile : Profile
 
         CreateMap<CategoryServiceDetail, CategoryServiceModel>().ReverseMap();
         CreateMap<CategoryServiceDetail, CategoryServiceVM>().ReverseMap();
-
-
-        CreateMap<Follow, FollowModel>().ReverseMap();
-        CreateMap<Follow, FollowingVM>().ReverseMap();
-        CreateMap<Follow, FollowerVM>().ReverseMap();
 
         CreateMap<Like, LikeModel>().ReverseMap();
         CreateMap<Like, LikeVM>().ReverseMap();
@@ -116,53 +164,18 @@ public class MappingProfile : Profile
         CreateMap<SoftwareUsed, SoftwareUsedModel>().ReverseMap();
         CreateMap<SoftwareUsed, SoftwareUsedVM>().ReverseMap();
 
-        CreateMap<Comment, CommentVM>()
-            .ForMember(model => model.CreatedBy, opt => opt.MapFrom(x => x.Account))
-            .ForMember(model => model.ReplyCount, opt => opt.MapFrom(x => x.Replies.Count()));
-
-
-        CreateMap<Service, ServiceModel>().ReverseMap();
-        CreateMap<Service, ServiceVM>()
-            .ForMember(model => model.Categories, opt => opt.MapFrom(x => x.CategoryServiceDetails.Select(y => y.Category).ToList()))
-            .ForMember(model => model.ArtworkReferences, opt => opt.MapFrom(x => x.ServiceDetails.Select(y => y.Artwork).ToList()));
-        CreateMap<Service, ServiceBasicInfoVM>();
 
         CreateMap<Request, RequestModel>().ReverseMap();
-        CreateMap<Request, RequestVM>().ReverseMap();
+        CreateMap<Request, RequestVM>();
 
         CreateMap<Report, ReportModel>().ReverseMap();
         CreateMap<Report, ReportVM>().ReverseMap();
 
-        CreateMap<Collection, CollectionDetailVM>()
-            .ForMember(model => model.CreatedBy, opt => opt.MapFrom(src => src.Account))
-            .ForMember(model => model.Artworks, opt => opt.MapFrom(src => src.Bookmarks));
-        CreateMap<Collection, CollectionVM>()
-            .ForMember(model => model.CreatedBy, opt => opt.MapFrom(src => src.Account))
-            .ForMember(model => model.Items, opt => opt.MapFrom(src => src.Bookmarks.Count()))
-            .ForMember(model => model.Thumbnail, opt => opt.MapFrom(src => src.Bookmarks.FirstOrDefault()!.Artwork.Thumbnail));
-        CreateMap<Collection, CollectionModificationModel>().ReverseMap();
-        CreateMap<CollectionCreationModel, Collection>().ReverseMap();
-
-        CreateMap<Wallet, WalletModel>().ReverseMap();
-        CreateMap<Wallet, WalletVM>().ReverseMap();
-        CreateMap<Wallet, WalletEM>().ReverseMap();
-
 
         CreateMap<WalletHistory, WalletHistoryVM>();
 
-        CreateMap<TransactionHistory, TransactionHistoryVM>()
-            .ForMember(model => model.FromAccount, opt => opt.MapFrom(src => src.Account));
-        CreateMap<TransactionHistory, TransactionHistoryForUserVM>()
-            .ForMember(model => model.CreatedAccount, opt => opt.MapFrom(src => src.Account))
-            .ForMember(model => model.OtherAccount, opt => opt.MapFrom(src => src.ToAccount));
-        CreateMap<TransactionHistory, TransactionModel>().ReverseMap();
 
         CreateMap<ZPCreateOrderRequest, OrderCreateModel>().ReverseMap();
-
-        CreateMap<Proposal, ProposalModel>().ReverseMap();
-        CreateMap<Proposal, ProposalVM>()
-            .ForMember(model => model.IsReviewed, opt => opt.MapFrom(src => src.Review != null))
-            .ForMember(model => model.Creator, opt => opt.MapFrom(src => src.Account));
 
         CreateMap<ProposalAsset, ProposalAssetModel>().ReverseMap();
         CreateMap<ProposalAsset, ProposalAssetVM>();

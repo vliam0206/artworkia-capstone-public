@@ -16,7 +16,17 @@ public class RequestRepository : GenericCreationRepository<Request>, IRequestRep
     {
         return await _dbContext.Requests
             .Include(x => x.Service)
+            .Include(x => x.Account)
             .Where(x => x.CreatedBy == _claimService.GetCurrentUserId)
+            .ToListAsync();
+    }
+
+    public async Task<List<Request>> GetRequestsByCreatorIdAsync()
+    {
+        return await _dbContext.Requests
+            .Include(x => x.Service)
+            .Include(x => x.Account)
+            .Where(x => x.Service.CreatedBy == _claimService.GetCurrentUserId)
             .ToListAsync();
     }
 
@@ -26,14 +36,6 @@ public class RequestRepository : GenericCreationRepository<Request>, IRequestRep
             .Include(x => x.Service)
             .Include(x => x.MessageObj)
             .Where(x => x.MessageObj.ChatBoxId == chatboxId)
-            .ToListAsync();
-    }
-
-    public async Task<List<Request>> GetRequestsByCreatorIdAsync()
-    {
-        return await _dbContext.Requests
-            .Include(x => x.Service)
-            .Where(x => x.Service.CreatedBy == _claimService.GetCurrentUserId)
             .ToListAsync();
     }
 

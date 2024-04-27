@@ -64,4 +64,11 @@ public class ClaimService : IClaimService
         }
         return true;
     }
+
+    public bool IsModeratorOrAdmin()
+    {
+        var currentRole = GetCurrentRole;
+        return currentRole.Equals(RoleEnum.Moderator.ToString())
+            || currentRole.Equals(RoleEnum.Admin.ToString());
+    }
 }

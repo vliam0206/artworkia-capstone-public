@@ -49,7 +49,7 @@ public class ProposalVM
     public DateTime CreatedOn { get; set; }
     public bool IsReviewed { get; set; } = false;
     public AccountBasicInfoVM Creator { get; set; } = default!;
-    //public AccountBasicInfoVM Orderer { get; set; } = default!;
+    public AccountBasicInfoVM Orderer { get; set; } = default!;
 }
 
 public class ProposalUpdateStatusModel

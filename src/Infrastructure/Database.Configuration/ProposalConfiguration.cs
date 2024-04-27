@@ -16,6 +16,7 @@ public class ProposalConfiguration : IEntityTypeConfiguration<Proposal>
 
         // relationship
         builder.HasOne(x => x.Account).WithMany(a => a.Proposals).HasForeignKey(x => x.CreatedBy);
+        builder.HasOne(x => x.Orderer).WithMany(a => a.OrderProposals).HasForeignKey(x => x.OrdererId);
         builder.HasOne(x => x.Service).WithMany(s => s.Proposals).HasForeignKey(x => x.ServiceId);
         builder.HasMany(x => x.ProposalAssets).WithOne(a => a.Proposal).HasForeignKey(a => a.ProposalId);
         builder.HasOne(x => x.Review).WithOne(r => r.Proposal).HasForeignKey<Review>(x => x.ProposalId);

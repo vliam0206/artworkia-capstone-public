@@ -93,17 +93,24 @@ public class ProposalAssetService : IProposalAssetService
 
     public async Task<string?> GetDownloadUriProposalAssetAsync(Guid proposalAssetId)
     {
+        Guid loginId = _claimService.GetCurrentUserId ?? default!;
+
         var proposalAsset = await _unitOfWork.ProposalAssetRepository.GetProposalAssetsWithProposalAsync(proposalAssetId)
             ?? throw new KeyNotFoundException("Không tìm thấy tài nguyên thỏa thuận.");
+        
+        if (_claimService.IsModeratorOrAdmin())
+        {
+            return await _cloudStorageService.GetDownloadSignedUrlFromPrivateCloudStorage(proposalAsset.ProposalAssetName, PARENT_FOLDER);
+        }
 
         // kiem tra xem user da mua asset chua
-        if (!_claimService.IsAuthorized(proposalAsset.Proposal.CreatedBy!.Value)
-            && !_claimService.IsAuthorized(proposalAsset.Proposal.OrdererId))
+        if (proposalAsset.Proposal.CreatedBy!.Value != loginId
+            && proposalAsset.Proposal.OrdererId != loginId)
         {
             throw new UnauthorizedAccessException("Bạn không có quyền tải tài nguyên này.");
         }
 
-        if (!_claimService.IsAuthorized(proposalAsset.Proposal.OrdererId) &&
+        if (proposalAsset.Proposal.OrdererId == loginId &&
             proposalAsset.Type == ProposalAssetEnum.Final &&
             proposalAsset.Proposal.ProposalStatus != ProposalStateEnum.CompletePayment)
         {

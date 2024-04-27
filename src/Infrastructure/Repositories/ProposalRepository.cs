@@ -48,6 +48,7 @@ public class ProposalRepository : GenericCreationRepository<Proposal>, IProposal
     {
         return await _dbContext.Proposals
             .Include(x => x.Account)
+            .Include(x => x.Orderer)
             .Include(x => x.Review)
             .Where(x => x.CreatedBy == creatorId)
             .ToListAsync();
@@ -57,6 +58,7 @@ public class ProposalRepository : GenericCreationRepository<Proposal>, IProposal
     {
         return await _dbContext.Proposals
             .Include(x => x.Account)
+            .Include(x => x.Orderer)
             .Include(x => x.Review)
             .Where(x => x.OrdererId == audienceId)
             .ToListAsync();

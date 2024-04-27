@@ -37,6 +37,7 @@ public class Account : BaseEntity, ICreation, IModification, ISoftDelete
     public virtual ICollection<ChatBox> ChatBoxes_2 { get; set; } = new List<ChatBox>();
     public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
     public virtual ICollection<Proposal> Proposals { get; set; } = new List<Proposal>();
+    public virtual ICollection<Proposal> OrderProposals { get; set; } = new List<Proposal>();
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
     public virtual ICollection<Service> Services { get; set; } = new List<Service>();
     public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
