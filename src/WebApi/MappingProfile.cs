@@ -161,7 +161,8 @@ public class MappingProfile : Profile
 
         CreateMap<Proposal, ProposalModel>().ReverseMap();
         CreateMap<Proposal, ProposalVM>()
-            .ForMember(model => model.IsReviewed, opt => opt.MapFrom(src => src.Review != null));
+            .ForMember(model => model.IsReviewed, opt => opt.MapFrom(src => src.Review != null))
+            .ForMember(model => model.Creator, opt => opt.MapFrom(src => src.Account));
 
         CreateMap<ProposalAsset, ProposalAssetModel>().ReverseMap();
         CreateMap<ProposalAsset, ProposalAssetVM>();

@@ -5,6 +5,7 @@ namespace Domain.Repositories.Abstractions;
 
 public interface IArtworkRepository : IGenericRepository<Artwork>
 {
+    Task<List<Artwork>> GetAllArtworks();
     Task<IPagedList<Artwork>> GetArtworksAsync(
         string? keyword, string? sortColumn, string? sortOrder, int page, int pageSize,
         Guid? accountId = null, Guid? categoryId = null, Guid? tagId = null, StateEnum? state = null, PrivacyEnum? privacy = null);

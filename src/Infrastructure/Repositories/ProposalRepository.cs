@@ -44,6 +44,24 @@ public class ProposalRepository : GenericCreationRepository<Proposal>, IProposal
 
     }
 
+    public async Task<List<Proposal>> GetProposalsByCreatorIdAsync(Guid creatorId)
+    {
+        return await _dbContext.Proposals
+            .Include(x => x.Account)
+            .Include(x => x.Review)
+            .Where(x => x.CreatedBy == creatorId)
+            .ToListAsync();
+    }
+
+    public async Task<List<Proposal>> GetProposalsByAudienceIdAsync(Guid audienceId)
+    {
+        return await _dbContext.Proposals
+            .Include(x => x.Account)
+            .Include(x => x.Review)
+            .Where(x => x.OrdererId == audienceId)
+            .ToListAsync();
+    }
+
     public async Task<List<ProposalByDate>> GetProposalStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
     {
         // tong trans truoc starttime

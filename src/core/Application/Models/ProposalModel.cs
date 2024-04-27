@@ -48,6 +48,8 @@ public class ProposalVM
     public Guid? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
     public bool IsReviewed { get; set; } = false;
+    public AccountBasicInfoVM Creator { get; set; } = default!;
+    //public AccountBasicInfoVM Orderer { get; set; } = default!;
 }
 
 public class ProposalUpdateStatusModel

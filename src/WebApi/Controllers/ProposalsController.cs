@@ -95,13 +95,32 @@ public class ProposalsController : ControllerBase
         }
     }
 
-    [HttpGet("/api/accounts/{accountId}/[controller]")]
+    [HttpGet("/api/creators/{accountId}/[controller]")]
     [Authorize]
-    public async Task<IActionResult> GetProposalByAccountId(Guid accountId)
+    public async Task<IActionResult> GetProposalByCreatorId(Guid accountId)
     {
         try
         {
-            var proposal = await _proposalService.GetProposalsByAccountIdAsync(accountId);
+            var proposal = await _proposalService.GetProposalsByCreatorIdIdAsync(accountId);
+            return Ok(proposal);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
+
+    [HttpGet("/api/audiences/{audienceId}/[controller]")]
+    [Authorize]
+    public async Task<IActionResult> GetProposalByAudienceId(Guid audienceId)
+    {
+        try
+        {
+            var proposal = await _proposalService.GetProposalsByAudienceIdIdAsync(audienceId);
             return Ok(proposal);
         }
         catch (KeyNotFoundException ex)

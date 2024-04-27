@@ -25,6 +25,7 @@ public class Proposal : BaseEntity, ICreation
     public Guid OrdererId { get; set; }
 
     public virtual Account Account { get; set; } = default!;
+    //public virtual Account Orderer { get; set; } = default!;
     public virtual Service Service { get; set; } = default!;
     public virtual ICollection<ProposalAsset> ProposalAssets { get; set; } = new List<ProposalAsset>();
     public virtual Review? Review { get; set; }

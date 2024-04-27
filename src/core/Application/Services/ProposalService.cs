@@ -135,17 +135,28 @@ public class ProposalService : IProposalService
         return listProposalVM;
     }
 
-    public async Task<List<ProposalVM>> GetProposalsByAccountIdAsync(Guid accountId)
+    public async Task<List<ProposalVM>> GetProposalsByCreatorIdIdAsync(Guid creatorId)
     {
-        bool isAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
+        bool isAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(creatorId);
         if (!isAccountExist)
         {
             throw new KeyNotFoundException("Không tìm thấy tài khoản.");
         }
 
-        var listProposal = await _unitOfWork.ProposalRepository
-                                .GetListByConditionAsync(x => x.CreatedBy == accountId
-                                                        || x.OrdererId == accountId);
+        var listProposal = await _unitOfWork.ProposalRepository.GetProposalsByCreatorIdAsync(creatorId);
+        var listProposalVM = _mapper.Map<List<ProposalVM>>(listProposal);
+        return listProposalVM;
+    }
+
+    public async Task<List<ProposalVM>> GetProposalsByAudienceIdIdAsync(Guid audienceId)
+    {
+        bool isAccountExist = await _unitOfWork.AccountRepository.IsExistedAsync(audienceId);
+        if (!isAccountExist)
+        {
+            throw new KeyNotFoundException("Không tìm thấy tài khoản.");
+        }
+
+        var listProposal = await _unitOfWork.ProposalRepository.GetProposalsByAudienceIdAsync(audienceId);
         var listProposalVM = _mapper.Map<List<ProposalVM>>(listProposal);
         return listProposalVM;
     }

@@ -9,6 +9,7 @@ using Domain.Entitites;
 using Domain.Enums;
 using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Http;
+using Nest;
 using static Application.Commons.VietnameseEnum;
 
 namespace Application.Services;
@@ -21,6 +22,7 @@ public class ArtworkService : IArtworkService
     private readonly IImageService _imageService;
     private readonly ITagDetailService _tagDetailService;
     private readonly ISoftwareDetailService _softwareDetailService;
+    private readonly IElasticClient _elasticClient;
     private readonly ICategoryArtworkDetailService _categoryArtworkDetailService;
     private readonly ICloudStorageService _cloudStorageService;
     private readonly IClaimService _claimService;
@@ -30,6 +32,7 @@ public class ArtworkService : IArtworkService
         IImageService imageService,
         ITagDetailService tagDetailService,
         ISoftwareDetailService softwareDetailService,
+        IElasticClient elasticClient,
         ICategoryArtworkDetailService catworkDetailService,
         ICloudStorageService cloudStorageService,
         IClaimService claimService,
@@ -39,10 +42,18 @@ public class ArtworkService : IArtworkService
         _imageService = imageService;
         _tagDetailService = tagDetailService;
         _softwareDetailService = softwareDetailService;
+        _elasticClient = elasticClient;
         _categoryArtworkDetailService = catworkDetailService;
         _cloudStorageService = cloudStorageService;
         _claimService = claimService;
         _mapper = mapper;
+    }
+
+    public async Task<List<ArtworkVM>> GetAllArtworksAsync()
+    {
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetAllArtworks();
+        var listArtworkVM = _mapper.Map<List<ArtworkVM>>(listArtwork);
+        return listArtworkVM;
     }
 
     public async Task<IPagedList<ArtworkPreviewVM>> GetArtworksAsync(ArtworkCriteria criteria)
@@ -66,6 +77,314 @@ public class ArtworkService : IArtworkService
         }
 
         return listArtworkPreviewVM;
+    }
+
+    public async Task<IPagedList<ArtworksV2>> SearchArtworksWithElasticSearchAsync(ArtworkElasticCriteria criteria)
+    {
+        Guid? loginId = _claimService.GetCurrentUserId;
+
+        var searchRequest = new SearchRequest<ArtworksV2>
+        {
+            From = (criteria.PageNumber - 1) * criteria.PageSize,
+            Size = criteria.PageSize,
+            Query = new BoolQuery
+            {
+                MustNot = new List<QueryContainer>
+                {
+                    new ExistsQuery
+                    {
+                        Field = "deletedOn"
+                    }
+                },
+                Filter = new List<QueryContainer>
+                {
+                    new TermQuery
+                    {
+                        Field = "state",
+                        Value = "accepted"
+                    },
+                    new TermQuery
+                    {
+                        Field = "privacy",
+                        Value = "public"
+                    }
+                },
+                Should = new List<QueryContainer>
+                {
+                    // Keyword search (unchanged)
+                    new MultiMatchQuery
+                    {
+                        Fields = new[] { "title", "description", "account.email", "account.fullname", "account.username" },
+                        Query = criteria.Keyword
+                    },
+                    // Nested query for tags
+                    new NestedQuery
+                    {
+                        Path = "tagList", // Replace with the actual path to your nested object
+                        Query = new QueryStringQuery
+                        {
+                            Query = criteria.Keyword // Replace with the search term for tags
+                        }
+                    },
+                    // Nested query for categories (optional)
+                    new NestedQuery
+                    {
+                        Path = "categoryList", // Replace with the actual path to your nested object
+                        Query = new QueryStringQuery
+                        {
+                            Query = criteria.Keyword // Replace with the search term for categories
+                        }
+                    }
+                }
+            },
+            Sort = new List<ISort>
+            {
+                new FieldSort
+                {
+                    Field = criteria.SortColumn ?? "_score",
+                    Order = criteria.SortOrder == "asc" ? SortOrder.Ascending : SortOrder.Descending
+                }
+            },
+            Explain = true
+        };
+        if (criteria.CategoryId != null)
+        {
+            searchRequest.Query &= (
+                new BoolQuery
+                {
+                    Must = new List<QueryContainer>
+                    {
+                        new NestedQuery
+                        {
+                            Path = "categoryList",
+                            Query = new TermQuery
+                            {
+                                Field = "categoryList.id",
+                                Value = criteria.CategoryId
+                            }
+                        }
+                    }
+                }
+            );
+        }
+
+        if (criteria.IsAssetAvailable != null && criteria.IsAssetAvailable.Value)
+        {
+            searchRequest.Query &= (
+                new BoolQuery
+                {
+                    Must = new List<QueryContainer>
+                    {
+                        new NestedQuery
+                        {
+                            Path = "assets",
+                            Query = new ExistsQuery
+                            {
+                                Field = "assets",
+                            }
+                        }
+                    }
+                }
+            );
+
+            if (criteria.IsAssetFree != null && criteria.IsAssetFree.Value)
+            {
+                searchRequest.Query &= (
+                    new BoolQuery
+                    {
+                        Must = new List<QueryContainer>
+                        {
+                            new NestedQuery
+                            {
+                                Path = "assets",
+                                Query = new TermQuery
+                                {
+                                    Field = "assets.price",
+                                    Value = 0
+                                }
+                            }
+                        }
+                    }
+                );
+            }
+        }
+
+        var result2 = await _elasticClient.SearchAsync<ArtworksV2>(searchRequest);
+        var searchArtworks = result2.Documents.ToList();
+        // check if user login liked artworks
+        if (loginId != null)
+        {
+            foreach (var searchArtwork in searchArtworks)
+            {
+                var isLiked = await _unitOfWork.LikeRepository.GetByIdAsync(loginId.Value, searchArtwork.Id);
+                searchArtwork.IsLiked = isLiked != null;
+            }
+        }
+
+        PagedList<ArtworksV2> pagedList = new(
+            searchArtworks,
+            (int)result2.Total,
+            criteria.PageNumber,
+            criteria.PageSize
+            );
+        return pagedList;
+
+    }
+
+    public async Task<IPagedList<ArtworksV2>> GetRecommenedArtworkAsync(RecommendedArtworkCriteria criteria)
+    {
+        Guid? loginId = _claimService.GetCurrentUserId;
+        var searchRequest = new SearchRequest<ArtworksV2>();
+        if (criteria.ArtworkIds == null || criteria.ArtworkIds.Count == 0)
+        {
+            searchRequest = new SearchRequest<ArtworksV2>
+            {
+                From = (criteria.PageNumber - 1) * criteria.PageSize,
+                Size = criteria.PageSize,
+                Query = new BoolQuery
+                {
+                    MustNot = new List<QueryContainer>
+                    {
+                        new ExistsQuery
+                        {
+                            Field = "deletedOn"
+                        }
+                    },
+                    Filter = new List<QueryContainer>
+                    {
+                        new TermQuery
+                        {
+                            Field = "state",
+                            Value = "accepted"
+                        },
+                        new TermQuery
+                        {
+                            Field = "privacy",
+                            Value = "public"
+                        }
+                    },
+                },
+
+                Sort = new List<ISort>
+                {
+                    new FieldSort
+                    {
+                        Field = "viewCount",
+                        Order = SortOrder.Descending
+                    }
+                }
+            };
+        } else
+        {
+            var listLikes = criteria.ArtworkIds.Select(id =>
+            {
+                Nest.Like like = new LikeDocument<ArtworksV2>(id);
+                return like;
+            }).ToList();
+
+            searchRequest = new SearchRequest<ArtworksV2>
+            {
+                From = (criteria.PageNumber - 1) * criteria.PageSize,
+                Size = criteria.PageSize,
+                Query = new BoolQuery
+                {
+                    MustNot = new List<QueryContainer>
+                    {
+                        new ExistsQuery
+                        {
+                            Field = "deletedOn"
+                        }
+                    },
+
+                    Filter = new List<QueryContainer>
+                    {
+                        new TermQuery
+                        {
+                            Field = "state",
+                            Value = "accepted"
+                        },
+                        new TermQuery
+                        {
+                            Field = "privacy",
+                            Value = "public"
+                        }
+                    },
+                    Should = new List<QueryContainer>
+                    {
+                        new NestedQuery
+                        {
+                            Path = "tagList",
+                            Query = new QueryContainer(
+                                new MoreLikeThisQuery
+                                {
+                                    Fields = new[] { "tagList.tagName" },
+                                    Boost = 2,
+                                    Like = listLikes,
+                                    MinTermFrequency = 1,
+                                    MinDocumentFrequency = 5,
+                                    MaxQueryTerms = 20
+                                }
+                            )
+                        },
+                        new NestedQuery
+                        {
+                            Path = "categoryList",
+                            Query = new QueryContainer(
+                                new MoreLikeThisQuery
+                                {
+                                    Fields = new[] { "categoryList.categoryName" },
+                                    Boost = 1.2,
+                                    Like = listLikes,
+                                    MinTermFrequency = 1,
+                                    MinDocumentFrequency = 5,
+                                    MaxQueryTerms = 20
+                                }
+                            )
+                        },
+                        new MoreLikeThisQuery
+                        {
+                            Fields = new[] { "title", "account.username"},
+                            Boost = 1.5,
+                            Like = listLikes,
+                            MinTermFrequency = 1,
+                            MinDocumentFrequency = 5,
+                            MaxQueryTerms = 20
+                        },
+                        new MatchAllQuery()
+                    }
+                },
+                Sort = new List<ISort>
+                {
+                    new FieldSort
+                    {
+                        Field = "_score",
+                        Order = SortOrder.Descending
+                    }
+                }
+            };
+        }
+        
+
+        var result = await _elasticClient.SearchAsync<ArtworksV2>(searchRequest);
+        var searchArtworks = result.Documents.ToList();
+        // check if user login liked artworks
+        if (loginId != null)
+        {
+            foreach (var searchArtwork in searchArtworks)
+            {
+                var isLiked = _unitOfWork.LikeRepository.GetByIdAsync(loginId.Value, searchArtwork.Id).Result;
+                searchArtwork.IsLiked = isLiked != null;
+            }
+        }
+
+        PagedList<ArtworksV2> pagedList = new(
+            searchArtworks,
+            (int)result.Total,
+            criteria.PageNumber,
+            criteria.PageSize
+        );
+        return pagedList;
+
     }
 
     public async Task<IPagedList<ArtworkModerationVM>> GetAllArtworksForModerationAsync(ArtworkModerationCriteria criteria)
@@ -307,8 +626,11 @@ public class ArtworkService : IArtworkService
             newArtwork.State = StateEnum.Accepted;
 
         await _unitOfWork.SaveChangesAsync();
+
         var result = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(newArtwork.Id);
-        return _mapper.Map<ArtworkVM>(result);
+        var resultVM = _mapper.Map<ArtworkVM>(result);  
+        _elasticClient.IndexDocument(resultVM);
+        return resultVM;
     }
 
     public async Task DeleteArtworkAsync(Guid artworkId)
@@ -324,7 +646,9 @@ public class ArtworkService : IArtworkService
         {
             throw new UnauthorizedAccessException("Bạn không có quyền xóa tác phẩm.");
         }
+
         _unitOfWork.ArtworkRepository.Delete(artwork);
+        _elasticClient.Delete<ArtworksV2>(artworkId);
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -341,6 +665,7 @@ public class ArtworkService : IArtworkService
             throw new UnauthorizedAccessException("Bạn không có quyền xóa tác phẩm.");
         }
         _unitOfWork.ArtworkRepository.SoftDelete(artwork);
+        _elasticClient.Update<ArtworksV2, object>(artworkId, u => u.Doc(new { artwork.DeletedOn }));
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -355,19 +680,20 @@ public class ArtworkService : IArtworkService
         oldArtwork.Privacy = artworkEM.Privacy;
         // chua update AI, thumbnail, imagefiles, tags, categories
         _unitOfWork.ArtworkRepository.Update(oldArtwork);
+        _elasticClient.Update<ArtworksV2, object>(artworkId, u => u.Doc(new { oldArtwork.Title, oldArtwork.Description, oldArtwork.Privacy }));
         await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task UpdateArtworkStateAsync(Guid artworkId, ArtworkStateEM model)
     {
-        var oldArtwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId);
-        if (oldArtwork == null)
-            throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
+        var oldArtwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         if (oldArtwork.State != StateEnum.Waiting)
             throw new BadHttpRequestException($"Tác phẩm đã được xử lý (trạng thái hiện tại là '{STATE_ENUM_VN[oldArtwork.State]}')");
         oldArtwork.State = model.State;
         oldArtwork.Note = model.Note;
         _unitOfWork.ArtworkRepository.Update(oldArtwork);
+        _elasticClient.Update<ArtworksV2, object>(artworkId, u => u.Doc(new { State = oldArtwork.State.ToString(), oldArtwork.Note }));
         await _unitOfWork.SaveChangesAsync();
     }
 }

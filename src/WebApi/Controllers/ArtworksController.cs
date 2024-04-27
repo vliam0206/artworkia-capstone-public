@@ -5,6 +5,7 @@ using AutoMapper;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Nest;
 using WebApi.Utils;
 
 namespace WebApi.Controllers;
@@ -29,6 +30,36 @@ public class ArtworksController : ControllerBase
         _tagService = tagService;
         _tagDetailService = tagDetailService;
         _mapper = mapper;
+    }
+
+    [HttpGet("elastic")]
+    public async Task<IActionResult> GetArtworksWithElasticSearch([FromQuery] ArtworkElasticCriteria criteria)
+    {
+        try
+        {
+            var result = await _artworkService.SearchArtworksWithElasticSearchAsync(criteria);
+            return Ok(result);
+
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
+
+    [HttpGet("recommendation")]
+    public async Task<IActionResult> GetRecommendedArtworks([FromQuery] RecommendedArtworkCriteria criteria)
+    {
+        try
+        {
+            var result = await _artworkService.GetRecommenedArtworkAsync(criteria);
+            return Ok(result);
+
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
     }
 
     [HttpGet]
