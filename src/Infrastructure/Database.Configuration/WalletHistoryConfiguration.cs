@@ -28,7 +28,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
-                Amount = 10000,
+                Amount = 100000,
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2023-11-07T08:30:03.678Z"),
                 AppTransId = "240128_7635981",
