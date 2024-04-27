@@ -20,7 +20,7 @@ public class ImageRepository : GenericRepository<Image>, IImageRepository
     {
         var image = _dbContext.Images.Where(x => x.Id == imageId).FirstOrDefault()!;
         var artworkOfImage = _dbContext.Artworks.Where(x => x.Id == image.ArtworkId).FirstOrDefault();
-        var createdByOfArtwork = artworkOfImage.CreatedBy;
+        var createdByOfArtwork = artworkOfImage!.CreatedBy;
         //x.Artwork.State == Domain.Enums.StateEnum.Accepted
         var result = await _dbContext.Images.Where(x => x.Artwork.CreatedBy != createdByOfArtwork
         ).ToListAsync();

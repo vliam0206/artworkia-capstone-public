@@ -277,7 +277,7 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         var artwork = await _dbContext.Artworks
             .Include(x => x.Images)
             .Where(x => x.Id == artworkId).FirstOrDefaultAsync();
-        var createdByOfArtwork = artwork.CreatedBy;
+        var createdByOfArtwork = artwork!.CreatedBy;
         //x.Artwork.State == Domain.Enums.StateEnum.Accepted
         var listImage = await _dbContext.Images
             .Include(x => x.Artwork)

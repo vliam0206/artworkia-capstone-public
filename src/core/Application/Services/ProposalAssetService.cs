@@ -103,7 +103,8 @@ public class ProposalAssetService : IProposalAssetService
             throw new UnauthorizedAccessException("Bạn không có quyền tải tài nguyên này.");
         }
 
-        if (proposalAsset.Type == ProposalAssetEnum.Final &&
+        if (!_claimService.IsAuthorized(proposalAsset.Proposal.OrdererId) &&
+            proposalAsset.Type == ProposalAssetEnum.Final &&
             proposalAsset.Proposal.ProposalStatus != ProposalStateEnum.CompletePayment)
         {
             throw new UnauthorizedAccessException("Phải hoàn tất thanh toán trước khi tải.");
