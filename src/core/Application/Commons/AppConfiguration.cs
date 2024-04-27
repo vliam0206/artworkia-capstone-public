@@ -10,5 +10,6 @@ public class AppConfiguration
     public GoogleStorageConfiguration GoogleStorageConfiguration { get; set; } = default!;
     public ThirdAuthentication ThirdAuthentication { get; set; } = default!;
     public ZaloPayConfiguration ZaloPayConfiguration { get; set; } = default!;
+    public EmailSetting EmailSetting { get; set; } = default!;
 
 }

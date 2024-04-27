@@ -50,6 +50,7 @@ public static class DependencyInjection
         services.AddScoped<ICloudStorageService, CloudStorageService>();
         services.AddScoped<IThirdAuthenticationService, ThirdAuthenticationService>();
         services.AddScoped<IZaloPayService, ZaloPayService>();
+        services.AddScoped<IEmailService, EmailService>();
         return services;
     }
 }
