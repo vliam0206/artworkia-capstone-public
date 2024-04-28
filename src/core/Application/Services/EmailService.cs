@@ -13,6 +13,51 @@ public class EmailService : IEmailService
     {
         _appConfig = appConfiguration;
     }
+
+    public async Task CreateSampleMailAsync()
+    {
+        string basePath = AppDomain.CurrentDomain.BaseDirectory; // Gets the base directory of the assembly
+        string relativePath = Path.Combine("EmailTemplates", "BanAccountTemplate.html");
+        string filePath = Path.Combine(basePath, relativePath);
+
+        StreamReader streamreader = new(filePath);
+        string mailText = streamreader.ReadToEnd();
+        streamreader.Close();
+
+        //Replace email informations
+        mailText = mailText.Replace("[Username]", "Lam Lam");
+        mailText = mailText.Replace("[ViolatedObject]", "Tác phẩm");
+        mailText = mailText.Replace("[ObjectName]", "Tên tác phẩm");
+        mailText = mailText.Replace("[Reason]", "spam");
+        mailText = mailText.Replace("[ResolvedDay]", "1/1/2023");
+
+        await SendMailAsync(new List<string> { "phuhuynh923@gmail.com" },
+                "Artworkia - Nền tảng chia sẻ tác phẩm nghệ thuật", mailText);
+    }
+
+    public async Task SendMailToViolatedAccountAsync(
+        string email, string username, string violatedObject, string objectName, string reason, string? detail, string resolvedDay)
+    {
+        string basePath = AppDomain.CurrentDomain.BaseDirectory; // Gets the base directory of the assembly
+        string relativePath = Path.Combine("EmailTemplates", "BanAccountTemplate.html");
+        string filePath = Path.Combine(basePath, relativePath);
+
+        StreamReader streamreader = new(filePath);
+        string mailText = streamreader.ReadToEnd();
+        streamreader.Close();
+
+        //Replace email informations
+        mailText = mailText.Replace("[Username]", username);
+        mailText = mailText.Replace("[ViolatedObject]", violatedObject);
+        mailText = mailText.Replace("[ObjectName]", objectName);
+        mailText = mailText.Replace("[Reason]", reason);
+        mailText = mailText.Replace("[Detail]", detail);
+        mailText = mailText.Replace("[ResolvedDay]", resolvedDay);
+
+        await SendMailAsync(new List<string> { email },
+                           "[Artworkia] Tài khoản của bạn bị cấm", mailText);
+    }   
+
     public async Task<bool> SendMailAsync(List<string> emails, string subject, string message)
     {
         try
@@ -20,7 +65,7 @@ public class EmailService : IEmailService
             var email = _appConfig.EmailSetting.Email;
             var password = _appConfig.EmailSetting.Password;
             var dispayName = _appConfig.EmailSetting.DisplayName;
-            MailMessage myMessage = new MailMessage();
+            MailMessage myMessage = new();
             foreach (var mail in emails)
             {
                 myMessage.To.Add(mail);

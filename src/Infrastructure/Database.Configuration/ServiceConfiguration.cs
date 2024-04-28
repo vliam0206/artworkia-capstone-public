@@ -149,6 +149,38 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000013"), // tranduc
                 CreatedOn = DateTime.Parse("2024-1-9"),
                 Thumbnail = "https://i.pinimg.com/564x/d4/37/b3/d437b301b2408a5772d9be18d2dcbdee.jpg"
+            },
+
+            // service 9
+            new Service()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000009"),
+                ServiceName = "Thiết kế đồ họa Cyberpunk",
+                Description = "Mang đến sức sống cho những thế giới ảo diệu! " +
+                "Bạn đang tìm kiếm dịch vụ thiết kế nhân vật game 3D chất lượng " +
+                "cao để nâng tầm dự án của mình ? Hãy đến với chúng tôi!",
+                DeliveryTime = "1 - 2 tuần",
+                NumberOfConcept = 1,
+                NumberOfRevision = 2,
+                StartingPrice = 40000,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000014"), // nguyenhieu
+                CreatedOn = DateTime.Parse("2024-2-9"),
+                Thumbnail = "https://www.cyberpunk.net/build/images/pre-order/buy-b/keyart-ue-en@2x-cd66fd0d.jpg"
+            },
+
+            // service 10
+            new Service()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000000a"),
+                ServiceName = "Thiết kế logo thương hiệu",
+                Description = "Chuyên gia thiết kế logo cho các trò chơi, nhãn hàng",
+                DeliveryTime = "1 - 2 tuần",
+                NumberOfConcept = 2,
+                NumberOfRevision = 2,
+                StartingPrice = 60000,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-00000000000c"), // truongthu
+                CreatedOn = DateTime.Parse("2024-2-9"),
+                Thumbnail = "https://digihubmedia.in/wp-content/uploads/2021/05/logo-design-service-in-sangli-pune-scaled.jpg"
             }
 
 

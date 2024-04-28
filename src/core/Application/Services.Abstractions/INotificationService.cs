@@ -7,6 +7,7 @@ namespace Application.Services.Abstractions;
 public interface INotificationService
 {
     Task AddNotificationAsync(NotificationModel model);
+    Task AddRangeNotificationAsync(List<NotificationModel> listModel);
     Task<PagedList<NotificationVM>> GetNotificationsOfAnAccountAsync(Guid accountId, PagedCriteria pagedCriteria);
     Task<NotificationVM> UpdateSeenStateOfNotification(Guid notificationId);
 }

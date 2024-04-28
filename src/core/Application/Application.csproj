@@ -23,4 +23,16 @@
     <PackageReference Include="NEST" Version="7.17.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="EmailTemplates\ArtworkiaLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="EmailTemplates\DeleteArtworkTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="EmailTemplates\BanAccountTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

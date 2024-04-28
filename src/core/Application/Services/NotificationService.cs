@@ -36,18 +36,18 @@ public class NotificationService : INotificationService
                 throw new KeyNotFoundException("ArtworkId in notification reference not found!");
             }
         }
-        if (model.ReferencedAccountId != null)
-        {
-            var checkReference = await _unitOfWork.AccountRepository.IsExistedAsync(model.ReferencedAccountId.Value);
-            if (!checkReference)
-            {
-                throw new KeyNotFoundException("AccountId in notification reference not found!");
-            }
-        }
 
         // add new notification & save in db
         var notification = _mapper.Map<Notification>(model);
         await _unitOfWork.NotificationRepository.AddNotificationAsync(notification);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task AddRangeNotificationAsync(List<NotificationModel> listModel)
+    {
+        // add new notification & save in db
+        var listNotification = _mapper.Map<List<Notification>>(listModel);
+        await _unitOfWork.NotificationRepository.AddRangeNotificationAsync(listNotification);
         await _unitOfWork.SaveChangesAsync();
     }
 

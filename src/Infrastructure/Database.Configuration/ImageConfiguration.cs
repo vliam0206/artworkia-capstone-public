@@ -167,7 +167,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000020"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
-                Location = "https://i.pinimg.com/originals/b5/7e/14/b57e14aa401d41db2072d1b0ccfbde2b.jpg",
+                Location = "https://i.pinimg.com/564x/98/08/55/980855dafc9c24ad9b0687adb4b29f0b.jpg",
                 ImageName = "00000000-0000-0000-0000-00000000000e_i0.jpg",
                 Order = 0
             },
@@ -175,7 +175,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000021"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000000e"),
-                Location = "https://i.pinimg.com/originals/04/b7/46/04b7460b2efef9c432dabbcda2507b71.jpg",
+                Location = "https://i.pinimg.com/originals/b5/7e/14/b57e14aa401d41db2072d1b0ccfbde2b.jpg",
                 ImageName = "00000000-0000-0000-0000-00000000000e_i1.jpg",
                 Order = 1
             },
@@ -1067,8 +1067,43 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
                 Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/phucche2.png",
                 ImageName = "00000000-0000-0000-0000-00000000004e_i1.jpg",
                 Order = 1
-            }
+            },
 
+            // artwork 79
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-0000000000a0"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000004f"),
+                Location = "https://file4.batdongsan.com.vn/2024/03/07/20240307144316-1cca_wm.jpg",
+                ImageName = "00000000-0000-0000-0000-00000000004f_i0.jpg",
+                Order = 0
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-0000000000a1"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000004f"),
+                Location = "https://file4.batdongsan.com.vn/2024/03/07/20240307144319-ee94_wm.jpg",
+                ImageName = "00000000-0000-0000-0000-00000000004f_i1.jpg",
+                Order = 1
+            },
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-0000000000a2"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000004f"),
+                Location = "https://file4.batdongsan.com.vn/2024/03/07/20240307144319-f0da_wm.jpg",
+                ImageName = "00000000-0000-0000-0000-00000000004f_i2.jpg",
+                Order = 2
+            },
+
+            // artwork 80
+            new Image()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-0000000000a3"),
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000050"),
+                Location = "https://i.pinimg.com/originals/86/15/50/8615509334c99ba0c11a9feac151a79e.jpg",
+                ImageName = "00000000-0000-0000-0000-000000000050_i0.jpg",
+                Order = 0
+            }
 
 
         );

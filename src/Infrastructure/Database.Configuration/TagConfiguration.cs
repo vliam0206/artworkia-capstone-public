@@ -59,7 +59,8 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000024"), TagName = "Khoa học viễn tưởng" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000025"), TagName = "Kinh điển" },
             new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000026"), TagName = "Dễ thương" },
-            new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000027"), TagName = "Phát họa" }
+            new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000027"), TagName = "Phát họa" },
+            new Tag() { Id = Guid.Parse("00000000-0000-0000-0000-000000000028"), TagName = "Logo" }
         );
         #endregion
     }

@@ -76,12 +76,25 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 ContentType = "rar",
                 Size = 8000000
             },
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000031"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-00000000000f"),
+                AssetTitle = "Ảnh cánh cụt khác",
+                Description = "Tổng hợp cánh cụt fullsize",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 12000,
+                ContentType = "rar",
+                Size = 8000000
+            },
 
-            // Artwork 18 phuhuynh
+
+            // Artwork 18 manhkbrady
             new Asset()
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000040"),
-                ArtworkId = new Guid("00000000-0000-0000-0000-00000000000f"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000012"),
                 AssetTitle = "Hình ảnh giới thiệu nhân vật & Đếm ngược ra mắt game",
                 Description = "File PTS, tùy ý chỉnh sửa",
                 AssetName = "CommercialAsset.rar",
@@ -195,6 +208,34 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000084"),
                 ArtworkId = new Guid("00000000-0000-0000-0000-000000000047"),
+                AssetTitle = "Logo Asset",
+                Description = "Original PNG",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 10000,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 72 truongthu
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000085"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000048"),
+                AssetTitle = "Background Fullsize",
+                Description = "Original PNG",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 20000,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 77 truongthu
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000090"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-00000000004d"),
                 AssetTitle = "Logo Asset",
                 Description = "Original PNG",
                 AssetName = "CommercialAsset.rar",

@@ -81,7 +81,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Username = "hoanganh",
                 Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
                 Fullname = "Đặng Hoàng Anh",
-                Email = "hoanganh@example.com",
+                Email = "anhdhse160846@fpt.edu.vn",
                 Bio = "Tôi là Đặng Hoàng Anh, tôi là một nghệ sĩ đầy tài năng",
                 Avatar = "https://i.pinimg.com/564x/14/b0/3b/14b03bdcab41f458dd15c9f5669cef2d.jpg",
                 Birthdate = DateTime.Parse("2002-10-4"),
@@ -111,7 +111,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Username = "phuhuynh",
                 Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
                 Fullname = "Huỳnh Vạn Phú",
-                Email = "phu@example.com",
+                Email = "phuhuynh923@gmail.com",
                 Bio = "Tôi là Huỳnh Vạn Phú, tôi là một nghệ sĩ đầy tài năng",
                 Avatar = "https://i.pinimg.com/736x/81/3c/57/813c57fcb969d58fac1672594da05532.jpg",
                 Birthdate = DateTime.Parse("2002-5-6"),
@@ -157,7 +157,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Username = "nguyenhoang",
                 Password = "A5tzNn90k1cgMCIWicwomDz/Wb1/BAWIDIVelEKhM6lHvuwh", //***REMOVED***
                 Fullname = "Nguyễn Hoàng",
-                Email = "nguyenhoang@example.com",
+                Email = "trieuhan282@gmail.com",
                 Bio = "Tôi là một thiết kế UI/UX tài năng, đã có nhiều dự án thành công với " +
                 "các công ty lớn, cũng là người sáng lập một công ty thiết kế đồ họa.",
                 Avatar = "https://i.pinimg.com/564x/79/ba/4f/79ba4f6c73168efb975a2d43cc4272a3.jpg",

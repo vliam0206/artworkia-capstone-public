@@ -2,6 +2,7 @@
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nest;
 
 namespace Infrastructure.Database.Configuration;
 
@@ -283,9 +284,9 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
                 CreatedOn = DateTime.Parse("2023-12-13T08:40:28.901Z"),
-                Thumbnail = "https://th.bing.com/th/id/OIG.D7FfBXsOQCjc28w68xZS?pid=ImgGn",
+                Thumbnail = "https://i.pinimg.com/564x/98/08/55/980855dafc9c24ad9b0687adb4b29f0b.jpg",
                 ThumbnailName = "00000000-0000-0000-0000-00000000000e_t.jpg",
-                ViewCount = 1234,
+                ViewCount = 1934,
                 LikeCount = 0,
                 CommentCount = 0,
                 State = StateEnum.Accepted,
@@ -345,7 +346,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 "-Liên hệ: 0347307890 Nguyễn Hoàng.",
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000008"), //nguyenhoang
-                CreatedOn = DateTime.Parse("2024-01-10T08:30:03.678Z"),
+                CreatedOn = DateTime.Parse("2023-11-10T08:30:03.678Z"),
                 Thumbnail = "https://firebasestorage.googleapis.com/v0/b/artworkia-init.appspot.com/o/Artwork%2FThumbnail%2F00000000-0000-0000-0000-000000000011_t.jpg?alt=media&token=aad2c767-acdf-470f-bc35-9c55947cc9af",
                 ThumbnailName = "00000000-0000-0000-0000-000000000011_t.jpg",
                 ViewCount = 70,
@@ -1155,6 +1156,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CommentCount = 0,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000008"),
+                IsAIGenerated = false
             },
 
             // Artwork 59
@@ -1173,6 +1175,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CommentCount = 0,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000008"),
+                IsAIGenerated = false
             },
 
             // Artwork 60
@@ -1193,6 +1196,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CommentCount = 0,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
+                IsAIGenerated = false
             },
 
             // Artwork 61
@@ -1268,7 +1272,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CommentCount = 0,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
-                IsAIGenerated = false
+                IsAIGenerated = true
             },
 
             // Artwork 65
@@ -1477,6 +1481,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CommentCount = 0,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                IsAIGenerated = true
             },
 
             // Artwork 76
@@ -1495,6 +1500,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 CommentCount = 0,
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                IsAIGenerated = true
             },
 
             // Artwork 77
@@ -1533,9 +1539,47 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 State = StateEnum.Accepted,
                 LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 IsAIGenerated = false
+            },
+
+            // Artwork 79
+            new Artwork()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000004f"),
+                Title = "Chính chủ bán BT Phong Lan 04-34, 343.8m2 nhà thô, sông sau nhà rộng miên man, sân trước nhà 1000m2",
+                Description = @"Chính chủ bán BT Phong Lan 04 - 34. DT 343.8m² nhà thô, sông sau nhà rộng miên man. Sân trước nhà 1000m.
+                                Hướng Tây Nam.
+                                Giá 220tr/m².",
+                Privacy = PrivacyEnum.Public,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000008"), //nguyenhoang
+                CreatedOn = DateTime.Parse("2024-01-25T08:30:03.678Z"),
+                Thumbnail = "https://file4.batdongsan.com.vn/resize/1275x717/2024/03/07/20240307144316-1cca_wm.jpg",
+                ThumbnailName = "00000000-0000-0000-0000-00000000004f_t.jpg",
+                ViewCount = 110,
+                LikeCount = 0,
+                CommentCount = 0,
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                IsAIGenerated = false
+            },
+
+            // Artwork 80
+            new Artwork()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000050"),
+                Title = "Mèo con",
+                Description = null,
+                Privacy = PrivacyEnum.Public,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000015"), //vuthao
+                CreatedOn = DateTime.Parse("2024-03-05T08:30:03.678Z"),
+                Thumbnail = "https://i.pinimg.com/originals/86/15/50/8615509334c99ba0c11a9feac151a79e.jpg",
+                ThumbnailName = "00000000-0000-0000-0000-000000000050_t.jpg",
+                ViewCount = 1160,
+                LikeCount = 0,
+                CommentCount = 0,
+                State = StateEnum.Accepted,
+                LicenseTypeId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                IsAIGenerated = false
             }
-
-
 
         );
         #endregion

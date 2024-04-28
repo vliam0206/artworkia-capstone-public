@@ -18,6 +18,12 @@ public class NotificationRepository : GenericRepository<Notification>, INotifica
         await _dbContext.Notifications.AddAsync(notification);
     }
 
+    public async Task AddRangeNotificationAsync(List<Notification> listNotification)
+    {
+        listNotification.ForEach(x => x.CreatedOn = CurrentTime.GetCurrentTime);
+        await _dbContext.Notifications.AddRangeAsync(listNotification);
+    }
+
     public async Task<IPagedList<Notification>> GetNotificationOfAccountAsync(Guid accountId, int pageNumer, int pageSize)
     {
         var notifications = _dbContext.Notifications

@@ -13,17 +13,28 @@ public class CommentService : ICommentService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IClaimService _claimService;
+    private readonly INotificationService _notificationService;
     private readonly IMapper _mapper;
 
-    public CommentService(IUnitOfWork unitOfWork, IClaimService claimService,
-        IMapper mapper)
+    public CommentService(
+        IUnitOfWork unitOfWork, 
+        IClaimService claimService,
+        IMapper mapper,
+        INotificationService notificationService)
     {
         _unitOfWork = unitOfWork;
         _claimService = claimService;
+
         _mapper = mapper;
+        _notificationService = notificationService;
     }
     public async Task<Comment> AddCommentAsync(Guid artworkId, string commentText)
     {
+        var currentUserId = _claimService.GetCurrentUserId ?? default;
+        var currentUsername = _claimService.GetCurrentUserName ?? default;
+
+        var artwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId) 
+            ?? throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         var comment = new Comment
         {
             ArtworkId = artworkId,
@@ -34,7 +45,18 @@ public class CommentService : ICommentService
         await _unitOfWork.ArtworkRepository.IncreaseCommentCountAsync(artworkId);
 
         await _unitOfWork.SaveChangesAsync();
-        return (comment);
+
+        // add new notification
+        var notification = new NotificationModel
+        {
+            SentToAccount = artwork.CreatedBy!.Value,
+            Content = $"Người dùng [{currentUsername}] bình luận tác phẩm [{artwork.Title}]",
+            NotifyType = NotifyTypeEnum.Information,
+            ReferencedAccountId = currentUserId
+        };
+        await _notificationService.AddNotificationAsync(notification);
+
+        return comment;
     }
 
     public async Task DeleteCommentAsync(Guid commentId)

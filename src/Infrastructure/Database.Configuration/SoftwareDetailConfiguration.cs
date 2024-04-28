@@ -376,7 +376,64 @@ public class SoftwareDetailConfiguration : IEntityTypeConfiguration<SoftwareDeta
             {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000047"),
                 SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 72
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000048"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+            },
+
+            // artwork 73
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000049"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 74
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000004a"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000039"),
+            },
+
+            // artwork 75
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000004b"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000039"),
+            },
+
+            // artwork 76
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000004c"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000039"),
+            },
+
+            // artwork 77
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000004d"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+            },
+
+            // artwork 78
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000004e"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            },
+
+            // artwork 80
+            new SoftwareDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000050"),
+                SoftwareUsedId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
             }
+
         );
         #endregion
     }

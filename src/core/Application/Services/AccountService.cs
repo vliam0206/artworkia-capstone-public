@@ -7,6 +7,7 @@ using AutoMapper;
 using Domain.Entitites;
 using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Http;
+using Nest;
 
 namespace Application.Services;
 
@@ -15,17 +16,20 @@ public class AccountService : IAccountService
     private static readonly string PARENT_FOLDER = "Avatar";
     private readonly IUnitOfWork _unitOfWork;
     private readonly IClaimService _claimService;
+    private readonly IElasticClient _elasticClient;
     private readonly ICloudStorageService _cloudStorageService;
     private readonly IMapper _mapper;
 
     public AccountService(
         IUnitOfWork unitOfWork,
         IClaimService claimService,
+        IElasticClient elasticClient,
         ICloudStorageService cloudStorageService,
         IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _claimService = claimService;
+        _elasticClient = elasticClient;
         _cloudStorageService = cloudStorageService;
         _mapper = mapper;
     }
@@ -152,6 +156,21 @@ public class AccountService : IAccountService
         }
         // soft delete account in db
         _unitOfWork.AccountRepository.SoftDelete(account);
+
+        // delete all tokens of this account
+        var listToken = await _unitOfWork.UserTokenRepository.GetListByConditionAsync(x => x.UserId == account.Id);
+        foreach (var token in listToken)
+        {
+            _unitOfWork.UserTokenRepository.Delete(token);
+        }
+
+        // delete all artworks of this account
+        var listArtwork = await _unitOfWork.ArtworkRepository.GetListByConditionAsync(x => x.CreatedBy == id);
+        foreach (var artwork in listArtwork)
+        {
+            _unitOfWork.ArtworkRepository.SoftDelete(artwork);
+            _elasticClient.Update<ArtworksV2, object>(artwork.Id, u => u.Doc(new { artwork.DeletedOn }));
+        }
         await _unitOfWork.SaveChangesAsync();
     }
 

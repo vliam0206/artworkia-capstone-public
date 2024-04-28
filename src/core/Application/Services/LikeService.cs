@@ -2,6 +2,7 @@
 using Application.Services.Abstractions;
 using AutoMapper;
 using Domain.Entitites;
+using Domain.Enums;
 using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Http;
 
@@ -10,23 +11,27 @@ public class LikeService : ILikeService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IClaimService _claimService;
+    private readonly INotificationService _notificationService;
     private readonly IMapper _mapper;
 
     public LikeService(
         IUnitOfWork unitOfWork,
         IClaimService claimService,
+        INotificationService notificationService,
         IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _claimService = claimService;
+        _notificationService = notificationService;
         _mapper = mapper;
     }
 
     public async Task CreateLikeAsync(LikeModel likeModel)
     {
-        Guid accountId = _claimService.GetCurrentUserId ?? default;
+        var currentUserId = _claimService.GetCurrentUserId ?? default;
+        var currentUsername = _claimService.GetCurrentUserName ?? default;
 
-        var tmpLike = await _unitOfWork.LikeRepository.GetByIdAsync(accountId, likeModel.ArtworkId);
+        var tmpLike = await _unitOfWork.LikeRepository.GetByIdAsync(currentUserId, likeModel.ArtworkId);
         if (tmpLike != null)
         {
             throw new BadHttpRequestException("Bạn đã thích tác phẩm này.");
@@ -34,7 +39,7 @@ public class LikeService : ILikeService
 
         Like like = new()
         {
-            AccountId = accountId,
+            AccountId = currentUserId,
             ArtworkId = likeModel.ArtworkId
         };
         await _unitOfWork.LikeRepository.AddLikeAsync(like);
@@ -43,7 +48,18 @@ public class LikeService : ILikeService
             throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         artwork.LikeCount++;
         _unitOfWork.ArtworkRepository.Update(artwork);
+
         await _unitOfWork.SaveChangesAsync();
+
+        // add new notification
+        var notification = new NotificationModel
+        {
+            SentToAccount = artwork.CreatedBy!.Value,
+            Content = $"Người dùng [{currentUsername}] thích tác phẩm [{artwork.Title}].",
+            NotifyType = NotifyTypeEnum.Information,
+            ReferencedAccountId = currentUserId
+        };
+        await _notificationService.AddNotificationAsync(notification);
     }
 
     public async Task DeleteLikeAsync(Guid artworkId)

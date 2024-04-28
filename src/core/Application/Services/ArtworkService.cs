@@ -22,6 +22,7 @@ public class ArtworkService : IArtworkService
     private readonly IImageService _imageService;
     private readonly ITagDetailService _tagDetailService;
     private readonly ISoftwareDetailService _softwareDetailService;
+    private readonly INotificationService _notificationService;
     private readonly IElasticClient _elasticClient;
     private readonly ICategoryArtworkDetailService _categoryArtworkDetailService;
     private readonly ICloudStorageService _cloudStorageService;
@@ -32,6 +33,7 @@ public class ArtworkService : IArtworkService
         IImageService imageService,
         ITagDetailService tagDetailService,
         ISoftwareDetailService softwareDetailService,
+        INotificationService notificationService,
         IElasticClient elasticClient,
         ICategoryArtworkDetailService catworkDetailService,
         ICloudStorageService cloudStorageService,
@@ -42,6 +44,7 @@ public class ArtworkService : IArtworkService
         _imageService = imageService;
         _tagDetailService = tagDetailService;
         _softwareDetailService = softwareDetailService;
+        _notificationService = notificationService;
         _elasticClient = elasticClient;
         _categoryArtworkDetailService = catworkDetailService;
         _cloudStorageService = cloudStorageService;
@@ -274,7 +277,8 @@ public class ArtworkService : IArtworkService
                     }
                 }
             };
-        } else
+        }
+        else
         {
             var listLikes = criteria.ArtworkIds.Select(id =>
             {
@@ -363,7 +367,7 @@ public class ArtworkService : IArtworkService
                 }
             };
         }
-        
+
 
         var result = await _elasticClient.SearchAsync<ArtworksV2>(searchRequest);
         var searchArtworks = result.Documents.ToList();
@@ -535,6 +539,9 @@ public class ArtworkService : IArtworkService
 
     public async Task<ArtworkVM> AddArtworkAsync(ArtworkModel artworkModel)
     {
+        var currentUserId = _claimService.GetCurrentUserId ?? default;
+        var currentUsername = _claimService.GetCurrentUserName ?? default;
+
         var newArtwork = _mapper.Map<Artwork>(artworkModel);
         string newThumbnailName = newArtwork.Id + "_t";
         string folderName = THUMBNAIL_ARTWORK_FOLDER;
@@ -628,8 +635,27 @@ public class ArtworkService : IArtworkService
         await _unitOfWork.SaveChangesAsync();
 
         var result = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(newArtwork.Id);
-        var resultVM = _mapper.Map<ArtworkVM>(result);  
+        var resultVM = _mapper.Map<ArtworkVM>(result);
         _elasticClient.IndexDocument(resultVM);
+
+        if (newArtwork.State == StateEnum.Accepted && newArtwork.Privacy == PrivacyEnum.Public)
+        {
+            var listFollowers = await _unitOfWork.FollowRepository.GetAllFollowersAsync(currentUserId);
+            var listNotification = new List<NotificationModel>();
+            foreach (var follower in listFollowers)
+            {
+                var notification = new NotificationModel
+                {
+                    SentToAccount = follower.FollowingId,
+                    Content = $"Người dùng [{currentUsername}] đăng tác phẩm [{newArtwork.Title}]",
+                    NotifyType = NotifyTypeEnum.Information,
+                    ReferencedAccountId = currentUserId
+                };
+                listNotification.Add(notification);
+            }
+            await _notificationService.AddRangeNotificationAsync(listNotification);
+        }
+
         return resultVM;
     }
 
@@ -686,7 +712,10 @@ public class ArtworkService : IArtworkService
 
     public async Task UpdateArtworkStateAsync(Guid artworkId, ArtworkStateEM model)
     {
-        var oldArtwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId) 
+        var currentUserId = _claimService.GetCurrentUserId ?? default;
+        var currentRole = _claimService.GetCurrentRole;
+
+        var oldArtwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId)
             ?? throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         if (oldArtwork.State != StateEnum.Waiting)
             throw new BadHttpRequestException($"Tác phẩm đã được xử lý (trạng thái hiện tại là '{STATE_ENUM_VN[oldArtwork.State]}')");
@@ -695,5 +724,29 @@ public class ArtworkService : IArtworkService
         _unitOfWork.ArtworkRepository.Update(oldArtwork);
         _elasticClient.Update<ArtworksV2, object>(artworkId, u => u.Doc(new { State = oldArtwork.State.ToString(), oldArtwork.Note }));
         await _unitOfWork.SaveChangesAsync();
+
+        // add new notification
+        if (model.State == StateEnum.Accepted)
+        {
+            var notification = new NotificationModel
+            {
+                SentToAccount = oldArtwork.CreatedBy!.Value,
+                Content = $"Tác phẩm [{oldArtwork.Title}] đã được chấp nhận.",
+                NotifyType = NotifyTypeEnum.System,
+                ReferencedAccountId = currentUserId
+            };
+            await _notificationService.AddNotificationAsync(notification);
+        }
+        else
+        {
+            var notification = new NotificationModel
+            {
+                SentToAccount = oldArtwork.CreatedBy!.Value,
+                Content = $"Tác phẩm [{oldArtwork.Title}] đã bị từ chối.",
+                NotifyType = NotifyTypeEnum.System,
+                ReferencedAccountId = currentUserId
+            };
+            await _notificationService.AddNotificationAsync(notification);
+        }
     }
 }
