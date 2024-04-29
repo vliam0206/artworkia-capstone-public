@@ -205,7 +205,8 @@ public class AuthController : ControllerBase
                 UserId = account.Id,
                 Username = account.Username,
                 Email = account.Email,
-                Fullname = account.Fullname
+                Fullname = account.Fullname,
+                Avatar = account.Avatar
             });
         }catch (ArgumentException ex)
         {
