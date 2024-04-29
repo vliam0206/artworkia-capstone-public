@@ -57,7 +57,8 @@ public class LikeService : ILikeService
             SentToAccount = artwork.CreatedBy!.Value,
             Content = $"Người dùng [{currentUsername}] thích tác phẩm [{artwork.Title}]",
             NotifyType = NotifyTypeEnum.Information,
-            ReferencedAccountId = currentUserId
+            ReferencedAccountId = currentUserId,
+            ReferencedArtworkId = artwork.Id
         };
         await _notificationService.AddNotificationAsync(notification);
     }

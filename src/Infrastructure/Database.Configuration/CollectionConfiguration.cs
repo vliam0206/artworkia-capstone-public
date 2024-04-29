@@ -38,6 +38,16 @@ namespace Infrastructure.Database.Configuration
                     Privacy = PrivacyEnum.Private,
                     CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                     CreatedOn = DateTime.Parse("2024-01-01")
+                },
+
+                // collection 3 (hoangtuan)
+                new Collection
+                {
+                    Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
+                    CollectionName = "Ảnh bìa đẹp",
+                    Privacy = PrivacyEnum.Public,
+                    CreatedBy = Guid.Parse("00000000-0000-0000-0000-00000000000f"),
+                    CreatedOn = DateTime.Parse("2024-02-01")
                 }
             );
         }

@@ -19,7 +19,7 @@ public class NotificationService : INotificationService
         _mapper = mapper;
     }
 
-    public async Task AddNotificationAsync(NotificationModel model)
+    public async Task AddNotificationAsync(NotificationModel model, bool IsSaveChangeAsync = true)
     {
         // check if accountId exist
         var checkAccount = await _unitOfWork.AccountRepository.IsExistedAsync(model.SentToAccount);
@@ -40,15 +40,21 @@ public class NotificationService : INotificationService
         // add new notification & save in db
         var notification = _mapper.Map<Notification>(model);
         await _unitOfWork.NotificationRepository.AddNotificationAsync(notification);
-        await _unitOfWork.SaveChangesAsync();
+        if (IsSaveChangeAsync)
+        {
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 
-    public async Task AddRangeNotificationAsync(List<NotificationModel> listModel)
+    public async Task AddRangeNotificationAsync(List<NotificationModel> listModel, bool IsSaveChangeAsync = true)
     {
         // add new notification & save in db
         var listNotification = _mapper.Map<List<Notification>>(listModel);
         await _unitOfWork.NotificationRepository.AddRangeNotificationAsync(listNotification);
-        await _unitOfWork.SaveChangesAsync();
+        if (IsSaveChangeAsync)
+        {
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 
     public async Task<PagedList<NotificationVM>> GetNotificationsOfAnAccountAsync(Guid accountId, PagedCriteria pagedCriteria)

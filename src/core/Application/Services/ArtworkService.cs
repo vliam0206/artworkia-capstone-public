@@ -649,7 +649,8 @@ public class ArtworkService : IArtworkService
                     SentToAccount = follower.FollowingId,
                     Content = $"Người dùng [{currentUsername}] đăng tác phẩm [{newArtwork.Title}]",
                     NotifyType = NotifyTypeEnum.Information,
-                    ReferencedAccountId = currentUserId
+                    ReferencedAccountId = currentUserId,
+                    ReferencedArtworkId = newArtwork.Id
                 };
                 listNotification.Add(notification);
             }
@@ -715,7 +716,7 @@ public class ArtworkService : IArtworkService
         var currentUserId = _claimService.GetCurrentUserId ?? default;
         var currentRole = _claimService.GetCurrentRole;
 
-        var oldArtwork = await _unitOfWork.ArtworkRepository.GetByIdAsync(artworkId)
+        var oldArtwork = await _unitOfWork.ArtworkRepository.GetArtworkDetailByIdAsync(artworkId)
             ?? throw new KeyNotFoundException("Không tìm thấy tác phẩm.");
         if (oldArtwork.State != StateEnum.Waiting)
             throw new BadHttpRequestException($"Tác phẩm đã được xử lý (trạng thái hiện tại là '{STATE_ENUM_VN[oldArtwork.State]}')");
@@ -735,7 +736,28 @@ public class ArtworkService : IArtworkService
                 NotifyType = NotifyTypeEnum.System,
                 ReferencedAccountId = currentUserId
             };
-            await _notificationService.AddNotificationAsync(notification);
+            await _notificationService.AddNotificationAsync(notification, false);
+
+            if (oldArtwork.Privacy == PrivacyEnum.Public)
+            {
+                var listFollowers = await _unitOfWork.FollowRepository.GetAllFollowersAsync(oldArtwork.CreatedBy!.Value);
+                var listNotification = new List<NotificationModel>();
+                foreach (var follower in listFollowers)
+                {
+                    var followNotification = new NotificationModel
+                    {
+                        SentToAccount = follower.FollowingId,
+                        Content = $"Người dùng [{oldArtwork.Account.Username}] đăng tác phẩm [{oldArtwork.Title}]",
+                        NotifyType = NotifyTypeEnum.Information,
+                        ReferencedAccountId = oldArtwork.Account.Id,
+                        ReferencedArtworkId = oldArtwork.Id
+                    };
+                    listNotification.Add(followNotification);
+                }
+                await _notificationService.AddRangeNotificationAsync(listNotification, false);
+                await _unitOfWork.SaveChangesAsync();
+            }
+
         }
         else
         {
@@ -744,7 +766,8 @@ public class ArtworkService : IArtworkService
                 SentToAccount = oldArtwork.CreatedBy!.Value,
                 Content = $"Tác phẩm [{oldArtwork.Title}] đã bị từ chối",
                 NotifyType = NotifyTypeEnum.System,
-                ReferencedAccountId = currentUserId
+                ReferencedAccountId = oldArtwork.Account.Id,
+                ReferencedArtworkId = oldArtwork.Id
             };
             await _notificationService.AddNotificationAsync(notification);
         }

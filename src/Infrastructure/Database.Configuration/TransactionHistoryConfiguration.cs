@@ -48,7 +48,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 Detail = "Mở khóa tài nguyên \"Pixel Art GUI / UI Kit + 151 icons!\"",
                 Price = 142500,
                 TransactionStatus = TransactionStatusEnum.Success,
-                CreatedOn = DateTime.Parse("2024-12-29T15:30:03.678Z"),
+                CreatedOn = DateTime.Parse("2023-12-29T15:30:03.678Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phu
                 WalletBalance = 142500,
                 Fee = 7500

@@ -52,7 +52,8 @@ public class CommentService : ICommentService
             SentToAccount = artwork.CreatedBy!.Value,
             Content = $"Người dùng [{currentUsername}] bình luận tác phẩm [{artwork.Title}]",
             NotifyType = NotifyTypeEnum.Information,
-            ReferencedAccountId = currentUserId
+            ReferencedAccountId = currentUserId,
+            ReferencedArtworkId = artworkId
         };
         await _notificationService.AddNotificationAsync(notification);
 

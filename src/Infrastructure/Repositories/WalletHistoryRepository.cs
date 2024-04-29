@@ -27,6 +27,7 @@ public class WalletHistoryRepository : GenericCreationRepository<WalletHistory>,
         return await _dbContext.WalletHistories
             .Include(x => x.Account)
             .Where(x => x.CreatedBy == accountId)
+            .OrderByDescending(x => x.CreatedOn)
             .ToListAsync();
     }
 }

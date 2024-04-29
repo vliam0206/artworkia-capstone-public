@@ -158,7 +158,7 @@ public class TransactionHistoryRepository : GenericCreationRepository<Transactio
         var transactionsQuery = _dbContext.TransactionHistories
             .Include(t => t.Asset!)
                 .ThenInclude(a => a.Artwork)
-            .Where(x => x.AssetId != null);
+            .Where(x => x.AssetId != null && x.Price > 0);
 
         if (startTime != null)
         {
