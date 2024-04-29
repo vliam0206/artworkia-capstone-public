@@ -26,7 +26,7 @@ public class ThirdAuthenticationService : IThirdAuthenticationService
         }
         catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            throw new ArgumentException(ex.Message);
         }
     }
 }

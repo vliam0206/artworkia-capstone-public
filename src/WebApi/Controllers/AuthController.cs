@@ -162,49 +162,58 @@ public class AuthController : ControllerBase
     [HttpPost("login-google")]
     public async Task<IActionResult> LoginWithGoogle([FromBody] ThirdAuthenticationModel externalAuthDto)
     {
-        var payload = await _thirdAuthenticationService.VerifyGoogleToken(externalAuthDto);
-        if (payload == null)
+        try
         {
-            return BadRequest(new ApiResponse { ErrorMessage = "Xác thực bên ngoài (payload) không hợp lệ." });
-        }
-        var account = await _accountService.GetAccountByEmailAsync(payload.Email);
-        if (account == null)
-        {
-            account = new Account
+            var payload = await _thirdAuthenticationService.VerifyGoogleToken(externalAuthDto);
+            if (payload == null)
             {
-                Email = payload.Email,
-                Fullname = payload.Name,
-                Username = payload.Email,
-                Avatar = payload.Picture
+                return BadRequest(new ApiResponse { ErrorMessage = "Xác thực bên ngoài (payload) không hợp lệ." });
+            }
+            var account = await _accountService.GetAccountByEmailAsync(payload.Email);
+            if (account == null)
+            {
+                account = new Account
+                {
+                    Email = payload.Email,
+                    Fullname = payload.Name,
+                    Username = payload.Email,
+                    Avatar = payload.Picture
+                };
+                await _accountService.CreateAccountAsync(account);
+            }
+
+            // login success - issue (access token, refresh token) pair
+            var issuedDate = CurrentTime.GetCurrentTime;
+            var accessToken = _tokenHandler.CreateAccessToken(account, issuedDate);
+            var refreshToken = _tokenHandler.CreateRefreshToken(account, issuedDate);
+            var token = new UserToken
+            {
+                UserId = account.Id,
+                ATid = accessToken.TokenId,
+                AccessToken = accessToken.Token,
+                RTid = refreshToken.TokenId,
+                RefreshToken = refreshToken.Token,
+                IssuedDate = issuedDate,
+                ExpiredDate = issuedDate.AddHours(24 * 7),
             };
-            await _accountService.CreateAccountAsync(account);
+            await _userTokenService.SaveTokenAsync(token);
+
+            return Ok(new TokenVM
+            {
+                AccessToken = token.AccessToken,
+                RefreshToken = token.RefreshToken,
+                UserId = account.Id,
+                Username = account.Username,
+                Email = account.Email,
+                Fullname = account.Fullname
+            });
+        }catch (ArgumentException ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        } catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
-
-        // login success - issue (access token, refresh token) pair
-        var issuedDate = CurrentTime.GetCurrentTime;
-        var accessToken = _tokenHandler.CreateAccessToken(account, issuedDate);
-        var refreshToken = _tokenHandler.CreateRefreshToken(account, issuedDate);
-        var token = new UserToken
-        {
-            UserId = account.Id,
-            ATid = accessToken.TokenId,
-            AccessToken = accessToken.Token,
-            RTid = refreshToken.TokenId,
-            RefreshToken = refreshToken.Token,
-            IssuedDate = issuedDate,
-            ExpiredDate = issuedDate.AddHours(24 * 7),
-        };
-        await _userTokenService.SaveTokenAsync(token);
-
-        return Ok(new TokenVM
-        {
-            AccessToken = token.AccessToken,
-            RefreshToken = token.RefreshToken,
-            UserId = account.Id,
-            Username = account.Username,
-            Email = account.Email,
-            Fullname = account.Fullname
-        });
     }
 
     [HttpGet("validate-access-token")]
