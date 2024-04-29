@@ -731,7 +731,7 @@ public class ArtworkService : IArtworkService
             var notification = new NotificationModel
             {
                 SentToAccount = oldArtwork.CreatedBy!.Value,
-                Content = $"Tác phẩm [{oldArtwork.Title}] đã được chấp nhận.",
+                Content = $"Tác phẩm [{oldArtwork.Title}] đã được chấp nhận",
                 NotifyType = NotifyTypeEnum.System,
                 ReferencedAccountId = currentUserId
             };
@@ -742,7 +742,7 @@ public class ArtworkService : IArtworkService
             var notification = new NotificationModel
             {
                 SentToAccount = oldArtwork.CreatedBy!.Value,
-                Content = $"Tác phẩm [{oldArtwork.Title}] đã bị từ chối.",
+                Content = $"Tác phẩm [{oldArtwork.Title}] đã bị từ chối",
                 NotifyType = NotifyTypeEnum.System,
                 ReferencedAccountId = currentUserId
             };

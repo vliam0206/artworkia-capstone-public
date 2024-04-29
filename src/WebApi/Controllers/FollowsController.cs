@@ -86,7 +86,7 @@ public class FollowsController : ControllerBase
             var notification = new NotificationModel
             {
                 SentToAccount = model.FollowedId,
-                Content = $"Người dùng [{currentUsername}] vừa theo dõi bạn.",
+                Content = $"Người dùng [{currentUsername}] vừa theo dõi bạn",
                 NotifyType = NotifyTypeEnum.Information,
                 ReferencedAccountId = currentUserId
             };

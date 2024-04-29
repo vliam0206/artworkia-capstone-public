@@ -55,7 +55,7 @@ public class LikeService : ILikeService
         var notification = new NotificationModel
         {
             SentToAccount = artwork.CreatedBy!.Value,
-            Content = $"Người dùng [{currentUsername}] thích tác phẩm [{artwork.Title}].",
+            Content = $"Người dùng [{currentUsername}] thích tác phẩm [{artwork.Title}]",
             NotifyType = NotifyTypeEnum.Information,
             ReferencedAccountId = currentUserId
         };

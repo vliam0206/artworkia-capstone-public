@@ -181,6 +181,21 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-00000000000c"), // truongthu
                 CreatedOn = DateTime.Parse("2024-2-9"),
                 Thumbnail = "https://digihubmedia.in/wp-content/uploads/2021/05/logo-design-service-in-sangli-pune-scaled.jpg"
+            },
+
+            // service 11
+            new Service()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000000b"),
+                ServiceName = "Thiết kế bìa sách",
+                Description = "Dịch vụ thiết kế bìa sách theo yêu cầu",
+                DeliveryTime = "1 - 2 tháng",
+                NumberOfConcept = 2,
+                NumberOfRevision = 2,
+                StartingPrice = 80000,
+                CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000004"), // thong
+                CreatedOn = DateTime.Parse("2024-2-9"),
+                Thumbnail = "https://cms.typenetwork.com/media/original_images/banner_KvvXKmF.png"
             }
 
 
