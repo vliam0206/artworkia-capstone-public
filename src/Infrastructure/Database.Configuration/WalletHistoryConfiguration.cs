@@ -96,7 +96,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-03T18:30:15.567Z"),
                 AppTransId = "160509_9270134",
-                WalletBalance = 8000
+                WalletBalance = 20000
             },
             new WalletHistory
             {
@@ -108,7 +108,7 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-04T05:40:28.901Z"),
                 AppTransId = "250321_4685027",
-                WalletBalance = 50000
+                WalletBalance = 62000
             },
 
             // phuhuynh histories
@@ -118,11 +118,11 @@ public class WalletHistoryConfiguration : IEntityTypeConfiguration<WalletHistory
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phuhuynh
                 PaymentMethod = PaymentMethodEnum.ZaloPay,
                 Type = WalletHistoryTypeEnum.Deposit,
-                Amount = 70000,
+                Amount = 1000000,
                 TransactionStatus = TransactionStatusEnum.Success,
-                CreatedOn = DateTime.Parse("2024-01-01T05:37:42.345Z"),
+                CreatedOn = DateTime.Parse("2023-12-20T05:37:42.345Z"),
                 AppTransId = "231205_7890123",
-                WalletBalance = 70000
+                WalletBalance = 1000000
             },           
 
             // user histories

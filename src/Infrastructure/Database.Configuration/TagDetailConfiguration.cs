@@ -53,6 +53,11 @@ public class TagDetailConfiguration : IEntityTypeConfiguration<TagDetail>
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 TagId = Guid.Parse("00000000-0000-0000-0000-00000000000c")
             },
+            new TagDetail()
+            {
+                ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                TagId = Guid.Parse("00000000-0000-0000-0000-000000000019")
+            },
 
             // artwork 3
             new TagDetail()
@@ -80,12 +85,12 @@ public class TagDetailConfiguration : IEntityTypeConfiguration<TagDetail>
             new TagDetail()
             {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
-                TagId = Guid.Parse("00000000-0000-0000-0000-000000000015")
+                TagId = Guid.Parse("00000000-0000-0000-0000-00000000001a")
             },
             new TagDetail()
             {
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
-                TagId = Guid.Parse("00000000-0000-0000-0000-00000000001a")
+                TagId = Guid.Parse("00000000-0000-0000-0000-00000000001b")
             },
             new TagDetail()
             {

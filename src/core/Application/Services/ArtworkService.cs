@@ -117,7 +117,7 @@ public class ArtworkService : IArtworkService
                     // Keyword search (unchanged)
                     new MultiMatchQuery
                     {
-                        Fields = new[] { "title", "description", "account.email", "account.fullname", "account.username" },
+                        Fields = new[] { "title", "account.email", "account.fullname", "account.username" },
                         Query = criteria.Keyword
                     },
                     // Nested query for tags

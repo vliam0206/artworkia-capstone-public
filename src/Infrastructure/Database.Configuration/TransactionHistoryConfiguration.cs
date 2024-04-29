@@ -24,32 +24,36 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
         builder.HasData
         (
         #region asset
-            // transaction 1 thong -> phu
+            // transaction 1 phu -> phamthanh
             new TransactionHistory
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                AssetId = new Guid("00000000-0000-0000-0000-000000000030"),
-                CreatedBy = new Guid("00000000-0000-0000-0000-000000000004"), // thong
-                Detail = "Mở khóa tài nguyên \"Ảnh cánh cụt\"",
-                Price = -12000,
+                AssetId = new Guid("00000000-0000-0000-0000-000000000083"),
+                CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"), // phu
+                Detail = "Mở khóa tài nguyên \"Pixel Art GUI / UI Kit + 151 icons!\"",
+                Price = -150000,
                 TransactionStatus = TransactionStatusEnum.Success,
-                CreatedOn = DateTime.Parse("2024-01-02T15:30:03.678Z"),
-                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000005"), //phu
-                WalletBalance = 88000
+                CreatedOn = DateTime.Parse("2023-12-29T15:30:03.678Z"),
+                ToAccountId = Guid.Parse("00000000-0000-0000-0000-00000000000a"), // phamthanh
+                Fee = 0,
+                WalletBalance = 850000
             },
+
+            // transaction 2
             new TransactionHistory
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
-                AssetId = new Guid("00000000-0000-0000-0000-000000000030"),
-                CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"), // phu
-                Detail = "Mở khóa tài nguyên \"Ảnh cánh cụt\"",
-                Price = 11400,
+                AssetId = new Guid("00000000-0000-0000-0000-000000000083"),
+                CreatedBy = new Guid("00000000-0000-0000-0000-00000000000a"), // phamthanh
+                Detail = "Mở khóa tài nguyên \"Pixel Art GUI / UI Kit + 151 icons!\"",
+                Price = 142500,
                 TransactionStatus = TransactionStatusEnum.Success,
-                CreatedOn = DateTime.Parse("2024-01-02T15:30:03.678Z"),
-                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000004"), //thong
-                WalletBalance = 81400,
-                Fee = 600
+                CreatedOn = DateTime.Parse("2024-12-29T15:30:03.678Z"),
+                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phu
+                WalletBalance = 142500,
+                Fee = 7500
             },
+
             // transaction 2 thong -> lamlam
             new TransactionHistory
             {
@@ -59,9 +63,10 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 Detail = "Mở khóa tài nguyên \"Dấu vết của quá khứ\"",
                 Price = -10000,
                 TransactionStatus = TransactionStatusEnum.Success,
-                CreatedOn = DateTime.Parse("2024-01-05T15:30:03.678Z"),
+                CreatedOn = DateTime.Parse("2024-12-29T15:30:03.678Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000002"),  //lamlam
-                WalletBalance = 40000
+                WalletBalance = 21000,
+                Fee = 0
             },            
             new TransactionHistory
             {
@@ -73,7 +78,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-05T15:30:03.678Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000004"),  //thong
-                WalletBalance = 119500,
+                WalletBalance = 148000,
                 Fee = 500
             },
             // transaction 3 lamlam -> thong
@@ -87,7 +92,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-15T02:59:59.000Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000004"), // thong
-                WalletBalance = 99500
+                WalletBalance = 128000
             },
             new TransactionHistory
             {
@@ -99,7 +104,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-15T02:59:59.000Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000002"), // lamlam
-                WalletBalance = 59000,
+                WalletBalance = 81000,
                 Fee = 1000
             },
             // transaction 4 thong -> melodysheep
@@ -113,7 +118,8 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-16T15:30:03.678Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-00000000000b"), //melodysheep
-                WalletBalance = 9000
+                WalletBalance = 31000,
+                Fee = 0
             },
             new TransactionHistory
             {
@@ -128,32 +134,65 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 WalletBalance = 47500,
                 Fee = 2500
             },
-            // transaction 5 lamlam -> phu
+            // transaction 5 phu -> lamlam
             new TransactionHistory
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000009"),
                 AssetId = new Guid("00000000-0000-0000-0000-000000000030"), 
-                CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"), // lamlam
-                Detail = "Mở khóa tài nguyên \"Ảnh cánh cụt\"",
-                Price = -12000,
+                CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"), // phu
+                Detail = "Mở khóa tài nguyên \"Dấu vết của quá khứ\"",
+                Price = -10000,
                 TransactionStatus = TransactionStatusEnum.Success,
-                CreatedOn = DateTime.Parse("2024-01-14T15:30:03.678Z"),
-                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000005"), //phu
-                WalletBalance = 87500
+                CreatedOn = DateTime.Parse("2024-01-01T15:30:03.678Z"),
+                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
+                WalletBalance = 21000,
+                Fee = 0
             },
+
             new TransactionHistory
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000010"),
-                AssetId = new Guid("00000000-0000-0000-0000-000000000030"),
-                CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"), // phu
-                Detail = "Mở khóa tài nguyên \"Ảnh cánh cụt\"",
-                Price = 11400,
+                AssetId = new Guid("00000000-0000-0000-0000-000000000001"),
+                CreatedBy = new Guid("00000000-0000-0000-0000-000000000002"), // phu
+                Detail = "Mở khóa tài nguyên \"Dấu vết của quá khứ\"",
+                Price = 9500,
                 TransactionStatus = TransactionStatusEnum.Success,
-                CreatedOn = DateTime.Parse("2024-01-14T15:30:03.678Z"),
-                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
-                WalletBalance = 92800,
-                Fee = 600
+                CreatedOn = DateTime.Parse("2024-01-01T15:30:03.678Z"),
+                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000005"), //lamlam
+                WalletBalance = 119500,
+                Fee = 500
             },
+
+            // transaction 6 phu -> lamlam
+            new TransactionHistory
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000011"),
+                AssetId = new Guid("00000000-0000-0000-0000-000000000080"),
+                CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"), // phu
+                Detail = "Mở khóa tài nguyên \"Figma Full\"",
+                Price = -90000,
+                TransactionStatus = TransactionStatusEnum.Success,
+                CreatedOn = DateTime.Parse("2024-01-02T15:30:03.678Z"),
+                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000012"), //doantrang
+                WalletBalance = 750000,
+                Fee = 0
+            },
+            new TransactionHistory
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+                AssetId = new Guid("00000000-0000-0000-0000-000000000080"),
+                CreatedBy = new Guid("00000000-0000-0000-0000-000000000012"), // doantrang
+                Detail = "Mở khóa tài nguyên \"Figma Full\"",
+                Price = 85500,
+                TransactionStatus = TransactionStatusEnum.Success,
+                CreatedOn = DateTime.Parse("2024-01-02T15:30:03.678Z"),
+                ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000005"), // phu
+                WalletBalance = 85500,
+                Fee = 4500
+            },
+
+
+
         #endregion
 
 
@@ -169,7 +208,8 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-03T02:59:59.000Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000002"),  // lamlam
-                WalletBalance = 72800
+                WalletBalance = 730000,
+                Fee = 0
             },
             new TransactionHistory
             {
@@ -181,7 +221,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-03T02:59:59.000Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000005"),  // phuhuynh
-                WalletBalance = 106500,
+                WalletBalance = 138500,
                 Fee = 1000
             },
             // complete transaction
@@ -195,7 +235,8 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-02-01T02:59:59.000Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000002"),  // lamlam
-                WalletBalance = 12800
+                WalletBalance = 670000,
+                Fee = 0
             },
              new TransactionHistory
              {
@@ -207,7 +248,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                  TransactionStatus = TransactionStatusEnum.Success,
                  CreatedOn = DateTime.Parse("2024-02-01T02:59:59.000Z"),
                  ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000005"),  // phuhuynh
-                 WalletBalance = 163500,
+                 WalletBalance = 185000,
                  Fee = 3000
              }
              #endregion

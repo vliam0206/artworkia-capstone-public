@@ -26,9 +26,8 @@ public class WalletHistoryService : IWalletHistoryService
 
     public async Task<List<WalletHistoryVM>> GetWalletHistoriesOfAccount(Guid accountId)
     {
-        var result = (await _unitOfWork.WalletHistoryRepository
-                                .GetListByConditionAsync(x => x.CreatedBy == accountId))
-                                .OrderByDescending(x => x.CreatedOn);
+        var result = await _unitOfWork.WalletHistoryRepository
+                                .GetWalletHistoriesOfAccountAsync(accountId);
         return _mapper.Map<List<WalletHistoryVM>>(result);
     }
 

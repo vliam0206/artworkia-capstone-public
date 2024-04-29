@@ -132,6 +132,62 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 Size = 8000000
             },
 
+            // Artwork 27 phamha
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000063"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-00000000001b"),
+                AssetTitle = "Ảnh gốc",
+                Description = "File PTS, tùy ý chỉnh sửa",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 0,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 33 buiduong
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000068"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000021"),
+                AssetTitle = "Ảnh gốc",
+                Description = "File PTS, tùy ý chỉnh sửa",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 0,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 34 minhhuy
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000069"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000022"),
+                AssetTitle = "Ảnh gốc (xóa)",
+                Description = "File PTS, tùy ý chỉnh sửa",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 20000,
+                ContentType = "rar",
+                Size = 8000000,
+                DeletedOn = DateTime.Parse("2024-01-03T08:20:45.890Z"),
+                DeletedBy = Guid.Parse("00000000-0000-0000-0000-000000000018"), //minhhuy
+            },
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-00000000006a"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-000000000022"),
+                AssetTitle = "Ảnh gốc (thêm)",
+                Description = "File PTS, tùy ý chỉnh sửa",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 25000,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
             // Artwork 51 doantrang
             new Asset()
             {
@@ -226,7 +282,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 Description = "Original PNG",
                 AssetName = "CommercialAsset.rar",
                 Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
-                Price = 20000,
+                Price = 0,
                 ContentType = "rar",
                 Size = 8000000
             },
@@ -241,6 +297,20 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetName = "CommercialAsset.rar",
                 Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
                 Price = 10000,
+                ContentType = "rar",
+                Size = 8000000
+            },
+
+            // Artwork 63 tranduc
+            new Asset()
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000091"),
+                ArtworkId = new Guid("00000000-0000-0000-0000-00000000003f"),
+                AssetTitle = "The Dragonborn Daedric Armor",
+                Description = "All file asset 3d model",
+                AssetName = "CommercialAsset.rar",
+                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Price = 0,
                 ContentType = "rar",
                 Size = 8000000
             }

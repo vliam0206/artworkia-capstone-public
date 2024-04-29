@@ -21,4 +21,12 @@ public class WalletHistoryRepository : GenericCreationRepository<WalletHistory>,
         var result = await this.ToPaginationAsync(walletHistories, pageNumber, pageSize);
         return result;
     }
+
+    public async Task<List<WalletHistory>> GetWalletHistoriesOfAccountAsync(Guid accountId)
+    {
+        return await _dbContext.WalletHistories
+            .Include(x => x.Account)
+            .Where(x => x.CreatedBy == accountId)
+            .ToListAsync();
+    }
 }

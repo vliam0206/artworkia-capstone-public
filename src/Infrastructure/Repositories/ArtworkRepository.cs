@@ -146,8 +146,8 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
         StateEnum? state = null, PrivacyEnum? privacy = null)
     {
         var allArtworks = _dbContext.Artworks
-            .Include(a => a.Assets)
-            .Where(a => a.CreatedBy == creatorId && a.DeletedOn == null && a.Assets.Any());
+            .Include(a => a.Assets.Where(a => a.DeletedOn == null))
+            .Where(a => a.CreatedBy == creatorId && a.DeletedOn == null && a.Assets.Where(a => a.DeletedOn == null).Any());
 
         if (state != null)
         {
@@ -261,7 +261,7 @@ public class ArtworkRepository : GenericAuditableRepository<Artwork>, IArtworkRe
             .Include(a => a.Account)
             .Include(l => l.LicenseType)
             .Include(i => i.Images)
-            .Include(a => a.Assets)
+            .Include(a => a.Assets.Where(a => a.DeletedOn == null))
             .Include(c => c.Comments)
             .Include(a => a.TagDetails)
                 .ThenInclude(t => t.Tag)
