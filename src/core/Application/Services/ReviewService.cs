@@ -90,7 +90,8 @@ public class ReviewService : IReviewService
             throw new BadHttpRequestException("Không thể đánh giá, thỏa thuận đã được đánh giá.");
         }
 
-        if (proposal.ProposalStatus != ProposalStateEnum.CompletePayment)
+        if (proposal.ProposalStatus != ProposalStateEnum.CompletePayment &&
+            proposal.ProposalStatus != ProposalStateEnum.ConfirmPayment)
         {
             throw new BadHttpRequestException($"Không thể đánh giá, thỏa thuận chưa hoàn thành " +
                 $"(trạng thái hiện tại là '{PROPOSALSTATE_ENUM_VN[proposal.ProposalStatus]}')");

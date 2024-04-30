@@ -37,8 +37,37 @@ public class DashBoardService : IDashBoardService
     public async Task<List<AssetTransByDate>> GetAssetTransactionStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
     {
         var result = await _unitOfWork.TransactionHistoryRepository.GetAssetTransactionStatisticAsync(startTime, endTime);
-        return result;
+        DateTime startDate = startTime ?? result.First().Date;
+        DateTime endDate = endTime ?? result.Last().Date;
+        
+        // 1. Create a full date range
+        var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+                                  .Select(days => startDate.AddDays(days))
+                                  .ToList();
 
+        // 2. Convert result into a dictionary for easy lookup
+        var resultDict = result.ToDictionary(x => x.Date, x => x);
+
+        // 3. Build newResult with all dates, filling gaps and calculating values
+        var newResult = new List<AssetTransByDate>();
+        int? runningTotal = null; // Initialize runningTotal
+
+        foreach (var date in dateRange)
+        {
+            var item = new AssetTransByDate
+            {
+                Date = date,
+                Count = resultDict.ContainsKey(date) ? resultDict[date].Count : 0,
+                Total = runningTotal,
+                IncreaseRate = resultDict.ContainsKey(date) ? resultDict[date].IncreaseRate : 0,
+            };
+
+            runningTotal = item.Count + (runningTotal ?? 0); // Update runningTotal
+
+            newResult.Add(item);
+        }
+
+        return newResult;
     }
 
     public async Task<List<PercentageCategoryOfAssetTrans>> GetPercentageCategoryOfAssetTransStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
@@ -56,7 +85,36 @@ public class DashBoardService : IDashBoardService
     public async Task<List<ProposalByDate>> GetProposalByDateStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)
     {
         var result = await _unitOfWork.ProposalRepository.GetProposalStatisticAsync(startTime, endTime);
-        return result;
+        DateTime startDate = startTime ?? result.First().Date;
+        DateTime endDate = endTime ?? result.Last().Date;
+
+        // 1. Create a full date range
+        var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+                                  .Select(days => startDate.AddDays(days))
+                                  .ToList();
+
+        // 2. Convert result into a dictionary for easy lookup
+        var resultDict = result.ToDictionary(x => x.Date, x => x);
+
+        // 3. Build newResult with all dates, filling gaps and calculating values
+        var newResult = new List<ProposalByDate>();
+        int? runningTotal = null; // Initialize runningTotal
+
+        foreach (var date in dateRange)
+        {
+            var item = new ProposalByDate
+            {
+                Date = date,
+                Count = resultDict.ContainsKey(date) ? resultDict[date].Count : 0,
+                Total = runningTotal,
+                IncreaseRate = resultDict.ContainsKey(date) ? resultDict[date].IncreaseRate : 0,
+            };
+
+            runningTotal = item.Count + (runningTotal ?? 0); // Update runningTotal
+
+            newResult.Add(item);
+        }
+        return newResult;
     }
 
     public async Task<List<PercentageCategoryOfProposal>> GetPercentageCategoryOfProposalStatisticAsync(DateTime? startTime = null, DateTime? endTime = null)

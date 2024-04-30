@@ -70,12 +70,15 @@ public class ProposalRepository : GenericCreationRepository<Proposal>, IProposal
         int totalUntilStartTime = 0;
 
         var proposalCompleteds = _dbContext.Proposals
-            .Where(x => x.ProposalStatus == ProposalStateEnum.CompletePayment && x.ActualDelivery != null);
+            .Where(x => (x.ProposalStatus == ProposalStateEnum.CompletePayment || 
+            x.ProposalStatus == ProposalStateEnum.ConfirmPayment)
+            && x.ActualDelivery != null);
 
         if (startTime != null)
         {
             totalUntilStartTime = _dbContext.Proposals
-                    .Where(x => x.ProposalStatus != ProposalStateEnum.CompletePayment && x.ActualDelivery < startTime)
+                    .Where(x => (x.ProposalStatus == ProposalStateEnum.CompletePayment ||
+                x.ProposalStatus == ProposalStateEnum.ConfirmPayment) && x.ActualDelivery < startTime)
                     .Count();
 
             proposalCompleteds = proposalCompleteds.Where(x => x.ActualDelivery >= startTime.Value.Date);

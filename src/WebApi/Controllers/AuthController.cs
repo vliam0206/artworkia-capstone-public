@@ -75,7 +75,8 @@ public class AuthController : ControllerBase
             return Unauthorized(new ApiResponse
             {
                 IsSuccess = false,
-                ErrorMessage = "Tài khoản của bạn đã bị vô hiệu hóa."
+                ErrorMessage = "Tài khoản của bạn đã bị vô hiệu hóa. " +
+                "Thông tin chi tiết vui lòng kiểm tra email"
             });
         }
         // login success - issue (access token, refresh token) pair

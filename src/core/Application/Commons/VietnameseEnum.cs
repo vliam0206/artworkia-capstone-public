@@ -39,7 +39,8 @@ public static class VietnameseEnum
         { ProposalStateEnum.Cancelled, "Hủy bỏ" },
         { ProposalStateEnum.InitPayment, "Đã đặt cọc" },
         { ProposalStateEnum.Completed, "Kết thúc" },
-        { ProposalStateEnum.CompletePayment, "Thanh toán toàn bộ" }
+        { ProposalStateEnum.CompletePayment, "Thanh toán toàn bộ" },
+        { ProposalStateEnum.ConfirmPayment, "Xác nhận thanh toán" }
     };
 
     public static readonly Dictionary<ReportTypeEnum, string> REPORTTYPE_ENUM_VN = new()

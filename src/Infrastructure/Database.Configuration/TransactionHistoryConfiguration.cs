@@ -63,7 +63,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 Detail = "Mở khóa tài nguyên \"Dấu vết của quá khứ\"",
                 Price = -10000,
                 TransactionStatus = TransactionStatusEnum.Success,
-                CreatedOn = DateTime.Parse("2024-12-29T15:30:03.678Z"),
+                CreatedOn = DateTime.Parse("2024-01-16T15:30:03.678Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000002"),  //lamlam
                 WalletBalance = 21000,
                 Fee = 0
@@ -76,7 +76,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 Detail = "Mở khóa tài nguyên \"Dấu vết của quá khứ\"",
                 Price = 9500,
                 TransactionStatus = TransactionStatusEnum.Success,
-                CreatedOn = DateTime.Parse("2024-01-05T15:30:03.678Z"),
+                CreatedOn = DateTime.Parse("2024-01-16T15:30:03.678Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000004"),  //thong
                 WalletBalance = 148000,
                 Fee = 500

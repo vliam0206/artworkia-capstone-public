@@ -23,6 +23,16 @@ public class CategoryServiceDetailConfiguration : IEntityTypeConfiguration<Categ
             {
                 CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+            new CategoryServiceDetail()
+            {
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000006")
+            },
+            new CategoryServiceDetail()
+            {
+                CategoryId = Guid.Parse("00000000-0000-0000-0000-000000000008"),
+                ServiceId = Guid.Parse("00000000-0000-0000-0000-000000000006")
             }
         );
         #endregion

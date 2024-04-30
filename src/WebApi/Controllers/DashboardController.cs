@@ -41,7 +41,7 @@ public class DashboardController : ControllerBase
     }
 
     [HttpGet("asset-transaction-statistic")]
-    public async Task<IActionResult> GetAssetTransactionStatistic(DateTime startTime, DateTime? endTime = null)
+    public async Task<IActionResult> GetAssetTransactionStatistic(DateTime? startTime = null, DateTime? endTime = null)
     {
         try
         {
