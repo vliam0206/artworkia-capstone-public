@@ -58,6 +58,20 @@ public class EmailService : IEmailService
                            "[Artworkia] Tài khoản của bạn bị cấm", mailText);
     }   
 
+    public async Task<bool> SendVerificationEmailAsync(string email, string verificationCode)
+    {
+        var message = @"Xác nhận địa chỉ email của bạn
+
+Hãy chắc chắn đây là địa chỉ email đúng của bạn. Vui lòng nhập mã xác nhận này để tiếp tục đăng kí tài khoản trên hệ thống Artworkia:
+
+" + verificationCode+
+
+@" Mã xác nhận hết hạn sau 15 phút.
+
+Cảm ơn,
+Artworkia.";
+        return await SendMailAsync(new List<string> { email }, "[Artworkia] Xác thực email", message);
+    }
     public async Task<bool> SendMailAsync(List<string> emails, string subject, string message)
     {
         try

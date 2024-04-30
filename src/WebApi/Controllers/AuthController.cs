@@ -7,6 +7,7 @@ using Domain.Entitites;
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using WebApi.Utils;
 
@@ -23,6 +24,8 @@ public class AuthController : ControllerBase
     private readonly IThirdAuthenticationService _thirdAuthenticationService;
     private readonly AppConfiguration _appConfiguration;
     private readonly IClaimService _claimService;
+    private readonly IOtpService _otpService;
+    private readonly IEmailService _emailService;
 
     public AuthController(IAccountService accountService,
         IUserTokenService userTokenService,
@@ -30,7 +33,9 @@ public class AuthController : ControllerBase
         IMapper mapper,
         IThirdAuthenticationService thirdAuthenticationService,
         AppConfiguration appConfiguration,
-        IClaimService claimService)
+        IClaimService claimService,
+        IOtpService otpService,
+        IEmailService emailService)
     {
         _accountService = accountService;
         _userTokenService = userTokenService;
@@ -39,6 +44,8 @@ public class AuthController : ControllerBase
         _thirdAuthenticationService = thirdAuthenticationService;
         _appConfiguration = appConfiguration;
         _claimService = claimService;
+        _otpService = otpService;
+        _emailService = emailService;
     }
 
     [HttpPost("login")]
@@ -229,4 +236,31 @@ public class AuthController : ControllerBase
         });
     }
 
+    [HttpPost("send-email-verification")]
+    public async Task<IActionResult> SendEmailVerification(EmailModel model)
+    {
+        // Generate a random 6-digit verification code
+        var random = new Random();
+        var code = random.Next(100000, 999999).ToString();
+        // Save otp key with email in memory cache
+        _otpService.SaveOTP(code, model.Email, 15); // otp expired in 15 minutes
+
+        // Send verification code to email
+        var result = await _emailService.SendVerificationEmailAsync(model.Email, code);
+        if (!result)
+        {
+            return BadRequest(new {ErrorMessage = $"Không thể gửi mã xác thực đến email {model.Email}." });
+        }
+        return Ok(new {Message = $"Đã gửi mã xác thực đến email {model.Email}, vui lòng kiểm tra email."});
+    }
+
+    [HttpPost("verify-email")]
+    public IActionResult VerifyEmail(EmailVerificationModel model)
+    {
+        var email = _otpService.GetEmailByOTP(model.VerificationCode);
+        if (email == null || !email.Equals(model.Email)) {
+            return BadRequest(new {ErrorMessage = $"Xác thực thất bại! Mã xác thực không hợp lệ."});
+        }
+        return Ok(new { Message = $"Xác thực email {model.Email} thành công." });
+    }
 }

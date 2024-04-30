@@ -51,6 +51,7 @@ public static class DependencyInjection
         services.AddScoped<IThirdAuthenticationService, ThirdAuthenticationService>();
         services.AddScoped<IZaloPayService, ZaloPayService>();
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IOtpService, OtpService>();
         return services;
     }
 }
