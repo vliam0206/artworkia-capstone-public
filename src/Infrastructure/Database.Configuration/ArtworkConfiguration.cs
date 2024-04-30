@@ -153,7 +153,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000002"), //lamlam
                 CreatedOn = DateTime.Parse("2023-12-08T18:30:15.567Z"),
-                Thumbnail = "https://th.bing.com/th/id/OIG..gPcXaRan.FdnEjYCvT3?pid=ImgGn",
+                Thumbnail = "https://i.pinimg.com/564x/61/59/6c/61596cae1a6dc2dede171e59fb5787aa.jpg",
                 ThumbnailName = "00000000-0000-0000-0000-000000000007_t.jpg",
                 ViewCount = 356,
                 LikeCount = 0,
@@ -191,7 +191,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Privacy = PrivacyEnum.Private,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000005"), //phuhuynh
                 CreatedOn = DateTime.Parse("2023-12-09T21:20:10.234Z"),
-                Thumbnail = "https://th.bing.com/th/id/OIG.Uz66_wn15hsKPirpv6Pb?pid=ImgGn",
+                Thumbnail = "https://i.pinimg.com/originals/8d/97/66/8d9766d16e7cf36ade29a0e307ce81be.jpg",
                 ThumbnailName = "00000000-0000-0000-0000-000000000009_t.jpg",
                 ViewCount = 0,
                 LikeCount = 0,

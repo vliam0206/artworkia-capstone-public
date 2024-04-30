@@ -322,11 +322,12 @@ public class ArtworkService : IArtworkService
                                 new MoreLikeThisQuery
                                 {
                                     Fields = new[] { "tagList.tagName" },
-                                    Boost = 2,
+                                    Boost = 1.3,
                                     Like = listLikes,
                                     MinTermFrequency = 1,
                                     MinDocumentFrequency = 5,
-                                    MaxQueryTerms = 20
+                                    MaxQueryTerms = 20,
+                                    StopWords = new [] { "AI"}
                                 }
                             )
                         },
@@ -337,7 +338,7 @@ public class ArtworkService : IArtworkService
                                 new MoreLikeThisQuery
                                 {
                                     Fields = new[] { "categoryList.categoryName" },
-                                    Boost = 1.2,
+                                    Boost = 1,
                                     Like = listLikes,
                                     MinTermFrequency = 1,
                                     MinDocumentFrequency = 5,

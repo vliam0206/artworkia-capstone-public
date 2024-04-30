@@ -99,17 +99,21 @@ public class AssetService : IAssetService
     // lay link download cua asset
     public async Task<string?> GetDownloadUriAssetAsync(Guid assetId)
     {
+        var accountId = _claimService.GetCurrentUserId ?? default;
+        
         var asset = await _unitOfWork.AssetRepository.GetAssetAndItsCreatorAsync(assetId)
             ?? throw new KeyNotFoundException("Không tìm thấy tài nguyên.");
 
-        // kiem tra xem user da mua asset chua
-        var accountId = _claimService.GetCurrentUserId ?? default;
-        var assetTransaction = await _unitOfWork.TransactionHistoryRepository.GetSingleByConditionAsync(
-            x => x.AssetId == assetId && x.CreatedBy == accountId);
-        if (assetTransaction != null)
+        if (_claimService.IsModeratorOrAdmin())
             return await _cloudStorageService.GetDownloadSignedUrlFromPrivateCloudStorage(asset.AssetName, PARENT_FOLDER);
 
         if (asset.Artwork.CreatedBy == accountId)
+            return await _cloudStorageService.GetDownloadSignedUrlFromPrivateCloudStorage(asset.AssetName, PARENT_FOLDER);
+
+        // kiem tra xem user da mua asset chua
+        var assetTransaction = await _unitOfWork.TransactionHistoryRepository.GetSingleByConditionAsync(
+            x => x.AssetId == assetId && x.CreatedBy == accountId && x.Price < 0);
+        if (assetTransaction != null)
             return await _cloudStorageService.GetDownloadSignedUrlFromPrivateCloudStorage(asset.AssetName, PARENT_FOLDER);
 
         if (asset.DeletedOn != null)

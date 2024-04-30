@@ -30,7 +30,7 @@ public class TransactionHistoryRepository : GenericCreationRepository<Transactio
     {
         var assetBoughts = _dbContext.TransactionHistories
             .Include(a => a.Asset)
-            .Where(a => a.CreatedBy == accountId && a.AssetId != null);
+            .Where(a => a.CreatedBy == accountId && a.Price < 0 && a.AssetId != null);
 
         // sorting
         assetBoughts = assetBoughts.OrderByDescending(x => x.CreatedOn);

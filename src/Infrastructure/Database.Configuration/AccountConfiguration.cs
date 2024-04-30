@@ -83,7 +83,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Fullname = "Đặng Hoàng Anh",
                 Email = "anhdhse160846@fpt.edu.vn",
                 Bio = "Tôi là Đặng Hoàng Anh, tôi là một nghệ sĩ đầy tài năng",
-                Avatar = "https://i.pinimg.com/564x/14/b0/3b/14b03bdcab41f458dd15c9f5669cef2d.jpg",
+                Avatar = "https://i.pinimg.com/564x/db/02/67/db02679d039a230d9a37caec679d1b3b.jpg",
                 Birthdate = DateTime.Parse("2002-10-4"),
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-21T12:20:47.890Z")
@@ -176,7 +176,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
                 Email = "tranminh@example.com",
                 Bio = "Tôi là một nhà thiết kế web có kinh nghiệm, đã tham gia vào nhiều " +
                 "dự án phức tạp và mang lại sự sáng tạo đặc biệt.",
-                Avatar = "https://i.pinimg.com/564x/79/ba/4f/79ba4f6c73168efb975a2d43cc4272a3.jpg",
+                Avatar = "https://i.pinimg.com/originals/4b/59/75/4b5975b01115a778a6d8016bf4d0ddc7.jpg",
                 Birthdate = DateTime.Parse("2002-10-24"),
                 Role = RoleEnum.CommonUser,
                 CreatedOn = DateTime.Parse("2023-09-02T03:21:47.890Z")
