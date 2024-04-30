@@ -297,4 +297,34 @@ public class ProposalsController : ControllerBase
             return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
         }
     }
+
+    [HttpPost("{id}/confirm")]
+    public  async Task<IActionResult> ConfirmPayment(Guid id)
+    {
+        try
+        {
+            await _proposalService.ConfirmPaymentProposalAsync(id);
+            return Ok();
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (BadHttpRequestException ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            return BadRequest(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new ApiResponse { ErrorMessage = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse { ErrorMessage = ex.Message });
+        }
+    }
 }

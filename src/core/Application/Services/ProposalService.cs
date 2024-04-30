@@ -351,7 +351,7 @@ public class ProposalService : IProposalService
             throw new BadHttpRequestException("Bạn không đủ xu để thực hiện giao dịch này.");
 
         // payment successfully
-        // 1. add 2 new transaction histories for client & creator
+        // 1. add new transaction histories for client
         var clientTransactionHistory = new TransactionHistory
         {
             CreatedBy = currentId,
@@ -362,6 +362,57 @@ public class ProposalService : IProposalService
             ToAccountId = creatorId,
             WalletBalance = wallet.Balance - amount
         };
+        await _unitOfWork.TransactionHistoryRepository.AddAsync(clientTransactionHistory);       
+
+        // 2. update wallets
+        wallet.Balance -= amount;
+        _unitOfWork.WalletRepository.Update(wallet);
+
+        // 3. add new miletone
+        await _milstoneService.AddMilestoneToProposalAsync(proposalId, $"Hoàn tất thanh toán {amount} xu ({(1 - proposal.InitialPrice) * 100}%)");
+
+        // 4. update the proposal status
+        proposal.ProposalStatus = ProposalStateEnum.CompletePayment;
+        proposal.ActualDelivery = DateTime.UtcNow;
+
+        _unitOfWork.ProposalRepository.Update(proposal);
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return _mapper.Map<TransactionHistoryVM>(clientTransactionHistory);
+    }
+
+    public async Task ConfirmPaymentProposalAsync(Guid proposalId)
+    {
+        #region check if payment is valid
+        var proposal = await _unitOfWork.ProposalRepository.GetByIdAsync(proposalId);
+        if (proposal == null)
+        {
+            throw new KeyNotFoundException("Không tìm thấy thỏa thuận.");
+        }        
+        if (proposal.ProposalStatus != ProposalStateEnum.CompletePayment)
+        {
+            throw new BadHttpRequestException("Thỏa thuận này chưa được thanh toán.");
+        }
+        var currentId = _claimService.GetCurrentUserId ?? default;
+        if (currentId != proposal.OrdererId)
+        {
+            throw new UnauthorizedAccessException("Bạn không có quyền xác nhận thanh toán cho thỏa thuận này.");
+        }
+        #endregion
+
+        // payment (coins)
+        var amount = proposal.Total - (proposal.InitialPrice * proposal.Total);
+        var creatorId = proposal.CreatedBy ?? default;
+
+        // Check if wallet is available      
+        Wallet? creatorWallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x => x.AccountId == creatorId);
+        if (creatorWallet is null)
+        {
+            throw new KeyNotFoundException("Không tìm thấy ví của tác giả.");
+        }
+
+        // 1. add new transaction histories for creator
         var creatorTransactionHistory = new TransactionHistory
         {
             ProposalId = proposalId,
@@ -372,28 +423,22 @@ public class ProposalService : IProposalService
             WalletBalance = creatorWallet.Balance + amount * (1 - AppConstant.PLATFORM_FEE),
             Fee = amount * AppConstant.PLATFORM_FEE
         };
-        await _unitOfWork.TransactionHistoryRepository.AddAsync(clientTransactionHistory);
         await _unitOfWork.TransactionHistoryRepository.AddAsync(creatorTransactionHistory);
 
         creatorTransactionHistory.CreatedBy = creatorId;
 
         // 2. update wallets
-        wallet.Balance -= amount;
         creatorWallet.Balance += amount * (1 - AppConstant.PLATFORM_FEE);
-        _unitOfWork.WalletRepository.Update(wallet);
         _unitOfWork.WalletRepository.Update(creatorWallet);
 
         // 3. add new miletone
-        await _milstoneService.AddMilestoneToProposalAsync(proposalId, $"Hoàn tất thanh toán {amount} xu ({(1 - proposal.InitialPrice) * 100}%)");
+        await _milstoneService.AddMilestoneToProposalAsync(proposalId, $"Xác nhận thanh toán {amount} xu cho nhà sáng tạo.");
 
-        // 3. update the proposal status
-        proposal.ProposalStatus = ProposalStateEnum.CompletePayment;
-        proposal.ActualDelivery = DateTime.UtcNow;
+        // 4. update the proposal status
+        proposal.ProposalStatus = ProposalStateEnum.ConfirmPayment;
 
         _unitOfWork.ProposalRepository.Update(proposal);
 
         await _unitOfWork.SaveChangesAsync();
-
-        return _mapper.Map<TransactionHistoryVM>(clientTransactionHistory);
     }
 }

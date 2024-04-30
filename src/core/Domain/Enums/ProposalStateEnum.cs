@@ -8,5 +8,6 @@ public enum ProposalStateEnum
     Cancelled = 5, // 2.3
     InitPayment = 3, // 3
     Completed = 6, // 4  
-    CompletePayment = 4 //5
+    CompletePayment = 4, //5
+    ConfirmPayment = 7 //6
 }

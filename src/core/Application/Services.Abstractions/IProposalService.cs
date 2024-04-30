@@ -15,4 +15,5 @@ public interface IProposalService
     Task DeleteProposalAsync(Guid proposalId);
     Task<TransactionHistoryVM> InitPaymentProposalAsync(Guid proposalId);
     Task<TransactionHistoryVM> CompletePaymentProposalAsync(Guid proposalId);
+    Task ConfirmPaymentProposalAsync(Guid proposalId);
 }
