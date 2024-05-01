@@ -65,7 +65,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-16T15:30:03.678Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000002"),  //lamlam
-                WalletBalance = 21000,
+                WalletBalance = 71000,
                 Fee = 0
             },            
             new TransactionHistory
@@ -78,7 +78,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-16T15:30:03.678Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000004"),  //thong
-                WalletBalance = 148000,
+                WalletBalance = 128000,
                 Fee = 500
             },
             // transaction 3 lamlam -> thong
@@ -92,7 +92,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-15T02:59:59.000Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-000000000004"), // thong
-                WalletBalance = 128000
+                WalletBalance = 118500
             },
             new TransactionHistory
             {
@@ -118,7 +118,7 @@ public class TransactionHistoryConfiguration : IEntityTypeConfiguration<Transact
                 TransactionStatus = TransactionStatusEnum.Success,
                 CreatedOn = DateTime.Parse("2024-01-16T15:30:03.678Z"),
                 ToAccountId = Guid.Parse("00000000-0000-0000-0000-00000000000b"), //melodysheep
-                WalletBalance = 31000,
+                WalletBalance = 21000,
                 Fee = 0
             },
             new TransactionHistory
