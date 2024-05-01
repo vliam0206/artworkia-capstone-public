@@ -4,8 +4,10 @@ using Application.Models.ZaloPayModels;
 using Application.Services.Abstractions;
 using Domain.Entitites;
 using Domain.Enums;
+using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Nest;
 using Serilog;
 using System.Net.WebSockets;
 using System.Text;
@@ -21,16 +23,19 @@ public class PaymentsController : ControllerBase
     private readonly IWalletHistoryService _walletHistoryService;
     private readonly IWalletService _walletService;
     private readonly IClaimService _claimService;
+    private readonly IUnitOfWork _unitOfWork;
 
     public PaymentsController(IZaloPayService zaloPayService,
         IWalletHistoryService walletHistoryService,
         IWalletService walletService,
-        IClaimService claimService)
+        IClaimService claimService,
+        IUnitOfWork unitOfWork)
     {
         _zaloPayService = zaloPayService;
         _walletHistoryService = walletHistoryService;
         _walletService = walletService;
         _claimService = claimService;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpPost]
@@ -93,23 +98,29 @@ public class PaymentsController : ControllerBase
                 if (callbackData == null)
                 {
                     throw new ArgumentException("Callback Data is invalid json format.");
+                }                
+                
+                var walletHistory = await _unitOfWork.WalletHistoryRepository
+                            .GetSingleByConditionAsync(x => x.AppTransId.Equals(callbackData.AppTransId));
+                if (walletHistory == null)
+                {
+                    return BadRequest(new { ErrorMessage = "Không tìm thấy giao dịch của ví." });
                 }
-                var currentUserId = _claimService.GetCurrentUserId ?? default;
-                var wallet = await _walletService.GetWalletByAccountIdAsync(currentUserId);
+                var wallet = await _walletService.GetWalletByAccountIdAsync(walletHistory.CreatedBy!.Value);
                 if (wallet == null)
                 {
                     return BadRequest("Người dùng này chưa kích hoạt ví.");
                 }
                 var walletBalance = wallet.Balance + callbackData.Amount;
-                await _walletHistoryService
-                    .UpdateWalletHistoryStatus(
-                        callbackData.AppTransId, 
-                        TransactionStatusEnum.Success, walletBalance);
+                // update status
+                walletHistory.TransactionStatus = TransactionStatusEnum.Success;
+                walletHistory.WalletBalance = walletBalance;
+                _unitOfWork.WalletHistoryRepository.Update(walletHistory);                
                 // update coins in db
                 var accountId = Guid.Parse(callbackData.AppUser);
                 var coins = callbackData.Amount;
-                await _walletService.AddCoinsToWallet(accountId, coins);
-
+                await _walletService.AddCoinsToWallet(accountId, coins, false);
+                await _unitOfWork.SaveChangesAsync();
                 // return result
                 result["return_code"] = 1;
                 result["return_message"] = "success";
