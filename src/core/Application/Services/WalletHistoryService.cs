@@ -42,13 +42,14 @@ public class WalletHistoryService : IWalletHistoryService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task UpdateWalletHistoryStatus(string appTransId, TransactionStatusEnum status)
+    public async Task UpdateWalletHistoryStatus(string appTransId, TransactionStatusEnum status, double walletBalance)
     {
         var walletHistory = await _unitOfWork.WalletHistoryRepository
             .GetSingleByConditionAsync(x => x.AppTransId.Equals(appTransId))
             ?? throw new KeyNotFoundException("Không tìm thấy giao dịch của ví.");
         // update status
         walletHistory.TransactionStatus = status;
+        walletHistory.WalletBalance = walletBalance;
         _unitOfWork.WalletHistoryRepository.Update(walletHistory);
         await _unitOfWork.SaveChangesAsync();
     }

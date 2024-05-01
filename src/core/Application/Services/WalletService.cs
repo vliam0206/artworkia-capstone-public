@@ -37,26 +37,31 @@ public class WalletService : IWalletService
     public async Task<WalletVM?> GetWalletByIdAsync(Guid walletId)
     {
         var wallet = await _unitOfWork.WalletRepository.GetByIdAsync(walletId);
-        if (wallet is null)
-        {
-            throw new KeyNotFoundException("Không tìm thấy ví.");
-        }
+        //if (wallet is null)
+        //{
+        //    throw new KeyNotFoundException("Không tìm thấy ví.");
+        //}
         var walletVM = _mapper.Map<WalletVM>(wallet);
         return walletVM;
     }
 
     public async Task<WalletVM?> GetWalletByAccountIdAsync(Guid accountId)
     {        
+        var account = await _unitOfWork.AccountRepository.IsExistedAsync(accountId);
+        if (!account)
+        {
+            throw new KeyNotFoundException("Người dùng không tồn tại.");
+        }
         var wallet = await _unitOfWork.WalletRepository.GetSingleByConditionAsync(x
                                     => x.AccountId == accountId);
-        if (wallet is null)
-        {
-            throw new KeyNotFoundException("Không tìm thấy ví.");
-        }
+        //if (wallet is null)
+        //{
+        //    throw new KeyNotFoundException("Không tìm thấy ví.");
+        //}
         // check authorized
         var currentRole = _claimService.GetCurrentRole ?? default;
         var currentUserId = _claimService.GetCurrentUserId ?? default;
-        if (currentRole.Equals(RoleEnum.CommonUser.ToString())
+        if (currentRole!.Equals(RoleEnum.CommonUser.ToString())
             && currentUserId != wallet.AccountId)
         {
             throw new UnauthorizedAccessException("Bạn không thể xem thông tin ví của người khác.");

@@ -65,7 +65,7 @@ public class WalletsController : ControllerBase
     [Route("api/account/current-wallet")]
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> GetWalletOfCurrentUserId()
+    public async Task<IActionResult> GetWalletOfCurrentUser()
     {
         try
         {

@@ -177,7 +177,9 @@ public class AuthController : ControllerBase
             {
                 return BadRequest(new ApiResponse { ErrorMessage = "Xác thực bên ngoài (payload) không hợp lệ." });
             }
+            // verify gg successful
             var account = await _accountService.GetAccountByEmailAsync(payload.Email);
+            // if email not exist in system yet -> create new
             if (account == null)
             {
                 account = new Account
@@ -188,6 +190,14 @@ public class AuthController : ControllerBase
                     Avatar = payload.Picture
                 };
                 await _accountService.CreateAccountAsync(account);
+            } else if (account.DeletedOn != null)
+            {
+                return Unauthorized(new ApiResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Tài khoản của bạn đã bị vô hiệu hóa. " +
+                                    "Thông tin chi tiết vui lòng kiểm tra email"
+                });
             }
 
             // login success - issue (access token, refresh token) pair

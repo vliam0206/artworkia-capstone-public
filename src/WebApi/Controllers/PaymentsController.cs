@@ -46,12 +46,20 @@ public class PaymentsController : ControllerBase
             {
                 return BadRequest(result);
             }
+
             // create order successfully -> save history to DB            
+            var currentUserId = _claimService.GetCurrentUserId ?? default;
+            var wallet = await _walletService.GetWalletByAccountIdAsync(currentUserId);
+            if (wallet == null)
+            {
+                return BadRequest("Người dùng này chưa kích hoạt ví.");
+            }
             var walletHistory = new WalletHistory
             {
                 Amount = zaloPayOrderCreate.Amount, // amount in history is VND
                 AppTransId = zaloPayOrderCreate.AppTransId,
-                Type = Domain.Enums.WalletHistoryTypeEnum.Deposit
+                Type = Domain.Enums.WalletHistoryTypeEnum.Deposit,
+                WalletBalance = wallet.Balance
             };
             await _walletHistoryService.AddWalletHistory(walletHistory);
             // return result
@@ -86,8 +94,17 @@ public class PaymentsController : ControllerBase
                 {
                     throw new ArgumentException("Callback Data is invalid json format.");
                 }
-                await _walletHistoryService.UpdateWalletHistoryStatus(callbackData.AppTransId,
-                                                                      TransactionStatusEnum.Success);
+                var currentUserId = _claimService.GetCurrentUserId ?? default;
+                var wallet = await _walletService.GetWalletByAccountIdAsync(currentUserId);
+                if (wallet == null)
+                {
+                    return BadRequest("Người dùng này chưa kích hoạt ví.");
+                }
+                var walletBalance = wallet.Balance + callbackData.Amount;
+                await _walletHistoryService
+                    .UpdateWalletHistoryStatus(
+                        callbackData.AppTransId, 
+                        TransactionStatusEnum.Success, walletBalance);
                 // update coins in db
                 var accountId = Guid.Parse(callbackData.AppUser);
                 var coins = callbackData.Amount;
@@ -209,11 +226,17 @@ public class PaymentsController : ControllerBase
             {
                 return BadRequest("Not enough coins! The remaining balance in your wallet is not enough to make this transaction.");
             }
+            var wallet = await _walletService.GetWalletByAccountIdAsync(currentUserId);
+            if (wallet == null)
+            {
+                return BadRequest("Người dùng này chưa kích hoạt ví.");
+            }
             // create new transaction & save in db
             var transaction = new WalletHistory
             {
                 Amount = - model.Amount,
-                Type = WalletHistoryTypeEnum.Withdraw
+                Type = WalletHistoryTypeEnum.Withdraw,
+                WalletBalance = wallet.Balance,
             };
             await _walletHistoryService.AddWalletHistory(transaction);
 
@@ -228,6 +251,7 @@ public class PaymentsController : ControllerBase
             // verify successfully -> update transaction status
             transaction.TransactionStatus = TransactionStatusEnum.Success;
             transaction.AppTransId = result.Data!.OrderId;
+            transaction.WalletBalance -= model.Amount;
             await _walletHistoryService.UpdateWalletHistory(transaction.Id, transaction);
             // update coins balance            
             await _walletService.AddCoinsToWallet(currentUserId, - model.Amount);
