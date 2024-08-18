@@ -28,7 +28,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Dấu vết của quá khứ",
                 Description = "Ảnh gốc, phục hồi chất lượng",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 10000,
                 ContentType = "rar",
                 Size = 8000000
@@ -43,7 +43,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 Description = "tập tin PTS tuyển tập minh hoạ sách tâm lý " +
                 "sẽ cung cấp một cái nhìn tổng quan và thú vị.",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 20000,
                 ContentType = "rar",
                 Size = 8000000
@@ -57,7 +57,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Robot PTS",
                 Description = "Tặng các bạn",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 0,
                 ContentType = "rar",
                 Size = 8000000
@@ -71,7 +71,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Ảnh cánh cụt",
                 Description = "Tổng hợp cánh cụt fullsize",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 12000,
                 ContentType = "rar",
                 Size = 8000000
@@ -83,7 +83,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Ảnh cánh cụt khác",
                 Description = "Tổng hợp cánh cụt fullsize",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 12000,
                 ContentType = "rar",
                 Size = 8000000
@@ -98,7 +98,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Hình ảnh giới thiệu nhân vật & Đếm ngược ra mắt game",
                 Description = "File PTS, tùy ý chỉnh sửa",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 30000,
                 ContentType = "rar",
                 Size = 8000000
@@ -112,7 +112,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Không gian vũ trụ",
                 Description = "File PTS, A collection of 173 wallpapers in 4K resolution from THE SIGHTS OF SPACE",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 50000,
                 ContentType = "rar",
                 Size = 8000000
@@ -126,7 +126,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Tương lai loài người",
                 Description = "File PTS, A collection of 173 wallpapers in 4K resolution",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 50000,
                 ContentType = "rar",
                 Size = 8000000
@@ -140,7 +140,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Ảnh gốc",
                 Description = "File PTS, tùy ý chỉnh sửa",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 0,
                 ContentType = "rar",
                 Size = 8000000
@@ -154,7 +154,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Ảnh gốc",
                 Description = "File PTS, tùy ý chỉnh sửa",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 0,
                 ContentType = "rar",
                 Size = 8000000
@@ -168,7 +168,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Ảnh gốc (xóa)",
                 Description = "File PTS, tùy ý chỉnh sửa",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 20000,
                 ContentType = "rar",
                 Size = 8000000,
@@ -182,7 +182,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Ảnh gốc (thêm)",
                 Description = "File PTS, tùy ý chỉnh sửa",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 25000,
                 ContentType = "rar",
                 Size = 8000000
@@ -196,7 +196,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Figma Full",
                 Description = "All 100 pages + 200 icons in Figma",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 100000,
                 ContentType = "rar",
                 Size = 8000000
@@ -210,7 +210,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Figma Full",
                 Description = "All 100 pages + 200 icons in Figma",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 90000,
                 ContentType = "rar",
                 Size = 8000000
@@ -224,7 +224,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Figma Full",
                 Description = "All 100 pages + 200 icons in Figma",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 120000,
                 ContentType = "rar",
                 Size = 8000000
@@ -238,7 +238,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Figma Full",
                 Description = "All 100 pages + 200 icons in Figma",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 120000,
                 ContentType = "rar",
                 Size = 8000000
@@ -253,7 +253,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 Description = "Universal / Fantasy Pixel Art GUI Kit for your new project, " +
                 "featuring Windowed and Fullscreen views to fit all your needs!",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 150000,
                 ContentType = "rar",
                 Size = 8000000
@@ -267,7 +267,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Logo Asset",
                 Description = "Original PNG",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 10000,
                 ContentType = "rar",
                 Size = 8000000
@@ -281,7 +281,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Background Fullsize",
                 Description = "Original PNG",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 0,
                 ContentType = "rar",
                 Size = 8000000
@@ -295,7 +295,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "Logo Asset",
                 Description = "Original PNG",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 10000,
                 ContentType = "rar",
                 Size = 8000000
@@ -309,7 +309,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
                 AssetTitle = "The Dragonborn Daedric Armor",
                 Description = "All file asset 3d model",
                 AssetName = "CommercialAsset.rar",
-                Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                 Price = 0,
                 ContentType = "rar",
                 Size = 8000000

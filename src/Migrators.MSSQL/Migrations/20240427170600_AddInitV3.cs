@@ -100,9 +100,9 @@ namespace Migrators.MSSQL.Migrations
                 columns: new[] { "Id", "ArtworkId", "AssetName", "AssetTitle", "ContentType", "DeletedBy", "DeletedOn", "Description", "LastModificatedBy", "Location", "Price", "Size" },
                 values: new object[,]
                 {
-                    { new Guid("00000000-0000-0000-0000-000000000031"), new Guid("00000000-0000-0000-0000-00000000000f"), "CommercialAsset.rar", "Ảnh cánh cụt khác", "rar", null, null, "Tổng hợp cánh cụt fullsize", null, "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4", 12000.0, 8000000m },
-                    { new Guid("00000000-0000-0000-0000-000000000085"), new Guid("00000000-0000-0000-0000-000000000048"), "CommercialAsset.rar", "Background Fullsize", "rar", null, null, "Original PNG", null, "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4", 20000.0, 8000000m },
-                    { new Guid("00000000-0000-0000-0000-000000000090"), new Guid("00000000-0000-0000-0000-00000000004d"), "CommercialAsset.rar", "Logo Asset", "rar", null, null, "Original PNG", null, "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4", 10000.0, 8000000m }
+                    { new Guid("00000000-0000-0000-0000-000000000031"), new Guid("00000000-0000-0000-0000-00000000000f"), "CommercialAsset.rar", "Ảnh cánh cụt khác", "rar", null, null, "Tổng hợp cánh cụt fullsize", null, "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4", 12000.0, 8000000m },
+                    { new Guid("00000000-0000-0000-0000-000000000085"), new Guid("00000000-0000-0000-0000-000000000048"), "CommercialAsset.rar", "Background Fullsize", "rar", null, null, "Original PNG", null, "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4", 20000.0, 8000000m },
+                    { new Guid("00000000-0000-0000-0000-000000000090"), new Guid("00000000-0000-0000-0000-00000000004d"), "CommercialAsset.rar", "Logo Asset", "rar", null, null, "Original PNG", null, "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4", 10000.0, 8000000m }
                 });
 
             migrationBuilder.InsertData(

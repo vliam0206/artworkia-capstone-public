@@ -970,7 +970,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000090"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000047"),
-                Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/VSCode.png",
+                Location = "https://storage.googleapis.com/artworkia-storage-public/Artwork/VSCode.png",
                 ImageName = "00000000-0000-0000-0000-000000000047_i0.jpg",
                 Order = 0
             },
@@ -978,7 +978,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000091"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-000000000047"),
-                Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/VSCode-Thick.png",
+                Location = "https://storage.googleapis.com/artworkia-storage-public/Artwork/VSCode-Thick.png",
                 ImageName = "00000000-0000-0000-0000-000000000047_i1.jpg",
                 Order = 1
             },
@@ -1038,7 +1038,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000098"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000004d"),
-                Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/IntellijLogo.png",
+                Location = "https://storage.googleapis.com/artworkia-storage-public/Artwork/IntellijLogo.png",
                 ImageName = "00000000-0000-0000-0000-00000000004d_i0.jpg",
                 Order = 0
             },
@@ -1046,7 +1046,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000099"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000004d"),
-                Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/intelliJShadow.png",
+                Location = "https://storage.googleapis.com/artworkia-storage-public/Artwork/intelliJShadow.png",
                 ImageName = "00000000-0000-0000-0000-00000000004d_i1.jpg",
                 Order = 1
             },
@@ -1056,7 +1056,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000009b"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000004e"),
-                Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/phucche1.png",
+                Location = "https://storage.googleapis.com/artworkia-storage-public/Artwork/phucche1.png",
                 ImageName = "00000000-0000-0000-0000-00000000004e_i0.jpg",
                 Order = 0
             },
@@ -1064,7 +1064,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-00000000009c"),
                 ArtworkId = Guid.Parse("00000000-0000-0000-0000-00000000004e"),
-                Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/phucche2.png",
+                Location = "https://storage.googleapis.com/artworkia-storage-public/Artwork/phucche2.png",
                 ImageName = "00000000-0000-0000-0000-00000000004e_i1.jpg",
                 Order = 1
             },

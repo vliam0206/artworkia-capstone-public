@@ -1707,7 +1707,7 @@ namespace Migrators.MSSQL.Migrations
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
-                            Thumbnail = "https://storage.googleapis.com/***REMOVED***-public/Artwork/VSCode.png",
+                            Thumbnail = "https://storage.googleapis.com/artworkia-storage-public/Artwork/VSCode.png",
                             ThumbnailName = "00000000-0000-0000-0000-000000000047_t.jpg",
                             Title = "Visual Studio Code Redesign",
                             ViewCount = 928
@@ -1804,7 +1804,7 @@ namespace Migrators.MSSQL.Migrations
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
-                            Thumbnail = "https://storage.googleapis.com/***REMOVED***-public/Artwork/IntellijLogo.png",
+                            Thumbnail = "https://storage.googleapis.com/artworkia-storage-public/Artwork/IntellijLogo.png",
                             ThumbnailName = "00000000-0000-0000-0000-00000000004d_t.jpg",
                             Title = "IntelliJ Redesign",
                             ViewCount = 1228
@@ -1820,7 +1820,7 @@ namespace Migrators.MSSQL.Migrations
                             LikeCount = 0,
                             Privacy = 0,
                             State = 1,
-                            Thumbnail = "https://storage.googleapis.com/***REMOVED***-public/Artwork/phucche1.png",
+                            Thumbnail = "https://storage.googleapis.com/artworkia-storage-public/Artwork/phucche1.png",
                             ThumbnailName = "00000000-0000-0000-0000-00000000004e_t.jpg",
                             Title = "Phục chế ảnh nữ liệt sĩ",
                             ViewCount = 433
@@ -1927,7 +1927,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Dấu vết của quá khứ",
                             ContentType = "rar",
                             Description = "Ảnh gốc, phục hồi chất lượng",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 10000.0,
                             Size = 8000000m
                         },
@@ -1939,7 +1939,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "File PTS tuyển tập minh hoạ sách tâm lý",
                             ContentType = "rar",
                             Description = "tập tin PTS tuyển tập minh hoạ sách tâm lý sẽ cung cấp một cái nhìn tổng quan và thú vị.",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 20000.0,
                             Size = 8000000m
                         },
@@ -1951,7 +1951,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Robot PTS",
                             ContentType = "rar",
                             Description = "Tặng các bạn",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 0.0,
                             Size = 8000000m
                         },
@@ -1963,7 +1963,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Ảnh cánh cụt",
                             ContentType = "rar",
                             Description = "Tổng hợp cánh cụt fullsize",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 12000.0,
                             Size = 8000000m
                         },
@@ -1975,7 +1975,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Ảnh cánh cụt khác",
                             ContentType = "rar",
                             Description = "Tổng hợp cánh cụt fullsize",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 12000.0,
                             Size = 8000000m
                         },
@@ -1987,7 +1987,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Hình ảnh giới thiệu nhân vật & Đếm ngược ra mắt game",
                             ContentType = "rar",
                             Description = "File PTS, tùy ý chỉnh sửa",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 30000.0,
                             Size = 8000000m
                         },
@@ -1999,7 +1999,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Không gian vũ trụ",
                             ContentType = "rar",
                             Description = "File PTS, A collection of 173 wallpapers in 4K resolution from THE SIGHTS OF SPACE",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 50000.0,
                             Size = 8000000m
                         },
@@ -2011,7 +2011,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Tương lai loài người",
                             ContentType = "rar",
                             Description = "File PTS, A collection of 173 wallpapers in 4K resolution",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 50000.0,
                             Size = 8000000m
                         },
@@ -2023,7 +2023,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Ảnh gốc",
                             ContentType = "rar",
                             Description = "File PTS, tùy ý chỉnh sửa",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 0.0,
                             Size = 8000000m
                         },
@@ -2035,7 +2035,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Ảnh gốc",
                             ContentType = "rar",
                             Description = "File PTS, tùy ý chỉnh sửa",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 0.0,
                             Size = 8000000m
                         },
@@ -2049,7 +2049,7 @@ namespace Migrators.MSSQL.Migrations
                             DeletedBy = new Guid("00000000-0000-0000-0000-000000000018"),
                             DeletedOn = new DateTime(2024, 1, 3, 15, 20, 45, 890, DateTimeKind.Local),
                             Description = "File PTS, tùy ý chỉnh sửa",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 20000.0,
                             Size = 8000000m
                         },
@@ -2061,7 +2061,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Ảnh gốc (thêm)",
                             ContentType = "rar",
                             Description = "File PTS, tùy ý chỉnh sửa",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 25000.0,
                             Size = 8000000m
                         },
@@ -2073,7 +2073,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Figma Full",
                             ContentType = "rar",
                             Description = "All 100 pages + 200 icons in Figma",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 100000.0,
                             Size = 8000000m
                         },
@@ -2085,7 +2085,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Figma Full",
                             ContentType = "rar",
                             Description = "All 100 pages + 200 icons in Figma",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 90000.0,
                             Size = 8000000m
                         },
@@ -2097,7 +2097,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Figma Full",
                             ContentType = "rar",
                             Description = "All 100 pages + 200 icons in Figma",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 120000.0,
                             Size = 8000000m
                         },
@@ -2109,7 +2109,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Figma Full",
                             ContentType = "rar",
                             Description = "All 100 pages + 200 icons in Figma",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 120000.0,
                             Size = 8000000m
                         },
@@ -2121,7 +2121,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Pixel Art GUI / UI Kit + 151 icons!",
                             ContentType = "rar",
                             Description = "Universal / Fantasy Pixel Art GUI Kit for your new project, featuring Windowed and Fullscreen views to fit all your needs!",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 150000.0,
                             Size = 8000000m
                         },
@@ -2133,7 +2133,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Logo Asset",
                             ContentType = "rar",
                             Description = "Original PNG",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 10000.0,
                             Size = 8000000m
                         },
@@ -2145,7 +2145,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Background Fullsize",
                             ContentType = "rar",
                             Description = "Original PNG",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 0.0,
                             Size = 8000000m
                         },
@@ -2157,7 +2157,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "Logo Asset",
                             ContentType = "rar",
                             Description = "Original PNG",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 10000.0,
                             Size = 8000000m
                         },
@@ -2169,7 +2169,7 @@ namespace Migrators.MSSQL.Migrations
                             AssetTitle = "The Dragonborn Daedric Armor",
                             ContentType = "rar",
                             Description = "All file asset 3d model",
-                            Location = "https://storage.cloud.google.com/***REMOVED***/Asset/CommercialAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/Asset/CommercialAsset.rar?authuser=4",
                             Price = 0.0,
                             Size = 8000000m
                         });
@@ -4153,7 +4153,7 @@ namespace Migrators.MSSQL.Migrations
                             Id = new Guid("00000000-0000-0000-0000-000000000090"),
                             ArtworkId = new Guid("00000000-0000-0000-0000-000000000047"),
                             ImageName = "00000000-0000-0000-0000-000000000047_i0.jpg",
-                            Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/VSCode.png",
+                            Location = "https://storage.googleapis.com/artworkia-storage-public/Artwork/VSCode.png",
                             Order = 0
                         },
                         new
@@ -4161,7 +4161,7 @@ namespace Migrators.MSSQL.Migrations
                             Id = new Guid("00000000-0000-0000-0000-000000000091"),
                             ArtworkId = new Guid("00000000-0000-0000-0000-000000000047"),
                             ImageName = "00000000-0000-0000-0000-000000000047_i1.jpg",
-                            Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/VSCode-Thick.png",
+                            Location = "https://storage.googleapis.com/artworkia-storage-public/Artwork/VSCode-Thick.png",
                             Order = 1
                         },
                         new
@@ -4209,7 +4209,7 @@ namespace Migrators.MSSQL.Migrations
                             Id = new Guid("00000000-0000-0000-0000-000000000098"),
                             ArtworkId = new Guid("00000000-0000-0000-0000-00000000004d"),
                             ImageName = "00000000-0000-0000-0000-00000000004d_i0.jpg",
-                            Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/IntellijLogo.png",
+                            Location = "https://storage.googleapis.com/artworkia-storage-public/Artwork/IntellijLogo.png",
                             Order = 0
                         },
                         new
@@ -4217,7 +4217,7 @@ namespace Migrators.MSSQL.Migrations
                             Id = new Guid("00000000-0000-0000-0000-000000000099"),
                             ArtworkId = new Guid("00000000-0000-0000-0000-00000000004d"),
                             ImageName = "00000000-0000-0000-0000-00000000004d_i1.jpg",
-                            Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/intelliJShadow.png",
+                            Location = "https://storage.googleapis.com/artworkia-storage-public/Artwork/intelliJShadow.png",
                             Order = 1
                         },
                         new
@@ -4225,7 +4225,7 @@ namespace Migrators.MSSQL.Migrations
                             Id = new Guid("00000000-0000-0000-0000-00000000009b"),
                             ArtworkId = new Guid("00000000-0000-0000-0000-00000000004e"),
                             ImageName = "00000000-0000-0000-0000-00000000004e_i0.jpg",
-                            Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/phucche1.png",
+                            Location = "https://storage.googleapis.com/artworkia-storage-public/Artwork/phucche1.png",
                             Order = 0
                         },
                         new
@@ -4233,7 +4233,7 @@ namespace Migrators.MSSQL.Migrations
                             Id = new Guid("00000000-0000-0000-0000-00000000009c"),
                             ArtworkId = new Guid("00000000-0000-0000-0000-00000000004e"),
                             ImageName = "00000000-0000-0000-0000-00000000004e_i1.jpg",
-                            Location = "https://storage.googleapis.com/***REMOVED***-public/Artwork/phucche2.png",
+                            Location = "https://storage.googleapis.com/artworkia-storage-public/Artwork/phucche2.png",
                             Order = 1
                         },
                         new
@@ -5178,7 +5178,7 @@ namespace Migrators.MSSQL.Migrations
                             ContentType = "rar",
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Location = "https://storage.cloud.google.com/***REMOVED***/ProposalAsset/ConceptAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/ProposalAsset/ConceptAsset.rar?authuser=4",
                             ProposalAssetName = "ConceptAsset.rar",
                             ProposalId = new Guid("00000000-0000-0000-0000-000000000001"),
                             Size = 8000000m,
@@ -5190,7 +5190,7 @@ namespace Migrators.MSSQL.Migrations
                             ContentType = "rar",
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2024, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Location = "https://storage.cloud.google.com/***REMOVED***/ProposalAsset/ConceptAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/ProposalAsset/ConceptAsset.rar?authuser=4",
                             ProposalAssetName = "ConceptAsset.rar",
                             ProposalId = new Guid("00000000-0000-0000-0000-000000000001"),
                             Size = 8000000m,
@@ -5202,7 +5202,7 @@ namespace Migrators.MSSQL.Migrations
                             ContentType = "rar",
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2024, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Location = "https://storage.cloud.google.com/***REMOVED***/ProposalAsset/FinalAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/ProposalAsset/FinalAsset.rar?authuser=4",
                             ProposalAssetName = "FinalAsset.rar",
                             ProposalId = new Guid("00000000-0000-0000-0000-000000000001"),
                             Size = 14000000m,
@@ -5214,7 +5214,7 @@ namespace Migrators.MSSQL.Migrations
                             ContentType = "rar",
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000005"),
                             CreatedOn = new DateTime(2024, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Location = "https://storage.cloud.google.com/***REMOVED***/ProposalAsset/RevisionAsset.rar?authuser=4",
+                            Location = "https://storage.cloud.google.com/artworkia-storage/ProposalAsset/RevisionAsset.rar?authuser=4",
                             ProposalAssetName = "RevisionAsset.rar",
                             ProposalId = new Guid("00000000-0000-0000-0000-000000000001"),
                             Size = 14000000m,

@@ -1398,7 +1398,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-00000000000c"), //truongthu
                 CreatedOn = DateTime.Parse("2023-12-30T08:20:45.890Z"),
-                Thumbnail = "https://storage.googleapis.com/***REMOVED***-public/Artwork/VSCode.png",
+                Thumbnail = "https://storage.googleapis.com/artworkia-storage-public/Artwork/VSCode.png",
                 ThumbnailName = "00000000-0000-0000-0000-000000000047_t.jpg",
                 ViewCount = 928,
                 LikeCount = 0,
@@ -1512,7 +1512,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-00000000000c"), //truongthu
                 CreatedOn = DateTime.Parse("2024-01-07T08:20:45.890Z"),
-                Thumbnail = "https://storage.googleapis.com/***REMOVED***-public/Artwork/IntellijLogo.png",
+                Thumbnail = "https://storage.googleapis.com/artworkia-storage-public/Artwork/IntellijLogo.png",
                 ThumbnailName = "00000000-0000-0000-0000-00000000004d_t.jpg",
                 ViewCount = 1228,
                 LikeCount = 0,
@@ -1531,7 +1531,7 @@ public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
                 Privacy = PrivacyEnum.Public,
                 CreatedBy = Guid.Parse("00000000-0000-0000-0000-000000000003"), //hoanganh
                 CreatedOn = DateTime.Parse("2024-03-02T08:20:45.890Z"),
-                Thumbnail = "https://storage.googleapis.com/***REMOVED***-public/Artwork/phucche1.png",
+                Thumbnail = "https://storage.googleapis.com/artworkia-storage-public/Artwork/phucche1.png",
                 ThumbnailName = "00000000-0000-0000-0000-00000000004e_t.jpg",
                 ViewCount = 433,
                 LikeCount = 0,
