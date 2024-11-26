@@ -49,27 +49,15 @@
 **Third-party:** ZaloPay, Elastic Search, Cloudflare
 
 ## Functional requirements
-**1. Guest:**
-- [x]  Login
-- [x]  Login by Google
-- [x]  Register
+**1. Actors:** Guest, creator, audience, admin.
 
-**2. Creator:**
-- [x]  Profile Management
-- [x]  Artwork Management
-- [x]  Asset Management
-- [x]  Service Management
-- [x]  Proposal Management
-- [x]  Chat
-- [x]  Report
-- [x]  Notification
-
-**3. Audience**
-- [x]  Collection Management
-- [x]  Request Management
-- [x]  Chat
-- [x]  Report
-- [x]  Notification
+**2. Main features:**
+- [x] **Authentication:** login & logout, login with Google, register, forgot password, and change password.
+- [x] **Artwork management.**
+- [x] **Selling artwork:** download free assets, unlock and download premium assets, manage service, manage request, manage proposal, manage project progress.
+- [x] **Wallet management:** withdraw/deposit coins, view transaction history.
+- [x] **Social networking:** manage profile, follow, block, report, chat, like, comment, bookmark.
+- [x] **Admin dashboard:** validate content, moderate reports, validate content with AI.
 
 ## Useful Resources
 
