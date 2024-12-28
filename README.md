@@ -7,8 +7,8 @@
   - [Preview Screenshot](#preview-screenshot)
   - [Technology](#technology)
   - [Functional requirements](#functional-requirements)
-  - [Useful Resources](#useful-resources)
   - [Contributors](#contributors)
+  - [Acknowledgments](#acknowledgments)
   - [License & Copyright](#license--copyright)
 
 ## Description
@@ -59,22 +59,12 @@
 - [x] **Social networking:** manage profile, follow, block, report, chat, like, comment, bookmark.
 - [x] **Admin dashboard:** validate content, moderate reports, validate content with AI.
 
-## Useful Resources
-
-#|Name | Description
--|---- | -----------
-1|[Back-end Source code](https://github.com/vliam0206/artworkia-capstone-public) | Back-end main source code
-2|[Front-end Source code](https://github.com/thongnt0208/artworks-sharing-platform) | Front-end main source code
-
 ## Contributors
-**1. Mentor:**
-- Lecturer - Main Mentor: Nguyen Thi Cam Huong
-
-**2. Members:**
 - [Vo Ngoc Truc Lam](https://github.com/vliam0206) - SE160857 - **Leader | Back-end Developer**
 - [Huynh Van Phu](https://github.com/hvpexe) - SE140456 - **Back-end Developer | DevOps**
-- [Dang Hoang Anh](https://github.com/danghoanganh36) - SE160846 - **Front-end Developer**
-- [Nguyen Trung Thong](https://github.com/thongnt0208) - SE160850 - **Front-end Developer**
+
+## Acknowledgments
+- The front-end code for this project is handled by the front-end team (see the [front-end repo](https://github.com/thongnt0208/artworks-sharing-platform)).
 
 ## License & Copyright 
 &copy; 2024 GSP24SE42-SP24SE061-Artworkia
